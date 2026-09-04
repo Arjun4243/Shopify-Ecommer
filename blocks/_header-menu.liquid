@@ -415,7 +415,10 @@
     }
   }
 
-  .menu-list__link:hover .menu-list__link-title::after {
+  .menu-list__link:hover .menu-list__link-title::after,
+  .menu-list__link:focus-visible .menu-list__link-title::after,
+  .menu-list__link--active .menu-list__link-title::after,
+  .menu-list__list-item:focus-within .menu-list__link-title::after {
     transform: scaleX(1);
   }
 
@@ -506,20 +509,6 @@
     padding-inline: var(--padding-inline);
     clip-path: rect(var(--submenu-clip-top) 100% var(--full-open-header-height) 0); /* stylelint-disable-line */
     transition: clip-path var(--submenu-animation-speed) var(--ease-out-cubic); /* stylelint-disable-line */
-  }
-
-  #header-component:has(.menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu:not([inert]))
-    .header__underlay-open {
-    height: var(--header-height);
-    background: linear-gradient(
-      var(--color-background-top-row) 0 var(--top-row-height),
-      var(--color-background-bottom-row) var(--top-row-height) var(--header-height)
-    );
-  }
-
-  #header-component:has(.menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu:not([inert]))
-    .header__underlay-open::after {
-    content: none;
   }
 
   /* Keep the submenu transparent (color-custom paints an opaque bg) so the
@@ -648,11 +637,11 @@
     transform: translateY(calc(var(--full-open-header-height) - var(--submenu-height)));
 
     /* Make overflow menu scrollable when content exceeds viewport */
-   
+    max-height: calc(80vh - var(--header-height));
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-100)) ;
+    scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40)) transparent;
   }
 
   .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu > .menu-list__submenu-inner {
@@ -662,8 +651,8 @@
     align-items: stretch;
     width: min(100%, 1200px);
     margin-inline: auto;
-    padding: 20px 28px;
-    background-color: #fff;
+    padding: clamp(var(--padding-xl), 2.5vw, var(--padding-3xl));
+    background-color: rgb(var(--color-background-rgb) / 0.94);
     border: var(--style-border-popover);
     border-radius: 28px;
     box-shadow: var(--shadow-popover);
@@ -674,26 +663,15 @@
   }
 
   .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu > .menu-list__submenu-inner .mega-menu__grid {
-    gap: var(--gap-md);
-    padding-inline: 0;
+    gap: var(--gap-xl);
   }
 
   .mega-menu__grid:has(.mega-menu__list--icon-grid) {
     display: block;
-    width: fit-content;
-    max-width: 100%;
-  }
-
-  .menu-list__list-item:where(:not([slot='overflow']))
-    > .menu-list__submenu
-    > .menu-list__submenu-inner:has(.mega-menu__list--icon-grid) {
-    width: fit-content;
-    max-width: min(100%, 1200px);
-    padding: 14px 28px;
   }
 
   .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu > .menu-list__submenu-inner .mega-menu__column {
-    padding-inline-end: var(--gap-md);
+    padding-inline-end: var(--gap-lg);
     border-inline-end: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
   }
 
@@ -714,8 +692,8 @@
     text-decoration: none;
     display: inline-flex;
     align-items: flex-start;
-    gap: 0.55rem;
-    padding: 0.35rem 0;
+    gap: 0.65rem;
+    padding: var(--padding-xs) 0;
 
     &::before {
       content: '';
@@ -744,9 +722,9 @@
     display: grid;
     grid-template-columns: 44px minmax(0, 1fr);
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
     width: 100%;
-    padding-block: 0.25rem;
+    padding-block: clamp(0.7rem, 1vw, 1rem);
 
     &::before {
       content: none;
@@ -776,15 +754,13 @@
   }
 
   .mega-menu__link-label {
-    font-weight: 500;
+    font-weight: 650;
     color: var(--menu-parent-font-color);
-    text-transform: capitalize;
   }
 
   .mega-menu__link-description {
     max-width: 22ch;
     font-size: max(0.82rem, calc(var(--menu-child-font-size) * 0.92));
-    font-weight: 400;
     line-height: 1.35;
     color: rgb(var(--color-foreground-rgb) / 0.68);
   }
@@ -792,7 +768,7 @@
   .mega-menu__link--parent {
     font-family: var(--menu-parent-font-family);
     font-style: var(--menu-parent-font-style);
-    font-weight: 500;
+    font-weight: var(--menu-parent-font-weight);
     font-size: var(--menu-parent-font-size);
     line-height: var(--menu-parent-font-line-height);
     text-transform: var(--menu-parent-font-case);
@@ -939,15 +915,11 @@
 
   .mega-menu__list--icon-grid {
     grid-column: 1 / -1;
-    grid-template-columns: repeat(3, minmax(210px, max-content));
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: repeat(var(--mega-menu-icon-rows), auto);
     grid-auto-flow: column;
-    column-gap: clamp(1rem, 3vw, 2.5rem);
-    row-gap: 0.35rem;
-  }
-
-  .mega-menu__list--icon-grid .mega-menu__link:has(.mega-menu__link-icon) {
-    padding-block: 0.2rem;
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+    row-gap: clamp(1rem, 1.8vw, 1.5rem);
   }
 
   .mega-menu__list--icon-grid .mega-menu__column {
@@ -1259,305 +1231,6 @@
       "id": "drawer_dividers",
       "label": "t:settings.dividers",
       "default": false
-    },
-    {
-      "type": "header",
-      "content": "Gemora mobile drawer"
-    },
-    {
-      "type": "checkbox",
-      "id": "mobile_drawer_custom_design",
-      "label": "Use Gemora mobile drawer design",
-      "default": true
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_brand_logo",
-      "label": "Brand logo"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_brand_title",
-      "label": "Brand title",
-      "default": "GEMORA"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_brand_subtitle",
-      "label": "Brand subtitle",
-      "default": "TIMELESS BRILLIANCE"
-    },
-    {
-      "type": "range",
-      "id": "mobile_drawer_font_size",
-      "label": "Menu text size",
-      "min": 12,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "mobile_drawer_card_radius",
-      "label": "Card corner radius",
-      "min": 0,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 8
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_text_color",
-      "label": "Menu text color",
-      "default": "#2d2926"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_icon_color",
-      "label": "Icon color",
-      "default": "#8a5d34"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_default_background",
-      "label": "Default row background",
-      "default": "#f7f0e8"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_plain_background",
-      "label": "Plain row background",
-      "default": "#fffaf5"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_default_icon",
-      "label": "Default Bootstrap icon class",
-      "default": "bi-circle"
-    },
-    {
-      "type": "header",
-      "content": "Gemora drawer rows"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_home_icon",
-      "label": "Home icon class",
-      "default": "bi-house-door"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_home_background",
-      "label": "Home background",
-      "default": "#f8efe6"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_gemstones_icon",
-      "label": "Gemstones icon class",
-      "default": "bi-gem"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_gemstones_image",
-      "label": "Gemstones background image"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_gemstones_background",
-      "label": "Gemstones background",
-      "default": "#f8e8df"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_precious_icon",
-      "label": "Precious icon class",
-      "default": "bi-circle"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_precious_image",
-      "label": "Precious background image"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_precious_background",
-      "label": "Precious background",
-      "default": "#e7f3f0"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_semi_precious_icon",
-      "label": "Semi-Precious icon class",
-      "default": "bi-flower2"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_semi_precious_image",
-      "label": "Semi-Precious background image"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_semi_precious_background",
-      "label": "Semi-Precious background",
-      "default": "#f0edf8"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_jewellery_icon",
-      "label": "Jewellery icon class",
-      "default": "bi-stars"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_jewellery_image",
-      "label": "Jewellery background image"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_jewellery_background",
-      "label": "Jewellery background",
-      "default": "#f8efe4"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_sale_icon",
-      "label": "Sale icon class",
-      "default": "bi-tag"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_sale_background",
-      "label": "Sale background",
-      "default": "#fdeced"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_more_icon",
-      "label": "More icon class",
-      "default": "bi-three-dots"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_support_icon",
-      "label": "Support icon class",
-      "default": "bi-headset"
-    },
-    {
-      "type": "header",
-      "content": "Gemora submenu rows"
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_submenu_banner_subtitle",
-      "label": "Submenu banner subtitle",
-      "default": "Explore our gemstones"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_banner_default_background",
-      "label": "Submenu banner default background",
-      "default": "#fffaf5"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_gemstones_banner_image",
-      "label": "Gemstones submenu banner image"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_precious_banner_image",
-      "label": "Precious submenu banner image"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_semi_precious_banner_image",
-      "label": "Semi-Precious submenu banner image"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_drawer_jewellery_banner_image",
-      "label": "Jewellery submenu banner image"
-    },
-    {
-      "type": "checkbox",
-      "id": "mobile_drawer_submenu_use_image_icons",
-      "label": "Use image icons for submenu rows",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "mobile_drawer_submenu_default_icon",
-      "label": "Fallback Bootstrap icon class",
-      "default": "bi-gem"
-    },
-    {
-      "type": "range",
-      "id": "mobile_drawer_submenu_font_size",
-      "label": "Submenu text size",
-      "min": 12,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "mobile_drawer_submenu_icon_size",
-      "label": "Submenu icon size",
-      "min": 24,
-      "max": 48,
-      "step": 2,
-      "unit": "px",
-      "default": 34
-    },
-    {
-      "type": "range",
-      "id": "mobile_drawer_submenu_card_radius",
-      "label": "Submenu card corner radius",
-      "min": 0,
-      "max": 18,
-      "step": 1,
-      "unit": "px",
-      "default": 8
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_text_color",
-      "label": "Submenu text color",
-      "default": "#2d2926"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_icon_color",
-      "label": "Submenu icon color",
-      "default": "#8a5d34"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_default_background",
-      "label": "Submenu default background",
-      "default": "#fffaf5"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_precious_background",
-      "label": "Precious submenu background",
-      "default": "#e9f6f2"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_semi_precious_background",
-      "label": "Semi-Precious submenu background",
-      "default": "#f1ecfb"
-    },
-    {
-      "type": "color",
-      "id": "mobile_drawer_submenu_jewellery_background",
-      "label": "Jewellery submenu background",
-      "default": "#fbf0e4"
     }
   ]
 }
