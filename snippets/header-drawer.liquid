@@ -160,32 +160,11 @@
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
-              {% liquid
-                assign link_handle = link.title | handleize
-                assign disable_gemora_mobile_submenu = false
-                if block_settings.mobile_drawer_custom_design
-                  case link_handle
-                    when 'precious', 'semi-precious', 'jewellery', 'jewelry'
-                      assign disable_gemora_mobile_submenu = true
-                  endcase
-                endif
-              %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
                 class="{%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
               >
-                {% if block_settings.mobile_drawer_custom_design and disable_gemora_mobile_submenu %}
-                  <a
-                    id="HeaderDrawer-{{ link.handle }}"
-                    href="{{ link.url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element gemora-mobile-drawer__item"
-                    {% if link.current %}
-                      aria-current="page"
-                    {% endif %}
-                  >
-                    {% render 'mobile-drawer-card-content', link: link, block_settings: block_settings %}
-                  </a>
-                {% elsif block_settings.mobile_drawer_custom_design and link.links != blank %}
+                {% if block_settings.mobile_drawer_custom_design and link.links != blank %}
                   <details
                     id="Details-menu-drawer-menu-item-{{ forloop.index }}"
                     class="menu-drawer__menu-container{% if block_settings.drawer_dividers %} menu-drawer__menu-container--divider{% endif %}"
@@ -405,21 +384,11 @@
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
-              {% liquid
-                assign link_handle = link.title | handleize
-                assign disable_gemora_mobile_submenu = false
-                if block_settings.mobile_drawer_custom_design
-                  case link_handle
-                    when 'precious', 'semi-precious', 'jewellery', 'jewelry'
-                      assign disable_gemora_mobile_submenu = true
-                  endcase
-                endif
-              %}
               <li
                 class="menu-drawer__list-item"
                 style="--menu-drawer-animation-index: {{ animation_index }};"
               >
-                {%- if link.links != blank and disable_gemora_mobile_submenu == false -%}
+                {%- if link.links != blank -%}
                   {%- comment -%}
                     Regardless of the Accordion setting, in menus with 3 levels of links, we use a details element to handle the top level of the menu for links that have children.
                   {%- endcomment -%}
