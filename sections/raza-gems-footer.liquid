@@ -48,7 +48,20 @@
                 {% if contact_href != blank %}href="{{ contact_href }}"{% endif %}
                 {{ block.shopify_attributes }}
               >
-                <span class="raza-footer__contact-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+                <span class="raza-footer__contact-icon" aria-hidden="true">
+                  {% case block.settings.icon %}
+                    {% when 'clock' %}
+                      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    {% when 'headset' %}
+                      <svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13v4a2 2 0 0 0 2 2h1v-7H6a2 2 0 0 0-2 2Z"/><path d="M20 13v4a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z"/><path d="M17 19c0 2-2 3-5 3"/></svg>
+                    {% when 'pin' %}
+                      <svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-12a7 7 0 1 0-14 0c0 6.6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+                    {% when 'phone' %}
+                      <svg viewBox="0 0 24 24"><path d="M7 5 5.6 6.4c-.8.8-.8 2.1-.2 3.2a22 22 0 0 0 9 9c1.1.6 2.4.6 3.2-.2L19 17l-4-3-2 2c-2.1-1.1-3.9-2.9-5-5l2-2-3-4Z"/></svg>
+                    {% when 'email' %}
+                      <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+                  {% endcase %}
+                </span>
                 <span>{{ block.settings.text }}</span>
               </{{ contact_tag }}>
             {% endif %}
@@ -66,7 +79,18 @@
                 rel="noopener"
                 {{ block.shopify_attributes }}
               >
-                {{ block.settings.icon }}
+                {% case block.settings.icon %}
+                  {% when 'instagram' %}
+                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="16.8" cy="7.2" r="0.8"/></svg>
+                  {% when 'facebook' %}
+                    <svg viewBox="0 0 24 24"><path d="M14 8h2V4h-3c-3 0-5 2-5 5v3H6v4h2v4h4v-4h3l1-4h-4V9c0-.6.4-1 1-1h1Z"/></svg>
+                  {% when 'pinterest' %}
+                    <svg viewBox="0 0 24 24"><path d="M11 21c.8-2.3 1.3-4.2 1.7-6.1"/><path d="M12.7 14.9c.6.7 1.5 1.1 2.6 1.1 3 0 5-2.7 5-6.1C20.3 6.5 17.5 4 13.4 4 8.7 4 5 7.2 5 11.4c0 2.3 1.3 4 3.1 4.5"/><path d="M10.1 18.5 12 10.8c.3-1.1-.2-1.8-.2-2.4 0-1.1.8-2 2-2 1.4 0 2.2 1 2.2 2.5 0 2-1.2 4.6-2.7 4.6-.8 0-1.4-.6-1.2-1.5"/></svg>
+                  {% when 'youtube' %}
+                    <svg viewBox="0 0 24 24"><path d="M4.5 8.2c.2-1.4 1.2-2.4 2.6-2.6 3.2-.3 6.6-.3 9.8 0 1.4.2 2.4 1.2 2.6 2.6.3 2.5.3 5.1 0 7.6-.2 1.4-1.2 2.4-2.6 2.6-3.2.3-6.6.3-9.8 0-1.4-.2-2.4-1.2-2.6-2.6-.3-2.5-.3-5.1 0-7.6Z"/><path d="m10 9 5 3-5 3V9Z"/></svg>
+                  {% when 'tiktok' %}
+                    <svg viewBox="0 0 24 24"><path d="M14 4v10.2a4.2 4.2 0 1 1-4.2-4.2"/><path d="M14 4c.5 3 2.2 4.8 5 5"/></svg>
+                {% endcase %}
               </a>
             {% endif %}
           {% endfor %}
@@ -212,8 +236,19 @@
     display: inline-grid;
     place-items: center;
     color: var(--raza-gold);
-    font-size: 1.35rem;
-    line-height: 1;
+    width: 28px;
+    height: 28px;
+  }
+
+  .raza-footer__contact-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .raza-footer__socials {
@@ -234,6 +269,17 @@
     font-weight: 700;
     line-height: 1;
     text-decoration: none;
+  }
+
+  .raza-footer__social svg {
+    display: block;
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .raza-footer__menus {
@@ -276,34 +322,75 @@
 
   .raza-footer__form {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     max-width: 470px;
-    min-height: 56px;
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    height: 56px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.34);
     border-radius: 999px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.18);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .raza-footer__form:hover,
+  .raza-footer__form:focus-within {
+    border-color: color-mix(in srgb, var(--raza-gold) 62%, rgba(255, 255, 255, 0.28));
+    box-shadow: 0 0 0 1px rgba(216, 177, 106, 0.2);
   }
 
   .raza-footer__form input,
   .raza-footer__form button {
-    border: 0;
+    appearance: none;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
     font: inherit;
+    margin: 0;
   }
 
   .raza-footer__form input {
     min-width: 0;
+    width: 100%;
+    height: 100%;
     padding: 0 22px;
     background: transparent;
     color: #ffffff;
+    border-radius: 999px 0 0 999px;
+  }
+
+  .raza-footer__form input:hover,
+  .raza-footer__form input:focus,
+  .raza-footer__form input:focus-visible {
+    background: transparent;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
   }
 
   .raza-footer__form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    min-width: 176px;
+    height: 100%;
     padding: 0 28px;
     border-radius: 999px;
     background: linear-gradient(135deg, #f3d28e, #b98b45);
     color: #151009;
     cursor: pointer;
+    line-height: 1;
+    transform: none;
+    white-space: nowrap;
+  }
+
+  .raza-footer__form button:hover,
+  .raza-footer__form button:focus,
+  .raza-footer__form button:focus-visible {
+    background: linear-gradient(135deg, #f7dca0, #c89549);
+    box-shadow: none !important;
+    outline: 0 !important;
   }
 
   .raza-footer__features {
@@ -403,6 +490,7 @@
 
     .raza-footer__form {
       grid-template-columns: 1fr;
+      height: auto;
       border-radius: 28px;
     }
 
@@ -456,7 +544,19 @@
       "type": "contact_item",
       "name": "Contact item",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Icon", "default": "*" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "clock", "label": "Clock" },
+            { "value": "headset", "label": "Headset" },
+            { "value": "pin", "label": "Location pin" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "email", "label": "Email" }
+          ],
+          "default": "clock"
+        },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Visit our store 10:00 AM to 8:00 PM" },
         { "type": "url", "id": "link", "label": "Link" }
       ]
@@ -465,7 +565,19 @@
       "type": "social_link",
       "name": "Social link",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Icon text", "default": "I" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "instagram", "label": "Instagram" },
+            { "value": "facebook", "label": "Facebook" },
+            { "value": "pinterest", "label": "Pinterest" },
+            { "value": "youtube", "label": "YouTube" },
+            { "value": "tiktok", "label": "TikTok" }
+          ],
+          "default": "instagram"
+        },
         { "type": "text", "id": "label", "label": "Label", "default": "Instagram" },
         { "type": "url", "id": "url", "label": "URL" }
       ]
@@ -492,16 +604,16 @@
       "name": "Raza Gems custom footer",
       "blocks": [
         { "type": "logo_image" },
-        { "type": "contact_item", "settings": { "icon": "O", "text": "Visit our store 10:00 AM to 8:00 PM" } },
-        { "type": "contact_item", "settings": { "icon": "H", "text": "Call our Helpline Number or Write us at email for order related queries" } },
-        { "type": "contact_item", "settings": { "icon": "P", "text": "Gold & Diamond Park, Al Quoz, Industrial Area 3 - Dubai" } },
-        { "type": "contact_item", "settings": { "icon": "T", "text": "+971585858602" } },
-        { "type": "contact_item", "settings": { "icon": "E", "text": "info@razagems.com" } },
-        { "type": "social_link", "settings": { "icon": "I", "label": "Instagram" } },
-        { "type": "social_link", "settings": { "icon": "F", "label": "Facebook" } },
-        { "type": "social_link", "settings": { "icon": "P", "label": "Pinterest" } },
-        { "type": "social_link", "settings": { "icon": "Y", "label": "YouTube" } },
-        { "type": "social_link", "settings": { "icon": "T", "label": "TikTok" } },
+        { "type": "contact_item", "settings": { "icon": "clock", "text": "Visit our store 10:00 AM to 8:00 PM" } },
+        { "type": "contact_item", "settings": { "icon": "headset", "text": "Call our Helpline Number or Write us at email for order related queries" } },
+        { "type": "contact_item", "settings": { "icon": "pin", "text": "Gold & Diamond Park, Al Quoz, Industrial Area 3 - Dubai" } },
+        { "type": "contact_item", "settings": { "icon": "phone", "text": "+971585858602" } },
+        { "type": "contact_item", "settings": { "icon": "email", "text": "info@razagems.com" } },
+        { "type": "social_link", "settings": { "icon": "instagram", "label": "Instagram" } },
+        { "type": "social_link", "settings": { "icon": "facebook", "label": "Facebook" } },
+        { "type": "social_link", "settings": { "icon": "pinterest", "label": "Pinterest" } },
+        { "type": "social_link", "settings": { "icon": "youtube", "label": "YouTube" } },
+        { "type": "social_link", "settings": { "icon": "tiktok", "label": "TikTok" } },
         { "type": "orders_link", "settings": { "label": "Contact" } },
         { "type": "orders_link", "settings": { "label": "Blog" } },
         { "type": "orders_link", "settings": { "label": "FAQ" } },
