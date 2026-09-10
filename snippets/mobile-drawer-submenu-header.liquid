@@ -1,0 +1,58 @@
+{% liquid
+  assign link_handle = link.title | handleize
+  assign normalized_title = link_handle | replace: '-', ' '
+  assign banner_image = blank
+  assign fallback_image = ''
+  assign banner_background = block_settings.mobile_drawer_submenu_banner_default_background | default: '#fffaf5'
+  assign banner_subtitle = block_settings.mobile_drawer_submenu_banner_subtitle | default: 'Explore our gemstones'
+
+  case normalized_title
+    when 'gemstones', 'gemstone'
+      assign banner_image = block_settings.mobile_drawer_gemstones_banner_image
+      assign fallback_image = 'mobile-drawer-gemstones.webp'
+      assign banner_background = block_settings.mobile_drawer_gemstones_background | default: '#f8e8df'
+    when 'precious'
+      assign banner_image = block_settings.mobile_drawer_precious_banner_image
+      assign fallback_image = 'mobile-drawer-precious.webp'
+      assign banner_background = block_settings.mobile_drawer_precious_background | default: '#e7f3f0'
+    when 'semi precious', 'semi-precious'
+      assign banner_image = block_settings.mobile_drawer_semi_precious_banner_image
+      assign fallback_image = 'mobile-drawer-semi-precious-top-banner.png'
+      assign banner_background = block_settings.mobile_drawer_semi_precious_background | default: '#f0edf8'
+    when 'jewellery', 'jewelry'
+      assign banner_image = block_settings.mobile_drawer_jewellery_banner_image
+      assign fallback_image = 'mobile-drawer-jewellery.webp'
+      assign banner_background = block_settings.mobile_drawer_jewellery_background | default: '#f8efe4'
+  endcase
+%}
+
+<div
+  class="gemora-mobile-submenu-banner"
+  style="
+    --gemora-submenu-banner-background: {{ banner_background }};
+    {% if banner_image != blank %}
+      --gemora-submenu-banner-image: url('{{ banner_image | image_url: width: 520 }}');
+    {% elsif fallback_image != blank %}
+      --gemora-submenu-banner-image: url('{{ fallback_image | asset_url }}');
+    {% endif %}
+  "
+>
+  <button
+    class="button menu-drawer__back-button focus-inset gemora-mobile-submenu-banner__button"
+    on:click="header-drawer/back"
+    aria-label="{{ 'actions.back_to_main_menu' | t }}"
+  >
+    <i class="bi bi-chevron-left" aria-hidden="true"></i>
+  </button>
+
+  <a
+    href="{{ link.url }}"
+    class="menu-drawer__title focus-inset gemora-mobile-submenu-banner__title"
+    {% if link.current %}
+      aria-current="page"
+    {% endif %}
+  >
+    <span class="gemora-mobile-submenu-banner__heading">{{ link.title | escape }}</span>
+  
+  </a>
+</div>
