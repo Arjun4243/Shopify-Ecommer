@@ -32,9 +32,18 @@
         <a href="/collections/blue-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-blue-sapphire.webp', title: 'Blue Sapphire' %}</a>
         <a href="/collections/yellow-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-yellow-sapphire.webp', title: 'Yellow Sapphire' %}</a>
         <a href="/collections/pink-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-pink-sapphire.webp', title: 'Pink Sapphire' %}</a>
-        <a href="/collections/amethyst">{% render 'precious-type-item', image: 'mega-menu-semi-precious-amethyst.webp', title: 'Amethyst' %}</a>
+        <a href="/collections/white-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-white-sapphire.webp', title: 'White Sapphire' %}</a>
+        <a href="/collections/gomed">{% render 'precious-type-item', image: 'mega-menu-precious-gomed.webp', title: 'Gomed' %}</a>
+        <a href="/collections/opal">{% render 'precious-type-item', image: 'mega-menu-precious-opal.webp', title: 'Opal' %}</a>
+        <a href="/collections/tanzanite">{% render 'precious-type-item', image: 'mega-menu-precious-tanzanite.webp', title: 'Tanzanite' %}</a>
+        <a href="/collections/kunzite">{% render 'precious-type-item', image: 'mega-menu-precious-kunzite.webp', title: 'Kunzite' %}</a>
+        <a href="/collections/spinel">{% render 'precious-type-item', image: 'mega-menu-precious-spinel.webp', title: 'Spinel' %}</a>
+        <a href="/collections/diamond">{% render 'precious-type-item', image: 'mega-menu-precious-diamond.webp', title: 'Diamond' %}</a>
+        <a href="/collections/morganite">{% render 'precious-type-item', image: 'mega-menu-precious-morganite.webp', title: 'Morganite' %}</a>
+        <a href="/collections/pearl">{% render 'precious-type-item', image: 'mega-menu-precious-pearl.webp', title: 'Pearl' %}</a>
+        <a href="/collections/sphene">{% render 'precious-type-item', image: 'mega-menu-precious-sphene.webp', title: 'Sphene' %}</a>
+        <a href="/collections/coral">{% render 'precious-type-item', image: 'mega-menu-precious-coral.webp', title: 'Coral' %}</a>
         <a href="/collections/aquamarine">{% render 'precious-type-item', image: 'mega-menu-precious-aquamarine.webp', title: 'Aquamarine' %}</a>
-        <a href="/collections/citrine">{% render 'precious-type-item', image: 'mega-menu-semi-precious-citrine.webp', title: 'Citrine' %}</a>
       </div>
     </section>
 
@@ -258,9 +267,30 @@
 
   .precious-type__row {
     display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-auto-columns: minmax(118px, 1fr);
+    grid-auto-flow: column;
+    grid-template-columns: none;
     gap: 18px;
     align-items: start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 4px 6px 12px;
+    scroll-padding-inline: 6px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .precious-type__row::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .precious-type__row::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #d2b06b;
+  }
+
+  .precious-type__row::-webkit-scrollbar-track {
+    background: #efe7dc;
   }
 
   .precious-type__row a,
@@ -274,6 +304,7 @@
     justify-items: center !important;
     gap: 8px !important;
     text-align: center !important;
+    scroll-snap-align: start !important;
   }
 
   .precious-type-item img {
@@ -420,7 +451,7 @@
 
   @media screen and (max-width: 1000px) {
     .precious-type__row {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-columns: minmax(112px, 24vw);
     }
 
     .precious-promo-grid {
@@ -467,7 +498,7 @@
     }
 
     .precious-type__row {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-columns: minmax(96px, 32vw);
     }
 
     .precious-promo-card span {
