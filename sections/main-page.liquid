@@ -3,6 +3,8 @@
 {% liquid
   if page.handle == 'gemstones'
     render 'gemstone-landing-fallback'
+  elsif page.handle == 'precious'
+    render 'precious-page-fallback'
   else
     if section.settings.background_color != blank
       render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
@@ -10,7 +12,7 @@
   endif
 %}
 
-{% unless page.handle == 'gemstones' %}
+{% unless page.handle == 'gemstones' or page.handle == 'precious' %}
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>

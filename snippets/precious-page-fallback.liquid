@@ -1,0 +1,459 @@
+<section class="precious-page">
+  <div class="precious-page__inner">
+    <section class="precious-page__hero" aria-label="Precious gemstone hero">
+      <img
+        src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/precious-page-top.webp?v=1789212925"
+        alt="Natural and certified gemstones for a brighter tomorrow"
+        width="1600"
+        height="450"
+        loading="eager"
+      >
+      <div class="precious-page__hero-content">
+        <p>Natural & Certified</p>
+        <h1>Precious Stones<br>for Sale</h1>
+       
+        <span>Rare. Authentic. Timeless.</span>
+        <a href="/collections/precious">Explore Collection -></a>
+        <div class="precious-page__hero-features">
+          <small>100% Natural<br>Gemstones</small>
+          <small>Certified<br>Quality</small>
+          <small>Worldwide<br>Shipping</small>
+          <small>Expert<br>Support</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="precious-type">
+      <p class="precious-type__eyebrow">Shop by Gemstone Type</p>
+      <h2>Discover Precious Gemstones</h2>
+      <div class="precious-type__row">
+        <a href="/collections/ruby">{% render 'precious-type-item', image: 'mega-menu-precious-ruby.webp', title: 'Ruby' %}</a>
+        <a href="/collections/emerald">{% render 'precious-type-item', image: 'mega-menu-precious-emerald.webp', title: 'Emerald' %}</a>
+        <a href="/collections/blue-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-blue-sapphire.webp', title: 'Blue Sapphire' %}</a>
+        <a href="/collections/yellow-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-yellow-sapphire.webp', title: 'Yellow Sapphire' %}</a>
+        <a href="/collections/pink-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-pink-sapphire.webp', title: 'Pink Sapphire' %}</a>
+        <a href="/collections/amethyst">{% render 'precious-type-item', image: 'mega-menu-semi-precious-amethyst.webp', title: 'Amethyst' %}</a>
+        <a href="/collections/aquamarine">{% render 'precious-type-item', image: 'mega-menu-precious-aquamarine.webp', title: 'Aquamarine' %}</a>
+        <a href="/collections/citrine">{% render 'precious-type-item', image: 'mega-menu-semi-precious-citrine.webp', title: 'Citrine' %}</a>
+      </div>
+    </section>
+
+    <section class="precious-promo-grid" aria-label="Gemstone collections">
+      <a class="precious-promo-card precious-promo-card--red" href="/collections/precious">
+        <img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gemstone-1.webp?v=1789185890" alt="" width="514" height="189" loading="lazy">
+        <span>
+          <strong>Precious<br>Gemstones</strong>
+          <small>Rare. Exquisite. Timeless.</small>
+          <em>Shop Now →</em>
+        </span>
+      </a>
+      <a class="precious-promo-card precious-promo-card--green" href="/collections/semi-precious">
+        <img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gemstone-2.webp?v=1789185890" alt="" width="514" height="189" loading="lazy">
+        <span>
+          <strong>Semi-Precious<br>Gemstones</strong>
+          <small>Colorful. Versatile. Unique.</small>
+          <em>Shop Now →</em>
+        </span>
+      </a>
+      <a class="precious-promo-card precious-promo-card--gold" href="/collections/jewellery">
+        <img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gamstone-3.webp?v=1789185890" alt="" width="514" height="189" loading="lazy">
+        <span>
+          <strong>Custom Jewellery</strong>
+          <small>Turn your vision into reality.</small>
+          <em>Craft Now →</em>
+        </span>
+      </a>
+    </section>
+  </div>
+
+  <section class="precious-story">
+    <div class="precious-story__content">
+      <div>
+        <h2>More Than Gemstones. A Story of Nature.</h2>
+        <p>
+          Each gemstone is a masterpiece formed over millions of years. We bring you nature's finest
+          creations, handpicked for their beauty, rarity, and authenticity.
+        </p>
+      </div>
+      <div class="precious-story__features">
+        <span>Natural &<br>Ethically Sourced</span>
+        <span>Certified<br>Gemstones</span>
+        <span>Worldwide<br>Shipping</span>
+        <span>Expert<br>Guidance</span>
+      </div>
+    </div>
+    <img
+      src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/precious-page-bottom.webp?v=1789212926"
+      alt="Ruby gemstone"
+      width="1600"
+      height="320"
+      loading="lazy"
+    >
+  </section>
+</section>
+
+<style>
+  .precious-page {
+    background: #fffaf3;
+    color: #28231f;
+  }
+
+  .precious-page__inner {
+    width: min(100%, 1510px);
+    margin: 0 auto;
+    padding: 14px 24px 28px;
+  }
+
+  .precious-page__hero {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    min-height: 360px;
+    border-radius: 8px;
+    background: #f7efe3;
+  }
+
+  .precious-page__hero img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .precious-page__hero img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .precious-story > img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+
+  .precious-page__hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: min(52%, 620px);
+    min-height: 360px;
+    padding: 48px 7vw;
+    color: #18342c;
+  }
+
+  .precious-page__hero-content p {
+    margin: 0 0 14px;
+    color: #2d3d38;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 6px;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .precious-page__hero-content h1 {
+    margin: 0;
+    color: #122a25;
+    font-family: var(--font-heading--family);
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+
+  .precious-page__hero-content > span {
+    margin-top: 12px;
+    color: #42504b;
+    font-size: clamp(16px, 1.5vw, 22px);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .precious-page__hero-content > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 22px;
+    padding: 14px 28px;
+    border-radius: 2px;
+    background: #d2b06b;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .precious-page__hero-features {
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: 22px;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .precious-page__hero-features small {
+    position: relative;
+    display: block;
+    padding-left: 28px;
+    color: #2e312e;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .precious-page__hero-features small::before {
+    content: '◇';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    color: #b18b45;
+    font-size: 20px;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+  .precious-type {
+    padding: 26px 0 24px;
+    text-align: center;
+  }
+
+  .precious-type__eyebrow {
+    margin: 0 0 4px;
+    color: #2d2721;
+    font-family: var(--font-heading--family);
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .precious-type h2 {
+    margin: 0 0 24px;
+    color: #786f67;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .precious-type__row {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+  }
+
+  .precious-type__row a,
+  .precious-promo-card {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .precious-type-item {
+    display: grid !important;
+    justify-items: center !important;
+    gap: 8px !important;
+    text-align: center !important;
+  }
+
+  .precious-type-item img {
+    display: block !important;
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    object-fit: contain !important;
+  }
+
+  .precious-type-item span {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+  }
+
+  .precious-promo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .precious-promo-card {
+    position: relative;
+    display: block;
+    min-height: 170px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #17110e;
+    box-shadow: 0 10px 26px rgb(68 49 31 / 0.14);
+  }
+
+  .precious-promo-card img {
+    display: block !important;
+    width: 100% !important;
+    height: 170px !important;
+    object-fit: cover !important;
+    opacity: 0.88;
+  }
+
+  .precious-promo-card span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 58%;
+    padding: 20px 26px;
+    color: #fff;
+  }
+
+  .precious-promo-card strong {
+    font-family: var(--font-heading--family);
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 700;
+    line-height: 0.98;
+  }
+
+  .precious-promo-card small {
+    margin: 10px 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .precious-promo-card em {
+    padding: 10px 18px;
+    border-radius: 2px;
+    background: #d9b66f;
+    color: #fff;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .precious-story {
+    position: relative;
+    overflow: hidden;
+    background: #f6efe7;
+  }
+
+  .precious-story__content {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min(62%, 820px);
+    padding: 36px 7vw;
+  }
+
+  .precious-story h2 {
+    margin: 0 0 12px;
+    font-family: var(--font-heading--family);
+    font-size: clamp(26px, 2.8vw, 36px);
+    line-height: 1.1;
+  }
+
+  .precious-story p {
+    max-width: 760px;
+    margin: 0;
+    color: #6d6258;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .precious-story__features {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 34px;
+  }
+
+  .precious-story__features span {
+    position: relative;
+    padding-left: 42px;
+    color: #2f2924;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .precious-story__features span::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #c8ad74;
+    border-radius: 50%;
+    color: #9d7c3d;
+    transform: translateY(-50%);
+  }
+
+  @media screen and (max-width: 1000px) {
+    .precious-type__row {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .precious-promo-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .precious-story__content {
+      position: relative;
+      width: 100%;
+      padding: 34px 24px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .precious-page__inner {
+      padding: 10px 14px 24px;
+    }
+
+    .precious-page__hero,
+    .precious-page__hero-content {
+      min-height: 420px;
+    }
+
+    .precious-page__hero-content {
+      width: 78%;
+      padding: 32px 22px;
+    }
+
+    .precious-page__hero-content p {
+      font-size: 10px;
+      letter-spacing: 3px;
+    }
+
+    .precious-page__hero-features {
+      grid-template-columns: repeat(2, max-content);
+      gap: 14px 18px;
+    }
+
+    .precious-type__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .precious-promo-card span {
+      width: 72%;
+      padding: 18px;
+    }
+
+    .precious-story__features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+  }
+</style>
