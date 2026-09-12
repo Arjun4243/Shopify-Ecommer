@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "gemstone_landing": {
+      "type": "gemstone-landing",
+      "settings": {}
+    }
+  },
+  "order": [
+    "gemstone_landing"
+  ]
+}

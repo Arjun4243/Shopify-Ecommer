@@ -1,11 +1,16 @@
 
 
 {% liquid
-  if section.settings.background_color != blank
-    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  if page.handle == 'gemstones'
+    render 'gemstone-landing-fallback'
+  else
+    if section.settings.background_color != blank
+      render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+    endif
   endif
 %}
 
+{% unless page.handle == 'gemstones' %}
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
@@ -26,6 +31,7 @@
     {% content_for 'blocks' %}
   </div>
 </div>
+{% endunless %}
 
 {% schema %}
 {
