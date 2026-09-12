@@ -13,7 +13,7 @@
         <h1>Precious Stones<br>for Sale</h1>
        
         <span>Rare. Authentic. Timeless.</span>
-        <a href="/collections/precious">Explore Collection -></a>
+        <a href="#precious-type-here">Explore Collection</a>
         <div class="precious-page__hero-features">
           <small>100% Natural<br>Gemstones</small>
           <small>Certified<br>Quality</small>
@@ -23,7 +23,7 @@
       </div>
     </section>
 
-    <section class="precious-type">
+    <section class="precious-type" id="precious-type-here">
       <p class="precious-type__eyebrow">Shop by Gemstone Type</p>
       <h2>Discover Precious Gemstones</h2>
       <div class="precious-type__row">
@@ -94,8 +94,13 @@
 
 <style>
   .precious-page {
+    scroll-behavior: smooth;
     background: #fffaf3;
     color: #28231f;
+  }
+
+  #precious-type-here {
+    scroll-margin-top: var(--header-height, 90px);
   }
 
   .precious-page__inner {
@@ -105,10 +110,22 @@
   }
 
   .precious-page__hero {
+    --hero-min-height: clamp(210px, 28vw, 360px);
+    --hero-content-width: min(52%, 620px);
+    --hero-x-padding: clamp(18px, 7vw, 92px);
+    --hero-y-padding: clamp(18px, 3.2vw, 48px);
+    --hero-eyebrow-size: clamp(7px, 0.8vw, 12px);
+    --hero-eyebrow-spacing: clamp(2px, 0.38vw, 6px);
+    --hero-title-size: clamp(20px, 4vw, 58px);
+    --hero-copy-size: clamp(11px, 1.5vw, 22px);
+    --hero-button-font: clamp(10px, 0.9vw, 14px);
+    --hero-feature-font: clamp(7px, 0.72vw, 11px);
+    --hero-feature-icon: clamp(12px, 1.35vw, 20px);
+    --hero-feature-gap: clamp(8px, 1.45vw, 22px);
     position: relative;
     display: block;
     overflow: hidden;
-    min-height: 360px;
+    min-height: var(--hero-min-height);
     border-radius: 8px;
     background: #f7efe3;
   }
@@ -139,18 +156,18 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    width: min(52%, 620px);
-    min-height: 360px;
-    padding: 48px 7vw;
+    width: var(--hero-content-width);
+    min-height: var(--hero-min-height);
+    padding: var(--hero-y-padding) var(--hero-x-padding);
     color: #18342c;
   }
 
   .precious-page__hero-content p {
-    margin: 0 0 14px;
+    margin: 0 0 clamp(6px, 1vw, 14px);
     color: #2d3d38;
-    font-size: 12px;
+    font-size: var(--hero-eyebrow-size);
     font-weight: 800;
-    letter-spacing: 6px;
+    letter-spacing: var(--hero-eyebrow-spacing);
     line-height: 1.2;
     text-transform: uppercase;
   }
@@ -159,16 +176,16 @@
     margin: 0;
     color: #122a25;
     font-family: var(--font-heading--family);
-    font-size: clamp(36px, 4vw, 58px);
+    font-size: var(--hero-title-size);
     font-weight: 700;
     line-height: 1.02;
     letter-spacing: 0;
   }
 
   .precious-page__hero-content > span {
-    margin-top: 12px;
+    margin-top: clamp(6px, 0.85vw, 12px);
     color: #42504b;
-    font-size: clamp(16px, 1.5vw, 22px);
+    font-size: var(--hero-copy-size);
     font-weight: 600;
     line-height: 1.25;
   }
@@ -177,12 +194,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 22px;
-    padding: 14px 28px;
+    margin-top: clamp(10px, 1.5vw, 22px);
+    padding: clamp(8px, 1vw, 14px) clamp(14px, 1.9vw, 28px);
     border-radius: 2px;
     background: #d2b06b;
     color: #fff;
-    font-size: 14px;
+    font-size: var(--hero-button-font);
     font-weight: 800;
     line-height: 1;
     text-decoration: none;
@@ -191,17 +208,17 @@
   .precious-page__hero-features {
     display: grid;
     grid-template-columns: repeat(4, max-content);
-    gap: 22px;
+    gap: var(--hero-feature-gap);
     align-items: center;
-    margin-top: 28px;
+    margin-top: clamp(14px, 2vw, 28px);
   }
 
   .precious-page__hero-features small {
     position: relative;
     display: block;
-    padding-left: 28px;
+    padding-left: calc(var(--hero-feature-icon) + 8px);
     color: #2e312e;
-    font-size: 11px;
+    font-size: var(--hero-feature-font);
     font-weight: 800;
     line-height: 1.15;
   }
@@ -212,7 +229,7 @@
     left: 0;
     top: 50%;
     color: #b18b45;
-    font-size: 20px;
+    font-size: var(--hero-feature-icon);
     line-height: 1;
     transform: translateY(-50%);
   }
@@ -422,24 +439,31 @@
       padding: 10px 14px 24px;
     }
 
-    .precious-page__hero,
-    .precious-page__hero-content {
-      min-height: 420px;
+    .precious-page__hero {
+      --hero-min-height: clamp(190px, 62vw, 260px);
+      --hero-content-width: 58%;
+      --hero-x-padding: clamp(14px, 5vw, 22px);
+      --hero-y-padding: clamp(14px, 4vw, 22px);
+      --hero-title-size: clamp(20px, 8vw, 34px);
+      --hero-copy-size: clamp(11px, 3.7vw, 15px);
+      --hero-button-font: clamp(9px, 3vw, 11px);
+      --hero-feature-font: clamp(6px, 2.15vw, 8px);
+      --hero-feature-icon: clamp(10px, 3.6vw, 14px);
+      --hero-feature-gap: clamp(6px, 2.4vw, 10px);
     }
 
     .precious-page__hero-content {
-      width: 78%;
-      padding: 32px 22px;
+      width: var(--hero-content-width);
+      min-height: var(--hero-min-height);
     }
 
     .precious-page__hero-content p {
-      font-size: 10px;
-      letter-spacing: 3px;
+      font-size: var(--hero-eyebrow-size);
+      letter-spacing: var(--hero-eyebrow-spacing);
     }
 
     .precious-page__hero-features {
-      grid-template-columns: repeat(2, max-content);
-      gap: 14px 18px;
+      grid-template-columns: repeat(4, max-content);
     }
 
     .precious-type__row {
