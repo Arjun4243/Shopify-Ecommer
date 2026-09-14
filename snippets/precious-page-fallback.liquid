@@ -88,10 +88,37 @@
         </p>
       </div>
       <div class="precious-story__features">
-        <span>Natural &<br>Ethically Sourced</span>
-        <span>Certified<br>Gemstones</span>
-        <span>Worldwide<br>Shipping</span>
-        <span>Expert<br>Guidance</span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 4c-7.5.8-12.5 4.6-15 11.4 3.2.2 6-.6 8.3-2.4 2.4-1.8 4.6-4.8 6.7-9Z"></path>
+            <path d="M4 20c2.3-4.3 5.2-7.2 8.8-8.8"></path>
+          </svg>
+          <strong>Natural &<br>Ethically Sourced</strong>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.5 4h11L22 9l-10 11L2 9l4.5-5Z"></path>
+            <path d="M2 9h20"></path>
+            <path d="m8 9 4 11 4-11"></path>
+            <path d="m6.5 4 1.5 5 4-5 4 5 1.5-5"></path>
+          </svg>
+          <strong>Certified<br>Gemstones</strong>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3a14 14 0 0 1 0 18"></path>
+            <path d="M12 3a14 14 0 0 0 0 18"></path>
+          </svg>
+          <strong>Worldwide<br>Shipping</strong>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.2l-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path>
+          </svg>
+          <strong>Expert<br>Guidance</strong>
+        </span>
       </div>
     
     </div>
@@ -463,32 +490,52 @@
   .precious-story__features {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 24px;
-    margin-top: 34px;
+    gap: 0;
+    width: min(100%, 610px);
+    margin-top: 30px;
   }
 
   .precious-story__features span {
     position: relative;
-    padding-left: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 94px;
+    padding: 0 20px;
     color: #2f2924;
-    font-size: 13px;
-    font-weight: 800;
-    line-height: 1.25;
+    text-align: center;
   }
-
-  .precious-story__features span::before {
-    content: '✓';
+  .precious-story__features span + span::before {
+    content: '';
     position: absolute;
     left: 0;
-    top: 50%;
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #c8ad74;
+    top: 9px;
+    bottom: 9px;
+    width: 1px;
+    background: rgb(177 150 101 / 42%);
+  }
+
+  .precious-story__features svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 11px;
+    padding: 11px;
+    border: 1px solid #b77b2b;
     border-radius: 50%;
-    color: #9d7c3d;
-    transform: translateY(-50%);
+    color: #b77b2b;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.55;
+  }
+
+  .precious-story__features strong {
+    display: block;
+    color: #2f2924;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.18;
   }
 
   .precious-story__cta {
@@ -581,6 +628,25 @@
     .precious-story__features {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
+    }
+
+    .precious-story__features span {
+      min-height: 88px;
+      padding: 0 12px;
+    }
+
+    .precious-story__features span::before {
+      display: none;
+    }
+
+    .precious-story__features span:nth-child(even)::before {
+      display: block;
+    }
+
+    .precious-story__features svg {
+      width: 44px;
+      height: 44px;
+      padding: 10px;
     }
 
     .precious-story {
