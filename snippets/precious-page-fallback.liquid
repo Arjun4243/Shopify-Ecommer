@@ -130,7 +130,50 @@
       loading="lazy"
     >
   </section>
+
+  <section class="precious-value" aria-label="Certified gemstone value">
+    <article class="precious-value__item">
+      <span class="precious-value__icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3h8l4 4v14H7V3Z"></path>
+          <path d="M15 3v5h5"></path>
+          <path d="M10 12h4"></path>
+          <path d="M10 16h3"></path>
+          <circle cx="17" cy="17" r="3"></circle>
+          <path d="m19.2 19.2 1.8 1.8"></path>
+        </svg>
+      </span>
+      <div>
+        <h3>The Importance of Certified Gemological Integrity</h3>
+        <p>
+          When you choose to **buy natural precious stones online**, the absolute highest priority is technical authenticity and official certification. The commercial value of a precious stone is tied strictly to its origin, its lack of artificial treatment, and its quality grading. Every precious stone for sale at Raza Gems is accompanied by certification from leading international laboratories. This transparency ensures you are acquiring a genuine, investment-grade asset.
+        </p>
+      </div>
+    </article>
+
+    <article class="precious-value__item">
+      <span class="precious-value__icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 19h16"></path>
+          <path d="M7 16v-5"></path>
+          <path d="M12 16V7"></path>
+          <path d="M17 16v-9"></path>
+          <path d="m7 8 5-5 5 3"></path>
+          <path d="m17 6 .4-3.4"></path>
+          <path d="m17 6-3.4-.4"></path>
+        </svg>
+      </span>
+      <div>
+        <h3>Precious Stones as High-Value Assets</h3>
+        <p>
+         For centuries, precious stones have served as a portable and reliable store of wealth. Their lack of counterparty risk and historical trend of market appreciation make them significant long-term assets. When evaluating **precious stone investment value**, the key metrics are geographic origin, laboratory certification, and scarcity. Our strategic position within the UAE market allows for rigorous quality control throughout the supply chain.
+        </p>
+      </div>
+    </article>
+  </section>
 </section>
+
+
 
 <style>
   .precious-page {
@@ -564,6 +607,72 @@
     transform: translateY(-1px);
   }
 
+  .precious-value {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 44px;
+    padding: 56px 7vw 48px;
+    background: #fffaf3;
+    border-bottom: 1px solid rgb(177 150 101 / 18%);
+  }
+
+  .precious-value__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+  }
+
+  .precious-value__item + .precious-value__item {
+    padding-left: 44px;
+    border-left: 1px solid rgb(177 150 101 / 28%);
+  }
+
+  .precious-value__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 74px;
+    height: 74px;
+    border: 1px solid rgb(177 150 101 / 32%);
+    border-radius: 50%;
+    background: #f8f1e5;
+    color: #b1843f;
+  }
+
+  .precious-value__icon svg {
+    width: 34px;
+    height: 34px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.65;
+  }
+
+  .precious-value h3 {
+    margin: 0 0 20px;
+    color: #161412;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(24px, 2.2vw, 35px);
+    font-weight: 700;
+    line-height: 1.16;
+  }
+
+  .precious-value p {
+    margin: 0;
+    color: #4f5459;
+    font-size: clamp(15px, 1.25vw, 19px);
+    font-weight: 500;
+    line-height: 1.58;
+  }
+
+  .precious-value p strong {
+    color: #24201c;
+    font-weight: 800;
+  }
+
   @media screen and (max-width: 1000px) {
     .precious-type__row {
       grid-auto-columns: minmax(112px, 24vw);
@@ -581,6 +690,24 @@
 
     .precious-story > img {
       height: auto !important;
+    }
+
+    .precious-value {
+      grid-template-columns: 1fr;
+      gap: 34px;
+      padding: 42px 24px;
+    }
+
+    .precious-value__item {
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .precious-value__item + .precious-value__item {
+      padding-top: 34px;
+      padding-left: 0;
+      border-top: 1px solid rgb(177 150 101 / 24%);
+      border-left: 0;
     }
   }
 
@@ -674,6 +801,35 @@
       width: 100%;
       max-width: 320px;
       padding: 0 18px;
+    }
+
+    .precious-value {
+      padding: 34px 18px 38px;
+    }
+
+    .precious-value__item {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .precious-value__icon {
+      width: 66px;
+      height: 66px;
+    }
+
+    .precious-value__icon svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .precious-value h3 {
+      margin-bottom: 14px;
+      font-size: clamp(24px, 7vw, 31px);
+    }
+
+    .precious-value p {
+      font-size: 14px;
+      line-height: 1.62;
     }
   }
 </style>
