@@ -73,6 +73,100 @@
         </span>
       </a>
     </section>
+
+    {% liquid
+      assign precious_products_collection = collections.precious
+      if precious_products_collection == blank or precious_products_collection.products_count == 0
+        assign precious_products_collection = collections.all
+      endif
+
+      assign precious_products_limit = 8
+      assign quick_add_enabled = false
+      if settings.quick_add or settings.mobile_quick_add
+        assign quick_add_enabled = true
+      endif
+    %}
+
+    {% render 'resource-list-styles' %}
+    {% render 'product-card-styles' %}
+    {% render 'product-badges-styles' %}
+
+    {% if precious_products_collection != blank and precious_products_collection.products_count > 0 %}
+      <section class="precious-products section-resource-list" aria-label="Precious gemstone products">
+        <div class="section-resource-list__header precious-products__header">
+          <div>
+            <p class="precious-products__eyebrow">Products</p>
+            <h2>{{ precious_products_collection.title }}</h2>
+          </div>
+          <a href="{{ precious_products_collection.url }}">View all</a>
+        </div>
+
+        <div
+          class="resource-list resource-list--grid precious-products__grid"
+          data-testid="precious-products-grid"
+        >
+          {% paginate precious_products_collection.products by precious_products_limit %}
+            {% for product in precious_products_collection.products limit: precious_products_limit %}
+              <div class="resource-list__item">
+                <product-card class="product-card precious-product-card" data-product-id="{{ product.id }}">
+                  <div class="product-card__content product-grid__card precious-product-card__content">
+                    <div class="precious-product-card__media">
+                      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                        {% if product.featured_media.preview_image != blank %}
+                          {{
+                            product.featured_media.preview_image
+                            | image_url: width: 900
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '300, 450, 600, 750, 900',
+                              sizes: '(min-width: 1000px) 25vw, (min-width: 750px) 33vw, 50vw',
+                              alt: product.title,
+                              class: 'precious-product-card__image'
+                          }}
+                        {% else %}
+                          {{ 'product-apparel-1' | placeholder_svg_tag: 'precious-product-card__placeholder' }}
+                        {% endif %}
+                      </a>
+
+                      {% if product.available == false or product.compare_at_price > product.price %}
+                        <div
+                          class="product-badges product-badges--top-right"
+                          style="
+                            --badge-border-radius: {{ settings.badge_corner_radius }}px;
+                            --badge-font-family: var(--font-{{ settings.badge_font_family }}--family);
+                            --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight);
+                            --badge-text-transform: {{ settings.badge_text_transform }};
+                          "
+                        >
+                          <div class="product-badges__badge product-badges__badge--rectangle {% if product.available == false %}color-custom-badge-sold-out{% else %}color-custom-badge-sale{% endif %}">
+                            {% if product.available == false %}
+                              {{ 'content.product_badge_sold_out' | t }}
+                            {% else %}
+                              {{ 'content.product_badge_sale' | t }}
+                            {% endif %}
+                          </div>
+                        </div>
+                      {% endif %}
+
+                      {% if product.available and quick_add_enabled %}
+                        {% render 'quick-add', product: product, section_id: section.id %}
+                      {% endif %}
+                    </div>
+
+                    <a class="precious-product-card__title" href="{{ product.url }}">
+                      {{ product.title }}
+                    </a>
+                    <div class="precious-product-card__price">
+                      {% render 'price', product_resource: product, show_sale_price_first: true %}
+                    </div>
+                  </div>
+                </product-card>
+              </div>
+            {% endfor %}
+          {% endpaginate %}
+        </div>
+      </section>
+    {% endif %}
   </div>
 
   <section class="precious-story">
@@ -257,21 +351,6 @@
             </ul>
           </div>
         </article>
-      </div>
-
-      <div class="precious-origin__controls" aria-hidden="true">
-        <button type="button" class="precious-origin__arrow precious-origin__arrow--prev" tabindex="-1">
-          <span></span>
-        </button>
-        <span class="precious-origin__dots">
-          <i></i>
-          <i></i>
-          <i></i>
-          <i></i>
-        </span>
-        <button type="button" class="precious-origin__arrow precious-origin__arrow--next" tabindex="-1">
-          <span></span>
-        </button>
       </div>
     </div>
   </section>
@@ -641,6 +720,141 @@
     font-weight: 700;
   }
 
+  .precious-products {
+    --gap: 24px;
+    margin-top: 42px;
+  }
+
+  .precious-products__header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .precious-products__header h2,
+  .precious-products__eyebrow {
+    margin: 0;
+    color: #181512;
+    font-family: var(--font-heading--family);
+    line-height: 1.12;
+  }
+
+  .precious-products__eyebrow {
+    margin-bottom: 4px;
+    color: #786f67;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .precious-products__header h2 {
+    font-size: clamp(26px, 2.6vw, 38px);
+    font-weight: 700;
+  }
+
+  .precious-products__header > a {
+    flex: 0 0 auto;
+    color: #6d4f23;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .precious-products__grid {
+    --resource-list-column-gap-desktop: 18px;
+    --resource-list-row-gap-desktop: 28px;
+    --resource-list-columns: repeat(4, minmax(0, 1fr));
+    --resource-list-columns-mobile: repeat(2, minmax(0, 1fr));
+    --column-count-mobile: 2;
+  }
+
+  .precious-product-card {
+    display: grid;
+    height: 100%;
+  }
+
+  .precious-product-card__content {
+    --product-card-gap: 8px;
+    --padding-block-start: 0;
+    --padding-block-end: 0;
+    --padding-inline-start: 0;
+    --padding-inline-end: 0;
+    --product-card-alignment: stretch;
+    --quick-add-display: flex;
+    --quick-add-mobile-display: flex;
+    --quick-add-mobile-opacity: 1;
+    gap: var(--product-card-gap);
+  }
+
+  .precious-product-card__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background: #f4eadc;
+    aspect-ratio: 1 / 1;
+  }
+
+  .precious-product-card__media > a {
+    display: block;
+    height: 100%;
+  }
+
+  .precious-product-card__image,
+  .precious-product-card__placeholder {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .precious-product-card__media .product-badges {
+    --padding-xs: 10px;
+    --padding-block-start: 0px;
+    --padding-inline-start: 0px;
+    --border-radius: 0px;
+  }
+
+  .precious-product-card__media .quick-add {
+    --padding-sm: 12px;
+    --padding-md: 12px;
+    --padding-inline-end: 0px;
+    --padding-block-end: 0px;
+    --border-radius: 0px;
+  }
+
+  .precious-product-card__title {
+    display: -webkit-box;
+    margin-top: 4px;
+    overflow: hidden;
+    color: #181512;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .precious-product-card__title:hover {
+    color: #6d4f23;
+  }
+
+  .precious-product-card__price {
+    color: #181512;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .precious-product-card__price .compare-at-price {
+    margin-left: 4px;
+    color: #6f6860;
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
   .precious-story {
     position: relative;
     overflow: hidden;
@@ -952,7 +1166,7 @@
     margin: 0 auto;
     color: #191410;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(36px, 4.3vw, 68px);
+    font-size: clamp(36px, 1vw, 68px);
     font-weight: 700;
     line-height: 1.08;
   }
@@ -968,8 +1182,8 @@
   .precious-origin__grid {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(240px, 300px);
-    gap: 22px;
+    grid-auto-columns: minmax(170px, 210px);
+    gap: 12px;
     align-items: stretch;
     overflow-x: auto;
     width: 100vw;
@@ -977,6 +1191,7 @@
     padding: 0 max(24px, calc((100vw - 1280px) / 2)) 8px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+    justify-content:center;
   }
 
   .precious-origin__grid::-webkit-scrollbar {
@@ -987,9 +1202,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 455px;
+    min-height: 295px;
     overflow: hidden;
-    padding: 9px 9px 24px;
+    padding: 6px 6px 14px;
     border: 1px solid rgb(177 150 101 / 24%);
     border-radius: 14px;
     background: rgb(255 252 247 / 88%);
@@ -1005,17 +1220,17 @@
   .precious-origin-card img {
     display: block;
     width: 100%;
-    height: 205px;
-    object-fit: cover;
+    height: 105px;
+    object-fit: contain;
     border-radius: 10px;
     filter: none;
   }
 
   .precious-origin-card h3 {
-    margin: 20px 28px 18px;
+    margin: 11px 15px 9px;
     color: #17120f;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(25px, 2.15vw, 34px);
+    font-size: clamp(16px, 1.25vw, 20px);
     font-weight: 700;
     line-height: 1.1;
   }
@@ -1028,20 +1243,20 @@
   .precious-origin-card h3::after {
     content: '';
     display: block;
-    width: 64px;
+    width: 36px;
     height: 2px;
-    margin-top: 10px;
+    margin-top: 6px;
     background: #b1843f;
   }
 
   .precious-origin-card ul {
     display: grid;
-    gap: 9px;
+    gap: 5px;
     width: auto;
-    margin: 0 28px;
+    margin: 0 15px;
     padding: 0;
     color: #282d33;
-    font-size: clamp(15px, 1.1vw, 18px);
+    font-size: clamp(10px, 0.72vw, 12px);
     font-weight: 600;
     line-height: 1.2;
     list-style: none;
@@ -1050,7 +1265,7 @@
 
   .precious-origin-card li {
     position: relative;
-    padding-left: 28px;
+    padding-left: 15px;
   }
 
   .precious-origin-card li::before {
@@ -1058,63 +1273,10 @@
     position: absolute;
     left: 0;
     top: 0.02em;
-    width: 13px;
-    height: 18px;
+    width: 7px;
+    height: 10px;
     background: #b1843f;
     clip-path: polygon(50% 100%, 14% 48%, 14% 24%, 28% 7%, 50% 0, 72% 7%, 86% 24%, 86% 48%);
-  }
-
-  .precious-origin__controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 38px;
-    margin-top: 24px;
-  }
-
-  .precious-origin__arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 54px;
-    height: 54px;
-    border: 1px solid rgb(177 150 101 / 42%);
-    border-radius: 50%;
-    background: rgb(255 252 247 / 62%);
-    color: #111;
-    pointer-events: none;
-  }
-
-  .precious-origin__arrow span {
-    width: 14px;
-    height: 14px;
-    border-top: 3px solid currentColor;
-    border-left: 3px solid currentColor;
-  }
-
-  .precious-origin__arrow--prev span {
-    transform: rotate(-45deg) translate(2px, 2px);
-  }
-
-  .precious-origin__arrow--next span {
-    transform: rotate(135deg) translate(2px, 2px);
-  }
-
-  .precious-origin__dots {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .precious-origin__dots i {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgb(47 41 36 / 16%);
-  }
-
-  .precious-origin__dots i:first-child {
-    background: #b1843f;
   }
 
   .precious-faq {
@@ -1238,6 +1400,10 @@
       grid-template-columns: 1fr;
     }
 
+    .precious-products__grid {
+      --resource-list-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .precious-story__content {
       position: relative;
       width: 100%;
@@ -1293,44 +1459,44 @@
     }
 
     .precious-origin__grid {
-      grid-auto-columns: minmax(220px, 280px);
-      gap: 16px;
+      grid-auto-columns: minmax(160px, 200px);
+      gap: 10px;
       padding-inline: 24px;
     }
 
     .precious-origin-card {
-      min-height: 420px;
-      padding: 8px 8px 22px;
+      min-height: 285px;
+      padding: 6px 6px 13px;
     }
 
     .precious-origin-card img {
       width: 100%;
-      height: 180px;
+      height: 115px;
     }
 
     .precious-origin-card h3 {
-      margin: 18px 24px 16px;
-      font-size: clamp(24px, 3.7vw, 30px);
+      margin: 10px 14px 9px;
+      font-size: clamp(15px, 2.3vw, 19px);
     }
 
     .precious-origin-card h3::after {
-      width: 70px;
-      margin-top: 12px;
+      width: 34px;
+      margin-top: 6px;
     }
 
     .precious-origin-card ul {
-      gap: 10px;
-      margin: 0 24px;
-      font-size: clamp(14px, 2.2vw, 17px);
+      gap: 5px;
+      margin: 0 14px;
+      font-size: clamp(10px, 1.45vw, 12px);
     }
 
     .precious-origin-card li {
-      padding-left: 30px;
+      padding-left: 15px;
     }
 
     .precious-origin-card li::before {
-      width: 14px;
-      height: 20px;
+      width: 7px;
+      height: 10px;
     }
 
     .precious-faq__content {
@@ -1382,6 +1548,33 @@
     .precious-promo-card span {
       width: 72%;
       padding: 18px;
+    }
+
+    .precious-products {
+      margin-top: 34px;
+    }
+
+    .precious-products__header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .precious-products__grid {
+      --resource-list-column-gap-desktop: 12px;
+      --resource-list-row-gap-desktop: 22px;
+      --resource-list-columns: repeat(2, minmax(0, 1fr));
+      --resource-list-columns-mobile: repeat(2, minmax(0, 1fr));
+    }
+
+    .precious-product-card__title {
+      font-size: 13px;
+      line-height: 1.32;
+    }
+
+    .precious-product-card__price {
+      font-size: 13px;
     }
 
     .precious-story__features {
@@ -1501,79 +1694,62 @@
     }
 
     .precious-origin__grid {
-      grid-auto-columns: minmax(300px, 88vw);
+      grid-auto-columns: max-content;
       gap: 12px;
-      padding-inline: 14px;
+      padding-inline: 18px;
     }
 
     .precious-origin-card {
       display: grid;
-      grid-template-columns: 108px minmax(0, 1fr);
+      grid-template-columns: 96px minmax(128px, max-content);
+      column-gap: 14px;
       align-items: center;
-      min-height: 210px;
-      padding: 12px;
+      width: fit-content;
+      max-width: calc(100vw - 36px);
+      min-height: 150px;
+      padding: 10px;
       border-radius: 14px;
+    }
+
+    .precious-origin-card__copy {
+      width: max-content;
+      max-width: calc(100vw - 156px);
     }
 
     .precious-origin-card img {
       width: 100%;
-      height: 150px;
+      height: 118px;
       margin-top: 0;
       border-radius: 10px;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     .precious-origin-card h3 {
-      margin: 0 0 13px;
-      font-size: clamp(22px, 6.4vw, 28px);
+      margin: 0 0 8px;
+      font-size: clamp(18px, 5vw, 24px);
     }
 
     .precious-origin-card h3::after {
-      width: 48px;
+      width: 40px;
       height: 2px;
-      margin-top: 8px;
+      margin-top: 5px;
     }
 
     .precious-origin-card ul {
-      gap: 7px;
+      gap: 5px;
       margin: 0;
-      font-size: clamp(12px, 3.55vw, 15px);
+      font-size: clamp(11px, 3.1vw, 13px);
       line-height: 1.18;
     }
 
     .precious-origin-card li {
-      padding-left: 20px;
+      padding-left: 16px;
     }
 
     .precious-origin-card li::before {
       top: 0.05em;
-      width: 10px;
-      height: 14px;
-    }
-
-    .precious-origin__controls {
-      gap: 24px;
-      margin-top: 24px;
-    }
-
-    .precious-origin__arrow {
-      width: 52px;
-      height: 52px;
-    }
-
-    .precious-origin__arrow span {
-      width: 14px;
-      height: 14px;
-      border-width: 3px;
-    }
-
-    .precious-origin__dots {
-      gap: 12px;
-    }
-
-    .precious-origin__dots i {
-      width: 13px;
-      height: 13px;
+      width: 8px;
+      height: 11px;
     }
 
     .precious-faq {
