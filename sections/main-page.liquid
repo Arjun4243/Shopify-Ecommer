@@ -5,6 +5,41 @@
     render 'gemstone-landing-fallback'
   elsif page.handle == 'precious'
     render 'precious-page-fallback'
+  elsif page.handle == 'semi-precious'
+    assign semi_banner_image = section.settings.semi_banner_image
+
+    echo '<section class="semi-precious-page-banner" aria-label="'
+    echo section.settings.semi_accessibility_label | escape
+    echo '">'
+    echo '<div class="semi-precious-page-banner__media">'
+    if semi_banner_image != blank
+      echo semi_banner_image | image_url: width: 2200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1800, 2200', sizes: '100vw', alt: section.settings.semi_image_alt, class: 'semi-precious-page-banner__image'
+    else
+      echo '<img src="'
+      echo section.settings.semi_fallback_image_url | escape
+      echo '" alt="'
+      echo section.settings.semi_image_alt | escape
+      echo '" class="semi-precious-page-banner__image" width="1905" height="350" loading="eager">'
+    endif
+    echo '</div>'
+    echo '<div class="semi-precious-page-banner__content">'
+    if section.settings.semi_eyebrow != blank
+      echo '<p class="semi-precious-page-banner__eyebrow">'
+      echo section.settings.semi_eyebrow | escape
+      echo '</p>'
+    endif
+    if section.settings.semi_heading != blank
+      echo '<h1 class="semi-precious-page-banner__heading">'
+      echo section.settings.semi_heading
+      echo '</h1>'
+    endif
+    if section.settings.semi_subheading != blank
+      echo '<p class="semi-precious-page-banner__subheading">'
+      echo section.settings.semi_subheading | escape
+      echo '</p>'
+    endif
+    echo '</div>'
+    echo '</section>'
   else
     if section.settings.background_color != blank
       render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
@@ -12,7 +47,7 @@
   endif
 %}
 
-{% unless page.handle == 'gemstones' or page.handle == 'precious' %}
+{% unless page.handle == 'gemstones' or page.handle == 'precious' or page.handle == 'semi-precious' %}
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
@@ -34,6 +69,305 @@
   </div>
 </div>
 {% endunless %}
+
+{% if page.handle == 'semi-precious' %}
+  <section class="semi-precious-benefits" aria-label="{{ section.settings.semi_benefits_accessibility_label | escape }}">
+    <div class="semi-precious-benefits__inner">
+      <div class="semi-precious-benefits__header">
+        <span></span>
+        <div>
+          {% if section.settings.semi_benefits_heading != blank %}
+            <h2>{{ section.settings.semi_benefits_heading }}</h2>
+          {% endif %}
+          {% if section.settings.semi_benefits_subheading != blank %}
+            <p>{{ section.settings.semi_benefits_subheading }}</p>
+          {% endif %}
+        </div>
+        <span></span>
+      </div>
+
+      <div class="semi-precious-benefits__grid">
+        <article class="semi-precious-benefit-card">
+          <img
+            src="{{ section.settings.semi_card_1_image_url }}"
+            alt="{{ section.settings.semi_card_1_image_alt | escape }}"
+            width="640"
+            height="260"
+            loading="lazy"
+          >
+          <div class="semi-precious-benefit-card__content">
+            <p class="semi-precious-benefit-card__eyebrow">{{ section.settings.semi_card_1_eyebrow }}</p>
+            <h3>{{ section.settings.semi_card_1_heading }}</h3>
+            <p>{{ section.settings.semi_card_1_text }}</p>
+            {% if section.settings.semi_card_1_link_label != blank %}
+              <a href="{{ section.settings.semi_card_1_link | default: '#' }}">
+                {{ section.settings.semi_card_1_link_label }} <span aria-hidden="true">&rarr;</span>
+              </a>
+            {% endif %}
+          </div>
+        </article>
+
+        <article class="semi-precious-benefit-card">
+          <img
+            src="{{ section.settings.semi_card_2_image_url }}"
+            alt="{{ section.settings.semi_card_2_image_alt | escape }}"
+            width="640"
+            height="260"
+            loading="lazy"
+          >
+          <div class="semi-precious-benefit-card__content">
+            <p class="semi-precious-benefit-card__eyebrow">{{ section.settings.semi_card_2_eyebrow }}</p>
+            <h3>{{ section.settings.semi_card_2_heading }}</h3>
+            <p>{{ section.settings.semi_card_2_text }}</p>
+            {% if section.settings.semi_card_2_link_label != blank %}
+              <a href="{{ section.settings.semi_card_2_link | default: '#' }}">
+                {{ section.settings.semi_card_2_link_label }} <span aria-hidden="true">&rarr;</span>
+              </a>
+            {% endif %}
+          </div>
+        </article>
+
+        <article class="semi-precious-benefit-card">
+          <img
+            src="{{ section.settings.semi_card_3_image_url }}"
+            alt="{{ section.settings.semi_card_3_image_alt | escape }}"
+            width="640"
+            height="260"
+            loading="lazy"
+          >
+          <div class="semi-precious-benefit-card__content">
+            <p class="semi-precious-benefit-card__eyebrow">{{ section.settings.semi_card_3_eyebrow }}</p>
+            <h3>{{ section.settings.semi_card_3_heading }}</h3>
+            <p>{{ section.settings.semi_card_3_text }}</p>
+            {% if section.settings.semi_card_3_link_label != blank %}
+              <a href="{{ section.settings.semi_card_3_link | default: '#' }}">
+                {{ section.settings.semi_card_3_link_label }} <span aria-hidden="true">&rarr;</span>
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% if page.handle == 'semi-precious' %}
+  <style>
+    .semi-precious-page-banner {
+      position: relative;
+      min-height: clamp(220px, 18.4vw, 350px);
+      overflow: hidden;
+      background: #f7f1ea;
+    }
+
+    .semi-precious-page-banner__media {
+      position: absolute;
+      inset: 0;
+    }
+
+    .semi-precious-page-banner__image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .semi-precious-page-banner__content {
+      position: relative;
+      z-index: 1;
+      min-height: clamp(220px, 18.4vw, 350px);
+      max-width: clamp(520px, 43vw, 820px);
+      padding: clamp(28px, 2.7vw, 52px) 7%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: clamp(8px, 0.65vw, 12px);
+    }
+
+    .semi-precious-page-banner__eyebrow {
+      margin: 0;
+      color: #6f6a62;
+      font-size: clamp(10px, 0.68vw, 13px);
+      font-weight: 700;
+      letter-spacing: clamp(1px, 0.16vw, 3px);
+      text-transform: uppercase;
+    }
+
+    .semi-precious-page-banner__heading {
+      margin: 0;
+      max-width: 760px;
+      color: #1c1713;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(30px, 2.73vw, 52px);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .semi-precious-page-banner__subheading {
+      margin: 0;
+      max-width: 760px;
+      color: #4f4a43;
+      font-size: clamp(13px, 0.95vw, 18px);
+      line-height: 1.45;
+    }
+
+    .semi-precious-benefits {
+      background: #fbfaf7;
+      padding: clamp(38px, 5vw, 74px) 6%;
+    }
+
+    .semi-precious-benefits__inner {
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    .semi-precious-benefits__header {
+      display: grid;
+      grid-template-columns: minmax(60px, 1fr) auto minmax(60px, 1fr);
+      align-items: center;
+      gap: clamp(16px, 3vw, 48px);
+      margin: 0 auto clamp(22px, 3vw, 34px);
+      text-align: center;
+    }
+
+    .semi-precious-benefits__header span {
+      display: block;
+      height: 2px;
+      background: #dfcfad;
+    }
+
+    .semi-precious-benefits__header h2 {
+      margin: 0;
+      color: #1c1713;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(24px, 1.8vw, 34px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .semi-precious-benefits__header p {
+      margin: 8px 0 0;
+      color: #5c554d;
+      font-size: clamp(13px, 0.95vw, 18px);
+      line-height: 1.4;
+    }
+
+    .semi-precious-benefits__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(18px, 2vw, 34px);
+    }
+
+    .semi-precious-benefit-card {
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #eee7dc;
+      border-radius: 2px;
+      box-shadow: 0 12px 30px rgba(31, 24, 18, 0.05);
+    }
+
+    .semi-precious-benefit-card img {
+      width: 100%;
+      aspect-ratio: 16 / 5.2;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .semi-precious-benefit-card__content {
+      padding: clamp(18px, 1.6vw, 28px) clamp(18px, 1.7vw, 30px) clamp(20px, 1.8vw, 32px);
+    }
+
+    .semi-precious-benefit-card__eyebrow {
+      margin: 0 0 8px;
+      color: #8a8175;
+      font-size: clamp(10px, 0.65vw, 12px);
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .semi-precious-benefit-card h3 {
+      margin: 0 0 12px;
+      color: #302821;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(20px, 1.35vw, 28px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .semi-precious-benefit-card__content > p:not(.semi-precious-benefit-card__eyebrow) {
+      margin: 0;
+      color: #5c554d;
+      font-size: clamp(14px, 0.95vw, 18px);
+      line-height: 1.5;
+    }
+
+    .semi-precious-benefit-card a {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #b58638;
+      font-size: clamp(13px, 0.85vw, 16px);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      .semi-precious-page-banner {
+        min-height: clamp(230px, 62vw, 340px);
+      }
+
+      .semi-precious-page-banner__content {
+        min-height: clamp(230px, 62vw, 340px);
+        max-width: 76%;
+        padding: clamp(24px, 6vw, 34px) 22px;
+      }
+
+      .semi-precious-page-banner__eyebrow {
+        font-size: clamp(9px, 2.5vw, 11px);
+        letter-spacing: 1px;
+      }
+
+      .semi-precious-page-banner__heading {
+        font-size: clamp(24px, 7.5vw, 34px);
+        line-height: 1.08;
+      }
+
+      .semi-precious-page-banner__subheading {
+        font-size: clamp(12px, 3.4vw, 14px);
+        line-height: 1.35;
+      }
+
+      .semi-precious-benefits {
+        padding: 34px 18px;
+      }
+
+      .semi-precious-benefits__header {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .semi-precious-benefits__header span {
+        width: 120px;
+        margin: 0 auto;
+      }
+
+      .semi-precious-benefits__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .semi-precious-benefit-card img {
+        aspect-ratio: 16 / 7;
+      }
+    }
+  </style>
+{% endif %}
 
 {% schema %}
 {
@@ -82,6 +416,208 @@
       "id": "background_color",
       "label": "t:settings.background_color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Semi precious banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "semi_banner_image",
+      "label": "Semi precious image"
+    },
+    {
+      "type": "text",
+      "id": "semi_fallback_image_url",
+      "label": "Semi precious fallback image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-banner.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_image_alt",
+      "label": "Semi precious image alt text",
+      "default": "Gemstones and semi precious stones displayed on a soft natural background"
+    },
+    {
+      "type": "text",
+      "id": "semi_accessibility_label",
+      "label": "Semi precious accessibility label",
+      "default": "Semi precious gemstones banner"
+    },
+    {
+      "type": "text",
+      "id": "semi_eyebrow",
+      "label": "Semi precious eyebrow",
+      "default": "Natural - Ethical - Timeless"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_heading",
+      "label": "Semi precious heading",
+      "default": "Gemstones and Semi Precious<br>Stones for Sale"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_subheading",
+      "label": "Semi precious subheading",
+      "default": "Handpicked, natural semi precious gemstones for beauty, healing and a more meaningful life."
+    },
+    {
+      "type": "header",
+      "content": "Semi precious benefits"
+    },
+    {
+      "type": "text",
+      "id": "semi_benefits_accessibility_label",
+      "label": "Benefits accessibility label",
+      "default": "Gemstone benefits"
+    },
+    {
+      "type": "text",
+      "id": "semi_benefits_heading",
+      "label": "Benefits heading",
+      "default": "Gemstone Benefits"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_benefits_subheading",
+      "label": "Benefits subheading",
+      "default": "Discover the beauty, meaning and positive energy of natural gemstones"
+    },
+    {
+      "type": "header",
+      "content": "Benefit card 1"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_image_url",
+      "label": "Card 1 image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-1.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_image_alt",
+      "label": "Card 1 image alt",
+      "default": "Purple amethyst gemstone on a natural rock"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_eyebrow",
+      "label": "Card 1 eyebrow",
+      "default": "Gemstone Guide"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_heading",
+      "label": "Card 1 heading",
+      "default": "The Calming Power of Amethyst"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_card_1_text",
+      "label": "Card 1 text",
+      "default": "Learn how this beautiful purple gem promotes peace, clarity and positive energy in everyday life."
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_link_label",
+      "label": "Card 1 link label",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "semi_card_1_link",
+      "label": "Card 1 link"
+    },
+    {
+      "type": "header",
+      "content": "Benefit card 2"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_image_url",
+      "label": "Card 2 image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-2.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_image_alt",
+      "label": "Card 2 image alt",
+      "default": "Red gemstone placed on a soft neutral stone"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_eyebrow",
+      "label": "Card 2 eyebrow",
+      "default": "Wellness"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_heading",
+      "label": "Card 2 heading",
+      "default": "How Gemstones Support Emotional Balance"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_card_2_text",
+      "label": "Card 2 text",
+      "default": "From garnet to rose quartz, explore how natural gemstones can help you feel more grounded."
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_link_label",
+      "label": "Card 2 link label",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "semi_card_2_link",
+      "label": "Card 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Benefit card 3"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_image_url",
+      "label": "Card 3 image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-3.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_image_alt",
+      "label": "Card 3 image alt",
+      "default": "Collection of colorful semi precious gemstones"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_eyebrow",
+      "label": "Card 3 eyebrow",
+      "default": "Buying Guide"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_heading",
+      "label": "Card 3 heading",
+      "default": "A Complete Guide to Semi Precious Gemstones"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_card_3_text",
+      "label": "Card 3 text",
+      "default": "Everything you need to know before you buy - from quality and pricing to the meaning behind each stone."
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_link_label",
+      "label": "Card 3 link label",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "semi_card_3_link",
+      "label": "Card 3 link"
     },
     {
       "type": "header",
