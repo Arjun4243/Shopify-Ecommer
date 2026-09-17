@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "privacy_policy_banner": {
+      "type": "privacy-policy",
+      "settings": {
+        "fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/privacy-policy.webp?v=1789558458",
+        "image_alt": "Gemstones arranged on a soft neutral privacy policy banner",
+        "eyebrow": "Privacy Policy",
+        "heading": "Privacy Policy",
+        "text": "<p>Your trust matters to us. Learn how we collect, use, and protect your information.</p>"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "page-content": {
+          "type": "page-content",
+          "settings": {
+            "text_color": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "page-content"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 48,
+        "padding-block-end": 80
+      }
+    }
+  },
+  "order": [
+    "privacy_policy_banner",
+    "main"
+  ]
+}
