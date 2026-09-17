@@ -9,57 +9,27 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "terms_condition_page": {
+      "type": "terms-condition-page",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.title",
+        "acceptance_of_terms": {
+          "type": "term_item",
           "settings": {
-            "text": "<h1>Arjun</h1><h1></h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "page-content": {
-          "type": "page-content",
-          "settings": {
-            "text_color": ""
-          },
-          "blocks": {}
+            "title": "Acceptance of Terms",
+            "description": "<p>By visiting or using razagems.com, you accept these Terms and our Privacy Policy. You may update these Terms from time to time. Continued use means you accept all latest versions.</p>"
+          }
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
+        "acceptance_of_terms"
       ],
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "title": "Terms and Conditions - Raza Gems LLC",
+        "description": "<p>Welcome to razagems.com, the official website of Raza Gems LLC. By using this website, you agree to the following Terms and Conditions. Please read them carefully before browsing, shopping, or registering.</p>"
       }
     }
   },
   "order": [
-    "main"
+    "terms_condition_page"
   ]
 }

@@ -1,0 +1,310 @@
+<section class="terms-condition-page-banner" aria-label="Terms and Conditions">
+  <img
+    src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/term_and_condition_page_banner.webp?v=1789644231"
+    alt="Terms and Conditions banner"
+    class="terms-condition-page-banner__image"
+    width="1905"
+    height="450"
+    loading="eager"
+    fetchpriority="high"
+  >
+</section>
+
+<section class="terms-condition-layout" aria-labelledby="terms-condition-title-{{ section.id }}">
+  <div class="terms-condition-layout__inner">
+    <div class="terms-condition-kicker">Terms and Conditions</div>
+
+    {% if section.settings.title != blank %}
+      <h1 id="terms-condition-title-{{ section.id }}" class="terms-condition-title">
+        {{ section.settings.title }}
+      </h1>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <div class="terms-condition-description">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="terms-condition-items">
+        {% for block in section.blocks %}
+          <article class="terms-condition-item" {{ block.shopify_attributes }}>
+            <span class="terms-condition-item__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div class="terms-condition-item__body">
+              {% if block.settings.title != blank %}
+                <h2>{{ block.settings.title }}</h2>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <div class="terms-condition-item__description">
+                  {{ block.settings.description }}
+                </div>
+              {% endif %}
+            </div>
+            <span class="terms-condition-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M7 3.75h7.35L19.25 8.6V20.25H7V3.75Zm6.55 1.5H8.5v13.5h9.25V9.4h-4.2V5.25Zm1.5 1.05v1.6h1.62L15.05 6.3ZM10 12h6v1.5h-6V12Zm0 3h5v1.5h-5V15Z" />
+              </svg>
+            </span>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if page.content != blank %}
+      <div class="terms-condition-content rte">
+        {{ page.content }}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .terms-condition-page-banner {
+    background: #f8f2ea;
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .terms-condition-page-banner__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .terms-condition-layout {
+    background: #fffdf9;
+    padding: clamp(34px, 4.6vw, 62px) 20px clamp(58px, 7vw, 96px);
+  }
+
+  .terms-condition-layout__inner {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+  }
+
+  .terms-condition-kicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    color: #b7832c;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .terms-condition-kicker::before,
+  .terms-condition-kicker::after {
+    content: "";
+    width: 34px;
+    height: 1px;
+    background: #dbc07e;
+  }
+
+  .terms-condition-title {
+    margin: 0;
+    color: #1d1712;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(28px, 2.35vw, 44px);
+    font-weight: 700;
+    line-height: 1.16;
+    text-align: center;
+    letter-spacing: 0;
+  }
+
+  .terms-condition-description {
+    max-width: 940px;
+    margin: 18px auto 0;
+    color: #5f5850;
+    font-size: clamp(13px, 0.9vw, 15px);
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  .terms-condition-description p {
+    margin: 0;
+  }
+
+  .terms-condition-content {
+    margin-top: clamp(30px, 4vw, 54px);
+    color: #504941;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .terms-condition-content h2,
+  .terms-condition-content h3 {
+    color: #241c16;
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: 0;
+  }
+
+  .terms-condition-items {
+    display: grid;
+    gap: 0;
+    margin-top: clamp(30px, 4vw, 50px);
+  }
+
+  .terms-condition-item {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 34px;
+    gap: 18px;
+    align-items: start;
+    padding: 22px 0;
+    border-top: 1px solid #eee5d8;
+  }
+
+  .terms-condition-item:last-child {
+    border-bottom: 1px solid #eee5d8;
+  }
+
+  .terms-condition-item__number {
+    color: #c08a32;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .terms-condition-item h2 {
+    margin: 0 0 7px;
+    color: #1f1812;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(17px, 1.15vw, 21px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .terms-condition-item__description {
+    color: #5c554d;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .terms-condition-item__description p {
+    margin: 0;
+  }
+
+  .terms-condition-item__icon {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    color: #bd8730;
+    background: #fff8eb;
+    border: 1px solid #ead5a9;
+    border-radius: 50%;
+  }
+
+  .terms-condition-item__icon svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+  }
+
+  @media screen and (max-width: 749px) {
+    .terms-condition-page-banner__image {
+      min-height: 180px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .terms-condition-layout {
+      padding: 30px 16px 58px;
+    }
+
+    .terms-condition-kicker {
+      font-size: 10px;
+      letter-spacing: 1.2px;
+    }
+
+    .terms-condition-kicker::before,
+    .terms-condition-kicker::after {
+      width: 24px;
+    }
+
+    .terms-condition-title {
+      font-size: clamp(24px, 7vw, 32px);
+    }
+
+    .terms-condition-description {
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: left;
+    }
+
+    .terms-condition-items {
+      margin-top: 26px;
+    }
+
+    .terms-condition-item {
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      padding: 18px 0;
+    }
+
+    .terms-condition-item__number {
+      font-size: 18px;
+    }
+
+    .terms-condition-item__icon {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Terms and condition page",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Terms and Conditions - Raza Gems LLC"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Welcome to razagems.com, the official website of Raza Gems LLC. By using this website, you agree to the following Terms and Conditions. Please read them carefully before browsing, shopping, or registering.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "term_item",
+      "name": "Term item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Acceptance of Terms"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>By visiting or using razagems.com, you accept these Terms and our Privacy Policy. You may update these Terms from time to time. Continued use means you accept all latest versions.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Terms and condition page",
+      "blocks": [
+        {
+          "type": "term_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
