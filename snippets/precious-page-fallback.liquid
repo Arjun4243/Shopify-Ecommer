@@ -1,0 +1,1786 @@
+<section class="precious-page">
+  <div class="precious-page__inner">
+    <section class="precious-page__hero" aria-label="Precious gemstone hero">
+      <img
+        src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/precious-page-top.webp?v=1789212925"
+        alt="Natural and certified gemstones for a brighter tomorrow"
+        width="1600"
+        height="450"
+        loading="eager"
+      >
+      <div class="precious-page__hero-content">
+        <p>Natural & Certified</p>
+        <h1>Precious Stones<br>for Sale</h1>
+
+        <span>Rare. Authentic. Timeless.</span>
+        <a href="#precious-type-here">Explore Collection</a>
+        <div class="precious-page__hero-features">
+          <small>100% Natural<br>Gemstones</small>
+          <small>Certified<br>Quality</small>
+          <small>Worldwide<br>Shipping</small>
+          <small>Expert<br>Support</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="precious-type" id="precious-type-here">
+      <p class="precious-type__eyebrow">Shop by Gemstone Type</p>
+      <h2>Discover Precious Gemstones</h2>
+      <div class="precious-type__row">
+        <a href="/collections/ruby">{% render 'precious-type-item', image: 'mega-menu-precious-ruby.webp', title: 'Ruby' %}</a>
+        <a href="/collections/emerald">{% render 'precious-type-item', image: 'mega-menu-precious-emerald.webp', title: 'Emerald' %}</a>
+        <a href="/collections/blue-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-blue-sapphire.webp', title: 'Blue Sapphire' %}</a>
+        <a href="/collections/yellow-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-yellow-sapphire.webp', title: 'Yellow Sapphire' %}</a>
+        <a href="/collections/pink-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-pink-sapphire.webp', title: 'Pink Sapphire' %}</a>
+        <a href="/collections/white-sapphire">{% render 'precious-type-item', image: 'mega-menu-precious-white-sapphire.webp', title: 'White Sapphire' %}</a>
+        <a href="/collections/gomed">{% render 'precious-type-item', image: 'mega-menu-precious-gomed.webp', title: 'Gomed' %}</a>
+        <a href="/collections/opal">{% render 'precious-type-item', image: 'mega-menu-precious-opal.webp', title: 'Opal' %}</a>
+        <a href="/collections/tanzanite">{% render 'precious-type-item', image: 'mega-menu-precious-tanzanite.webp', title: 'Tanzanite' %}</a>
+        <a href="/collections/kunzite">{% render 'precious-type-item', image: 'mega-menu-precious-kunzite.webp', title: 'Kunzite' %}</a>
+        <a href="/collections/spinel">{% render 'precious-type-item', image: 'mega-menu-precious-spinel.webp', title: 'Spinel' %}</a>
+        <a href="/collections/diamond">{% render 'precious-type-item', image: 'mega-menu-precious-diamond.webp', title: 'Diamond' %}</a>
+        <a href="/collections/morganite">{% render 'precious-type-item', image: 'mega-menu-precious-morganite.webp', title: 'Morganite' %}</a>
+        <a href="/collections/pearl">{% render 'precious-type-item', image: 'mega-menu-precious-pearl.webp', title: 'Pearl' %}</a>
+        <a href="/collections/sphene">{% render 'precious-type-item', image: 'mega-menu-precious-sphene.webp', title: 'Sphene' %}</a>
+        <a href="/collections/coral">{% render 'precious-type-item', image: 'mega-menu-precious-coral.webp', title: 'Coral' %}</a>
+        <a href="/collections/aquamarine">{% render 'precious-type-item', image: 'mega-menu-precious-aquamarine.webp', title: 'Aquamarine' %}</a>
+      </div>
+    </section>
+
+    <section class="precious-promo-grid" aria-label="Gemstone collections">
+      <a class="precious-promo-card precious-promo-card--red" href="/collections/precious">
+        <img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gemstone-1.webp?v=1789185890" alt="" width="514" height="189" loading="lazy">
+        <span>
+          <strong>Precious<br>Gemstones</strong>
+          <small>Rare. Exquisite. Timeless.</small>
+          <em>Shop Now →</em>
+        </span>
+      </a>
+      <a class="precious-promo-card precious-promo-card--green" href="/collections/semi-precious">
+        <img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gemstone-2.webp?v=1789185890" alt="" width="514" height="189" loading="lazy">
+        <span>
+          <strong>Semi-Precious<br>Gemstones</strong>
+          <small>Colorful. Versatile. Unique.</small>
+          <em>Shop Now →</em>
+        </span>
+      </a>
+      <a class="precious-promo-card precious-promo-card--gold" href="/collections/jewellery">
+        <img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gamstone-3.webp?v=1789202521" alt="" width="514" height="189" loading="lazy">
+        <span>
+          <strong>Custom Jewellery</strong>
+          <small>Turn your vision into reality.</small>
+          <em>Craft Now →</em>
+        </span>
+      </a>
+    </section>
+
+    {% liquid
+      assign precious_products_collection = collections.precious
+      if precious_products_collection == blank or precious_products_collection.products_count == 0
+        assign precious_products_collection = collections.all
+      endif
+
+      assign precious_products_limit = 8
+      assign quick_add_enabled = false
+      if settings.quick_add or settings.mobile_quick_add
+        assign quick_add_enabled = true
+      endif
+    %}
+
+    {% render 'resource-list-styles' %}
+    {% render 'product-card-styles' %}
+    {% render 'product-badges-styles' %}
+
+    {% if precious_products_collection != blank and precious_products_collection.products_count > 0 %}
+      <section class="precious-products section-resource-list" aria-label="Precious gemstone products">
+        <div class="section-resource-list__header precious-products__header">
+          <div>
+            <p class="precious-products__eyebrow">Products</p>
+            <h2>{{ precious_products_collection.title }}</h2>
+          </div>
+          <a href="{{ precious_products_collection.url }}">View all</a>
+        </div>
+
+        <div
+          class="resource-list resource-list--grid precious-products__grid"
+          data-testid="precious-products-grid"
+        >
+          {% paginate precious_products_collection.products by precious_products_limit %}
+            {% for product in precious_products_collection.products limit: precious_products_limit %}
+              <div class="resource-list__item">
+                <product-card class="product-card precious-product-card" data-product-id="{{ product.id }}">
+                  <div class="product-card__content product-grid__card precious-product-card__content">
+                    <div class="precious-product-card__media">
+                      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                        {% if product.featured_media.preview_image != blank %}
+                          {{
+                            product.featured_media.preview_image
+                            | image_url: width: 900
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '300, 450, 600, 750, 900',
+                              sizes: '(min-width: 1000px) 25vw, (min-width: 750px) 33vw, 50vw',
+                              alt: product.title,
+                              class: 'precious-product-card__image'
+                          }}
+                        {% else %}
+                          {{ 'product-apparel-1' | placeholder_svg_tag: 'precious-product-card__placeholder' }}
+                        {% endif %}
+                      </a>
+
+                      {% if product.available == false or product.compare_at_price > product.price %}
+                        <div
+                          class="product-badges product-badges--top-right"
+                          style="
+                            --badge-border-radius: {{ settings.badge_corner_radius }}px;
+                            --badge-font-family: var(--font-{{ settings.badge_font_family }}--family);
+                            --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight);
+                            --badge-text-transform: {{ settings.badge_text_transform }};
+                          "
+                        >
+                          <div class="product-badges__badge product-badges__badge--rectangle {% if product.available == false %}color-custom-badge-sold-out{% else %}color-custom-badge-sale{% endif %}">
+                            {% if product.available == false %}
+                              {{ 'content.product_badge_sold_out' | t }}
+                            {% else %}
+                              {{ 'content.product_badge_sale' | t }}
+                            {% endif %}
+                          </div>
+                        </div>
+                      {% endif %}
+
+                      {% if product.available and quick_add_enabled %}
+                        {% render 'quick-add', product: product, section_id: section.id %}
+                      {% endif %}
+                    </div>
+
+                    <a class="precious-product-card__title" href="{{ product.url }}">
+                      {{ product.title }}
+                    </a>
+                    <div class="precious-product-card__price">
+                      {% render 'price', product_resource: product, show_sale_price_first: true %}
+                    </div>
+                  </div>
+                </product-card>
+              </div>
+            {% endfor %}
+          {% endpaginate %}
+        </div>
+      </section>
+    {% endif %}
+  </div>
+
+  <section class="precious-story">
+    <div class="precious-story__content">
+      <div>
+     
+        <h2>
+          <span>About Precious Stones:</span>
+          <span>The Raza Gems Difference</span>
+        </h2>
+        <p>
+          Precious stones, specifically <strong>Diamonds, Rubies, Emeralds, and Sapphires</strong>, have captivated humanity for millennia as tangible assets that symbolize wealth, precision craftsmanship, and enduring value. At Raza Gems, operating from the heart of the <strong>Dubai gemstone market</strong>, we specialize in providing certified, natural, and original rare precious stones directly from the source to the global market.
+        </p>
+      </div>
+      <div class="precious-story__features">
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 4c-7.5.8-12.5 4.6-15 11.4 3.2.2 6-.6 8.3-2.4 2.4-1.8 4.6-4.8 6.7-9Z"></path>
+            <path d="M4 20c2.3-4.3 5.2-7.2 8.8-8.8"></path>
+          </svg>
+          <strong>Natural &<br>Ethically Sourced</strong>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.5 4h11L22 9l-10 11L2 9l4.5-5Z"></path>
+            <path d="M2 9h20"></path>
+            <path d="m8 9 4 11 4-11"></path>
+            <path d="m6.5 4 1.5 5 4-5 4 5 1.5-5"></path>
+          </svg>
+          <strong>Certified<br>Gemstones</strong>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3a14 14 0 0 1 0 18"></path>
+            <path d="M12 3a14 14 0 0 0 0 18"></path>
+          </svg>
+          <strong>Worldwide<br>Shipping</strong>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.2l-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path>
+          </svg>
+          <strong>Expert<br>Guidance</strong>
+        </span>
+      </div>
+    
+    </div>
+    <img
+      src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/precious-page-bottom.webp?v=1789369761"
+      alt="Ruby gemstone"
+      width="1600"
+      height="320"
+      loading="lazy"
+    >
+  </section>
+
+  <section class="precious-value" aria-label="Certified gemstone value">
+    <article class="precious-value__item">
+      <div class="precious-value__icon-row">
+        <span class="precious-value__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3h8l4 4v14H7V3Z"></path>
+            <path d="M15 3v5h5"></path>
+            <path d="M10 12h4"></path>
+            <path d="M10 16h3"></path>
+            <circle cx="17" cy="17" r="3"></circle>
+            <path d="m19.2 19.2 1.8 1.8"></path>
+          </svg>
+        </span>
+      </div>
+      <div class="precious-value__copy">
+        <h3>The Importance of Certified Gemological Integrity</h3>
+        <p>
+          When you choose to <strong>buy natural precious stones online</strong>, the absolute highest priority is technical authenticity and official certification. The commercial value of a precious stone is tied strictly to its origin, its lack of artificial treatment, and its quality grading. Every precious stone for sale at Raza Gems is accompanied by certification from leading international laboratories. This transparency ensures you are acquiring a genuine, investment-grade asset.
+        </p>
+      </div>
+    </article>
+
+    <article class="precious-value__item">
+      <div class="precious-value__icon-row">
+        <span class="precious-value__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 19h16"></path>
+            <path d="M7 16v-5"></path>
+            <path d="M12 16V7"></path>
+            <path d="M17 16v-9"></path>
+            <path d="m7 8 5-5 5 3"></path>
+            <path d="m17 6 .4-3.4"></path>
+            <path d="m17 6-3.4-.4"></path>
+          </svg>
+        </span>
+      </div>
+      <div class="precious-value__copy">
+        <h3>Precious Stones as High-Value Assets</h3>
+        <p>
+          For centuries, precious stones have served as a portable and reliable store of wealth. Their lack of counterparty risk and historical trend of market appreciation make them significant long-term assets. When evaluating <strong>precious stone investment value</strong>, the key metrics are geographic origin, laboratory certification, and scarcity. Our strategic position within the UAE market allows for rigorous quality control throughout the supply chain.
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <section class="precious-origin" aria-label="Global precious gemstone sourcing">
+    <div class="precious-origin__content">
+      <p class="precious-origin__eyebrow">Sourced Globally</p>
+      <h2>Global Sourcing: Where Our Precious Gems Originate</h2>
+      <p class="precious-origin__intro">From the world's most renowned regions, to your hands.</p>
+
+      <div class="precious-origin__grid">
+        <article class="precious-origin-card">
+          <img
+            src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Daimon-image-preceious-bottom.webp?v=1789366454"
+            alt="Diamond"
+            width="520"
+            height="350"
+            loading="lazy"
+          >
+          <div class="precious-origin-card__copy">
+            <h3>Diamonds</h3>
+            <ul>
+              <li>South Africa</li>
+              <li>Botswana</li>
+              <li>Russia</li>
+              <li>Australia</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="precious-origin-card">
+          <img
+            src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Ruby-image-precious-bottom.webp?v=1789366454"
+            alt="Ruby"
+            width="520"
+            height="350"
+            loading="lazy"
+          >
+          <div class="precious-origin-card__copy">
+            <h3>Rubies</h3>
+            <ul>
+              <li>Myanmar (Burma)</li>
+              <li>Thailand</li>
+              <li>Mozambique</li>
+              <li>Sri Lanka</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="precious-origin-card">
+          <img
+            src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Blue-Shappire-precious-bottom.webp?v=1789366454"
+            alt="Blue sapphire"
+            width="520"
+            height="350"
+            loading="lazy"
+          >
+          <div class="precious-origin-card__copy">
+            <h3>Sapphires</h3>
+            <ul>
+              <li>Sri Lanka (Ceylon)</li>
+              <li>Kashmir</li>
+              <li>Myanmar</li>
+              <li>Madagascar</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="precious-origin-card">
+          <img
+            src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Emerald-precious-bottom.webp?v=1789366454"
+            alt="Emerald"
+            width="520"
+            height="350"
+            loading="lazy"
+          >
+          <div class="precious-origin-card__copy">
+            <h3>Emeralds</h3>
+            <ul>
+              <li>Colombia</li>
+              <li>Zambia</li>
+              <li>Brazil</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="precious-faq" aria-label="Precious stones frequently asked questions">
+    <div class="precious-faq__content">
+      <p class="precious-faq__eyebrow">Frequently Asked Questions</p>
+      <h2>Learn More About Precious Stones</h2>
+
+      <div class="precious-faq__list">
+        <details class="precious-faq__item" open>
+          <summary>
+            <span>Which gems are classified as precious stones?</span>
+          </summary>
+          <div class="precious-faq__answer">
+            <p>
+              The definitive classification of "Precious Stones" includes four primary minerals: <strong>Diamond, Ruby, Sapphire, and Emerald.</strong> These four are historically and commercially distinguished due to their extreme rarity, Mohs hardness scale rating (all above 7.5), and consistent global investment demand.
+            </p>
+            <p>
+              All other gemstones are categorized as semi-precious. At Raza Gems, we focus on providing these four primary stones, ensuring every specimen meets professional-grade standards for clarity and color saturation.
+            </p>
+          </div>
+        </details>
+
+        <details class="precious-faq__item">
+          <summary>
+            <span>How is the value of a precious stone determined?</span>
+          </summary>
+          <div class="precious-faq__answer">
+            <p>Market value is determined by precise mineralogical criteria known as the <strong>4 Cs</strong>:</p>
+            <ul>
+              <li><strong>Carat Weight:</strong> The mass of the gemstone.</li>
+              <li><strong>Color:</strong> The specific hue, tone, and saturation.</li>
+              <li><strong>Clarity:</strong> The relative absence of internal inclusions or external blemishes.</li>
+              <li><strong>Cut:</strong> The precision of the facets, which optimizes light return and brilliance.</li>
+            </ul>
+            <p>
+              A certificate from a reputable laboratory (such as GIA, IGI, or IDL) is essential to verify these traits and confirm the absence of synthetic treatments or enhancements.
+            </p>
+          </div>
+        </details>
+
+        <details class="precious-faq__item">
+          <summary>
+            <span>How are precious stones geologically formed?</span>
+          </summary>
+          <div class="precious-faq__answer">
+            <p>Precious stones are minerals formed through intense geological processes over millions of years:</p>
+            <ul>
+              <li><strong>Diamonds</strong> form from carbon under extreme pressure in the Earth's mantle.</li>
+              <li><strong>Rubies and Sapphires</strong> (Corundum) form in metamorphic and igneous environments where aluminum oxide is subjected to specific heat.</li>
+              <li><strong>Emeralds</strong> (Beryl) form in hydrothermal veins when beryllium meets chromium or vanadium.</li>
+            </ul>
+            <p>
+              The rarity of these specific geological conditions is what creates the inherent scarcity and value of natural, untreated stones.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  
+</section>
+
+<script>
+  (() => {
+    const faqItems = document.querySelectorAll('.precious-faq__item');
+
+    faqItems.forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+
+        faqItems.forEach((otherItem) => {
+          if (otherItem !== item) {
+            otherItem.open = false;
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+
+
+<style>
+  .precious-page {
+    scroll-behavior: smooth;
+    background: #fffaf3;
+    color: #28231f;
+  }
+
+  #precious-type-here {
+    scroll-margin-top: var(--header-height, 90px);
+  }
+
+  .precious-page__inner {
+    width: min(100%, 1510px);
+    margin: 0 auto;
+    padding: 14px 24px 28px;
+  }
+
+  .precious-page__hero {
+    --hero-min-height: clamp(210px, 28vw, 360px);
+    --hero-content-width: min(52%, 620px);
+    --hero-x-padding: clamp(18px, 7vw, 92px);
+    --hero-y-padding: clamp(18px, 3.2vw, 48px);
+    --hero-eyebrow-size: clamp(7px, 0.8vw, 12px);
+    --hero-eyebrow-spacing: clamp(2px, 0.38vw, 6px);
+    --hero-title-size: clamp(20px, 4vw, 58px);
+    --hero-copy-size: clamp(11px, 1.5vw, 22px);
+    --hero-button-font: clamp(10px, 0.9vw, 14px);
+    --hero-feature-font: clamp(7px, 0.72vw, 11px);
+    --hero-feature-icon: clamp(12px, 1.35vw, 20px);
+    --hero-feature-gap: clamp(8px, 1.45vw, 22px);
+    position: relative;
+    display: block;
+    overflow: hidden;
+    min-height: var(--hero-min-height);
+    border-radius: 8px;
+    background: #f7efe3;
+  }
+
+  .precious-page__hero img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .precious-page__hero img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .precious-story > img {
+    display: block !important;
+    width: 100% !important;
+    height: clamp(430px, 36vw, 540px) !important;
+    object-fit: cover !important;
+    object-position: center right;
+  }
+
+  .precious-page__hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: var(--hero-content-width);
+    min-height: var(--hero-min-height);
+    padding: var(--hero-y-padding) var(--hero-x-padding);
+    color: #18342c;
+  }
+
+  .precious-page__hero-content p {
+    margin: 0 0 clamp(6px, 1vw, 14px);
+    color: #2d3d38;
+    font-size: var(--hero-eyebrow-size);
+    font-weight: 800;
+    letter-spacing: var(--hero-eyebrow-spacing);
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .precious-page__hero-content h1 {
+    margin: 0;
+    color: #122a25;
+    font-family: var(--font-heading--family);
+    font-size: var(--hero-title-size);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+
+  .precious-page__hero-content > span {
+    margin-top: clamp(6px, 0.85vw, 12px);
+    color: #42504b;
+    font-size: var(--hero-copy-size);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .precious-page__hero-content > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: clamp(10px, 1.5vw, 22px);
+    padding: clamp(8px, 1vw, 14px) clamp(14px, 1.9vw, 28px);
+    border-radius: 2px;
+    background: #d2b06b;
+    color: #fff;
+    font-size: var(--hero-button-font);
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .precious-page__hero-features {
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: var(--hero-feature-gap);
+    align-items: center;
+    margin-top: clamp(14px, 2vw, 28px);
+  }
+
+  .precious-page__hero-features small {
+    position: relative;
+    display: block;
+    padding-left: calc(var(--hero-feature-icon) + 8px);
+    color: #2e312e;
+    font-size: var(--hero-feature-font);
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .precious-page__hero-features small::before {
+    content: '◇';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    color: #b18b45;
+    font-size: var(--hero-feature-icon);
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+  .precious-type {
+    padding: 26px 0 24px;
+    text-align: center;
+  }
+
+  .precious-type__eyebrow {
+    margin: 0 0 4px;
+    color: #2d2721;
+    font-family: var(--font-heading--family);
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .precious-type h2 {
+    margin: 0 0 24px;
+    color: #786f67;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .precious-type__row {
+    display: grid;
+    grid-auto-columns: minmax(118px, 1fr);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    gap: 18px;
+    align-items: start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 4px 6px 12px;
+    scroll-padding-inline: 6px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .precious-type__row::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .precious-type__row::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #d2b06b;
+  }
+
+  .precious-type__row::-webkit-scrollbar-track {
+    background: #efe7dc;
+  }
+
+  .precious-type__row a,
+  .precious-promo-card {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .precious-type-item {
+    display: grid !important;
+    justify-items: center !important;
+    gap: 8px !important;
+    text-align: center !important;
+    scroll-snap-align: start !important;
+  }
+
+  .precious-type-item img {
+    display: block !important;
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    object-fit: contain !important;
+  }
+
+  .precious-type-item span {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+  }
+
+  .precious-promo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .precious-promo-card {
+    position: relative;
+    display: block;
+    min-height: 170px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #17110e;
+    box-shadow: 0 10px 26px rgb(68 49 31 / 0.14);
+  }
+
+  .precious-promo-card img {
+    display: block !important;
+    width: 100% !important;
+    height: 170px !important;
+    object-fit: cover !important;
+    opacity: 0.88;
+  }
+
+  .precious-promo-card span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 58%;
+    padding: 20px 26px;
+    color: #fff;
+  }
+
+  .precious-promo-card strong {
+    font-family: var(--font-heading--family);
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 700;
+    line-height: 0.98;
+  }
+
+  .precious-promo-card small {
+    margin: 10px 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .precious-promo-card em {
+    padding: 10px 18px;
+    border-radius: 2px;
+    background: #d9b66f;
+    color: #fff;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .precious-products {
+    --gap: 24px;
+    margin-top: 42px;
+  }
+
+  .precious-products__header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .precious-products__header h2,
+  .precious-products__eyebrow {
+    margin: 0;
+    color: #181512;
+    font-family: var(--font-heading--family);
+    line-height: 1.12;
+  }
+
+  .precious-products__eyebrow {
+    margin-bottom: 4px;
+    color: #786f67;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .precious-products__header h2 {
+    font-size: clamp(26px, 2.6vw, 38px);
+    font-weight: 700;
+  }
+
+  .precious-products__header > a {
+    flex: 0 0 auto;
+    color: #6d4f23;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .precious-products__grid {
+    --resource-list-column-gap-desktop: 18px;
+    --resource-list-row-gap-desktop: 28px;
+    --resource-list-columns: repeat(4, minmax(0, 1fr));
+    --resource-list-columns-mobile: repeat(2, minmax(0, 1fr));
+    --column-count-mobile: 2;
+  }
+
+  .precious-product-card {
+    display: grid;
+    height: 100%;
+  }
+
+  .precious-product-card__content {
+    --product-card-gap: 8px;
+    --padding-block-start: 0;
+    --padding-block-end: 0;
+    --padding-inline-start: 0;
+    --padding-inline-end: 0;
+    --product-card-alignment: stretch;
+    --quick-add-display: flex;
+    --quick-add-mobile-display: flex;
+    --quick-add-mobile-opacity: 1;
+    gap: var(--product-card-gap);
+  }
+
+  .precious-product-card__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background: #f4eadc;
+    aspect-ratio: 1 / 1;
+  }
+
+  .precious-product-card__media > a {
+    display: block;
+    height: 100%;
+  }
+
+  .precious-product-card__image,
+  .precious-product-card__placeholder {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .precious-product-card__media .product-badges {
+    --padding-xs: 10px;
+    --padding-block-start: 0px;
+    --padding-inline-start: 0px;
+    --border-radius: 0px;
+  }
+
+  .precious-product-card__media .quick-add {
+    --padding-sm: 12px;
+    --padding-md: 12px;
+    --padding-inline-end: 0px;
+    --padding-block-end: 0px;
+    --border-radius: 0px;
+  }
+
+  .precious-product-card__title {
+    display: -webkit-box;
+    margin-top: 4px;
+    overflow: hidden;
+    color: #181512;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .precious-product-card__title:hover {
+    color: #6d4f23;
+  }
+
+  .precious-product-card__price {
+    color: #181512;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .precious-product-card__price .compare-at-price {
+    margin-left: 4px;
+    color: #6f6860;
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  .precious-story {
+    position: relative;
+    overflow: hidden;
+    background: #f6efe7;
+    border-radius: 0 0 34px 34px;
+  }
+
+  .precious-story__content {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: min(58%, 780px);
+    padding: 36px 7vw;
+  }
+
+  .precious-story .precious-story__eyebrow {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 0 18px;
+    color: #a27742;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 700;
+    letter-spacing: 0.46em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .precious-story__eyebrow::after {
+    content: '';
+    width: 48px;
+    height: 1px;
+    background: #a27742;
+  }
+
+  .precious-story h2 {
+    margin: 0 0 12px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(31px, 3.1vw, 46px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .precious-story h2 span {
+    display: block;
+  }
+
+  .precious-story h2 span:last-child {
+    color: #9b6b24;
+  }
+
+  .precious-story p {
+    max-width: 760px;
+    margin: 0;
+    color: #6d6258;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .precious-story p strong {
+    color: #2f2924;
+    font-weight: 800;
+  }
+
+  .precious-story__features {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    width: min(100%, 610px);
+    margin-top: 30px;
+  }
+
+  .precious-story__features span {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 94px;
+    padding: 0 20px;
+    color: #2f2924;
+    text-align: center;
+  }
+  .precious-story__features span + span::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    bottom: 9px;
+    width: 1px;
+    background: rgb(177 150 101 / 42%);
+  }
+
+  .precious-story__features svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 11px;
+    padding: 11px;
+    border: 1px solid #b77b2b;
+    border-radius: 50%;
+    color: #b77b2b;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.55;
+  }
+
+  .precious-story__features strong {
+    display: block;
+    color: #2f2924;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.18;
+  }
+
+  .precious-story__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 43px;
+    margin-top: 28px;
+    padding: 0 26px;
+    border-radius: 999px;
+    background: #a5762e;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow: 0 12px 22px rgb(124 82 28 / 22%);
+    transition: transform 180ms ease, background-color 180ms ease;
+  }
+
+  .precious-story__cta:hover {
+    background: #8f6123;
+    transform: translateY(-1px);
+  }
+
+  .precious-value {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
+    padding: 56px 7vw 58px;
+    background: #fffaf3;
+  }
+
+  .precious-value__item {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    padding: 34px clamp(24px, 3vw, 46px) 42px;
+    border: 1px solid rgb(177 150 101 / 26%);
+    border-radius: 22px;
+    background:
+      radial-gradient(circle at 92% 86%, rgb(177 150 101 / 13%) 0 0, transparent 190px),
+      #fffaf3;
+    box-shadow: 0 18px 44px rgb(95 67 35 / 7%);
+  }
+
+  .precious-value__item::after {
+    content: '';
+    position: absolute;
+    right: -48px;
+    bottom: -44px;
+    width: 230px;
+    height: 230px;
+    border: 2px solid rgb(177 132 63 / 38%);
+    border-radius: 50%;
+    background: rgb(246 239 231 / 72%);
+    opacity: 0.75;
+  }
+
+  .precious-value__item:nth-child(2)::after {
+    right: auto;
+    left: -54px;
+    bottom: -58px;
+  }
+
+  .precious-value__item + .precious-value__item::before {
+    display: none;
+  }
+
+  .precious-value__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    width: 116px;
+    height: 116px;
+    border: 1px solid rgb(177 150 101 / 32%);
+    border-radius: 50%;
+    background: #f8f1e5;
+    color: #b1843f;
+  }
+
+  .precious-value__icon-row {
+    display: grid;
+    grid-template-columns: minmax(80px, 1fr) auto minmax(80px, 1fr);
+    gap: 30px;
+    align-items: center;
+    width: min(100%, 760px);
+    margin: 0 auto 28px;
+  }
+
+  .precious-value__icon-row::before,
+  .precious-value__icon-row::after {
+    content: '';
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #b1843f);
+  }
+
+  .precious-value__icon-row::after {
+    background: linear-gradient(90deg, #b1843f, transparent);
+  }
+
+  .precious-value__icon svg {
+    width: 54px;
+    height: 54px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.65;
+  }
+
+  .precious-value__copy {
+    position: relative;
+    z-index: 1;
+  }
+
+  .precious-value h3 {
+    max-width: 620px;
+    margin: 0 auto 18px;
+    color: #161412;
+    text-align: center;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(22px, 2vw, 32px);
+    font-weight: 700;
+    line-height: 1.16;
+  }
+
+  .precious-value p {
+    max-width: 680px;
+    margin: 0;
+    color: #555c64;
+    font-size: clamp(13px, 0.95vw, 15px);
+    font-weight: 500;
+    line-height: 1.58;
+  }
+
+  .precious-value p strong {
+    color: #24201c;
+    font-weight: 800;
+  }
+
+  .precious-origin {
+    position: relative;
+    overflow: hidden;
+    padding: 54px 0 56px;
+    background:
+      linear-gradient(180deg, rgb(255 250 243 / 88%), rgb(255 250 243 / 98%)),
+      url('https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Precious-background-bottom.webp?v=1789367049') center 122px / min(1120px, 86vw) auto no-repeat,
+      #fffaf3;
+  }
+
+  .precious-origin__content {
+    width: min(100%, 1280px);
+    margin: 0 auto;
+    padding: 0 0;
+    text-align: center;
+  }
+
+  .precious-origin__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    margin: 0 0 18px;
+    color: #b1843f;
+    font-size: clamp(12px, 1vw, 18px);
+    font-weight: 800;
+    letter-spacing: 0.34em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .precious-origin__eyebrow::before,
+  .precious-origin__eyebrow::after {
+    content: '';
+    width: min(170px, 18vw);
+    height: 1px;
+    background: #b1843f;
+  }
+
+  .precious-origin h2 {
+    max-width: 1080px;
+    margin: 0 auto;
+    color: #191410;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 1vw, 68px);
+    font-weight: 700;
+    line-height: 1.08;
+  }
+
+  .precious-origin__intro {
+    margin: 18px 24px 50px;
+    color: #282d33;
+    font-size: clamp(18px, 1.8vw, 30px);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .precious-origin__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(170px, 210px);
+    gap: 12px;
+    align-items: stretch;
+    overflow-x: auto;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0 max(24px, calc((100vw - 1280px) / 2)) 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    justify-content:center;
+  }
+
+  .precious-origin__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .precious-origin-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 295px;
+    overflow: hidden;
+    padding: 6px 6px 14px;
+    border: 1px solid rgb(177 150 101 / 24%);
+    border-radius: 14px;
+    background: rgb(255 252 247 / 88%);
+    box-shadow: 0 22px 44px rgb(95 67 35 / 10%);
+    scroll-snap-align: center;
+    text-align: left;
+  }
+
+  .precious-origin-card::after {
+    display: none;
+  }
+
+  .precious-origin-card img {
+    display: block;
+    width: 100%;
+    height: 105px;
+    object-fit: contain;
+    border-radius: 10px;
+    filter: none;
+  }
+
+  .precious-origin-card h3 {
+    margin: 11px 15px 9px;
+    color: #17120f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(16px, 1.25vw, 20px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .precious-origin-card__copy {
+    position: relative;
+    z-index: 1;
+  }
+
+  .precious-origin-card h3::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 2px;
+    margin-top: 6px;
+    background: #b1843f;
+  }
+
+  .precious-origin-card ul {
+    display: grid;
+    gap: 5px;
+    width: auto;
+    margin: 0 15px;
+    padding: 0;
+    color: #282d33;
+    font-size: clamp(10px, 0.72vw, 12px);
+    font-weight: 600;
+    line-height: 1.2;
+    list-style: none;
+    text-align: left;
+  }
+
+  .precious-origin-card li {
+    position: relative;
+    padding-left: 15px;
+  }
+
+  .precious-origin-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.02em;
+    width: 7px;
+    height: 10px;
+    background: #b1843f;
+    clip-path: polygon(50% 100%, 14% 48%, 14% 24%, 28% 7%, 50% 0, 72% 7%, 86% 24%, 86% 48%);
+  }
+
+  .precious-faq {
+    padding: 0 0 54px;
+    background: #fffaf3;
+  }
+
+  .precious-faq__content {
+    width: min(100%, 1510px);
+    margin: 0 auto;
+    padding: 34px 7vw 42px;
+    background:
+      linear-gradient(90deg, rgb(255 250 243 / 98%) 0%, rgb(255 250 243 / 86%) 48%, rgb(255 250 243 / 20%) 100%),
+      url('https://cdn.shopify.com/s/files/1/1003/6353/4631/files/FAQ-preceious-bottom-banner.webp?v=1789367691') center / cover no-repeat;
+  }
+
+  .precious-faq__eyebrow {
+    margin: 0 0 7px;
+    color: #b1843f;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .precious-faq h2 {
+    margin: 0 0 24px;
+    color: #17120f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(24px, 2.35vw, 36px);
+    font-weight: 700;
+    line-height: 1.16;
+  }
+
+  .precious-faq__list {
+    display: grid;
+    gap: 14px;
+    width: min(100%, 760px);
+  }
+
+  .precious-faq__item {
+    border: 1px solid rgb(177 132 63 / 42%);
+    border-radius: 10px;
+    background: rgb(255 255 255 / 86%);
+    box-shadow: 0 10px 24px rgb(64 46 24 / 8%);
+    overflow: hidden;
+  }
+
+  .precious-faq__item summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 54px 0 24px;
+    color: #071d3d;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    list-style: none;
+    text-transform: uppercase;
+  }
+
+  .precious-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .precious-faq__item summary::after {
+    content: '+';
+    position: absolute;
+    right: 23px;
+    top: 50%;
+    color: #b1843f;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+  .precious-faq__item[open] summary::after {
+    content: '×';
+  }
+
+  .precious-faq__answer {
+    padding: 8px 24px 26px;
+    background: rgb(255 255 255 / 90%);
+    color: #071d3d;
+    font-size: clamp(14px, 1.1vw, 18px);
+    font-weight: 500;
+    line-height: 1.55;
+  }
+
+  .precious-faq__answer p {
+    margin: 0 0 18px;
+  }
+
+  .precious-faq__answer p:last-child {
+    margin-bottom: 0;
+  }
+
+  .precious-faq__answer ul {
+    display: grid;
+    gap: 8px;
+    margin: 0 0 8px;
+    padding-left: 20px;
+  }
+
+  .precious-faq__answer strong {
+    color: #071d3d;
+    font-weight: 800;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .precious-type__row {
+      grid-auto-columns: minmax(112px, 24vw);
+    }
+
+    .precious-promo-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .precious-products__grid {
+      --resource-list-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .precious-story__content {
+      position: relative;
+      width: 100%;
+      padding: 34px 24px;
+      background: #f6efe7;
+    }
+
+    .precious-story > img {
+      display: none !important;
+    }
+
+    .precious-value {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 42px 24px 48px;
+    }
+
+    .precious-value__item {
+      padding: 38px 34px 44px;
+    }
+
+    .precious-value__item + .precious-value__item {
+      padding-top: 38px;
+    }
+
+    .precious-value__icon {
+      width: 96px;
+      height: 96px;
+    }
+
+    .precious-value__icon svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .precious-value h3 {
+      margin-bottom: 18px;
+      font-size: clamp(23px, 4.2vw, 32px);
+    }
+
+    .precious-value p {
+      font-size: clamp(13px, 2.1vw, 16px);
+    }
+
+    .precious-origin {
+      padding: 40px 0 46px;
+      background-position: center 120px;
+      background-size: 820px auto;
+    }
+
+    .precious-origin__intro {
+      margin-bottom: 52px;
+    }
+
+    .precious-origin__grid {
+      grid-auto-columns: minmax(160px, 200px);
+      gap: 10px;
+      padding-inline: 24px;
+    }
+
+    .precious-origin-card {
+      min-height: 285px;
+      padding: 6px 6px 13px;
+    }
+
+    .precious-origin-card img {
+      width: 100%;
+      height: 115px;
+    }
+
+    .precious-origin-card h3 {
+      margin: 10px 14px 9px;
+      font-size: clamp(15px, 2.3vw, 19px);
+    }
+
+    .precious-origin-card h3::after {
+      width: 34px;
+      margin-top: 6px;
+    }
+
+    .precious-origin-card ul {
+      gap: 5px;
+      margin: 0 14px;
+      font-size: clamp(10px, 1.45vw, 12px);
+    }
+
+    .precious-origin-card li {
+      padding-left: 15px;
+    }
+
+    .precious-origin-card li::before {
+      width: 7px;
+      height: 10px;
+    }
+
+    .precious-faq__content {
+      padding: 34px 24px 38px;
+      background-position: 58% center;
+    }
+
+    .precious-faq__list {
+      width: min(100%, 680px);
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .precious-page__inner {
+      padding: 10px 14px 24px;
+    }
+
+    .precious-page__hero {
+      --hero-min-height: clamp(190px, 62vw, 260px);
+      --hero-content-width: 58%;
+      --hero-x-padding: clamp(14px, 5vw, 22px);
+      --hero-y-padding: clamp(14px, 4vw, 22px);
+      --hero-title-size: clamp(20px, 8vw, 34px);
+      --hero-copy-size: clamp(11px, 3.7vw, 15px);
+      --hero-button-font: clamp(9px, 3vw, 11px);
+      --hero-feature-font: clamp(6px, 2.15vw, 8px);
+      --hero-feature-icon: clamp(10px, 3.6vw, 14px);
+      --hero-feature-gap: clamp(6px, 2.4vw, 10px);
+    }
+
+    .precious-page__hero-content {
+      width: var(--hero-content-width);
+      min-height: var(--hero-min-height);
+    }
+
+    .precious-page__hero-content p {
+      font-size: var(--hero-eyebrow-size);
+      letter-spacing: var(--hero-eyebrow-spacing);
+    }
+
+    .precious-page__hero-features {
+      grid-template-columns: repeat(4, max-content);
+    }
+
+    .precious-type__row {
+      grid-auto-columns: minmax(96px, 32vw);
+    }
+
+    .precious-promo-card span {
+      width: 72%;
+      padding: 18px;
+    }
+
+    .precious-products {
+      margin-top: 34px;
+    }
+
+    .precious-products__header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .precious-products__grid {
+      --resource-list-column-gap-desktop: 12px;
+      --resource-list-row-gap-desktop: 22px;
+      --resource-list-columns: repeat(2, minmax(0, 1fr));
+      --resource-list-columns-mobile: repeat(2, minmax(0, 1fr));
+    }
+
+    .precious-product-card__title {
+      font-size: 13px;
+      line-height: 1.32;
+    }
+
+    .precious-product-card__price {
+      font-size: 13px;
+    }
+
+    .precious-story__features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .precious-story__features span {
+      min-height: 88px;
+      padding: 0 12px;
+    }
+
+    .precious-story__features span::before {
+      display: none;
+    }
+
+    .precious-story__features span:nth-child(even)::before {
+      display: block;
+    }
+
+    .precious-story__features svg {
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+    }
+
+    .precious-story {
+      border-radius: 0 0 22px 22px;
+    }
+
+    .precious-story__content {
+      padding: 30px 18px;
+    }
+
+    .precious-story .precious-story__eyebrow {
+      max-width: 100%;
+      letter-spacing: 0.26em;
+    }
+
+    .precious-story h2 {
+      font-size: clamp(28px, 9vw, 36px);
+    }
+
+    .precious-story p {
+      font-size: 14px;
+    }
+
+    .precious-story__cta {
+      width: 100%;
+      max-width: 320px;
+      padding: 0 18px;
+    }
+
+    .precious-value {
+      gap: 42px;
+      padding: 36px 18px 42px;
+    }
+
+    .precious-value__item {
+      padding: 28px 18px 34px;
+      border-radius: 16px;
+    }
+
+    .precious-value__icon {
+      width: 74px;
+      height: 74px;
+    }
+
+    .precious-value__icon svg {
+      width: 34px;
+      height: 34px;
+    }
+
+    .precious-value__icon-row {
+      grid-template-columns: minmax(44px, 1fr) auto minmax(44px, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .precious-value h3 {
+      margin-bottom: 14px;
+      font-size: clamp(21px, 6.2vw, 28px);
+    }
+
+    .precious-value p {
+      font-size: clamp(13px, 3.7vw, 16px);
+      line-height: 1.55;
+    }
+
+    .precious-value__item::after {
+      width: 150px;
+      height: 150px;
+    }
+
+    .precious-origin {
+      padding: 28px 0 34px;
+      background-position: center 96px;
+      background-size: 440px auto;
+    }
+
+    .precious-origin__eyebrow {
+      gap: 12px;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+    }
+
+    .precious-origin h2 {
+      padding: 0 18px;
+      font-size: clamp(25px, 8vw, 34px);
+      line-height: 1.12;
+    }
+
+    .precious-origin__intro {
+      margin: 12px 18px 24px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .precious-origin__grid {
+      grid-auto-columns: max-content;
+      gap: 12px;
+      padding-inline: 18px;
+    }
+
+    .precious-origin-card {
+      display: grid;
+      grid-template-columns: 96px minmax(128px, max-content);
+      column-gap: 14px;
+      align-items: center;
+      width: fit-content;
+      max-width: calc(100vw - 36px);
+      min-height: 150px;
+      padding: 10px;
+      border-radius: 14px;
+    }
+
+    .precious-origin-card__copy {
+      width: max-content;
+      max-width: calc(100vw - 156px);
+    }
+
+    .precious-origin-card img {
+      width: 100%;
+      height: 118px;
+      margin-top: 0;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+
+    .precious-origin-card h3 {
+      margin: 0 0 8px;
+      font-size: clamp(18px, 5vw, 24px);
+    }
+
+    .precious-origin-card h3::after {
+      width: 40px;
+      height: 2px;
+      margin-top: 5px;
+    }
+
+    .precious-origin-card ul {
+      gap: 5px;
+      margin: 0;
+      font-size: clamp(11px, 3.1vw, 13px);
+      line-height: 1.18;
+    }
+
+    .precious-origin-card li {
+      padding-left: 16px;
+    }
+
+    .precious-origin-card li::before {
+      top: 0.05em;
+      width: 8px;
+      height: 11px;
+    }
+
+    .precious-faq {
+      padding-bottom: 36px;
+    }
+
+    .precious-faq__content {
+      padding: 28px 18px 34px;
+      background:
+        linear-gradient(180deg, rgb(255 250 243 / 98%) 0%, rgb(255 250 243 / 90%) 58%, rgb(255 250 243 / 72%) 100%),
+        url('https://cdn.shopify.com/s/files/1/1003/6353/4631/files/FAQ-preceious-bottom-banner.webp?v=1789367691') 66% center / cover no-repeat;
+    }
+
+    .precious-faq h2 {
+      margin-bottom: 20px;
+      font-size: clamp(24px, 7vw, 31px);
+    }
+
+    .precious-faq__item summary {
+      min-height: 50px;
+      padding: 0 44px 0 16px;
+      font-size: 11px;
+    }
+
+    .precious-faq__item summary::after {
+      right: 16px;
+    }
+
+    .precious-faq__answer {
+      padding: 6px 16px 22px;
+      font-size: 14px;
+    }
+  }
+</style>

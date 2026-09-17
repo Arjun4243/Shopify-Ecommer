@@ -1,0 +1,1187 @@
+
+
+{% liquid
+  if page.handle == 'gemstones'
+    render 'gemstone-landing-fallback'
+  elsif page.handle == 'precious'
+    render 'precious-page-fallback'
+  elsif page.handle == 'semi-precious'
+    assign semi_banner_image = section.settings.semi_banner_image
+
+    echo '<section class="semi-precious-page-banner" aria-label="'
+    echo section.settings.semi_accessibility_label | escape
+    echo '">'
+    echo '<div class="semi-precious-page-banner__media">'
+    if semi_banner_image != blank
+      echo semi_banner_image | image_url: width: 2200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1800, 2200', sizes: '100vw', alt: section.settings.semi_image_alt, class: 'semi-precious-page-banner__image'
+    else
+      echo '<img src="'
+      echo section.settings.semi_fallback_image_url | escape
+      echo '" alt="'
+      echo section.settings.semi_image_alt | escape
+      echo '" class="semi-precious-page-banner__image" width="1905" height="350" loading="eager">'
+    endif
+    echo '</div>'
+    echo '<div class="semi-precious-page-banner__content">'
+    if section.settings.semi_eyebrow != blank
+      echo '<p class="semi-precious-page-banner__eyebrow">'
+      echo section.settings.semi_eyebrow | escape
+      echo '</p>'
+    endif
+    if section.settings.semi_heading != blank
+      echo '<h1 class="semi-precious-page-banner__heading">'
+      echo section.settings.semi_heading
+      echo '</h1>'
+    endif
+    if section.settings.semi_subheading != blank
+      echo '<p class="semi-precious-page-banner__subheading">'
+      echo section.settings.semi_subheading | escape
+      echo '</p>'
+    endif
+    echo '</div>'
+    echo '</section>'
+  elsif page.handle == 'privacy-policy'
+    echo '<section class="privacy-policy-page-banner" aria-label="Privacy Policy">'
+    echo '<div class="privacy-policy-page-banner__media">'
+    echo '<img src="https://cdn.shopify.com/s/files/1/1003/6353/4631/files/privacy-policy.webp?v=1789558458" alt="Gemstones arranged on a soft neutral privacy policy banner" class="privacy-policy-page-banner__image" width="1905" height="450" loading="eager" fetchpriority="high">'
+    echo '</div>'
+    echo '<div class="privacy-policy-page-banner__content">'
+    echo '<p class="privacy-policy-page-banner__eyebrow">Privacy Policy</p>'
+    echo '<h1 class="privacy-policy-page-banner__heading">Privacy Policy</h1>'
+    echo '<p class="privacy-policy-page-banner__text">Your trust matters to us. Learn how we collect, use, and protect your information.</p>'
+    echo '</div>'
+    echo '</section>'
+
+    if section.settings.background_color != blank
+      render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+    endif
+  else
+    if section.settings.background_color != blank
+      render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+    endif
+  endif
+%}
+
+{% unless page.handle == 'gemstones' or page.handle == 'precious' or page.handle == 'semi-precious' or page.handle == 'privacy-policy' %}
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+<div class="section page-width-content{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}">
+  <div
+    class="
+      spacing-style
+      layout-panel-flex
+      layout-panel-flex--column
+      section-content-wrapper
+      mobile-column
+    "
+    style="
+      {% render 'layout-panel-style', settings: section.settings %}
+      {% render 'spacing-style', settings: section.settings %}
+    "
+  >
+    {% content_for 'blocks' %}
+  </div>
+</div>
+{% endunless %}
+
+{% if page.handle == 'privacy-policy' %}
+  <section class="privacy-policy-layout" aria-label="Privacy policy details">
+    <div class="privacy-policy-layout__inner">
+      <aside class="privacy-policy-sidebar" aria-label="Privacy policy navigation">
+        <div class="privacy-policy-sidebar__box">
+          <h2>On This Page</h2>
+          <nav>
+            <a href="#privacy-introduction">1. Introduction</a>
+            <a href="#privacy-collect">2. Information We Collect</a>
+            <a href="#privacy-use">3. How We Use Your Information</a>
+            <a href="#privacy-share">4. Sharing Your Information</a>
+            <a href="#privacy-transfer">5. International Data Transfers</a>
+            <a href="#privacy-choices">6. Your Choices and Rights</a>
+            <a href="#privacy-security">7. Security</a>
+            <a href="#privacy-changes">8. Changes to This Policy</a>
+            <a href="#privacy-contact">9. Contact Us</a>
+          </nav>
+        </div>
+
+        <div class="privacy-policy-help">
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 3a7 7 0 0 0-7 7v3.25A2.75 2.75 0 0 0 7.75 16H9v-5H6.5V10a5.5 5.5 0 0 1 11 0v1H15v5h1.25A2.75 2.75 0 0 0 19 13.25V10a7 7 0 0 0-7-7Zm-1 15.25c0-.41.34-.75.75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Z" />
+            </svg>
+          </span>
+          <h3>Need Help?</h3>
+          <p>Have questions about this Privacy Policy? Please contact us.</p>
+          <a href="#privacy-contact">Contact Us +</a>
+        </div>
+      </aside>
+
+      <div class="privacy-policy-content">
+        <p class="privacy-policy-updated">Last updated: May 20, 2026</p>
+
+        <article class="privacy-policy-section" id="privacy-introduction">
+          <span class="privacy-policy-section__number">1</span>
+          <div>
+            <h2>Introduction</h2>
+            <p>Welcome to Raza Gems LLC. This Privacy Policy explains how we collect, use, and protect your personal information when you visit our shop or use our website.</p>
+            <p>By using our website, you agree to the terms in this Privacy Policy. If you do not agree, please do not use our website.</p>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-collect">
+          <span class="privacy-policy-section__number">2</span>
+          <div>
+            <h2>Information We Collect</h2>
+
+            <section class="privacy-policy-subsection">
+              <h3>2.1 Personal Information</h3>
+              <p>We collect information you provide when you shop, create an account, contact us, or subscribe to our updates.</p>
+              <div class="privacy-policy-split">
+                <ul>
+                  <li>Sign up or create an account</li>
+                  <li>Place an order</li>
+                  <li>Subscribe to our newsletter</li>
+                  <li>Contact us directly</li>
+                </ul>
+                <div class="privacy-policy-card">
+                  <strong>This may include:</strong>
+                  <ul>
+                    <li>Full name</li>
+                    <li>Email address</li>
+                    <li>Phone number</li>
+                    <li>Shipping address</li>
+                    <li>Billing address</li>
+                    <li>Postal code</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section class="privacy-policy-subsection">
+              <h3>2.2 Payment Information</h3>
+              <p>We collect payment details to complete your order. These may include credit card details, PayPal, Apple Pay, MasterCard, Visa, Tabby Pay, or other supported payment platforms.</p>
+              <p class="privacy-policy-note">All payment data is encrypted and securely processed through Shopify's trusted payment gateway partners.</p>
+            </section>
+
+            <section class="privacy-policy-subsection">
+              <h3>2.3 Device & Usage Data</h3>
+              <p>We automatically collect technical data when you browse our website, such as IP address, browser type, device model, time spent on site, clicks, navigation, and pages viewed.</p>
+              <p>This helps us improve your experience and website performance.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-use">
+          <span class="privacy-policy-section__number">3</span>
+          <div>
+            <h2>How We Use Your Information</h2>
+            <p>We use your information to:</p>
+            <div class="privacy-policy-columns">
+              <ul>
+                <li>Process and deliver your orders</li>
+                <li>Send order and shipping updates</li>
+                <li>Provide customer support</li>
+              </ul>
+              <ul>
+                <li>Improve our website and services</li>
+                <li>Personalize your shopping experience</li>
+                <li>Send marketing emails and offers, if you agreed</li>
+              </ul>
+            </div>
+            <p class="privacy-policy-note">You can opt out of marketing emails anytime by clicking “unsubscribe” in the email.</p>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-share">
+          <span class="privacy-policy-section__number">4</span>
+          <div>
+            <h2>Sharing Your Information</h2>
+            <p>We may share your data with Shopify, trusted third-party service providers, payment providers, shipping partners, email delivery services, and legal authorities if required for law or government orders.</p>
+            <p>We never sell or rent your personal data to anyone.</p>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-transfer">
+          <span class="privacy-policy-section__number">5</span>
+          <div>
+            <h2>International Data Transfers</h2>
+            <p>We serve customers worldwide. Your information may be processed in countries outside the UAE, including where Shopify and our partners operate. We ensure your data is handled securely no matter where it is processed.</p>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-choices">
+          <span class="privacy-policy-section__number">6</span>
+          <div>
+            <h2>Your Choices and Rights</h2>
+            <ul>
+              <li>Create or update your account information.</li>
+              <li>Manage your data by contacting us.</li>
+              <li>Control email tracking and marketing preferences.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-security">
+          <span class="privacy-policy-section__number">7</span>
+          <div>
+            <h2>Security</h2>
+            <p>We follow Shopify's best practices and use strong security measures like SSL encryption, firewalls, and limited access control to protect your personal information.</p>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-changes">
+          <span class="privacy-policy-section__number">8</span>
+          <div>
+            <h2>Changes to This Policy</h2>
+            <p>We may update this policy to reflect changes in law, technology, business practices, or partner policies. We will post updates on this page with a new effective date.</p>
+          </div>
+        </article>
+
+        <article class="privacy-policy-section" id="privacy-contact">
+          <span class="privacy-policy-section__number">9</span>
+          <div>
+            <h2>Contact Us</h2>
+            <p>If you have any questions or concerns about this Privacy Policy, please reach out to us:</p>
+            <div class="privacy-policy-contact">
+              <a href="mailto:info@razagems.com">info@razagems.com</a>
+              <a href="tel:+971585858602">+971 585858602</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% if page.handle == 'semi-precious' %}
+  <style>
+    .semi-precious-page-banner {
+      position: relative;
+      min-height: clamp(220px, 18.4vw, 350px);
+      overflow: hidden;
+      background: #f7f1ea;
+    }
+
+    .semi-precious-page-banner__media {
+      position: absolute;
+      inset: 0;
+    }
+
+    .semi-precious-page-banner__image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .semi-precious-page-banner__content {
+      position: relative;
+      z-index: 1;
+      min-height: clamp(220px, 18.4vw, 350px);
+      max-width: clamp(520px, 43vw, 820px);
+      padding: clamp(28px, 2.7vw, 52px) 7%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: clamp(8px, 0.65vw, 12px);
+    }
+
+    .semi-precious-page-banner__eyebrow {
+      margin: 0;
+      color: #6f6a62;
+      font-size: clamp(10px, 0.68vw, 13px);
+      font-weight: 700;
+      letter-spacing: clamp(1px, 0.16vw, 3px);
+      text-transform: uppercase;
+    }
+
+    .semi-precious-page-banner__heading {
+      margin: 0;
+      max-width: 760px;
+      color: #1c1713;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(30px, 2.73vw, 52px);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .semi-precious-page-banner__subheading {
+      margin: 0;
+      max-width: 760px;
+      color: #4f4a43;
+      font-size: clamp(13px, 0.95vw, 18px);
+      line-height: 1.45;
+    }
+
+    .semi-precious-benefits {
+      background: #fbfaf7;
+      padding: clamp(38px, 5vw, 74px) 6%;
+    }
+
+    .semi-precious-benefits__inner {
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    .semi-precious-benefits__header {
+      display: grid;
+      grid-template-columns: minmax(60px, 1fr) auto minmax(60px, 1fr);
+      align-items: center;
+      gap: clamp(16px, 3vw, 48px);
+      margin: 0 auto clamp(22px, 3vw, 34px);
+      text-align: center;
+    }
+
+    .semi-precious-benefits__header span {
+      display: block;
+      height: 2px;
+      background: #dfcfad;
+    }
+
+    .semi-precious-benefits__header h2 {
+      margin: 0;
+      color: #1c1713;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(24px, 1.8vw, 34px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .semi-precious-benefits__header p {
+      margin: 8px 0 0;
+      color: #5c554d;
+      font-size: clamp(13px, 0.95vw, 18px);
+      line-height: 1.4;
+    }
+
+    .semi-precious-benefits__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(18px, 2vw, 34px);
+    }
+
+    .semi-precious-benefit-card {
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #eee7dc;
+      border-radius: 2px;
+      box-shadow: 0 12px 30px rgba(31, 24, 18, 0.05);
+    }
+
+    .semi-precious-benefit-card img {
+      width: 100%;
+      aspect-ratio: 16 / 5.2;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .semi-precious-benefit-card__content {
+      padding: clamp(18px, 1.6vw, 28px) clamp(18px, 1.7vw, 30px) clamp(20px, 1.8vw, 32px);
+    }
+
+    .semi-precious-benefit-card__eyebrow {
+      margin: 0 0 8px;
+      color: #8a8175;
+      font-size: clamp(10px, 0.65vw, 12px);
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .semi-precious-benefit-card h3 {
+      margin: 0 0 12px;
+      color: #302821;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(20px, 1.35vw, 28px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .semi-precious-benefit-card__content > p:not(.semi-precious-benefit-card__eyebrow) {
+      margin: 0;
+      color: #5c554d;
+      font-size: clamp(14px, 0.95vw, 18px);
+      line-height: 1.5;
+    }
+
+    .semi-precious-benefit-card a {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #b5802a;
+      font-size: clamp(13px, 0.85vw, 16px);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      .semi-precious-page-banner {
+        min-height: clamp(230px, 62vw, 340px);
+      }
+
+      .semi-precious-page-banner__content {
+        min-height: clamp(230px, 62vw, 340px);
+        max-width: 76%;
+        padding: clamp(24px, 6vw, 34px) 22px;
+      }
+
+      .semi-precious-page-banner__eyebrow {
+        font-size: clamp(9px, 2.5vw, 11px);
+        letter-spacing: 1px;
+      }
+
+      .semi-precious-page-banner__heading {
+        font-size: clamp(24px, 7.5vw, 34px);
+        line-height: 1.08;
+      }
+
+      .semi-precious-page-banner__subheading {
+        font-size: clamp(12px, 3.4vw, 14px);
+        line-height: 1.35;
+      }
+
+      .semi-precious-benefits {
+        padding: 34px 18px;
+      }
+
+      .semi-precious-benefits__header {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .semi-precious-benefits__header span {
+        width: 120px;
+        margin: 0 auto;
+      }
+
+      .semi-precious-benefits__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .semi-precious-benefit-card img {
+        aspect-ratio: 16 / 7;
+      }
+    }
+  </style>
+{% endif %}
+
+{% if page.handle == 'privacy-policy' %}
+  <style>
+    .privacy-policy-page-banner {
+      position: relative;
+      min-height: clamp(280px, 28vw, 450px);
+      overflow: hidden;
+      background: #f7efe3;
+    }
+
+    .privacy-policy-page-banner__media {
+      position: absolute;
+      inset: 0;
+    }
+
+    .privacy-policy-page-banner__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .privacy-policy-page-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 250, 243, 0.98) 0%,
+        rgba(255, 250, 243, 0.88) 34%,
+        rgba(255, 250, 243, 0.42) 62%,
+        rgba(255, 250, 243, 0.08) 100%
+      );
+      pointer-events: none;
+    }
+
+    .privacy-policy-page-banner__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: clamp(280px, 28vw, 450px);
+      width: min(100%, 1280px);
+      margin: 0 auto;
+      padding: clamp(38px, 5vw, 78px) 6%;
+    }
+
+    .privacy-policy-page-banner__eyebrow {
+      margin: 0 0 16px;
+      color: #7a7064;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .privacy-policy-page-banner__eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 48px;
+      height: 1px;
+      margin-left: 14px;
+      vertical-align: middle;
+      background: #c6a156;
+    }
+
+    .privacy-policy-page-banner__heading {
+      max-width: 560px;
+      margin: 0;
+      color: #17120f;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 5vw, 74px);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .privacy-policy-page-banner__text {
+      max-width: 580px;
+      margin: 20px 0 0;
+      color: #4d4740;
+      font-size: clamp(14px, 1.1vw, 17px);
+      font-weight: 500;
+      line-height: 1.7;
+    }
+
+    .privacy-policy-layout {
+      background: #fffdf9;
+      padding: clamp(34px, 4.8vw, 70px) 20px clamp(52px, 7vw, 100px);
+    }
+
+    .privacy-policy-layout__inner {
+      display: grid;
+      grid-template-columns: minmax(210px, 290px) minmax(0, 1fr);
+      gap: clamp(34px, 4vw, 70px);
+      align-items: start;
+      width: min(100%, 1180px);
+      margin: 0 auto;
+    }
+
+    .privacy-policy-sidebar {
+      position: sticky;
+      top: 24px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .privacy-policy-sidebar__box,
+    .privacy-policy-help {
+      background: #ffffff;
+      border: 1px solid #eee5d8;
+      border-radius: 8px;
+      box-shadow: 0 16px 36px rgba(61, 42, 22, 0.05);
+    }
+
+    .privacy-policy-sidebar__box {
+      padding: 22px;
+    }
+
+    .privacy-policy-sidebar__box h2,
+    .privacy-policy-help h3,
+    .privacy-policy-section h2,
+    .privacy-policy-subsection h3 {
+      margin: 0;
+      color: #241c16;
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: 0;
+    }
+
+    .privacy-policy-sidebar__box h2 {
+      margin-bottom: 16px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .privacy-policy-sidebar nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .privacy-policy-sidebar nav a {
+      display: block;
+      padding: 9px 10px;
+      color: #5f5a54;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.25;
+      text-decoration: none;
+    }
+
+    .privacy-policy-sidebar nav a:hover {
+      color: #241c16;
+      background: #fbf6ed;
+    }
+
+    .privacy-policy-help {
+      padding: 22px;
+    }
+
+    .privacy-policy-help span {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 12px;
+      color: #b98d35;
+      background: #fff3d8;
+      border-radius: 50%;
+    }
+
+    .privacy-policy-help svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .privacy-policy-help h3 {
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    .privacy-policy-help p {
+      margin: 8px 0 14px;
+      color: #6a645d;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .privacy-policy-help a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 16px;
+      color: #aa7e2b;
+      border: 1px solid #d8b76b;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .privacy-policy-content {
+      min-width: 0;
+    }
+
+    .privacy-policy-updated {
+      margin: 0 0 18px;
+      color: #8a8178;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .privacy-policy-section {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 18px;
+      padding: 0 0 28px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid #eee5d8;
+      scroll-margin-top: 24px;
+    }
+
+    .privacy-policy-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .privacy-policy-section__number {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      color: #7c694d;
+      background: #eadcc5;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .privacy-policy-section h2 {
+      margin-bottom: 10px;
+      font-size: clamp(21px, 1.6vw, 28px);
+      line-height: 1.2;
+    }
+
+    .privacy-policy-section p,
+    .privacy-policy-section li {
+      color: #5c5650;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .privacy-policy-section p {
+      margin: 0 0 10px;
+    }
+
+    .privacy-policy-section ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .privacy-policy-subsection {
+      margin-top: 20px;
+    }
+
+    .privacy-policy-subsection h3 {
+      margin-bottom: 8px;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .privacy-policy-split,
+    .privacy-policy-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+      margin-top: 12px;
+    }
+
+    .privacy-policy-card,
+    .privacy-policy-note {
+      background: #fffaf1;
+      border: 1px solid #efe4d2;
+      border-radius: 8px;
+    }
+
+    .privacy-policy-card {
+      padding: 16px 18px;
+    }
+
+    .privacy-policy-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #2d241d;
+      font-size: 14px;
+    }
+
+    .privacy-policy-note {
+      margin-top: 12px !important;
+      padding: 12px 14px;
+      color: #74634c !important;
+      font-size: 13px !important;
+    }
+
+    .privacy-policy-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .privacy-policy-contact a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 16px;
+      color: #6f501d;
+      background: #fffaf1;
+      border: 1px solid #dfc78c;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      .privacy-policy-page-banner {
+        min-height: 360px;
+      }
+
+      .privacy-policy-page-banner::before {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 250, 243, 0.95) 0%,
+          rgba(255, 250, 243, 0.78) 58%,
+          rgba(255, 250, 243, 0.28) 100%
+        );
+      }
+
+      .privacy-policy-page-banner__image {
+        object-position: 62% center;
+      }
+
+      .privacy-policy-page-banner__content {
+        min-height: 360px;
+        padding: 42px 22px;
+      }
+
+      .privacy-policy-page-banner__eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+      }
+
+      .privacy-policy-page-banner__heading {
+        max-width: 320px;
+        font-size: clamp(38px, 12vw, 52px);
+      }
+
+      .privacy-policy-page-banner__text {
+        max-width: 330px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .privacy-policy-layout {
+        padding: 28px 16px 58px;
+      }
+
+      .privacy-policy-layout__inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .privacy-policy-sidebar {
+        position: static;
+        gap: 16px;
+      }
+
+      .privacy-policy-sidebar__box {
+        padding: 18px;
+      }
+
+      .privacy-policy-sidebar nav {
+        grid-template-columns: 1fr;
+      }
+
+      .privacy-policy-help {
+        display: none;
+      }
+
+      .privacy-policy-updated {
+        text-align: left;
+      }
+
+      .privacy-policy-section {
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 12px;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+      }
+
+      .privacy-policy-section__number {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+      }
+
+      .privacy-policy-section h2 {
+        font-size: 22px;
+      }
+
+      .privacy-policy-section p,
+      .privacy-policy-section li {
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .privacy-policy-split,
+      .privacy-policy-columns {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .privacy-policy-card,
+      .privacy-policy-note {
+        border-radius: 6px;
+      }
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.page",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_direction",
+      "label": "t:settings.direction",
+      "options": [
+        {
+          "value": "column",
+          "label": "t:options.vertical"
+        }
+      ],
+      "default": "column",
+      "visible_if": "{{ section.settings.gap < 0 }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Semi precious banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "semi_banner_image",
+      "label": "Semi precious image"
+    },
+    {
+      "type": "text",
+      "id": "semi_fallback_image_url",
+      "label": "Semi precious fallback image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-banner.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_image_alt",
+      "label": "Semi precious image alt text",
+      "default": "Gemstones and semi precious stones displayed on a soft natural background"
+    },
+    {
+      "type": "text",
+      "id": "semi_accessibility_label",
+      "label": "Semi precious accessibility label",
+      "default": "Semi precious gemstones banner"
+    },
+    {
+      "type": "text",
+      "id": "semi_eyebrow",
+      "label": "Semi precious eyebrow",
+      "default": "Natural - Ethical - Timeless"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_heading",
+      "label": "Semi precious heading",
+      "default": "Gemstones and Semi Precious<br>Stones for Sale"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_subheading",
+      "label": "Semi precious subheading",
+      "default": "Handpicked, natural semi precious gemstones for beauty, healing and a more meaningful life."
+    },
+    {
+      "type": "header",
+      "content": "Semi precious benefits"
+    },
+    {
+      "type": "text",
+      "id": "semi_benefits_accessibility_label",
+      "label": "Benefits accessibility label",
+      "default": "Gemstone benefits"
+    },
+    {
+      "type": "text",
+      "id": "semi_benefits_heading",
+      "label": "Benefits heading",
+      "default": "Gemstone Benefits"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_benefits_subheading",
+      "label": "Benefits subheading",
+      "default": "Discover the beauty, meaning and positive energy of natural gemstones"
+    },
+    {
+      "type": "header",
+      "content": "Benefit card 1"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_image_url",
+      "label": "Card 1 image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-1.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_image_alt",
+      "label": "Card 1 image alt",
+      "default": "Purple amethyst gemstone on a natural rock"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_eyebrow",
+      "label": "Card 1 eyebrow",
+      "default": "Gemstone Guide"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_heading",
+      "label": "Card 1 heading",
+      "default": "The Calming Power of Amethyst"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_card_1_text",
+      "label": "Card 1 text",
+      "default": "Discover how amethyst brings calm, clarity and gentle positive energy into everyday moments."
+    },
+    {
+      "type": "text",
+      "id": "semi_card_1_link_label",
+      "label": "Card 1 link label",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "semi_card_1_link",
+      "label": "Card 1 link"
+    },
+    {
+      "type": "header",
+      "content": "Benefit card 2"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_image_url",
+      "label": "Card 2 image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-2.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_image_alt",
+      "label": "Card 2 image alt",
+      "default": "Red gemstone placed on a soft neutral stone"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_eyebrow",
+      "label": "Card 2 eyebrow",
+      "default": "Wellness"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_heading",
+      "label": "Card 2 heading",
+      "default": "How Gemstones Support Emotional Balance"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_card_2_text",
+      "label": "Card 2 text",
+      "default": "From garnet to rose quartz, see how natural gemstones can support balance, focus and a grounded mind."
+    },
+    {
+      "type": "text",
+      "id": "semi_card_2_link_label",
+      "label": "Card 2 link label",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "semi_card_2_link",
+      "label": "Card 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Benefit card 3"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_image_url",
+      "label": "Card 3 image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-3.webp?v=1789448977"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_image_alt",
+      "label": "Card 3 image alt",
+      "default": "Collection of colorful semi precious gemstones"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_eyebrow",
+      "label": "Card 3 eyebrow",
+      "default": "Buying Guide"
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_heading",
+      "label": "Card 3 heading",
+      "default": "A Complete Guide to Semi Precious Gemstones"
+    },
+    {
+      "type": "textarea",
+      "id": "semi_card_3_text",
+      "label": "Card 3 text",
+      "default": "Know what to look for before you buy - from quality and pricing to the meaning behind each stone."
+    },
+    {
+      "type": "text",
+      "id": "semi_card_3_link_label",
+      "label": "Card 3 link label",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "semi_card_3_link",
+      "label": "Card 3 link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

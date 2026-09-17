@@ -1,0 +1,277 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "support_top": {
+      "type": "Support-top",
+      "settings": {
+        "support_heading_page": "Our Stores & Locations",
+        "description": "<p>Discover our gemstone and jewelry collections at our exquisite store locations, where elegance meets craftsmanship. With the added touch of custom gem cutting and shaping, we're here to create the perfect piece just for you. Explore our stores to bring your vision to life.</p>",
+        "backgrond_image": "shopify://shop_images/Semi-precious-banner.webp"
+      }
+    },
+    "support_middle": {
+      "type": "Support-middle",
+      "blocks": {
+        "gold_diamond_park": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/Support-Shop-1.webp",
+            "image_url": "",
+            "image_alt": "Raza Gems Gold and Diamond Park branch interior",
+            "title": "Gold & Diamond Park Branch, Dubai",
+            "address": "Gold & Diamond Park, Industrial Area 3, Al Quoz - Dubai, U.A.E",
+            "email": "info@razagems.com",
+            "phone": "+971 585858602",
+            "hours": "Opening Hours: Everyday 10:00 am - 9:00 pm",
+            "map_url": "https://www.google.com/maps/dir/?api=1&destination=Gold%20%26%20Diamond%20Park%2C%20Industrial%20Area%203%2C%20Al%20Quoz%20-%20Dubai%2C%20UAE"
+          }
+        },
+        "gold_souq": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/Support-Shop-2.webp",
+            "image_url": "",
+            "image_alt": "Raza Gems Gold Souq branch interior",
+            "title": "Gold Souq Branch, Dubai",
+            "address": "Gold Souq - Deira - Al Ras - Dubai, U.A.E",
+            "email": "info@razagems.com",
+            "phone": "+971 585858602",
+            "hours": "Opening Hours: Everyday 10:00 am - 10:00 pm",
+            "map_url": "https://www.google.com/maps/dir/?api=1&destination=Gold%20Souq%2C%20Deira%2C%20Al%20Ras%2C%20Dubai%2C%20UAE"
+          }
+        },
+        "lapi_world": {
+          "type": "location",
+          "settings": {
+            "image": "shopify://shop_images/Support-Shop-3.webp",
+            "image_url": "",
+            "image_alt": "Lapi World gemstone cutting and jewellery making branch",
+            "title": "Lapi World (Stones Cutting & Jewellery Making)",
+            "address": "Unit no G56A, Ground Floor Gold and Diamond Park Building no1 - Al Quoz - Area3 - Dubai U.A.E",
+            "email": "info@razagems.com",
+            "phone": "+971 585858602",
+            "hours": "Opening Hours: Everyday 10:00 am - 9:00 pm",
+            "map_url": "https://www.google.com/maps/dir/?api=1&destination=Unit%20G56A%2C%20Gold%20and%20Diamond%20Park%2C%20Al%20Quoz%2C%20Dubai%2C%20UAE"
+          }
+        }
+      },
+      "block_order": [
+        "gold_diamond_park",
+        "gold_souq",
+        "lapi_world"
+      ],
+      "settings": {
+        "heading": "Our Branches",
+        "description": "<p>Visit Raza Gems across Dubai for natural gemstones, jewelry craftsmanship, and custom cutting support.</p>",
+        "button_label": "Get Directions",
+        "rotate_degrees": 3,
+        "autoplay_speed": 3,
+        "background_color": "#fffaf2"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "t:names.title",
+          "settings": {
+            "text": "<h1>Arjun</h1><h1></h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "page-content": {
+          "type": "page-content",
+          "settings": {
+            "text_color": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "background_color": "{{ settings.color_palette.background }}",
+        "semi_fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-banner.webp?v=1789448977",
+        "semi_image_alt": "Gemstones and semi precious stones displayed on a soft natural background",
+        "semi_accessibility_label": "Semi precious gemstones banner",
+        "semi_eyebrow": "Natural - Ethical - Timeless",
+        "semi_heading": "Gemstones and Semi Precious<br>Stones for Sale",
+        "semi_subheading": "Handpicked, natural semi precious gemstones for beauty, healing and a more meaningful life.",
+        "semi_benefits_accessibility_label": "Gemstone benefits",
+        "semi_benefits_heading": "Gemstone Benefits",
+        "semi_benefits_subheading": "Discover the beauty, meaning and positive energy of natural gemstones",
+        "semi_card_1_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-1.webp?v=1789448977",
+        "semi_card_1_image_alt": "Purple amethyst gemstone on a natural rock",
+        "semi_card_1_eyebrow": "Gemstone Guide",
+        "semi_card_1_heading": "The Calming Power of Amethyst",
+        "semi_card_1_text": "Discover how amethyst brings calm, clarity and gentle positive energy into everyday moments.",
+        "semi_card_1_link_label": "Read More",
+        "semi_card_1_link": "",
+        "semi_card_2_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-2.webp?v=1789448977",
+        "semi_card_2_image_alt": "Red gemstone placed on a soft neutral stone",
+        "semi_card_2_eyebrow": "Wellness",
+        "semi_card_2_heading": "How Gemstones Support Emotional Balance",
+        "semi_card_2_text": "From garnet to rose quartz, see how natural gemstones can support balance, focus and a grounded mind.",
+        "semi_card_2_link_label": "Read More",
+        "semi_card_2_link": "",
+        "semi_card_3_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-3.webp?v=1789448977",
+        "semi_card_3_image_alt": "Collection of colorful semi precious gemstones",
+        "semi_card_3_eyebrow": "Buying Guide",
+        "semi_card_3_heading": "A Complete Guide to Semi Precious Gemstones",
+        "semi_card_3_text": "Know what to look for before you buy - from quality and pricing to the meaning behind each stone.",
+        "semi_card_3_link_label": "Read More",
+        "semi_card_3_link": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "section_q6cM6V": {
+      "type": "section",
+      "blocks": {
+        "text_AQ9CxJ": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>CONTACT US</strong></p><h2>Get in Touch</h2><p>We value your input and are here to assist with any inquiries or concerns. Please don't hesitate to reach out to us regarding feedback, order inquiries, shipment tracking, or payment-related issues. Your satisfaction is our priority.</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "contact_form_H48jXh": {
+          "type": "contact-form",
+          "settings": {
+            "width": "custom",
+            "custom_width": 100,
+            "width_mobile": "custom",
+            "custom_width_mobile": 100,
+            "background_color": "",
+            "input_style": "custom",
+            "input_background_color": "#ffffff",
+            "input_text_color": "#4d4842",
+            "input_border_color": "#e6dfd5",
+            "border_width": 1,
+            "border_radius": 3,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "submit-button": {
+              "type": "contact-form-submit-button",
+              "static": true,
+              "settings": {
+                "label": "SEND MESSAGE  ->",
+                "style_class": "button-custom",
+                "custom_button_background": "#caa23d",
+                "custom_button_text": "#ffffff",
+                "custom_button_border": "#caa23d",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        },
+        "support_form_design": {
+          "type": "custom-liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"support-contact-design\"><div class=\"support-contact-design__copy\"><p class=\"support-contact-design__quote\">&ldquo;More<br>Than Stones&rdquo;</p><span></span><p class=\"support-contact-design__tagline\">Natural gems<br>for a brighter,<br>balanced you</p></div></div><style>.section-content-wrapper:has(.support-contact-design){display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.82fr);gap:0;width:100%;max-width:none;margin:0;background:#fffaf3;border:1px solid #efe3d2;border-radius:8px;overflow:hidden;box-shadow:0 18px 48px rgba(71,52,28,.08)}.section-content-wrapper:has(.support-contact-design)>*:has(.support-contact-design){grid-column:2;grid-row:1 / span 2;min-width:0}.section-content-wrapper:has(.support-contact-design)>*:has(h2){grid-column:1;grid-row:1;padding:46px 56px 0!important}.section-content-wrapper:has(.support-contact-design)>.contact-form{grid-column:1;grid-row:2;width:100%!important;max-width:none!important;padding:18px 56px 46px!important}.section-content-wrapper:has(.support-contact-design) .text-block p:first-child{margin:0 0 18px;color:#6f6a63;font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}.section-content-wrapper:has(.support-contact-design) .text-block p:first-child strong{font-weight:800}.section-content-wrapper:has(.support-contact-design) .text-block p:first-child:after{content:\"\";display:inline-block;width:44px;height:1px;margin-left:14px;vertical-align:middle;background:#c7a355}.section-content-wrapper:has(.support-contact-design) .text-block h2{margin:0 0 12px;color:#17120f;font-family:Georgia,'Times New Roman',serif;font-size:clamp(38px,4vw,58px);font-weight:400;line-height:1.05;letter-spacing:0}.section-content-wrapper:has(.support-contact-design) .text-block p:not(:first-child){max-width:650px;margin:0;color:#5d5852;font-size:14px;font-weight:600;line-height:1.65}.section-content-wrapper:has(.support-contact-design) .contact-form__form{gap:12px}.section-content-wrapper:has(.support-contact-design) .contact-form__form-row{gap:12px}.section-content-wrapper:has(.support-contact-design) .contact-form__input{min-height:40px;padding:11px 14px;color:#4d4842;background:#fff;border-color:#e5ddd2;box-shadow:0 1px 8px rgba(80,61,35,.05);font-size:13px}.section-content-wrapper:has(.support-contact-design) .contact-form__input--textarea{min-height:92px}.section-content-wrapper:has(.support-contact-design) .submit-button{min-height:44px;margin-top:10px;padding:0 38px!important;border-radius:999px!important;font-size:12px!important;font-weight:800!important;letter-spacing:0!important;text-transform:uppercase!important}.support-contact-design{position:relative;min-height:520px;height:100%;background:linear-gradient(90deg,rgba(255,250,243,.96) 0%,rgba(255,250,243,.68) 42%,rgba(255,250,243,.08) 100%),url('{{ 'First-banner.webp' | asset_url }}') center/cover no-repeat}.support-contact-design__copy{position:relative;z-index:1;padding:112px 44px;color:#211b16}.support-contact-design__quote{margin:0;color:#211b16;font-family:Georgia,'Times New Roman',serif;font-size:36px;font-style:italic;line-height:1.12}.support-contact-design__copy span{display:block;width:54px;height:2px;margin:20px 0 24px;background:#c6a156}.support-contact-design__tagline{margin:0;color:#4a433b;font-family:Georgia,'Times New Roman',serif;font-size:14px;font-weight:700;line-height:1.8;letter-spacing:5px;text-transform:uppercase}@media screen and (max-width: 989px){.section-content-wrapper:has(.support-contact-design){grid-template-columns:1fr}.section-content-wrapper:has(.support-contact-design)>*:has(.support-contact-design){grid-column:1;grid-row:3}.section-content-wrapper:has(.support-contact-design)>*:has(h2){grid-column:1;padding:34px 24px 0!important}.section-content-wrapper:has(.support-contact-design)>.contact-form{grid-column:1;padding:16px 24px 34px!important}.support-contact-design{min-height:360px}.support-contact-design__copy{padding:56px 28px}}@media screen and (max-width: 749px){.section-content-wrapper:has(.support-contact-design){border-radius:0}.section-content-wrapper:has(.support-contact-design) .contact-form__form-row{flex-direction:column}.section-content-wrapper:has(.support-contact-design) .text-block h2{font-size:36px}.support-contact-design__quote{font-size:30px}.support-contact-design__tagline{letter-spacing:3px}}</style>"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_AQ9CxJ",
+        "contact_form_H48jXh",
+        "support_form_design"
+      ],
+      "name": "t:names.contact_form",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 0,
+        "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": [
+    "support_top",
+    "support_middle",
+    "main",
+    "section_q6cM6V"
+  ]
+}

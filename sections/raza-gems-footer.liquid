@@ -1,0 +1,635 @@
+{% liquid
+  assign footer_bg = section.settings.background_image
+%}
+
+<footer class="raza-footer" style="--raza-bg: {{ section.settings.background_color }}; --raza-gold: {{ section.settings.accent_color }}; --raza-text: {{ section.settings.text_color }};">
+  {% if footer_bg != blank %}
+    {{ footer_bg | image_url: width: 2400 | image_tag: class: 'raza-footer__bg', loading: 'lazy', widths: '750, 1100, 1500, 2000, 2400' }}
+  {% endif %}
+
+  <div class="raza-footer__shade"></div>
+
+  <div class="raza-footer__inner page-width">
+    <div class="raza-footer__main">
+      <div class="raza-footer__brand">
+        {% for block in section.blocks %}
+          {% if block.type == 'logo_image' %}
+            <div class="raza-footer__logo-block" {{ block.shopify_attributes }}>
+              {% if block.settings.logo != blank %}
+                {{
+                  block.settings.logo
+                  | image_url: width: 700
+                  | image_tag: class: 'raza-footer__logo', loading: 'lazy', widths: '180, 260, 360, 520, 700'
+                }}
+              {% endif %}
+            </div>
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        <div class="raza-footer__support-heading">
+          <h2>{{ section.settings.support_heading }}</h2>
+          <span class="raza-footer__rule"></span>
+        </div>
+
+        <div class="raza-footer__contacts">
+          {% for block in section.blocks %}
+            {% if block.type == 'contact_item' %}
+              {% liquid
+                assign contact_tag = 'div'
+                assign contact_href = ''
+                if block.settings.link != blank
+                  assign contact_tag = 'a'
+                  assign contact_href = block.settings.link
+                endif
+              %}
+              <{{ contact_tag }}
+                class="raza-footer__contact"
+                {% if contact_href != blank %}href="{{ contact_href }}"{% endif %}
+                {{ block.shopify_attributes }}
+              >
+                <span class="raza-footer__contact-icon" aria-hidden="true">
+                  {% case block.settings.icon %}
+                    {% when 'clock' %}
+                      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    {% when 'headset' %}
+                      <svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13v4a2 2 0 0 0 2 2h1v-7H6a2 2 0 0 0-2 2Z"/><path d="M20 13v4a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z"/><path d="M17 19c0 2-2 3-5 3"/></svg>
+                    {% when 'pin' %}
+                      <svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-12a7 7 0 1 0-14 0c0 6.6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+                    {% when 'phone' %}
+                      <svg viewBox="0 0 24 24"><path d="M7 5 5.6 6.4c-.8.8-.8 2.1-.2 3.2a22 22 0 0 0 9 9c1.1.6 2.4.6 3.2-.2L19 17l-4-3-2 2c-2.1-1.1-3.9-2.9-5-5l2-2-3-4Z"/></svg>
+                    {% when 'email' %}
+                      <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+                  {% endcase %}
+                </span>
+                <span>{{ block.settings.text }}</span>
+              </{{ contact_tag }}>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="raza-footer__socials" aria-label="Social links">
+          {% for block in section.blocks %}
+            {% if block.type == 'social_link' %}
+              <a
+                class="raza-footer__social"
+                href="{{ block.settings.url | default: '#' }}"
+                aria-label="{{ block.settings.label }}"
+                target="_blank"
+                rel="noopener"
+                {{ block.shopify_attributes }}
+              >
+                {% case block.settings.icon %}
+                  {% when 'instagram' %}
+                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="16.8" cy="7.2" r="0.8"/></svg>
+                  {% when 'facebook' %}
+                    <svg viewBox="0 0 24 24"><path d="M14 8h2V4h-3c-3 0-5 2-5 5v3H6v4h2v4h4v-4h3l1-4h-4V9c0-.6.4-1 1-1h1Z"/></svg>
+                  {% when 'pinterest' %}
+                    <svg viewBox="0 0 24 24"><path d="M11 21c.8-2.3 1.3-4.2 1.7-6.1"/><path d="M12.7 14.9c.6.7 1.5 1.1 2.6 1.1 3 0 5-2.7 5-6.1C20.3 6.5 17.5 4 13.4 4 8.7 4 5 7.2 5 11.4c0 2.3 1.3 4 3.1 4.5"/><path d="M10.1 18.5 12 10.8c.3-1.1-.2-1.8-.2-2.4 0-1.1.8-2 2-2 1.4 0 2.2 1 2.2 2.5 0 2-1.2 4.6-2.7 4.6-.8 0-1.4-.6-1.2-1.5"/></svg>
+                  {% when 'youtube' %}
+                    <svg viewBox="0 0 24 24"><path d="M4.5 8.2c.2-1.4 1.2-2.4 2.6-2.6 3.2-.3 6.6-.3 9.8 0 1.4.2 2.4 1.2 2.6 2.6.3 2.5.3 5.1 0 7.6-.2 1.4-1.2 2.4-2.6 2.6-3.2.3-6.6.3-9.8 0-1.4-.2-2.4-1.2-2.6-2.6-.3-2.5-.3-5.1 0-7.6Z"/><path d="m10 9 5 3-5 3V9Z"/></svg>
+                  {% when 'tiktok' %}
+                    <svg viewBox="0 0 24 24"><path d="M14 4v10.2a4.2 4.2 0 1 1-4.2-4.2"/><path d="M14 4c.5 3 2.2 4.8 5 5"/></svg>
+                {% endcase %}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="raza-footer__menus">
+        <div class="raza-footer__menu">
+          <h2>{{ section.settings.orders_heading }}</h2>
+          <span class="raza-footer__rule"></span>
+          {% for block in section.blocks %}
+            {% if block.type == 'orders_link' %}
+              <a href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.label }} <span aria-hidden="true">&rsaquo;</span></a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="raza-footer__menu">
+          <h2>{{ section.settings.company_heading }}</h2>
+          <span class="raza-footer__rule"></span>
+          {% for block in section.blocks %}
+            {% if block.type == 'company_link' %}
+              <a href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.label }} <span aria-hidden="true">&rsaquo;</span></a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="raza-footer__newsletter">
+        <h2>{{ section.settings.newsletter_heading }}</h2>
+        <span class="raza-footer__rule"></span>
+        <p>{{ section.settings.newsletter_text }}</p>
+
+        {% form 'customer', class: 'raza-footer__form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input
+            type="email"
+            name="contact[email]"
+            placeholder="{{ section.settings.email_placeholder }}"
+            aria-label="{{ section.settings.email_placeholder }}"
+            required
+          >
+          <button type="submit">{{ section.settings.button_label }} <span aria-hidden="true">&rarr;</span></button>
+        {% endform %}
+
+        <div class="raza-footer__features">
+          {% for block in section.blocks %}
+            {% if block.type == 'feature' %}
+              <div class="raza-footer__feature" {{ block.shopify_attributes }}>
+                <span class="raza-footer__feature-icon">{{ block.settings.icon }}</span>
+                <span>{{ block.settings.label }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="raza-footer__bottom">
+      <div class="raza-footer__country">{{ section.settings.country_text }}</div>
+      <div class="raza-footer__copyright">{{ section.settings.copyright_text }}</div>
+      <div class="raza-footer__payments">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag: class: 'raza-footer__payment' }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .raza-footer {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 0 100%, rgba(205, 166, 93, 0.22), transparent 28rem),
+      radial-gradient(circle at 100% 0, rgba(205, 166, 93, 0.2), transparent 25rem),
+      linear-gradient(135deg, #031611, var(--raza-bg));
+    color: var(--raza-text);
+  }
+
+  .raza-footer__bg,
+  .raza-footer__shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .raza-footer__bg {
+    object-fit: cover;
+    opacity: 0.34;
+  }
+
+  .raza-footer__shade {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.48));
+  }
+
+  .raza-footer__inner {
+    position: relative;
+    z-index: 1;
+    padding: 48px 24px 24px;
+  }
+
+  .raza-footer__main {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.75fr) minmax(320px, 1.55fr) minmax(280px, 1.45fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .raza-footer__brand {
+    min-height: 1px;
+  }
+
+  .raza-footer__logo-block {
+    max-width: 280px;
+  }
+
+  .raza-footer__logo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .raza-footer__contacts {
+    display: grid;
+    gap: 13px;
+    margin-top: 26px;
+  }
+
+  .raza-footer__contact {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    align-items: start;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.38;
+    text-decoration: none;
+  }
+
+  .raza-footer__contact-icon {
+    display: inline-grid;
+    place-items: center;
+    color: var(--raza-gold);
+    width: 28px;
+    height: 28px;
+  }
+
+  .raza-footer__contact-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .raza-footer__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .raza-footer__social {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid color-mix(in srgb, var(--raza-gold) 72%, transparent);
+    border-radius: 50%;
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .raza-footer__social svg {
+    display: block;
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .raza-footer__menus {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(28px, 5vw, 62px);
+  }
+
+  .raza-footer h2 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    line-height: 1.2;
+  }
+
+  .raza-footer__rule {
+    display: block;
+    width: 42px;
+    height: 2px;
+    margin: 16px 0 18px;
+    background: var(--raza-gold);
+  }
+
+  .raza-footer__menu a {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 7px;
+    color: rgba(255, 255, 255, 0.86);
+    text-decoration: none;
+  }
+
+  .raza-footer__newsletter p {
+    max-width: 430px;
+    margin: 0 0 24px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.55;
+  }
+
+  .raza-footer__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    max-width: 470px;
+    height: 56px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.18);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .raza-footer__form:hover,
+  .raza-footer__form:focus-within {
+    border-color: color-mix(in srgb, var(--raza-gold) 62%, rgba(255, 255, 255, 0.28));
+    box-shadow: 0 0 0 1px rgba(216, 177, 106, 0.2);
+  }
+
+  .raza-footer__form input,
+  .raza-footer__form button {
+    appearance: none;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    font: inherit;
+    margin: 0;
+  }
+
+  .raza-footer__form input {
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 22px;
+    background: transparent;
+    color: #ffffff;
+    border-radius: 999px 0 0 999px;
+  }
+
+  .raza-footer__form input:hover,
+  .raza-footer__form input:focus,
+  .raza-footer__form input:focus-visible {
+    background: transparent;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+
+  .raza-footer__form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    min-width: 176px;
+    height: 100%;
+    padding: 0 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #f3d28e, #b98b45);
+    color: #151009;
+    cursor: pointer;
+    line-height: 1;
+    transform: none;
+    white-space: nowrap;
+  }
+
+  .raza-footer__form button:hover,
+  .raza-footer__form button:focus,
+  .raza-footer__form button:focus-visible {
+    background: linear-gradient(135deg, #f7dca0, #c89549);
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+
+  .raza-footer__features {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(70px, 1fr));
+    gap: 0;
+    margin-top: 34px;
+  }
+
+  .raza-footer__feature {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+    padding-inline: 16px;
+    color: rgba(255, 255, 255, 0.86);
+    text-align: center;
+    line-height: 1.25;
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  .raza-footer__feature:first-child {
+    border-inline-start: 0;
+  }
+
+  .raza-footer__feature-icon {
+    color: var(--raza-gold);
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .raza-footer__bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+    margin-top: 42px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.32);
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 0.92rem;
+  }
+
+  .raza-footer__payments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .raza-footer__payment {
+    width: 54px;
+    height: auto;
+  }
+
+  @media screen and (max-width: 989px) {
+    .raza-footer__main {
+      grid-template-columns: 1fr;
+    }
+
+    .raza-footer__logo-block {
+      max-width: 240px;
+    }
+
+    .raza-footer__bottom {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .raza-footer__payments {
+      justify-content: center;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .raza-footer__inner {
+      padding: 36px 22px 22px;
+    }
+
+    .raza-footer__menus,
+    .raza-footer__features {
+      grid-template-columns: 1fr;
+    }
+
+    .raza-footer__feature {
+      grid-template-columns: 40px 1fr;
+      justify-items: start;
+      text-align: left;
+      border-inline-start: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 14px 0;
+    }
+
+    .raza-footer__feature:first-child {
+      border-top: 0;
+    }
+
+    .raza-footer__form {
+      grid-template-columns: 1fr;
+      height: auto;
+      border-radius: 28px;
+    }
+
+    .raza-footer__form input,
+    .raza-footer__form button {
+      min-height: 52px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raza Gems custom footer",
+  "class": "shopify-section--raza-footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#031611" },
+    { "type": "color", "id": "accent_color", "label": "Gold accent color", "default": "#d8b16a" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    { "type": "text", "id": "support_heading", "label": "Support heading", "default": "Customer Support" },
+    { "type": "text", "id": "orders_heading", "label": "Orders column heading", "default": "Orders & Help" },
+    { "type": "text", "id": "company_heading", "label": "Company column heading", "default": "About Company" },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Sign Up to Newsletter" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Newsletter text", "default": "Be the first to know about new collections, exclusive offers and jewellery updates." },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "Enter your email address..." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "country_text", "label": "Country/currency text", "default": "India (AED)" },
+    { "type": "text", "id": "copyright_text", "label": "Copyright text", "default": "Copyright 2026 Raza Gems LLC. All Rights Reserved. Developed by AZi Solutions." }
+  ],
+  "blocks": [
+    {
+      "type": "logo_image",
+      "name": "Logo image",
+      "limit": 1,
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Logo image" }
+      ]
+    },
+    {
+      "type": "orders_link",
+      "name": "Orders/help link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "FAQs" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "contact_item",
+      "name": "Contact item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "clock", "label": "Clock" },
+            { "value": "headset", "label": "Headset" },
+            { "value": "pin", "label": "Location pin" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "email", "label": "Email" }
+          ],
+          "default": "clock"
+        },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Visit our store 10:00 AM to 8:00 PM" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "social_link",
+      "name": "Social link",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "instagram", "label": "Instagram" },
+            { "value": "facebook", "label": "Facebook" },
+            { "value": "pinterest", "label": "Pinterest" },
+            { "value": "youtube", "label": "YouTube" },
+            { "value": "tiktok", "label": "TikTok" }
+          ],
+          "default": "instagram"
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "Instagram" },
+        { "type": "url", "id": "url", "label": "URL" }
+      ]
+    },
+    {
+      "type": "company_link",
+      "name": "Company link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "About Us" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Trust feature",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "default": "*" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Certified Quality" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raza Gems custom footer",
+      "blocks": [
+        { "type": "logo_image" },
+        { "type": "contact_item", "settings": { "icon": "clock", "text": "Visit our store 10:00 AM to 8:00 PM" } },
+        { "type": "contact_item", "settings": { "icon": "headset", "text": "Call our Helpline Number or Write us at email for order related queries" } },
+        { "type": "contact_item", "settings": { "icon": "pin", "text": "Gold & Diamond Park, Al Quoz, Industrial Area 3 - Dubai" } },
+        { "type": "contact_item", "settings": { "icon": "phone", "text": "+971585858602" } },
+        { "type": "contact_item", "settings": { "icon": "email", "text": "info@razagems.com" } },
+        { "type": "social_link", "settings": { "icon": "instagram", "label": "Instagram" } },
+        { "type": "social_link", "settings": { "icon": "facebook", "label": "Facebook" } },
+        { "type": "social_link", "settings": { "icon": "pinterest", "label": "Pinterest" } },
+        { "type": "social_link", "settings": { "icon": "youtube", "label": "YouTube" } },
+        { "type": "social_link", "settings": { "icon": "tiktok", "label": "TikTok" } },
+        { "type": "orders_link", "settings": { "label": "Contact" } },
+        { "type": "orders_link", "settings": { "label": "Blog" } },
+        { "type": "orders_link", "settings": { "label": "FAQ" } },
+        { "type": "orders_link", "settings": { "label": "Payment Method" } },
+        { "type": "orders_link", "settings": { "label": "Return and Exchange" } },
+        { "type": "company_link", "settings": { "label": "About" } },
+        { "type": "company_link", "settings": { "label": "Our Branch" } },
+        { "type": "company_link", "settings": { "label": "Careers" } },
+        { "type": "company_link", "settings": { "label": "Terms & Condition" } },
+        { "type": "company_link", "settings": { "label": "Privacy Policy" } },
+        { "type": "feature", "settings": { "icon": "*", "label": "Natural Gemstones" } },
+        { "type": "feature", "settings": { "icon": "*", "label": "Certified Quality" } },
+        { "type": "feature", "settings": { "icon": "*", "label": "Worldwide Shipping" } },
+        { "type": "feature", "settings": { "icon": "*", "label": "Trusted by Thousands" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
