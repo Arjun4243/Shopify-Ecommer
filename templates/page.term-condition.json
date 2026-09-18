@@ -12,15 +12,119 @@
     "terms_condition_page": {
       "type": "terms-condition-page",
       "blocks": {
-        "acceptance_of_terms": {
+        "term_item_akWcGG": {
           "type": "term_item",
           "settings": {
             "title": "Acceptance of Terms",
             "description": "<p>By visiting or using razagems.com, you accept these Terms and our Privacy Policy. You may update these Terms from time to time. Continued use means you accept all latest versions.</p>"
           }
+        },
+        "term_item_qa7Cbt": {
+          "type": "term_item",
+          "settings": {
+            "title": "Privacy",
+            "description": "<p>Your privacy matters to us. Our <strong>Privacy Policy</strong> explains how we collect, use, and protect your information. By using this site, you also agree to the terms in our Privacy Policy.</p>"
+          }
+        },
+        "term_item_KBecmV": {
+          "type": "term_item",
+          "settings": {
+            "title": "Who Can Use This Website",
+            "description": "<p>To use our site, you must:</p><ul><li>Be at least 18 years old (or have legal consent)</li><li>Be able to enter into a binding contract under the law</li></ul><p>If you're using the site on behalf of a company or organization, you must have the authority to agree to these Terms on their behalf.</p>"
+          }
+        },
+        "term_item_NYbDcz": {
+          "type": "term_item",
+          "settings": {
+            "title": "Personal Use Only",
+            "description": "<p>Our website is for personal shopping and browsing only. You may not use it for commercial purposes unless approved by us as a registered <strong>Affiliate</strong> or <strong>Wholesale Partner</strong>.</p><p>You may not:</p><ul><li>Copy or scrape product listings</li><li>Link to competitive websites</li><li>Use our content or designs without permission</li></ul>"
+          }
+        },
+        "term_item_6RXMaR": {
+          "type": "term_item",
+          "settings": {
+            "title": "Your Account",
+            "description": "<p>If you create an account:</p><ul><li>Keep your login information secure</li><li>You're responsible for all activities under your account</li><li>You agree to provide accurate, current, and complete information</li></ul><p>We reserve the right to suspend or cancel accounts that violate our Terms.</p>"
+          }
+        },
+        "term_item_jRqLme": {
+          "type": "term_item",
+          "settings": {
+            "title": "Orders, Payments & Refunds",
+            "description": "<p>Orders placed through Shopify are subject to their processing terms. You must:</p><ul><li>Provide accurate billing and shipping details</li><li>Use authorized payment methods</li><li>Understand that order acceptance is at our discretion</li></ul><p>We may cancel or limit orders for any reason. For more details, refer to our <strong>Refund & Return Policy</strong> (available on the Website).</p>"
+          }
+        },
+        "term_item_yH3iz4": {
+          "type": "term_item",
+          "settings": {
+            "title": "Content You Submit",
+            "description": "<p>If you leave reviews, comments, or upload content:</p><ul><li>Make sure it's accurate and respectful</li><li>Do not post anything unlawful, abusive, or offensive</li><li>You grant us the right to use your content for promotional purposes (with credit where applicable)</li></ul><p>We may remove or block any content that violates these rules.</p>"
+          }
+        },
+        "term_item_pLVwgy": {
+          "type": "term_item",
+          "settings": {
+            "title": "Intellectual Property",
+            "description": "<p>All content on razagems.com — including text, images, logos, product names, and designs — belongs to Raza Gems LLC or its partners and is protected by copyright, trademark, and other intellectual property laws.<br/><br/></p>"
+          }
+        },
+        "term_item_CiNPP7": {
+          "type": "term_item",
+          "settings": {
+            "title": "Restricted Activities",
+            "description": "<p>You agree not to:</p><ul><li>Impersonate someone else</li><li>Hack or interfere with our Website</li><li>Send spam or malicious links</li><li>Use bots or automated systems to access our Website</li><li>Violate copyright or trademarks</li></ul>"
+          }
+        },
+        "term_item_CbKhKq": {
+          "type": "term_item",
+          "settings": {
+            "title": "Disclaimer & Limitation of Liability",
+            "description": "<p>We work hard to keep our Website secure and accurate, but we make no guarantees.</p><ul><li><strong>We do not guarantee</strong> product availability, accuracy of information, or uninterrupted service.</li><li><strong>We are not liable</strong> for any damages, including lost profits, data loss, or service interruptions.</li></ul><p>Use the site at your own risk.</p>"
+          }
+        },
+        "term_item_DyQ489": {
+          "type": "term_item",
+          "settings": {
+            "title": "Changes to Our Services",
+            "description": "<p>We may change, suspend, or stop any part of our Website (including products, prices, or features) at any time without prior notice.</p>"
+          }
+        },
+        "term_item_whgQiB": {
+          "type": "term_item",
+          "settings": {
+            "title": "Indemnity",
+            "description": "<p>You agree to protect and indemnify Raza Gems LLC from any claims, damages, or losses resulting from your misuse of the Website or violation of these Terms.<br/><br/></p>"
+          }
+        },
+        "term_item_b7MG3Y": {
+          "type": "term_item",
+          "settings": {
+            "title": "No Third-Party Rights",
+            "description": "<p>These Terms are for you and us only. No other person or business has any rights under them<br/><br/></p>"
+          }
+        },
+        "acceptance_of_terms": {
+          "type": "term_item",
+          "settings": {
+            "title": "Entire Agreement",
+            "description": "<p>These Terms, along with our <strong>Privacy Policy</strong>, make up the full agreement between you and Raza Gems LLC. They replace any previous written or verbal agreements.<br/><br/></p>"
+          }
         }
       },
       "block_order": [
+        "term_item_akWcGG",
+        "term_item_qa7Cbt",
+        "term_item_KBecmV",
+        "term_item_NYbDcz",
+        "term_item_6RXMaR",
+        "term_item_jRqLme",
+        "term_item_yH3iz4",
+        "term_item_pLVwgy",
+        "term_item_CiNPP7",
+        "term_item_CbKhKq",
+        "term_item_DyQ489",
+        "term_item_whgQiB",
+        "term_item_b7MG3Y",
         "acceptance_of_terms"
       ],
       "settings": {
