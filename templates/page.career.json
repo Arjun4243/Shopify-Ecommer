@@ -1,0 +1,110 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "page-content": {
+          "type": "page-content",
+          "settings": {
+            "text_color": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "background_color": "{{ settings.color_palette.background }}",
+        "semi_fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-banner.webp?v=1789448977",
+        "semi_image_alt": "Gemstones and semi precious stones displayed on a soft natural background",
+        "semi_accessibility_label": "Semi precious gemstones banner",
+        "semi_eyebrow": "Natural - Ethical - Timeless",
+        "semi_heading": "Gemstones and Semi Precious<br>Stones for Sale",
+        "semi_subheading": "Handpicked, natural semi precious gemstones for beauty, healing and a more meaningful life.",
+        "semi_benefits_accessibility_label": "Gemstone benefits",
+        "semi_benefits_heading": "Gemstone Benefits",
+        "semi_benefits_subheading": "Discover the beauty, meaning and positive energy of natural gemstones",
+        "semi_card_1_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-1.webp?v=1789448977",
+        "semi_card_1_image_alt": "Purple amethyst gemstone on a natural rock",
+        "semi_card_1_eyebrow": "Gemstone Guide",
+        "semi_card_1_heading": "The Calming Power of Amethyst",
+        "semi_card_1_text": "Discover how amethyst brings calm, clarity and gentle positive energy into everyday moments.",
+        "semi_card_1_link_label": "Read More",
+        "semi_card_1_link": "",
+        "semi_card_2_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-2.webp?v=1789448977",
+        "semi_card_2_image_alt": "Red gemstone placed on a soft neutral stone",
+        "semi_card_2_eyebrow": "Wellness",
+        "semi_card_2_heading": "How Gemstones Support Emotional Balance",
+        "semi_card_2_text": "From garnet to rose quartz, see how natural gemstones can support balance, focus and a grounded mind.",
+        "semi_card_2_link_label": "Read More",
+        "semi_card_2_link": "",
+        "semi_card_3_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-3.webp?v=1789448977",
+        "semi_card_3_image_alt": "Collection of colorful semi precious gemstones",
+        "semi_card_3_eyebrow": "Buying Guide",
+        "semi_card_3_heading": "A Complete Guide to Semi Precious Gemstones",
+        "semi_card_3_text": "Know what to look for before you buy - from quality and pricing to the meaning behind each stone.",
+        "semi_card_3_link_label": "Read More",
+        "semi_card_3_link": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "1789717523af06f751": {
+      "type": "_blocks",
+      "blocks": {
+        "jobly_app_block_6RaVMC": {
+          "type": "shopify://apps/jobly/blocks/app-block/5c53c9c4-20c2-4d54-b536-3568d12daf65",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "jobly_app_block_6RaVMC"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1789717523af06f751"
+  ]
+}
