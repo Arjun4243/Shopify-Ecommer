@@ -1,0 +1,1048 @@
+import { useState } from "react";
+import { useNavigate } from "react-router";
+
+export default function JobDetail() {
+  const navigate = useNavigate();
+
+  const [activeStage, setActiveStage] = useState("unlisted");
+  const [search, setSearch] = useState("");
+
+  /*
+    FRONTEND DUMMY DATA
+
+    Later this data will come from MongoDB
+  */
+  const job = {
+    title: "Web Development",
+    department: "Engineering",
+    postedDate: "September 19, 2026",
+    status: "Published",
+  };
+
+  /*
+    Applicant stage counts
+
+    Later these counts will be calculated
+    from applications stored in MongoDB.
+  */
+  const stages = [
+    {
+      id: "unlisted",
+      label: "Unlisted",
+      count: 0,
+      icon: "👥",
+    },
+    {
+      id: "shortlist",
+      label: "Shortlist",
+      count: 0,
+      icon: "☷",
+    },
+    {
+      id: "phone",
+      label: "Phone",
+      count: 0,
+      icon: "☎",
+    },
+    {
+      id: "face",
+      label: "Face",
+      count: 0,
+      icon: "👤",
+    },
+    {
+      id: "test",
+      label: "Test",
+      count: 0,
+      icon: "▣",
+    },
+    {
+      id: "final",
+      label: "Final",
+      count: 0,
+      icon: "♟",
+    },
+    {
+      id: "hired",
+      label: "Hired",
+      count: 0,
+      icon: "✓",
+    },
+    {
+      id: "rejected",
+      label: "Rejected",
+      count: 0,
+      icon: "×",
+    },
+    {
+      id: "all",
+      label: "All",
+      count: 0,
+      icon: "✦",
+    },
+  ];
+
+  /*
+    Keep this empty for now so that
+    we can show the "No records found" state.
+
+    Later MongoDB applications will come here.
+  */
+  const applicants = [];
+
+  const filteredApplicants = applicants.filter((applicant) => {
+    const matchesSearch = applicant.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesStage =
+      activeStage === "all" ||
+      applicant.status === activeStage;
+
+    return matchesSearch && matchesStage;
+  });
+
+  return (
+    <s-page>
+      <style>{`
+
+        * {
+          box-sizing: border-box;
+        }
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .job-detail-page {
+          width: 100%;
+          min-height: 100vh;
+
+          padding: 18px 20px 30px;
+
+          background: #f5f7fa;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .job-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+
+          gap: 20px;
+
+          margin-bottom: 20px;
+        }
+
+        .job-header-left {
+          min-width: 0;
+        }
+
+        .job-title-row {
+          display: flex;
+          align-items: center;
+
+          gap: 10px;
+        }
+
+        .back-circle {
+          width: 30px;
+          height: 30px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          flex-shrink: 0;
+
+          border: 1px solid #e1e3e5;
+          border-radius: 50%;
+
+          background: #ffffff;
+
+          color: #303030;
+
+          font-size: 16px;
+
+          cursor: pointer;
+        }
+
+        .back-circle:hover {
+          background: #f1f2f3;
+        }
+
+        .job-title {
+          margin: 0;
+
+          color: #202223;
+
+          font-size: 22px;
+          font-weight: 700;
+        }
+
+
+        /* =========================================
+           JOB META
+        ========================================= */
+
+        .job-meta {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+
+          gap: 14px;
+
+          margin-top: 12px;
+          margin-left: 40px;
+        }
+
+        .meta-item {
+          display: flex;
+          align-items: center;
+
+          gap: 5px;
+
+          color: #525861;
+
+          font-size: 12px;
+        }
+
+        .meta-icon {
+          color: #303030;
+        }
+
+        .meta-value {
+          color: #596078;
+        }
+
+        .published-status {
+          color: #18a957;
+
+          font-weight: 600;
+        }
+
+        .published-dot {
+          width: 11px;
+          height: 11px;
+
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+
+          border-radius: 50%;
+
+          background: #2fbd68;
+
+          color: #ffffff;
+
+          font-size: 7px;
+        }
+
+
+        /* =========================================
+           HEADER BUTTONS
+        ========================================= */
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+
+          gap: 8px;
+
+          flex-shrink: 0;
+        }
+
+        .header-btn {
+          height: 36px;
+
+          padding: 0 14px;
+
+          border: 1px solid #c9ced8;
+          border-radius: 7px;
+
+          background: #ffffff;
+
+          color: #30375b;
+
+          font-size: 12px;
+          font-weight: 600;
+
+          cursor: pointer;
+        }
+
+        .header-btn:hover {
+          background: #f7f8fa;
+        }
+
+        .header-btn.active {
+          border-color: #c9eafd;
+
+          background: #d9f1ff;
+
+          color: #243aa5;
+        }
+
+
+        /* =========================================
+           PIPELINE
+        ========================================= */
+
+        .pipeline {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+
+          gap: 9px;
+
+          margin-bottom: 24px;
+        }
+
+        .pipeline-item-wrapper {
+          display: flex;
+          align-items: center;
+
+          gap: 8px;
+        }
+
+        .pipeline-btn {
+          min-width: 140px;
+          height: 42px;
+
+          display: flex;
+          align-items: center;
+
+          gap: 8px;
+
+          padding: 0 12px;
+
+          border: 1px solid #c9ced8;
+          border-radius: 7px;
+
+          background: #ffffff;
+
+          color: #3e4664;
+
+          font-size: 12px;
+
+          cursor: pointer;
+
+          transition: 0.2s ease;
+        }
+
+        .pipeline-btn:hover {
+          background: #f8f9fb;
+        }
+
+        .pipeline-btn.active {
+          border-color: #3346bd;
+
+          background: #3346bd;
+
+          color: #ffffff;
+        }
+
+        .stage-icon {
+          width: 27px;
+          height: 27px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          flex-shrink: 0;
+
+          border-radius: 50%;
+
+          background: #6772e5;
+
+          color: #ffffff;
+
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .pipeline-btn.active .stage-icon {
+          background: #ffffff;
+
+          color: #3346bd;
+        }
+
+        .stage-shortlist {
+          background: #ff8a3d;
+        }
+
+        .stage-phone {
+          background: #ffc400;
+        }
+
+        .stage-face {
+          background: #8378e8;
+        }
+
+        .stage-test {
+          background: #1e9dca;
+        }
+
+        .stage-final {
+          background: #ef8ca5;
+        }
+
+        .stage-hired {
+          background: #38b96b;
+        }
+
+        .stage-rejected {
+          background: #ff5b64;
+        }
+
+        .stage-all {
+          background: #56a7f5;
+        }
+
+        .stage-arrow {
+          color: #48506b;
+
+          font-size: 17px;
+        }
+
+
+        /* =========================================
+           FILTER CARD
+        ========================================= */
+
+        .filter-card {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          gap: 15px;
+
+          margin-bottom: 8px;
+
+          padding: 12px;
+
+          border: 1px solid #edf0f3;
+          border-radius: 10px;
+
+          background: #ffffff;
+        }
+
+        .search-wrapper {
+          position: relative;
+
+          width: 240px;
+        }
+
+        .search-icon {
+          position: absolute;
+
+          top: 50%;
+          left: 11px;
+
+          transform: translateY(-50%);
+
+          color: #697386;
+
+          font-size: 14px;
+
+          pointer-events: none;
+        }
+
+        .search-input {
+          width: 100%;
+          height: 38px;
+
+          padding: 0 12px 0 34px;
+
+          border: 1px solid #c9ced8;
+          border-radius: 7px;
+
+          background: #ffffff;
+
+          color: #303030;
+
+          font-size: 12px;
+
+          outline: none;
+        }
+
+        .search-input:focus {
+          border-color: #3346bd;
+
+          box-shadow:
+            0 0 0 1px #3346bd;
+        }
+
+        .date-input {
+          width: 190px;
+          height: 38px;
+
+          padding: 0 10px;
+
+          border: 1px solid #c9ced8;
+          border-radius: 7px;
+
+          background: #ffffff;
+
+          color: #50566b;
+
+          font-size: 12px;
+
+          outline: none;
+        }
+
+
+        /* =========================================
+           APPLICANTS TABLE
+        ========================================= */
+
+        .applicant-table-card {
+          overflow: hidden;
+
+          border: 1px solid #edf0f3;
+          border-radius: 9px;
+
+          background: #ffffff;
+        }
+
+        .table-scroll {
+          overflow-x: auto;
+        }
+
+        .applicant-table {
+          width: 100%;
+          min-width: 900px;
+
+          border-collapse: collapse;
+        }
+
+        .applicant-table thead {
+          background: #cceeff;
+        }
+
+        .applicant-table th {
+          height: 43px;
+
+          padding: 0 15px;
+
+          color: #151515;
+
+          font-size: 12px;
+          font-weight: 700;
+
+          text-align: left;
+        }
+
+        .applicant-table td {
+          padding: 13px 15px;
+
+          border-bottom: 1px solid #eeeeee;
+
+          color: #444b56;
+
+          font-size: 12px;
+        }
+
+
+        /* =========================================
+           APPLICANT
+        ========================================= */
+
+        .applicant-name {
+          font-weight: 600;
+
+          color: #202223;
+        }
+
+        .preview-btn,
+        .quick-action-btn {
+          padding: 6px 10px;
+
+          border: 1px solid #d2d5d8;
+          border-radius: 6px;
+
+          background: #ffffff;
+
+          color: #303030;
+
+          font-size: 11px;
+
+          cursor: pointer;
+        }
+
+        .preview-btn:hover,
+        .quick-action-btn:hover {
+          background: #f4f5f6;
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+          min-height: 300px;
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          padding: 40px 20px;
+
+          text-align: center;
+        }
+
+        .empty-icon {
+          position: relative;
+
+          width: 72px;
+          height: 76px;
+
+          margin-bottom: 14px;
+        }
+
+        .paper-one,
+        .paper-two {
+          position: absolute;
+
+          width: 48px;
+          height: 62px;
+
+          border: 1.5px solid #536079;
+
+          background: #ffffff;
+        }
+
+        .paper-one {
+          top: 3px;
+          left: 7px;
+
+          transform: rotate(-14deg);
+        }
+
+        .paper-two {
+          top: 9px;
+          left: 20px;
+        }
+
+        .paper-line {
+          width: 25px;
+          height: 4px;
+
+          margin: 12px auto 0;
+
+          border-radius: 3px;
+
+          background: #4a51ae;
+        }
+
+        .empty-title {
+          margin: 0;
+
+          color: #50566b;
+
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .empty-description {
+          margin: 5px 0 0;
+
+          color: #8a8f98;
+
+          font-size: 11px;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+          .job-detail-page {
+            padding: 14px;
+          }
+
+          .job-header {
+            flex-direction: column;
+          }
+
+          .header-actions {
+            width: 100%;
+
+            flex-wrap: wrap;
+          }
+
+          .job-meta {
+            margin-left: 0;
+          }
+
+          .pipeline {
+            align-items: stretch;
+          }
+
+          .pipeline-item-wrapper {
+            flex-grow: 1;
+          }
+
+          .pipeline-btn {
+            flex-grow: 1;
+          }
+
+          .filter-card {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .search-wrapper,
+          .date-input {
+            width: 100%;
+          }
+
+        }
+
+      `}</style>
+
+
+      <div className="job-detail-page">
+
+        {/* =========================================
+            HEADER
+        ========================================= */}
+
+        <div className="job-header">
+
+          <div className="job-header-left">
+
+            <div className="job-title-row">
+
+              <button
+                type="button"
+                className="back-circle"
+                onClick={() => navigate("/app/job-list")}
+                title="Back to Job List"
+              >
+                ←
+              </button>
+
+              <h1 className="job-title">
+                {job.title}
+              </h1>
+
+            </div>
+
+
+            <div className="job-meta">
+
+              <div className="meta-item">
+
+                <span className="meta-icon">
+                  ▣
+                </span>
+
+                <span>
+                  Department:{" "}
+                  <span className="meta-value">
+                    {job.department}
+                  </span>
+                </span>
+
+              </div>
+
+
+              <div className="meta-item">
+
+                <span className="meta-icon">
+                  □
+                </span>
+
+                <span>
+                  Posted on:{" "}
+                  <span className="meta-value">
+                    {job.postedDate}
+                  </span>
+                </span>
+
+              </div>
+
+
+              <div className="meta-item published-status">
+
+                <span className="published-dot">
+                  ✓
+                </span>
+
+                {job.status}
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* TOP BUTTONS */}
+
+          <div className="header-actions">
+
+            <button
+              type="button"
+              className="header-btn active"
+            >
+              Applications
+            </button>
+
+            <button
+              type="button"
+              className="header-btn"
+            >
+              Report
+            </button>
+
+            <button
+              type="button"
+              className="header-btn"
+            >
+              Job Preview
+            </button>
+
+          </div>
+
+        </div>
+
+
+        {/* =========================================
+            APPLICATION PIPELINE
+        ========================================= */}
+
+        <div className="pipeline">
+
+          {stages.map((stage, index) => (
+
+            <div
+              className="pipeline-item-wrapper"
+              key={stage.id}
+            >
+
+              <button
+                type="button"
+                className={`pipeline-btn ${
+                  activeStage === stage.id
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setActiveStage(stage.id)
+                }
+              >
+
+                <span
+                  className={`stage-icon stage-${stage.id}`}
+                >
+                  {stage.icon}
+                </span>
+
+                <span>
+                  {stage.label} ({stage.count})
+                </span>
+
+              </button>
+
+
+              {index < stages.length - 1 &&
+                stage.id !== "hired" &&
+                stage.id !== "rejected" && (
+
+                  <span className="stage-arrow">
+                    ›
+                  </span>
+
+                )}
+
+            </div>
+
+          ))}
+
+        </div>
+
+
+        {/* =========================================
+            SEARCH + DATE FILTER
+        ========================================= */}
+
+        <div className="filter-card">
+
+          <div className="search-wrapper">
+
+            <span className="search-icon">
+              ⌕
+            </span>
+
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search"
+              value={search}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
+            />
+
+          </div>
+
+
+          <input
+            type="date"
+            className="date-input"
+          />
+
+        </div>
+
+
+        {/* =========================================
+            APPLICANT TABLE
+        ========================================= */}
+
+        <div className="applicant-table-card">
+
+          <div className="table-scroll">
+
+            <table className="applicant-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Name
+                  </th>
+
+                  <th>
+                    Quick Preview
+                  </th>
+
+                  <th>
+                    Quick Actions
+                  </th>
+
+                  <th>
+                    Experience
+                  </th>
+
+                  <th>
+                    Expected Salary
+                  </th>
+
+                  <th>
+                    Application Date
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              {filteredApplicants.length > 0 && (
+
+                <tbody>
+
+                  {filteredApplicants.map(
+                    (applicant) => (
+
+                      <tr key={applicant.id}>
+
+                        <td className="applicant-name">
+                          {applicant.name}
+                        </td>
+
+                        <td>
+
+                          <button
+                            type="button"
+                            className="preview-btn"
+                          >
+                            Preview
+                          </button>
+
+                        </td>
+
+                        <td>
+
+                          <button
+                            type="button"
+                            className="quick-action-btn"
+                          >
+                            Actions
+                          </button>
+
+                        </td>
+
+                        <td>
+                          {applicant.experience}
+                        </td>
+
+                        <td>
+                          {applicant.expectedSalary}
+                        </td>
+
+                        <td>
+                          {applicant.applicationDate}
+                        </td>
+
+                      </tr>
+
+                    )
+                  )}
+
+                </tbody>
+
+              )}
+
+            </table>
+
+          </div>
+
+
+          {/* =========================================
+              EMPTY STATE
+          ========================================= */}
+
+          {filteredApplicants.length === 0 && (
+
+            <div className="empty-state">
+
+              <div className="empty-icon">
+
+                <div className="paper-one" />
+
+                <div className="paper-two">
+                  <div className="paper-line" />
+                </div>
+
+              </div>
+
+              <h3 className="empty-title">
+                No records found
+              </h3>
+
+              <p className="empty-description">
+                No applications are available in this stage.
+              </p>
+
+            </div>
+
+          )}
+
+        </div>
+
+      </div>
+
+    </s-page>
+  );
+}

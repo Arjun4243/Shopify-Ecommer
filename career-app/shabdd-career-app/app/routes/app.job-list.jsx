@@ -462,6 +462,7 @@ export default function JobList() {
                     <button
                       type="button"
                       className="action-btn"
+                        onClick={() => navigate("/app/job-detail")}
                     >
                       View Details
                     </button>
