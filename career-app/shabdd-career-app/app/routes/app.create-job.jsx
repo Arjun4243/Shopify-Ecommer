@@ -1,39 +1,251 @@
+import { ObjectId } from "mongodb";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import {
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useSubmit,
+} from "react-router";
+import { authenticate } from "../shopify.server";
+import { client, db } from "../mongodb.server";
+
+const requiredFields = [
+  "jobTitle",
+  "department",
+  "employmentType",
+  "shiftSchedule",
+  "jobDescription",
+  "jobResponsibilities",
+  "location",
+  "qualification",
+  "workExperience",
+  "primaryRequirements",
+];
+
+const textFields = [
+  "jobTitle",
+  "department",
+  "employmentType",
+  "shiftSchedule",
+  "jobDescription",
+  "jobResponsibilities",
+  "salaryDescription",
+  "paymentType",
+  "currency",
+  "location",
+  "benefits",
+  "qualification",
+  "primaryRequirements",
+  "workExperience",
+  "preferredRequirements",
+  "additionalNotes",
+];
+
+const numberFields = [
+  "numberOfOpenings",
+  "minimumSalary",
+  "maximumSalary",
+];
+
+const emptyFormData = {
+  jobTitle: "",
+  department: "",
+  employmentType: "",
+  shiftSchedule: "",
+  applicationDeadline: "",
+  numberOfOpenings: "",
+
+  jobDescription: "",
+  jobResponsibilities: "",
+
+  salaryDescription: "",
+  minimumSalary: "",
+  maximumSalary: "",
+  paymentType: "",
+  currency: "INR",
+
+  location: "",
+  benefits: "",
+
+  qualification: "",
+  primaryRequirements: "",
+  workExperience: "",
+  preferredRequirements: "",
+  additionalNotes: "",
+};
+
+function getText(formData, fieldName) {
+  return String(formData.get(fieldName) || "").trim();
+}
+
+function getNumber(formData, fieldName) {
+  const value = getText(formData, fieldName);
+
+  if (!value) {
+    return null;
+  }
+
+  const numberValue = Number(value);
+
+  return Number.isFinite(numberValue) ? numberValue : null;
+}
+
+function buildJobData(formData) {
+  const applicationDeadline = getText(formData, "applicationDeadline");
+  const jobData = {
+    applicationDeadline: applicationDeadline
+      ? new Date(applicationDeadline)
+      : null,
+    updatedAt: new Date(),
+  };
+
+  for (const fieldName of textFields) {
+    jobData[fieldName] = getText(formData, fieldName);
+  }
+
+  for (const fieldName of numberFields) {
+    jobData[fieldName] = getNumber(formData, fieldName);
+  }
+
+  return jobData;
+}
+
+function serializeJob(job) {
+  if (!job) {
+    return null;
+  }
+
+  return {
+    id: job._id.toString(),
+    jobTitle: job.jobTitle || "",
+    department: job.department || "",
+    employmentType: job.employmentType || "",
+    shiftSchedule: job.shiftSchedule || "",
+    applicationDeadline: job.applicationDeadline
+      ? job.applicationDeadline.toISOString().slice(0, 10)
+      : "",
+    numberOfOpenings: job.numberOfOpenings?.toString() || "",
+    jobDescription: job.jobDescription || "",
+    jobResponsibilities: job.jobResponsibilities || "",
+    salaryDescription: job.salaryDescription || "",
+    minimumSalary: job.minimumSalary?.toString() || "",
+    maximumSalary: job.maximumSalary?.toString() || "",
+    paymentType: job.paymentType || "",
+    currency: job.currency || "INR",
+    location: job.location || "",
+    benefits: job.benefits || "",
+    qualification: job.qualification || "",
+    primaryRequirements: job.primaryRequirements || "",
+    workExperience: job.workExperience || "",
+    preferredRequirements: job.preferredRequirements || "",
+    additionalNotes: job.additionalNotes || "",
+  };
+}
+
+export const loader = async ({ request }) => {
+  const { session } = await authenticate.admin(request);
+  const url = new URL(request.url);
+  const jobId = url.searchParams.get("jobId");
+
+  if (!jobId) {
+    return { job: null };
+  }
+
+  if (!ObjectId.isValid(jobId)) {
+    return redirect("/app/job-list");
+  }
+
+  await client.connect();
+
+  const job = await db.collection("jobs").findOne({
+    _id: new ObjectId(jobId),
+    shopId: session.shop,
+  });
+
+  if (!job) {
+    return redirect("/app/job-list");
+  }
+
+  return { job: serializeJob(job) };
+};
+
+export const action = async ({ request }) => {
+  const { session } = await authenticate.admin(request);
+  const url = new URL(request.url);
+  const jobId = url.searchParams.get("jobId");
+  const formData = await request.formData();
+  const errors = {};
+
+  for (const fieldName of requiredFields) {
+    if (!getText(formData, fieldName)) {
+      errors[fieldName] = "This field is required.";
+    }
+  }
+
+  for (const fieldName of numberFields) {
+    const value = getText(formData, fieldName);
+
+    if (value && !Number.isFinite(Number(value))) {
+      errors[fieldName] = "Please enter a valid number.";
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
+  const now = new Date();
+  const jobData = buildJobData(formData);
+
+  await client.connect();
+
+  if (jobId) {
+    if (!ObjectId.isValid(jobId)) {
+      return { errors: { jobId: "Invalid job id." } };
+    }
+
+    await db.collection("jobs").updateOne(
+      {
+        _id: new ObjectId(jobId),
+        shopId: session.shop,
+      },
+      {
+        $set: jobData,
+      },
+    );
+
+    return redirect("/app/job-list");
+  }
+
+  await db.collection("jobs").insertOne({
+    ...jobData,
+    shopId: session.shop,
+    status: "published",
+    createdAt: now,
+  });
+
+  return redirect("/app/job-list");
+};
 
 export default function CreateJob() {
   const navigate = useNavigate();
+  const submit = useSubmit();
+  const navigation = useNavigation();
+  const { job } = useLoaderData();
+  const actionData = useActionData();
+  const isEditMode = Boolean(job);
+  const isPublishing = navigation.state === "submitting";
 
   // Current form step
   const [currentStep, setCurrentStep] = useState(1);
 
   // Temporary frontend form data
-  const [formData, setFormData] = useState({
-    jobTitle: "",
-    department: "",
-    employmentType: "",
-    shiftSchedule: "",
-    applicationDeadline: "",
-    numberOfOpenings: "",
-
-    jobDescription: "",
-    jobResponsibilities: "",
-
-    salaryDescription: "",
-    minimumSalary: "",
-    maximumSalary: "",
-    paymentType: "",
-    currency: "INR",
-
-    location: "",
-    benefits: "",
-
-    qualification: "",
-    primaryRequirements: "",
-    workExperience: "",
-    preferredRequirements: "",
-    additionalNotes: "",
-  });
+  const [formData, setFormData] = useState(() => ({
+    ...emptyFormData,
+    ...(job || {}),
+  }));
 
   // Handle every input
   const handleChange = (event) => {
@@ -57,6 +269,16 @@ export default function CreateJob() {
     if (currentStep > 1) {
       setCurrentStep((previousStep) => previousStep - 1);
     }
+  };
+
+  const publishJob = () => {
+    const data = new FormData();
+
+    for (const [key, value] of Object.entries(formData)) {
+      data.append(key, value);
+    }
+
+    submit(data, { method: "post" });
   };
 
   return (
@@ -438,7 +660,7 @@ export default function CreateJob() {
       <div className="create-job-page">
 
         <h1 className="create-job-title">
-          Create Job Post
+          {isEditMode ? "Edit Job Post" : "Create Job Post"}
         </h1>
 
         <div className="form-card">
@@ -1107,6 +1329,18 @@ export default function CreateJob() {
                 Review & Publish
               </h2>
 
+              {actionData?.errors && (
+                <div className="review-section">
+                  <h3 className="review-heading">
+                    Please complete required fields
+                  </h3>
+
+                  <div className="review-value">
+                    Go back and fill all required fields marked with *.
+                  </div>
+                </div>
+              )}
+
               <div className="review-section">
 
                 <h3 className="review-heading">
@@ -1246,8 +1480,16 @@ export default function CreateJob() {
                 <button
                   type="button"
                   className="next-btn publish-btn"
+                  onClick={publishJob}
+                  disabled={isPublishing}
                 >
-                  Publish Job
+                  {isPublishing
+                    ? isEditMode
+                      ? "Updating..."
+                      : "Publishing..."
+                    : isEditMode
+                      ? "Update Job"
+                      : "Publish Job"}
                 </button>
 
               </div>
