@@ -56,12 +56,14 @@ export default function Applications() {
         }
 
         .applications-page {
-          width: 100%;
+          width: calc(100vw - 96px);
           min-height: 100vh;
           padding: 18px 20px;
           background: #f6f8fb;
           color: #071436;
           font-family: Arial, sans-serif;
+          margin-left: calc(50% - 50vw + 48px);
+          margin-right: 48px;
         }
 
         .applications-header {
@@ -218,6 +220,7 @@ export default function Applications() {
         }
 
         .applications-table-card {
+          width: 100%;
           overflow: hidden;
           background: #ffffff;
           border: 1px solid #e7ecf4;
@@ -230,8 +233,8 @@ export default function Applications() {
         }
 
         .applications-table {
-          width: 100%;
-          min-width: 1000px;
+          width: max-content;
+          min-width: 100%;
           border-collapse: collapse;
         }
 
@@ -254,6 +257,7 @@ export default function Applications() {
           color: #071436;
           font-size: 12px;
           vertical-align: middle;
+          white-space: nowrap;
         }
 
         .applications-table tbody tr:last-child td {
@@ -502,6 +506,8 @@ export default function Applications() {
 
         @media (max-width: 820px) {
           .applications-page {
+            width: 100%;
+            margin: 0;
             padding: 14px;
           }
 
