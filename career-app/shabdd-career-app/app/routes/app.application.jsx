@@ -1,796 +1,663 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useLoaderData } from "react-router";
+import ApplicationTable from "../components/applications/ApplicationTable";
+import { getApplicationsForShop } from "../models/application.server";
+import { authenticate } from "../shopify.server";
+
+const avatarTones = ["blue", "green", "red", "purple"];
+
+const statusLabels = {
+  unlisted: "New",
+  shortlist: "Shortlist",
+  phone: "Phone",
+  face: "Face",
+  test: "Test",
+  final: "Final",
+  hired: "Hired",
+  rejected: "Rejected",
+};
+
+export const loader = async ({ request }) => {
+  const { session } = await authenticate.admin(request);
+  const applications = await getApplicationsForShop(session.shop);
+
+  return {
+    applications: applications.map((application, index) =>
+      serializeApplication(application, index),
+    ),
+  };
+};
 
 export default function Applications() {
+  const { applications } = useLoaderData();
   const [search, setSearch] = useState("");
 
-  const applications = [
-    {
-      id: 1,
-      initials: "AS",
-      name: "Arjun Sharma",
-      email: "arjun@example.com",
-      phone: "+91 98765 43210",
-      experience: "2 Years",
-      availableStart: "01 Oct 2026",
-      appliedFor: "Web Developer",
-      expectedSalary: "₹35,000",
-      status: "New",
-    },
-    {
-      id: 2,
-      initials: "RV",
-      name: "Rahul Verma",
-      email: "rahul@example.com",
-      phone: "+91 91234 56789",
-      experience: "Fresher",
-      availableStart: "Immediately",
-      appliedFor: "Web Developer",
-      expectedSalary: "₹25,000",
-      status: "Shortlist",
-    },
-    {
-      id: 3,
-      initials: "PS",
-      name: "Priya Singh",
-      email: "priya@example.com",
-      phone: "+91 99876 54321",
-      experience: "3 Years",
-      availableStart: "15 Oct 2026",
-      appliedFor: "UI Designer",
-      expectedSalary: "₹45,000",
-      status: "Interview",
-    },
-    {
-      id: 4,
-      initials: "AK",
-      name: "Amit Khan",
-      email: "amit@example.com",
-      phone: "+91 98712 34567",
-      experience: "5 Years",
-      availableStart: "07 Nov 2026",
-      appliedFor: "Backend Developer",
-      expectedSalary: "₹60,000",
-      status: "Final",
-    },
-    {
-      id: 5,
-      initials: "SN",
-      name: "Sneha Patel",
-      email: "sneha@example.com",
-      phone: "+91 90123 45678",
-      experience: "1 Year",
-      availableStart: "20 Oct 2026",
-      appliedFor: "Content Writer",
-      expectedSalary: "₹30,000",
-      status: "Rejected",
-    },
-  ];
+  const filteredApplications = useMemo(() => {
+    const value = search.trim().toLowerCase();
 
-  const filteredApplications = applications.filter((application) => {
-    const value = search.toLowerCase();
+    if (!value) {
+      return applications;
+    }
 
-    return (
-      application.name.toLowerCase().includes(value) ||
-      application.email.toLowerCase().includes(value) ||
-      application.appliedFor.toLowerCase().includes(value)
-    );
-  });
-
-  const statusClass = (status) => {
-    return `status status-${status.toLowerCase()}`;
-  };
+    return applications.filter((application) => {
+      return (
+        application.name.toLowerCase().includes(value) ||
+        application.email.toLowerCase().includes(value) ||
+        application.appliedFor.toLowerCase().includes(value)
+      );
+    });
+  }, [applications, search]);
 
   return (
-    <>
+    <s-page>
       <style>{`
-
         * {
           box-sizing: border-box;
         }
 
         .applications-page {
+          width: 100%;
           min-height: 100vh;
-          padding: 18px;
-          background: #f5f7fa;
-          color: #172033;
+          padding: 18px 20px;
+          background: #f6f8fb;
+          color: #071436;
           font-family: Arial, sans-serif;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
-
         .applications-header {
           display: flex;
+          align-items: flex-start;
           justify-content: space-between;
-          align-items: center;
+          gap: 16px;
           margin-bottom: 16px;
         }
 
         .applications-title {
           margin: 0;
-          font-size: 22px;
-          font-weight: 700;
+          color: #071436;
+          font-size: 28px;
+          line-height: 34px;
+          font-weight: 750;
         }
 
         .applications-subtitle {
-          margin: 5px 0 0;
-          color: #667085;
-          font-size: 12px;
+          margin: 4px 0 0;
+          color: #303a5f;
+          font-size: 14px;
+          line-height: 20px;
         }
 
-        .export-btn {
-          height: 38px;
-          padding: 0 16px;
-
-          border: 1px solid #d5dae5;
-          border-radius: 7px;
-
-          background: #ffffff;
-          color: #1f2a44;
-
-          font-size: 12px;
-          font-weight: 600;
-
-          cursor: pointer;
-        }
-
-        /* =========================
-           FILTER BAR
-        ========================= */
-
-        .filter-bar {
-          display: flex;
-          justify-content: space-between;
+        .applications-export-btn {
+          display: inline-flex;
           align-items: center;
+          justify-content: center;
+          gap: 9px;
+          height: 42px;
+          min-width: 118px;
+          padding: 0 18px;
+          border: 1px solid #d7deec;
+          border-radius: 7px;
+          background: #ffffff;
+          color: #071436;
+          box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 750;
+        }
+
+        .applications-export-icon {
+          font-size: 12px;
+          line-height: 1;
+        }
+
+        .applications-toolbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           gap: 15px;
-
           padding: 12px;
-
           margin-bottom: 10px;
-
           background: #ffffff;
           border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
         }
 
-        .filter-left,
-        .filter-right {
+        .applications-toolbar-left,
+        .applications-toolbar-right {
           display: flex;
           align-items: center;
           gap: 8px;
         }
 
-        .search-box {
-          width: 260px;
-          height: 38px;
-
-          padding: 0 12px;
-
-          border: 1px solid #cfd5e2;
-          border-radius: 7px;
-
-          outline: none;
-
-          font-size: 12px;
+        .applications-search-wrap {
+          position: relative;
+          width: 320px;
         }
 
-        .search-box:focus {
-          border-color: #3154c7;
+        .applications-search-icon {
+          position: absolute;
+          top: 50%;
+          left: 13px;
+          color: #071436;
+          font-size: 13px;
+          font-weight: 700;
+          transform: translateY(-50%);
         }
 
-        .filter-btn,
-        .status-select,
-        .date-input {
+        .applications-search {
+          width: 100%;
           height: 38px;
-
-          border: 1px solid #cfd5e2;
+          padding: 0 12px 0 35px;
+          border: 1px solid #cfd7e7;
           border-radius: 7px;
-
           background: #ffffff;
-
-          color: #495269;
-
+          color: #071436;
+          outline: none;
           font-size: 12px;
         }
 
-        .filter-btn {
-          padding: 0 14px;
+        .applications-search:focus {
+          border-color: #2457d6;
+          box-shadow: 0 0 0 2px rgba(36, 87, 214, 0.1);
+        }
+
+        .applications-filter-btn,
+        .applications-status-select,
+        .applications-date-input {
+          height: 38px;
+          border: 1px solid #cfd7e7;
+          border-radius: 7px;
+          background: #ffffff;
+          color: #071436;
+          font-size: 12px;
+        }
+
+        .applications-filter-btn {
+          position: relative;
+          padding: 0 14px 0 34px;
           cursor: pointer;
         }
 
-        .status-select {
-          width: 120px;
+        .applications-filter-btn::before {
+          content: "";
+          position: absolute;
+          top: 11px;
+          left: 14px;
+          width: 10px;
+          height: 10px;
+          border: 2px solid currentColor;
+          border-top: 0;
+          border-left: 0;
+          transform: rotate(45deg);
+        }
+
+        .applications-filter-count {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          background: #2457d6;
+          color: #ffffff;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .applications-status-select {
+          width: 148px;
           padding: 0 10px;
         }
 
-        .date-input {
-          width: 175px;
+        .applications-date-input {
+          width: 270px;
           padding: 0 10px;
         }
 
-        /* =========================
-           TABLE
-        ========================= */
-
-        .table-card {
+        .applications-table-card {
           overflow: hidden;
-
           background: #ffffff;
-
-          border: 1px solid #edf0f4;
+          border: 1px solid #e7ecf4;
           border-radius: 9px;
+          box-shadow: 0 18px 45px rgba(15, 23, 42, 0.04);
         }
 
-        .table-scroll {
+        .applications-table-scroll {
           overflow-x: auto;
         }
 
         .applications-table {
           width: 100%;
           min-width: 1000px;
-
           border-collapse: collapse;
         }
 
         .applications-table thead {
-          background: #cceeff;
+          background: #c9efff;
         }
 
         .applications-table th {
           padding: 13px 16px;
-
-          text-align: left;
-
-          color: #161d2d;
-
+          color: #071436;
           font-size: 12px;
           font-weight: 700;
-
+          text-align: left;
           white-space: nowrap;
         }
 
         .applications-table td {
           padding: 15px 16px;
-
-          border-bottom: 1px solid #edf0f4;
-
-          color: #172033;
-
+          border-bottom: 1px solid #e8edf5;
+          color: #071436;
           font-size: 12px;
-
           vertical-align: middle;
         }
 
-        /* =========================
-           APPLICANT
-        ========================= */
+        .applications-table tbody tr:last-child td {
+          border-bottom: 0;
+        }
 
-        .applicant-info {
+        .application-person {
           display: flex;
           align-items: center;
           gap: 11px;
         }
 
-        .applicant-avatar {
-          width: 42px;
-          height: 42px;
-
-          flex-shrink: 0;
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          border-radius: 50%;
-
-          background: #e3efff;
-          color: #2454bf;
-
-          font-size: 13px;
-          font-weight: 700;
-        }
-
-        .applicant-name {
-          margin-bottom: 3px;
-
-          font-size: 13px;
-          font-weight: 700;
-        }
-
-        .applicant-contact {
-          margin-top: 2px;
-
-          color: #667085;
-
-          font-size: 11px;
-        }
-
-        /* =========================
-           STATUS
-        ========================= */
-
-        .status {
+        .application-avatar {
           display: inline-flex;
           align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          font-size: 15px;
+          font-weight: 700;
+        }
 
-          padding: 6px 12px;
+        .application-avatar.blue {
+          background: #e3efff;
+          color: #2457d6;
+        }
 
+        .application-avatar.green {
+          background: #dff7eb;
+          color: #06905f;
+        }
+
+        .application-avatar.red {
+          background: #ffe6eb;
+          color: #e11d48;
+        }
+
+        .application-avatar.purple {
+          background: #eee3ff;
+          color: #7c3aed;
+        }
+
+        .application-name {
+          display: block;
+          margin-bottom: 3px;
+          font-size: 14px;
+          font-weight: 700;
+        }
+
+        .application-contact {
+          display: block;
+          margin-top: 2px;
+          color: #34405f;
+          font-size: 12px;
+        }
+
+        .application-status {
+          display: inline-flex;
+          align-items: center;
+          min-width: 72px;
+          justify-content: center;
+          padding: 6px 11px;
           border-radius: 20px;
-
           font-size: 11px;
           font-weight: 600;
         }
 
-        .status::before {
+        .application-status::before {
           content: "";
-
           width: 7px;
           height: 7px;
-
           margin-right: 7px;
-
           border-radius: 50%;
-
           background: currentColor;
         }
 
-        .status-new {
+        .application-status.new {
           background: #e2efff;
-          color: #1661cf;
+          color: #145de0;
         }
 
-        .status-shortlist {
+        .application-status.shortlist {
           background: #eee3ff;
-          color: #7136d8;
+          color: #6d28d9;
         }
 
-        .status-interview {
+        .application-status.interview {
           background: #fff0cf;
-          color: #dc8500;
+          color: #db7c00;
         }
 
-        .status-final {
+        .application-status.phone {
+          background: #e0f2fe;
+          color: #0369a1;
+        }
+
+        .application-status.face {
+          background: #ede9fe;
+          color: #6d28d9;
+        }
+
+        .application-status.test {
+          background: #cffafe;
+          color: #0e7490;
+        }
+
+        .application-status.final {
           background: #dcf5eb;
-          color: #07966a;
+          color: #079568;
         }
 
-        .status-rejected {
+        .application-status.hired {
+          background: #dcfce7;
+          color: #15803d;
+        }
+
+        .application-status.rejected {
           background: #ffe3e6;
-          color: #df2537;
+          color: #e11d2f;
         }
 
-        /* =========================
-           ACTIONS
-        ========================= */
+        .application-status.default {
+          background: #eef2f7;
+          color: #475569;
+        }
 
-        .actions {
+        .application-actions {
+          position: relative;
           display: flex;
           align-items: center;
           gap: 7px;
         }
 
-        .view-btn,
-        .more-btn {
+        .application-view-btn,
+        .application-icon-btn {
           height: 35px;
-
-          border: 1px solid #d1d8e6;
+          border: 1px solid #cfd7e7;
           border-radius: 6px;
-
           background: #ffffff;
-
+          color: #071436;
           cursor: pointer;
         }
 
-        .view-btn {
+        .application-view-btn {
           padding: 0 14px;
-
-          color: #1747b8;
-
           font-size: 11px;
           font-weight: 700;
         }
 
-        .more-btn {
-          width: 36px;
-
-          color: #475467;
-
-          font-size: 17px;
+        .application-icon-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 42px;
+          padding: 0;
+          font-size: 11px;
+          font-weight: 750;
         }
 
-        .view-btn:hover,
-        .more-btn:hover {
-          background: #f5f7fa;
+        .application-view-btn:hover,
+        .application-icon-btn:hover {
+          background: #f4f7fb;
         }
 
-        /* =========================
-           EMPTY STATE
-        ========================= */
+        .application-actions-menu {
+          position: absolute;
+          top: 42px;
+          right: 0;
+          z-index: 20;
+          width: 210px;
+          padding: 6px;
+          border: 1px solid #dce3ef;
+          border-radius: 8px;
+          background: #ffffff;
+          box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+        }
 
-        .empty-row td {
+        .application-actions-menu button {
+          display: block;
+          width: 100%;
+          height: 34px;
+          padding: 0 11px;
+          border: 0;
+          border-radius: 6px;
+          background: transparent;
+          color: #071436;
+          cursor: pointer;
+          font-size: 12px;
+          font-weight: 600;
+          text-align: left;
+        }
+
+        .application-actions-menu button:hover {
+          background: #f4f7fb;
+        }
+
+        .application-actions-menu .danger {
+          color: #e11d2f;
+        }
+
+        .applications-empty-row td {
           height: 260px;
-        }
-
-        .empty-state {
-          text-align: center;
-
           color: #687083;
-
           font-size: 13px;
           font-weight: 600;
+          text-align: center;
         }
 
-        /* =========================
-           TABLE FOOTER
-        ========================= */
-
-        .table-footer {
+        .applications-table-footer {
           display: flex;
+          align-items: center;
           justify-content: space-between;
-          align-items: center;
-
-          padding: 14px 16px;
-
-          color: #667085;
-
-          font-size: 11px;
+          gap: 12px;
+          min-height: 58px;
+          padding: 12px 16px;
+          border-top: 1px solid #e8edf5;
+          color: #34405f;
+          font-size: 14px;
         }
 
-        .pagination {
+        .applications-pagination {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 9px;
         }
 
-        .page-btn {
-          width: 34px;
-          height: 34px;
-
-          border: 1px solid #d5dae5;
-          border-radius: 6px;
-
+        .application-page-btn {
+          width: 38px;
+          height: 38px;
+          border: 1px solid #cfd7e7;
+          border-radius: 7px;
           background: #ffffff;
-
+          color: #071436;
           cursor: pointer;
+          font-size: 15px;
+          font-weight: 700;
         }
 
-        .page-btn.active {
-          border-color: #3154c7;
-
-          background: #3154c7;
-
+        .application-page-btn.active {
+          border-color: #2457d6;
+          background: #2457d6;
           color: #ffffff;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 800px) {
-
+        @media (max-width: 820px) {
           .applications-page {
-            padding: 12px;
+            padding: 14px;
           }
 
           .applications-header {
-            align-items: flex-start;
+            flex-direction: column;
           }
 
-          .filter-bar {
+          .applications-toolbar {
             flex-direction: column;
             align-items: stretch;
           }
 
-          .filter-left,
-          .filter-right {
+          .applications-toolbar-left,
+          .applications-toolbar-right {
             width: 100%;
+            flex-wrap: wrap;
           }
 
-          .search-box {
+          .applications-search-wrap,
+          .applications-status-select,
+          .applications-date-input {
             width: 100%;
+            flex: 1 1 220px;
           }
 
-          .status-select,
-          .date-input {
-            flex: 1;
+          .applications-table-footer {
+            align-items: flex-start;
+            flex-direction: column;
           }
-
         }
-
       `}</style>
 
       <div className="applications-page">
-
-        {/* =============================
-            HEADER
-        ============================= */}
-
         <div className="applications-header">
-
           <div>
-
-            <h1 className="applications-title">
-              All Applications
-            </h1>
-
+            <h1 className="applications-title">All Applications</h1>
             <p className="applications-subtitle">
               Manage and track all job applications in one place.
             </p>
-
           </div>
 
-          <button type="button" className="export-btn">
-            ↓ Export
+          <button type="button" className="applications-export-btn">
+            <span className="applications-export-icon" aria-hidden="true">
+              DL
+            </span>
+            Export
           </button>
-
         </div>
 
+        <div className="applications-toolbar">
+          <div className="applications-toolbar-left">
+            <label className="applications-search-wrap">
+              <span className="applications-search-icon" aria-hidden="true">
+                O
+              </span>
+              <input
+                type="text"
+                className="applications-search"
+                placeholder="Search by name, email, job title..."
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+            </label>
 
-        {/* =============================
-            FILTERS
-        ============================= */}
-
-        <div className="filter-bar">
-
-          <div className="filter-left">
-
-            <input
-              type="text"
-              className="search-box"
-              placeholder="⌕  Search by name, email, job title..."
-              value={search}
-              onChange={(event) =>
-                setSearch(event.target.value)
-              }
-            />
-
-            <button
-              type="button"
-              className="filter-btn"
-            >
-              ⚲ Filter
+            <button type="button" className="applications-filter-btn">
+              Filter
+              <span className="applications-filter-count">2</span>
             </button>
-
           </div>
 
-
-          <div className="filter-right">
-
-            <select className="status-select">
+          <div className="applications-toolbar-right">
+            <select className="applications-status-select" defaultValue="Active">
               <option>Active</option>
               <option>All</option>
               <option>New</option>
               <option>Shortlist</option>
+              <option>Phone</option>
+              <option>Face</option>
+              <option>Test</option>
               <option>Interview</option>
               <option>Final</option>
+              <option>Hired</option>
               <option>Rejected</option>
             </select>
 
             <input
-              type="date"
-              className="date-input"
+              type="text"
+              className="applications-date-input"
+              placeholder="Select date range"
+              readOnly
             />
-
           </div>
-
         </div>
 
-
-        {/* =============================
-            APPLICATION TABLE
-        ============================= */}
-
-        <div className="table-card">
-
-          <div className="table-scroll">
-
-            <table className="applications-table">
-
-              <thead>
-
-                <tr>
-
-                  <th>Name</th>
-
-                  <th>Experience</th>
-
-                  <th>Available Start</th>
-
-                  <th>Applied For</th>
-
-                  <th>Expected Salary</th>
-
-                  <th>Status</th>
-
-                  <th>Actions</th>
-
-                </tr>
-
-              </thead>
-
-
-              <tbody>
-
-                {filteredApplications.length > 0 ? (
-
-                  filteredApplications.map(
-                    (application) => (
-
-                      <tr key={application.id}>
-
-                        {/* NAME */}
-
-                        <td>
-
-                          <div className="applicant-info">
-
-                            <div className="applicant-avatar">
-                              {application.initials}
-                            </div>
-
-                            <div>
-
-                              <div className="applicant-name">
-                                {application.name}
-                              </div>
-
-                              <div className="applicant-contact">
-                                {application.email}
-                              </div>
-
-                              <div className="applicant-contact">
-                                {application.phone}
-                              </div>
-
-                            </div>
-
-                          </div>
-
-                        </td>
-
-
-                        {/* EXPERIENCE */}
-
-                        <td>
-                          {application.experience}
-                        </td>
-
-
-                        {/* START */}
-
-                        <td>
-                          {application.availableStart}
-                        </td>
-
-
-                        {/* JOB */}
-
-                        <td>
-                          {application.appliedFor}
-                        </td>
-
-
-                        {/* SALARY */}
-
-                        <td>
-                          {application.expectedSalary}
-                        </td>
-
-
-                        {/* STATUS */}
-
-                        <td>
-
-                          <span
-                            className={statusClass(
-                              application.status
-                            )}
-                          >
-                            {application.status}
-                          </span>
-
-                        </td>
-
-
-                        {/* ACTIONS */}
-
-                        <td>
-
-                          <div className="actions">
-
-                            <button
-                              type="button"
-                              className="view-btn"
-                            >
-                              View
-                            </button>
-
-                            <button
-                              type="button"
-                              className="more-btn"
-                            >
-                              ⋯
-                            </button>
-
-                          </div>
-
-                        </td>
-
-                      </tr>
-
-                    )
-                  )
-
-                ) : (
-
-                  <tr className="empty-row">
-
-                    <td colSpan="7">
-
-                      <div className="empty-state">
-                        No records found
-                      </div>
-
-                    </td>
-
-                  </tr>
-
-                )}
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-
-          {/* =============================
-              FOOTER
-          ============================= */}
-
-          {filteredApplications.length > 0 && (
-
-            <div className="table-footer">
-
-              <span>
-                Showing 1 to{" "}
-                {filteredApplications.length} of{" "}
-                {applications.length} applications
-              </span>
-
-
-              <div className="pagination">
-
-                <button
-                  type="button"
-                  className="page-btn"
-                >
-                  ‹
-                </button>
-
-                <button
-                  type="button"
-                  className="page-btn active"
-                >
-                  1
-                </button>
-
-                <button
-                  type="button"
-                  className="page-btn"
-                >
-                  ›
-                </button>
-
-              </div>
-
-            </div>
-
-          )}
-
-        </div>
-
+        <ApplicationTable
+          applications={filteredApplications}
+          totalApplications={applications.length}
+        />
       </div>
-    </>
+    </s-page>
   );
+}
+
+function serializeApplication(application, index) {
+  const fullName = application.fullName || "Unnamed Applicant";
+  const salaryType = application.salaryType || "Per Month";
+
+  return {
+    id: application._id.toString(),
+    initials: getInitials(fullName),
+    avatarTone: avatarTones[index % avatarTones.length],
+    name: fullName,
+    email: application.email || "No email",
+    phone: application.phone || "No phone",
+    experience: application.experience || "Not provided",
+    availableStart: formatDate(application.availableStart),
+    appliedFor: application.job?.jobTitle || "Job not found",
+    expectedSalary: formatSalary(application.expectedSalary, salaryType),
+    status: statusLabels[application.status] || "New",
+  };
+}
+
+function getInitials(name) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function formatDate(dateValue) {
+  if (!dateValue) {
+    return "Not provided";
+  }
+
+  const date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Not provided";
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+function formatSalary(value, salaryType) {
+  const salary = Number(value);
+
+  if (!Number.isFinite(salary)) {
+    return "Not provided";
+  }
+
+  return `Rs. ${salary.toLocaleString("en-IN")} (${salaryType})`;
 }

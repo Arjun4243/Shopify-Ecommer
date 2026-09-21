@@ -1,94 +1,154 @@
+import { ObjectId } from "mongodb";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { redirect, useLoaderData, useNavigate } from "react-router";
+import { client, db } from "../mongodb.server";
+import { authenticate } from "../shopify.server";
+
+const stageIds = [
+  "unlisted",
+  "shortlist",
+  "phone",
+  "face",
+  "test",
+  "final",
+  "hired",
+  "rejected",
+];
+
+export const loader = async ({ request }) => {
+  const { session } = await authenticate.admin(request);
+  const url = new URL(request.url);
+  const jobId = url.searchParams.get("jobId");
+
+  if (!jobId || !ObjectId.isValid(jobId)) {
+    return redirect("/app/job-list");
+  }
+
+  await client.connect();
+
+  const jobObjectId = new ObjectId(jobId);
+  const job = await db.collection("jobs").findOne({
+    _id: jobObjectId,
+    shopId: session.shop,
+  });
+
+  if (!job) {
+    return redirect("/app/job-list");
+  }
+
+  const applications = await db
+    .collection("applications")
+    .find({
+      shopId: session.shop,
+      jobId: {
+        $in: [jobObjectId, jobId],
+      },
+    })
+    .sort({ createdAt: -1 })
+    .toArray();
+
+  const stageCounts = stageIds.reduce(
+    (counts, stageId) => ({
+      ...counts,
+      [stageId]: 0,
+    }),
+    { all: applications.length },
+  );
+
+  applications.forEach((application) => {
+    const status = stageIds.includes(application.status)
+      ? application.status
+      : "unlisted";
+    stageCounts[status] += 1;
+  });
+
+  return {
+    job: {
+      title: job.jobTitle || "Untitled Job",
+      department: job.department || "Not provided",
+      postedDate: formatDate(job.createdAt),
+      status: formatStatus(job.status || "draft"),
+    },
+    stageCounts,
+    applicants: applications.map((application) => ({
+      id: application._id.toString(),
+      name: application.fullName || "Unnamed Applicant",
+      status: stageIds.includes(application.status)
+        ? application.status
+        : "unlisted",
+      experience: application.experience || "Not provided",
+      expectedSalary:
+        typeof application.expectedSalary === "number"
+          ? `Rs. ${application.expectedSalary.toLocaleString("en-IN")}`
+          : "Not provided",
+      applicationDate: formatDate(application.createdAt),
+    })),
+  };
+};
 
 export default function JobDetail() {
   const navigate = useNavigate();
+  const { job, stageCounts, applicants } = useLoaderData();
 
   const [activeStage, setActiveStage] = useState("unlisted");
   const [search, setSearch] = useState("");
 
-  /*
-    FRONTEND DUMMY DATA
-
-    Later this data will come from MongoDB
-  */
-  const job = {
-    title: "Web Development",
-    department: "Engineering",
-    postedDate: "September 19, 2026",
-    status: "Published",
-  };
-
-  /*
-    Applicant stage counts
-
-    Later these counts will be calculated
-    from applications stored in MongoDB.
-  */
   const stages = [
     {
       id: "unlisted",
       label: "Unlisted",
-      count: 0,
+      count: stageCounts.unlisted,
       icon: "👥",
     },
     {
       id: "shortlist",
       label: "Shortlist",
-      count: 0,
+      count: stageCounts.shortlist,
       icon: "☷",
     },
     {
       id: "phone",
       label: "Phone",
-      count: 0,
+      count: stageCounts.phone,
       icon: "☎",
     },
     {
       id: "face",
       label: "Face",
-      count: 0,
+      count: stageCounts.face,
       icon: "👤",
     },
     {
       id: "test",
       label: "Test",
-      count: 0,
+      count: stageCounts.test,
       icon: "▣",
     },
     {
       id: "final",
       label: "Final",
-      count: 0,
+      count: stageCounts.final,
       icon: "♟",
     },
     {
       id: "hired",
       label: "Hired",
-      count: 0,
+      count: stageCounts.hired,
       icon: "✓",
     },
     {
       id: "rejected",
       label: "Rejected",
-      count: 0,
+      count: stageCounts.rejected,
       icon: "×",
     },
     {
       id: "all",
       label: "All",
-      count: 0,
+      count: stageCounts.all,
       icon: "✦",
     },
   ];
-
-  /*
-    Keep this empty for now so that
-    we can show the "No records found" state.
-
-    Later MongoDB applications will come here.
-  */
-  const applicants = [];
 
   const filteredApplicants = applicants.filter((applicant) => {
     const matchesSearch = applicant.name
@@ -1045,4 +1105,29 @@ export default function JobDetail() {
 
     </s-page>
   );
+}
+
+function formatDate(dateValue) {
+  if (!dateValue) {
+    return "Not provided";
+  }
+
+  const date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Not provided";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+}
+
+function formatStatus(status) {
+  return status
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }

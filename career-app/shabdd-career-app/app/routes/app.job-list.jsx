@@ -31,16 +31,87 @@ export const loader = async ({ request }) => {
     .sort({ createdAt: -1 })
     .toArray();
 
+  const applicationCounts = await db
+    .collection("applications")
+    .aggregate([
+      {
+        $match: {
+          shopId: session.shop,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            jobId: "$jobId",
+            status: "$status",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ])
+    .toArray();
+
+  const countsByJobId = applicationCounts.reduce((counts, item) => {
+    const jobId = item._id.jobId?.toString();
+
+    if (!jobId) {
+      return counts;
+    }
+
+    const status = item._id.status || "unlisted";
+    const currentCounts =
+      counts.get(jobId) || {
+        applicants: 0,
+        inProgress: 0,
+        rejected: 0,
+        hired: 0,
+      };
+
+    currentCounts.applicants += item.count;
+
+    if (["shortlist", "phone", "face", "test", "final"].includes(status)) {
+      currentCounts.inProgress += item.count;
+    }
+
+    if (status === "rejected") {
+      currentCounts.rejected += item.count;
+    }
+
+    if (status === "hired") {
+      currentCounts.hired += item.count;
+    }
+
+    counts.set(jobId, currentCounts);
+    return counts;
+  }, new Map());
+
   return {
-    jobs: jobs.map((job) => ({
-      id: job._id.toString(),
-      jobTitle: job.jobTitle || "Untitled Job",
-      department: job.department || "Not provided",
-      applicationDeadline: job.applicationDeadline
-        ? job.applicationDeadline.toISOString()
-        : null,
-      status: job.status || "draft",
-    })),
+    jobs: jobs.map((job) => {
+      const jobId = job._id.toString();
+      const counts =
+        countsByJobId.get(jobId) || {
+          applicants: 0,
+          inProgress: 0,
+          rejected: 0,
+          hired: 0,
+        };
+
+      return {
+        id: jobId,
+        jobTitle: job.jobTitle || "Untitled Job",
+        department: job.department || "Not provided",
+        applicationDeadline: job.applicationDeadline
+          ? job.applicationDeadline.toISOString()
+          : null,
+        status: job.status || "draft",
+        applicants: counts.applicants,
+        inProgress: counts.inProgress,
+        rejected: counts.rejected,
+        hired: counts.hired,
+      };
+    }),
   };
 };
 
@@ -608,10 +679,10 @@ export default function JobList() {
                         {formatJobDate(job.applicationDeadline)}
                       </span>
                     </td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td>{job.applicants}</td>
+                    <td>{job.inProgress}</td>
+                    <td>{job.rejected}</td>
+                    <td>{job.hired}</td>
                     <td>
                       <span className={`status-badge ${job.status}`}>
                         {job.status}
@@ -622,7 +693,9 @@ export default function JobList() {
                         <button
                           type="button"
                           className="action-btn"
-                          onClick={() => navigate("/app/job-detail")}
+                          onClick={() =>
+                            navigate(`/app/job-detail?jobId=${job.id}`)
+                          }
                         >
                           View Details
                         </button>
