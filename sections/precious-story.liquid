@@ -1,0 +1,65 @@
+{{ 'precious-page.css' | asset_url | stylesheet_tag }}
+
+<section class="precious-story">
+  <div class="precious-story__content">
+    <div>
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="precious-story__features">
+      {% for block in section.blocks %}
+        <span {{ block.shopify_attributes }}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            {% case block.settings.icon %}
+              {% when 'diamond' %}
+                <path d="M6.5 4h11L22 9l-10 11L2 9l4.5-5Z"></path><path d="M2 9h20"></path><path d="m8 9 4 11 4-11"></path><path d="m6.5 4 1.5 5 4-5 4 5 1.5-5"></path>
+              {% when 'globe' %}
+                <circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path>
+              {% when 'star' %}
+                <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.2l-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path>
+              {% else %}
+                <path d="M20 4c-7.5.8-12.5 4.6-15 11.4 3.2.2 6-.6 8.3-2.4 2.4-1.8 4.6-4.8 6.7-9Z"></path><path d="M4 20c2.3-4.3 5.2-7.2 8.8-8.8"></path>
+            {% endcase %}
+          </svg>
+          <strong>{{ block.settings.text }}</strong>
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+  {% if section.settings.image_url != blank %}
+    <img src="{{ section.settings.image_url }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="320" loading="lazy">
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Precious story",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "<span>About Precious Stones:</span><span>The Raza Gems Difference</span>" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Precious stones, specifically <strong>Diamonds, Rubies, Emeralds, and Sapphires</strong>, have captivated humanity for millennia as tangible assets that symbolize wealth, precision craftsmanship, and enduring value. At Raza Gems, operating from the heart of the <strong>Dubai gemstone market</strong>, we specialize in providing certified, natural, and original rare precious stones directly from the source to the global market." },
+    { "type": "text", "id": "image_url", "label": "Background image URL", "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/precious-page-bottom.webp?v=1789369761" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Ruby gemstone" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [{ "value": "leaf", "label": "Leaf" }, { "value": "diamond", "label": "Diamond" }, { "value": "globe", "label": "Globe" }, { "value": "star", "label": "Star" }], "default": "leaf" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Natural &<br>Ethically Sourced" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Precious story",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "leaf", "text": "Natural &<br>Ethically Sourced" } },
+        { "type": "feature", "settings": { "icon": "diamond", "text": "Certified<br>Gemstones" } },
+        { "type": "feature", "settings": { "icon": "globe", "text": "Worldwide<br>Shipping" } },
+        { "type": "feature", "settings": { "icon": "star", "text": "Expert<br>Guidance" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

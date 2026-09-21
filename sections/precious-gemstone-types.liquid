@@ -1,0 +1,59 @@
+{{ 'precious-page.css' | asset_url | stylesheet_tag }}
+
+<section class="precious-page">
+  <div class="precious-page__inner">
+    <section class="precious-type" id="{{ section.settings.anchor_id }}">
+      <p class="precious-type__eyebrow">{{ section.settings.heading }}</p>
+      <h2>{{ section.settings.subheading }}</h2>
+      <div class="precious-type__row">
+        {% for block in section.blocks %}
+          {% assign image_value = block.settings.image %}
+          {% if image_value contains 'http' %}
+            {% assign image_src = image_value %}
+          {% else %}
+            {% assign image_src = image_value | asset_url %}
+          {% endif %}
+          <a href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+            <span class="precious-type-item">
+              <img src="{{ image_src }}" alt="{{ block.settings.title | escape }}" width="86" height="86" loading="lazy">
+              <span>{{ block.settings.title }}</span>
+            </span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Precious gemstone types",
+  "settings": [
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "default": "precious-type-here" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by Gemstone Type" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Discover Precious Gemstones" }
+  ],
+  "blocks": [
+    {
+      "type": "gemstone",
+      "name": "Gemstone",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Ruby" },
+        { "type": "text", "id": "image", "label": "Image asset filename or URL", "default": "mega-menu-precious-ruby.webp" },
+        { "type": "text", "id": "link", "label": "Link", "default": "/collections/ruby" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Precious gemstone types",
+      "blocks": [
+        { "type": "gemstone", "settings": { "title": "Ruby", "image": "mega-menu-precious-ruby.webp", "link": "/collections/ruby" } },
+        { "type": "gemstone", "settings": { "title": "Emerald", "image": "mega-menu-precious-emerald.webp", "link": "/collections/emerald" } },
+        { "type": "gemstone", "settings": { "title": "Blue Sapphire", "image": "mega-menu-precious-blue-sapphire.webp", "link": "/collections/blue-sapphire" } },
+        { "type": "gemstone", "settings": { "title": "Yellow Sapphire", "image": "mega-menu-precious-yellow-sapphire.webp", "link": "/collections/yellow-sapphire" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

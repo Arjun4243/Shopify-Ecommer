@@ -1,0 +1,52 @@
+{{ 'precious-page.css' | asset_url | stylesheet_tag }}
+
+<section class="precious-value" aria-label="{{ section.settings.aria_label | escape }}">
+  {% for block in section.blocks %}
+    <article class="precious-value__item" {{ block.shopify_attributes }}>
+      <div class="precious-value__icon-row">
+        <span class="precious-value__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            {% if block.settings.icon == 'chart' %}
+              <path d="M4 19h16"></path><path d="M7 16v-5"></path><path d="M12 16V7"></path><path d="M17 16v-9"></path><path d="m7 8 5-5 5 3"></path><path d="m17 6 .4-3.4"></path><path d="m17 6-3.4-.4"></path>
+            {% else %}
+              <path d="M7 3h8l4 4v14H7V3Z"></path><path d="M15 3v5h5"></path><path d="M10 12h4"></path><path d="M10 16h3"></path><circle cx="17" cy="17" r="3"></circle><path d="m19.2 19.2 1.8 1.8"></path>
+            {% endif %}
+          </svg>
+        </span>
+      </div>
+      <div class="precious-value__copy">
+        <h3>{{ block.settings.heading }}</h3>
+        <p>{{ block.settings.text }}</p>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "Precious value cards",
+  "settings": [
+    { "type": "text", "id": "aria_label", "label": "Accessibility label", "default": "Certified gemstone value" }
+  ],
+  "blocks": [
+    {
+      "type": "value_card",
+      "name": "Value card",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [{ "value": "certificate", "label": "Certificate" }, { "value": "chart", "label": "Chart" }], "default": "certificate" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "The Importance of Certified Gemological Integrity" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "When you choose to <strong>buy natural precious stones online</strong>, the absolute highest priority is technical authenticity and official certification. The commercial value of a precious stone is tied strictly to its origin, its lack of artificial treatment, and its quality grading." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Precious value cards",
+      "blocks": [
+        { "type": "value_card" },
+        { "type": "value_card", "settings": { "icon": "chart", "heading": "Precious Stones as High-Value Assets", "text": "For centuries, precious stones have served as a portable and reliable store of wealth. Their lack of counterparty risk and historical trend of market appreciation make them significant long-term assets. When evaluating <strong>precious stone investment value</strong>, the key metrics are geographic origin, laboratory certification, and scarcity." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

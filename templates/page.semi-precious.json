@@ -1,0 +1,130 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "content_direction": "column",
+        "gap": 12,
+        "background_color": "",
+        "semi_fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-banner.webp?v=1789448977",
+        "semi_image_alt": "Gemstones and semi precious stones displayed on a soft natural background",
+        "semi_accessibility_label": "Semi precious gemstones banner",
+        "semi_eyebrow": "Natural - Ethical - Timeless",
+        "semi_heading": "Gemstones and Semi Precious<br>Stones for Sale",
+        "semi_subheading": "Handpicked, natural semi precious gemstones for beauty, healing and a more meaningful life.",
+        "semi_benefits_accessibility_label": "Gemstone benefits",
+        "semi_benefits_heading": "Gemstone Benefits",
+        "semi_benefits_subheading": "Discover the beauty, meaning and positive energy of natural gemstones",
+        "semi_card_1_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-1.webp?v=1789448977",
+        "semi_card_1_image_alt": "Purple amethyst gemstone on a natural rock",
+        "semi_card_1_eyebrow": "Gemstone Guide",
+        "semi_card_1_heading": "The Calming Power of Amethyst",
+        "semi_card_1_text": "Discover how amethyst brings calm, clarity and gentle positive energy into everyday moments.",
+        "semi_card_1_link_label": "Read More",
+        "semi_card_1_link": "",
+        "semi_card_2_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-2.webp?v=1789448977",
+        "semi_card_2_image_alt": "Red gemstone placed on a soft neutral stone",
+        "semi_card_2_eyebrow": "Wellness",
+        "semi_card_2_heading": "How Gemstones Support Emotional Balance",
+        "semi_card_2_text": "From garnet to rose quartz, see how natural gemstones can support balance, focus and a grounded mind.",
+        "semi_card_2_link_label": "Read More",
+        "semi_card_2_link": "",
+        "semi_card_3_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-3.webp?v=1789448977",
+        "semi_card_3_image_alt": "Collection of colorful semi precious gemstones",
+        "semi_card_3_eyebrow": "Buying Guide",
+        "semi_card_3_heading": "A Complete Guide to Semi Precious Gemstones",
+        "semi_card_3_text": "Know what to look for before you buy - from quality and pricing to the meaning behind each stone.",
+        "semi_card_3_link_label": "Read More",
+        "semi_card_3_link": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "1789483624df53fa44": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_e5807af_eyr6ih": {
+          "type": "ai_gen_block_e5807af",
+          "settings": {
+            "heading": "Gemstone Benefits",
+            "subtitle": "Discover the beauty, meaning and positive energy of natural gemstones",
+            "desktop_width_percent": 100,
+            "vertical_padding": 100,
+            "card_radius": 2,
+            "background_color": "#fbfaf7",
+            "card_color": "#ffffff",
+            "heading_color": "#050505",
+            "text_color": "#38332e",
+            "muted_color": "#71685f",
+            "accent_color": "#dfcfad",
+            "link_color": "#b5802a",
+            "border_color": "#eee7dc",
+            "image_1": "shopify://shop_images/Semi-precious-bottom-1.webp",
+            "kicker_1": "GEMSTONE GUIDE",
+            "title_1": "The Calming Power of Amethyst",
+            "description_1": "Discover how amethyst brings calm, clarity and gentle positive energy into everyday moments.",
+            "link_label_1": "Read More",
+            "link_1": "",
+            "image_2": "shopify://shop_images/Semi-precious-bottom-2.webp",
+            "kicker_2": "Wellness",
+            "title_2": "How Gemstones Support Emotional Balance",
+            "description_2": "From garnet to rose quartz, see how natural gemstones can support balance, focus and a grounded mind.",
+            "link_label_2": "Read More",
+            "link_2": "",
+            "image_3": "shopify://shop_images/Semi-precious-bottom-3.webp",
+            "kicker_3": "Buying Guide",
+            "title_3": "A Complete Guide to Semi Precious Gemstones",
+            "description_3": "Know what to look for before you buy - from quality and pricing to the meaning behind each stone.",
+            "link_label_3": "Read More",
+            "link_3": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_e5807af_eyr6ih"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1789483624df53fa44"
+  ]
+}
