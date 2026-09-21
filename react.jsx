@@ -1,9 +1,11 @@
 import { useState } from "react";
 
-export default function Applications() {
+export default function Applications() 
+{
   const [search, setSearch] = useState("");
 
-  const applications = [
+  const applications = 
+  [
     {
       id: 1,
       initials: "AS",
@@ -15,61 +17,15 @@ export default function Applications() {
       appliedFor: "Web Developer",
       expectedSalary: "₹35,000",
       status: "New",
-    },
-    {
-      id: 2,
-      initials: "RV",
-      name: "Rahul Verma",
-      email: "rahul@example.com",
-      phone: "+91 91234 56789",
-      experience: "Fresher",
-      availableStart: "Immediately",
-      appliedFor: "Web Developer",
-      expectedSalary: "₹25,000",
-      status: "Shortlist",
-    },
-    {
-      id: 3,
-      initials: "PS",
-      name: "Priya Singh",
-      email: "priya@example.com",
-      phone: "+91 99876 54321",
-      experience: "3 Years",
-      availableStart: "15 Oct 2026",
-      appliedFor: "UI Designer",
-      expectedSalary: "₹45,000",
-      status: "Interview",
-    },
-    {
-      id: 4,
-      initials: "AK",
-      name: "Amit Khan",
-      email: "amit@example.com",
-      phone: "+91 98712 34567",
-      experience: "5 Years",
-      availableStart: "07 Nov 2026",
-      appliedFor: "Backend Developer",
-      expectedSalary: "₹60,000",
-      status: "Final",
-    },
-    {
-      id: 5,
-      initials: "SN",
-      name: "Sneha Patel",
-      email: "sneha@example.com",
-      phone: "+91 90123 45678",
-      experience: "1 Year",
-      availableStart: "20 Oct 2026",
-      appliedFor: "Content Writer",
-      expectedSalary: "₹30,000",
-      status: "Rejected",
-    },
+    }
   ];
 
-  const filteredApplications = applications.filter((application) => {
+  const filteredApplications = applications.filter((application) => 
+  {
     const value = search.toLowerCase();
 
-    return (
+    return 
+    (
       application.name.toLowerCase().includes(value) ||
       application.email.toLowerCase().includes(value) ||
       application.appliedFor.toLowerCase().includes(value)
