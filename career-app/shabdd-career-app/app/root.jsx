@@ -14,7 +14,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{ fontFamily: "Inter, sans-serif" }}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />

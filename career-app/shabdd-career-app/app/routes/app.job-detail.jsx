@@ -858,20 +858,6 @@ export default function JobDetail() {
               Applications
             </button>
 
-            <button
-              type="button"
-              className="header-btn"
-            >
-              Report
-            </button>
-
-            <button
-              type="button"
-              className="header-btn"
-            >
-              Job Preview
-            </button>
-
           </div>
 
         </div>

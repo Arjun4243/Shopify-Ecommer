@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 
-import ApplicationActions from "./ApplicationActions";
 import ApplicationStatusBadge from "./ApplicationStatusBadge";
 
-export default function ApplicationTable({ applications, totalApplications }) {
+export default function ApplicationTable({
+  applications,
+  totalApplications,
+  onSelectApplication,
+}) {
   return (
     <div className="applications-table-card">
       <div className="applications-table-scroll">
@@ -16,18 +19,23 @@ export default function ApplicationTable({ applications, totalApplications }) {
               <th>Applied For</th>
               <th>Expected Salary</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>View</th>
+              <th>Resume</th>
             </tr>
           </thead>
 
           <tbody>
             {applications.length === 0 ? (
               <tr className="applications-empty-row">
-                <td colSpan="7">No applications found.</td>
+                <td colSpan="8">No applications found.</td>
               </tr>
             ) : (
               applications.map((application) => (
-                <tr key={application.id}>
+                <tr
+                  key={application.id}
+                  className="application-table-row"
+                  onClick={() => onSelectApplication(application)}
+                >
                   <td>
                     <div className="application-person">
                       <span className={`application-avatar ${application.avatarTone}`}>
@@ -55,7 +63,45 @@ export default function ApplicationTable({ applications, totalApplications }) {
                     <ApplicationStatusBadge status={application.status} />
                   </td>
                   <td>
-                    <ApplicationActions application={application} />
+                    <button
+                      type="button"
+                      className="application-view-btn"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onSelectApplication(application);
+                      }}
+                    >
+                      View
+                    </button>
+                  </td>
+                  <td>
+                    {application.hasResume && application.resumeDownloadUrl ? (
+                      <a
+                        className="application-icon-btn pdf"
+                        href={application.resumeDownloadUrl}
+                        download
+                        aria-label={`Download resume PDF for ${application.name}`}
+                        title="Download Resume (PDF)"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <span className="pdf-icon" aria-hidden="true">
+                          PDF
+                        </span>
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        className="application-icon-btn pdf disabled"
+                        aria-label={`No resume PDF available for ${application.name}`}
+                        title="No resume PDF available"
+                        disabled
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <span className="pdf-icon" aria-hidden="true">
+                          PDF
+                        </span>
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))

@@ -3,13 +3,10 @@
 import { useRef, useState } from "react";
 import { Form, useActionData, useNavigation } from "react-router";
 
-const maxCharacters = 1000;
-
 export default function ApplicationForm({ job }) {
   const actionData = useActionData();
   const navigation = useNavigation();
   const fileInputRef = useRef(null);
-  const [coverLetter, setCoverLetter] = useState("");
   const [resumeFile, setResumeFile] = useState(null);
   const isSubmitting = navigation.state === "submitting";
 
@@ -41,7 +38,7 @@ export default function ApplicationForm({ job }) {
           margin: 0;
           background: #f6f9fd;
           color: #071436;
-          font-family: Inter, Arial, sans-serif;
+          font-family: Inter, sans-serif;
         }
 
         .candidate-apply-page {
@@ -179,6 +176,13 @@ export default function ApplicationForm({ job }) {
           flex-wrap: wrap;
           gap: 9px;
           margin-top: 8px;
+        }
+
+        .job-address {
+          margin: 9px 0 0;
+          color: #4b587c;
+          font-size: 13px;
+          line-height: 20px;
         }
 
         .job-tag {
@@ -488,6 +492,9 @@ export default function ApplicationForm({ job }) {
                   <span className="job-tag">{job.location}</span>
                   <span className="job-tag">{job.shiftSchedule}</span>
                 </div>
+                {job.jobAddress && (
+                  <p className="job-address">{job.jobAddress}</p>
+                )}
               </div>
             </section>
 
@@ -496,8 +503,7 @@ export default function ApplicationForm({ job }) {
                 <div className="candidate-grid">
                   <Field label="Full Name" required name="fullName" />
                   <Field label="Email Address" required name="email" type="email" />
-                  <Field label="Phone Number" required name="phone" placeholder="+91 98765 43210" />
-                  <Field label="Date of Birth" name="dateOfBirth" type="date" />
+                  <Field label="Phone Number" required name="phone" placeholder="Phone No" />
                   <Field label="Current City / Location" name="currentCity" placeholder="Enter your current city" />
                   <Field label="LinkedIn Profile" name="linkedin" placeholder="https://linkedin.com/in/yourprofile" />
                 </div>
@@ -507,10 +513,7 @@ export default function ApplicationForm({ job }) {
                 <div className="candidate-grid">
                   <SelectField label="Work Experience" required name="experience" options={["Fresher", "1 Year", "2 Years", "3 Years", "4+ Years"]} />
                   <SelectField label="Highest Qualification" required name="qualification" options={["Diploma", "Bachelor's", "Master's", "Other"]} />
-                  <Field label="Current Job Title" name="currentJobTitle" placeholder="Enter your current job title" />
-                  <Field label="Current / Previous Company" name="currentCompany" placeholder="Enter your current or previous company" />
                   <Field label="Available Start Date" required name="availableStart" type="date" />
-                  <SelectField label="Notice Period" name="noticePeriod" options={["Immediate", "15 Days", "30 Days", "60 Days", "90 Days"]} />
                   <div className="candidate-field">
                     <label className="candidate-label" htmlFor="expectedSalary">
                       Expected Salary <span className="required">*</span>
@@ -528,24 +531,6 @@ export default function ApplicationForm({ job }) {
                     <input id="skills" className="candidate-input" name="skills" placeholder="e.g. React, Node.js, JavaScript, UI/UX" required />
                     <span className="field-note">Enter skills separated by commas</span>
                   </div>
-                </div>
-              </Section>
-
-              <Section title="Your Application" copy="Tell us why you are a great fit" icon="APP">
-                <label className="candidate-label" htmlFor="coverLetter">
-                  Cover Letter / Additional Information
-                </label>
-                <textarea
-                  id="coverLetter"
-                  className="candidate-textarea"
-                  name="coverLetter"
-                  maxLength={maxCharacters}
-                  value={coverLetter}
-                  onChange={(event) => setCoverLetter(event.target.value)}
-                  placeholder="Tell us why you are interested in this position and what makes you a great candidate..."
-                />
-                <div className="character-count">
-                  {coverLetter.length}/{maxCharacters} characters
                 </div>
               </Section>
 

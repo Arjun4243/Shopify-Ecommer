@@ -31,10 +31,10 @@ const textFields = [
   "shiftSchedule",
   "jobDescription",
   "jobResponsibilities",
-  "salaryDescription",
   "paymentType",
   "currency",
   "location",
+  "jobAddress",
   "benefits",
   "qualification",
   "primaryRequirements",
@@ -60,13 +60,13 @@ const emptyFormData = {
   jobDescription: "",
   jobResponsibilities: "",
 
-  salaryDescription: "",
   minimumSalary: "",
   maximumSalary: "",
   paymentType: "",
   currency: "INR",
 
   location: "",
+  jobAddress: "",
   benefits: "",
 
   qualification: "",
@@ -129,12 +129,12 @@ function serializeJob(job) {
     numberOfOpenings: job.numberOfOpenings?.toString() || "",
     jobDescription: job.jobDescription || "",
     jobResponsibilities: job.jobResponsibilities || "",
-    salaryDescription: job.salaryDescription || "",
     minimumSalary: job.minimumSalary?.toString() || "",
     maximumSalary: job.maximumSalary?.toString() || "",
     paymentType: job.paymentType || "",
     currency: job.currency || "INR",
     location: job.location || "",
+    jobAddress: job.jobAddress || "",
     benefits: job.benefits || "",
     qualification: job.qualification || "",
     primaryRequirements: job.primaryRequirements || "",
@@ -452,7 +452,7 @@ export default function CreateJob() {
           background: #ffffff;
           color: #303030;
 
-          font-family: inherit;
+          font-family: Inter, sans-serif;
           font-size: 13px;
 
           outline: none;
@@ -508,10 +508,6 @@ export default function CreateJob() {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 12px;
-        }
-
-        .salary-description {
-          margin-bottom: 14px;
         }
 
         /* =========================
@@ -988,21 +984,6 @@ export default function CreateJob() {
                     Salary Information <span className="required">*</span>
                   </h3>
 
-                  <div className="salary-description">
-                    <label className="form-label">
-                      Description
-                    </label>
-
-                    <input
-                      type="text"
-                      name="salaryDescription"
-                      value={formData.salaryDescription}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="Describe what candidates can expect"
-                    />
-                  </div>
-
                   <div className="salary-grid">
 
                     <div className="form-group">
@@ -1122,6 +1103,20 @@ export default function CreateJob() {
                       Remote
                     </option>
                   </select>
+                </div>
+
+                <div className="form-group full-width">
+                  <label className="form-label">
+                    Job Address
+                  </label>
+
+                  <textarea
+                    name="jobAddress"
+                    value={formData.jobAddress}
+                    onChange={handleChange}
+                    className="form-textarea"
+                    placeholder="Enter full job address"
+                  />
                 </div>
 
                 {/* BENEFITS */}
@@ -1412,13 +1407,13 @@ export default function CreateJob() {
                   />
 
                   <ReviewItem
-                    label="Salary Description"
-                    value={formData.salaryDescription}
+                    label="Location"
+                    value={formData.location}
                   />
 
                   <ReviewItem
-                    label="Location"
-                    value={formData.location}
+                    label="Job Address"
+                    value={formData.jobAddress}
                   />
 
                   <ReviewItem

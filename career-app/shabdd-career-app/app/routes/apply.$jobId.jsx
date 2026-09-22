@@ -1,7 +1,13 @@
 import { ObjectId } from "mongodb";
 import { data, useLoaderData } from "react-router";
 import ApplicationForm from "../components/applications/ApplicationForm";
-import { createApplication, getPublishedJobById } from "../models/application.server";
+import {
+  createApplication,
+  getPublishedJobById,
+  storeResumeFile,
+} from "../models/application.server";
+
+const maxResumeSize = 5 * 1024 * 1024;
 
 const requiredFields = [
   "fullName",
@@ -59,12 +65,29 @@ export const action = async ({ request, params }) => {
     return data({ error: "Please enter a valid available start date." }, { status: 400 });
   }
 
-  const dateOfBirthValue = getText(formData, "dateOfBirth");
-  const dateOfBirth = dateOfBirthValue ? new Date(dateOfBirthValue) : null;
+  const resume = formData.get("resume");
 
-  if (dateOfBirthValue && Number.isNaN(dateOfBirth.getTime())) {
-    return data({ error: "Please enter a valid date of birth." }, { status: 400 });
+  if (!isUploadedResume(resume)) {
+    return data({ error: "Please upload your resume PDF." }, { status: 400 });
   }
+
+  if (resume.size > maxResumeSize) {
+    return data({ error: "Resume exceeds the 5 MB file size limit." }, { status: 400 });
+  }
+
+  if (resume.type && resume.type !== "application/pdf") {
+    return data({ error: "Resume must be a PDF file." }, { status: 400 });
+  }
+
+  if (!resume.name?.toLowerCase().endsWith(".pdf") || !(await hasPdfSignature(resume))) {
+    return data({ error: "Resume must be a valid PDF file." }, { status: 400 });
+  }
+
+  const resumeFileId = await storeResumeFile(resume, {
+    shopId: job.shopId,
+    jobId: job._id.toString(),
+    applicantEmail: email,
+  });
 
   await createApplication({
     shopId: job.shopId,
@@ -72,22 +95,21 @@ export const action = async ({ request, params }) => {
     fullName: getText(formData, "fullName"),
     email,
     phone: getText(formData, "phone"),
-    dateOfBirth,
     currentCity: getText(formData, "currentCity"),
     linkedin: getText(formData, "linkedin"),
     experience: getText(formData, "experience"),
     qualification: getText(formData, "qualification"),
-    currentJobTitle: getText(formData, "currentJobTitle"),
-    currentCompany: getText(formData, "currentCompany"),
     availableStart,
-    noticePeriod: getText(formData, "noticePeriod"),
     expectedSalary,
     salaryType: getText(formData, "salaryType") || "Per Month",
     skills: getText(formData, "skills")
       .split(",")
       .map((skill) => skill.trim())
       .filter(Boolean),
-    coverLetter: getText(formData, "coverLetter"),
+    resumeFileId,
+    resumeFileName: resumeFileId ? resume.name || "resume.pdf" : "",
+    resumeFileSize: resumeFileId ? resume.size || 0 : 0,
+    resumeContentType: resumeFileId ? resume.type || "application/pdf" : "",
   });
 
   return { success: true };
@@ -103,6 +125,22 @@ function getText(formData, fieldName) {
   return String(formData.get(fieldName) || "").trim();
 }
 
+function isUploadedResume(file) {
+  return Boolean(file && typeof file === "object" && "size" in file && file.size > 0);
+}
+
+async function hasPdfSignature(file) {
+  const bytes = new Uint8Array(await file.slice(0, 5).arrayBuffer());
+
+  return (
+    bytes[0] === 0x25 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x44 &&
+    bytes[3] === 0x46 &&
+    bytes[4] === 0x2d
+  );
+}
+
 function serializeJob(job) {
   return {
     id: job._id.toString(),
@@ -111,5 +149,6 @@ function serializeJob(job) {
     employmentType: job.employmentType || "Not provided",
     shiftSchedule: job.shiftSchedule || "Not provided",
     location: job.location || "Not provided",
+    jobAddress: job.jobAddress || "",
   };
 }

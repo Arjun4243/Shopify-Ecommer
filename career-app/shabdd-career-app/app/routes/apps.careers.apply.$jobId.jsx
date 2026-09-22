@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import {
   createApplication,
   getPublishedJobByIdForShop,
+  storeResumeFile,
 } from "../models/application.server";
 import { authenticate } from "../shopify.server";
 
@@ -58,27 +59,32 @@ export const action = async ({ request, params }) => {
     );
   }
 
-  const dateOfBirthValue = getText(formData, "dateOfBirth");
-  const dateOfBirth = dateOfBirthValue ? new Date(dateOfBirthValue) : null;
-
-  if (dateOfBirthValue && Number.isNaN(dateOfBirth.getTime())) {
-    return jsonResponse({ error: "Please enter a valid date of birth." }, 400);
-  }
-
   const resume = formData.get("resume");
 
-  if (resume && typeof resume === "object" && "size" in resume && resume.size > 0) {
-    if (resume.size > maxResumeSize) {
-      return jsonResponse(
-        { error: "Resume exceeds the 5 MB file size limit." },
-        400,
-      );
-    }
-
-    if (resume.type && resume.type !== "application/pdf") {
-      return jsonResponse({ error: "Resume must be a PDF file." }, 400);
-    }
+  if (!isUploadedResume(resume)) {
+    return jsonResponse({ error: "Please upload your resume PDF." }, 400);
   }
+
+  if (resume.size > maxResumeSize) {
+    return jsonResponse(
+      { error: "Resume exceeds the 5 MB file size limit." },
+      400,
+    );
+  }
+
+  if (resume.type && resume.type !== "application/pdf") {
+    return jsonResponse({ error: "Resume must be a PDF file." }, 400);
+  }
+
+  if (!resume.name?.toLowerCase().endsWith(".pdf") || !(await hasPdfSignature(resume))) {
+    return jsonResponse({ error: "Resume must be a valid PDF file." }, 400);
+  }
+
+  const resumeFileId = await storeResumeFile(resume, {
+    shopId,
+    jobId: job._id.toString(),
+    applicantEmail: email,
+  });
 
   const applicationId = await createApplication({
     shopId,
@@ -86,22 +92,21 @@ export const action = async ({ request, params }) => {
     fullName: getText(formData, "fullName"),
     email,
     phone: getText(formData, "phone"),
-    dateOfBirth,
     currentCity: getText(formData, "currentCity"),
     linkedin: getText(formData, "linkedin"),
     experience: getText(formData, "experience"),
     qualification: getText(formData, "qualification"),
-    currentJobTitle: getText(formData, "currentJobTitle"),
-    currentCompany: getText(formData, "currentCompany"),
     availableStart,
-    noticePeriod: getText(formData, "noticePeriod"),
     expectedSalary,
     salaryType: getText(formData, "salaryType") || "Per Month",
     skills: getText(formData, "skills")
       .split(",")
       .map((skill) => skill.trim())
       .filter(Boolean),
-    coverLetter: getText(formData, "coverLetter"),
+    resumeFileId,
+    resumeFileName: resumeFileId ? resume.name || "resume.pdf" : "",
+    resumeFileSize: resumeFileId ? resume.size || 0 : 0,
+    resumeContentType: resumeFileId ? resume.type || "application/pdf" : "",
   });
 
   return jsonResponse({
@@ -112,6 +117,22 @@ export const action = async ({ request, params }) => {
 
 function getText(formData, fieldName) {
   return String(formData.get(fieldName) || "").trim();
+}
+
+function isUploadedResume(file) {
+  return Boolean(file && typeof file === "object" && "size" in file && file.size > 0);
+}
+
+async function hasPdfSignature(file) {
+  const bytes = new Uint8Array(await file.slice(0, 5).arrayBuffer());
+
+  return (
+    bytes[0] === 0x25 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x44 &&
+    bytes[3] === 0x46 &&
+    bytes[4] === 0x2d
+  );
 }
 
 function jsonResponse(body, status = 200) {

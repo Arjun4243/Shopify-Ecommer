@@ -1,4 +1,5 @@
-import { ObjectId } from "mongodb";
+import { Buffer } from "node:buffer";
+import { GridFSBucket, ObjectId } from "mongodb";
 import { client, db } from "../mongodb.server";
 
 export const applicationStatuses = [
@@ -19,12 +20,44 @@ export async function createApplication(applicationData) {
   const result = await db.collection("applications").insertOne({
     ...applicationData,
     status: "unlisted",
-    resumeFileId: null,
+    statusHistory: [
+      {
+        status: "applied",
+        changedAt: now,
+      },
+    ],
+    resumeFileId: applicationData.resumeFileId || null,
     createdAt: now,
     updatedAt: now,
   });
 
   return result.insertedId;
+}
+
+export async function storeResumeFile(file, metadata = {}) {
+  await client.connect();
+
+  const bucket = new GridFSBucket(db, {
+    bucketName: "application_resumes",
+  });
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const rawFilename = String(file.name || "resume.pdf")
+    .replaceAll("\\", "_")
+    .replaceAll('"', "");
+  const filename = rawFilename.toLowerCase().endsWith(".pdf")
+    ? rawFilename
+    : `${rawFilename}.pdf`;
+
+  return new Promise((resolve, reject) => {
+    const uploadStream = bucket.openUploadStream(filename, {
+      contentType: "application/pdf",
+      metadata,
+    });
+
+    uploadStream.on("error", reject);
+    uploadStream.on("finish", () => resolve(uploadStream.id));
+    uploadStream.end(buffer);
+  });
 }
 
 export async function getPublishedJobById(jobId) {

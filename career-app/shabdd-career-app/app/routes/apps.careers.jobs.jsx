@@ -14,9 +14,9 @@ export const loader = async ({ request }) => {
       employmentType: job.employmentType || "Not provided",
       shiftSchedule: job.shiftSchedule || "Not provided",
       location: job.location || "Not provided",
+      jobAddress: job.jobAddress || "",
       numberOfOpenings: job.numberOfOpenings || 1,
       jobDescription: job.jobDescription || "",
-      salaryDescription: job.salaryDescription || "",
     })),
   });
 };

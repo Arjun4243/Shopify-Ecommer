@@ -3,6 +3,7 @@
 const statusTone = {
   New: "new",
   Shortlist: "shortlist",
+  Shortlisted: "shortlist",
   Interview: "interview",
   Phone: "phone",
   Face: "face",

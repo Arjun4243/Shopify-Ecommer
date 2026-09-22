@@ -10,15 +10,38 @@ import {
 import { authenticate } from "../shopify.server";
 import { client, db } from "../mongodb.server";
 
-const statuses = ["published", "expired", "archived", "paused", "draft"];
+const statuses = ["published", "expired", "paused", "draft"];
 const filterTabs = [
   ["all", "All Jobs"],
   ["published", "Published"],
   ["expired", "Expired"],
-  ["archived", "Archived"],
   ["paused", "Paused"],
   ["draft", "Draft"],
 ];
+
+function matchesJobSearch(job, searchText) {
+  if (!searchText) {
+    return true;
+  }
+
+  const values = [
+    job.jobTitle,
+    job.department,
+    job.status,
+  ]
+    .filter(Boolean)
+    .map((value) => String(value).toLowerCase());
+  const words = values.flatMap((value) =>
+    value.split(/[\s,/-]+/).filter(Boolean),
+  );
+  const initials = words.map((word) => word[0]).join("");
+
+  return (
+    values.some((value) => value.startsWith(searchText)) ||
+    words.some((word) => word.startsWith(searchText)) ||
+    initials.startsWith(searchText)
+  );
+}
 
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
@@ -178,11 +201,7 @@ export default function JobList() {
     return jobs.filter((job) => {
       const matchesStatus =
         activeStatus === "all" || job.status === activeStatus;
-      const matchesSearch =
-        !searchText ||
-        `${job.jobTitle} ${job.department} ${job.status}`
-        .toLowerCase()
-        .includes(searchText);
+      const matchesSearch = matchesJobSearch(job, searchText);
 
       return matchesStatus && matchesSearch;
     });
@@ -206,6 +225,8 @@ export default function JobList() {
     const data = new FormData();
     data.append("intent", "delete-job");
     data.append("jobId", jobToDelete.id);
+    setJobToDelete(null);
+    setOpenMenuId(null);
     submit(data, { method: "post" });
   };
 
@@ -430,8 +451,12 @@ export default function JobList() {
           top: 34px;
           right: 0;
           z-index: 10;
-          width: 152px;
-          padding: 6px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          width: 360px;
+          max-width: calc(100vw - 64px);
+          padding: 8px;
           border: 1px solid #e1e3e5;
           border-radius: 8px;
           background: #ffffff;
@@ -440,17 +465,18 @@ export default function JobList() {
 
         .menu-action-btn,
         .delete-btn {
-          width: 100%;
+          width: auto;
           height: 32px;
-          border: 0;
+          border: 1px solid #d2d5d8;
           border-radius: 6px;
           background: #ffffff;
           color: #303030;
           font-size: 12px;
           font-weight: 700;
           cursor: pointer;
-          text-align: left;
-          padding: 0 10px;
+          text-align: center;
+          padding: 0 12px;
+          white-space: nowrap;
         }
 
         .menu-action-btn:hover {
@@ -458,6 +484,7 @@ export default function JobList() {
         }
 
         .delete-btn {
+          border-color: #ffd1cd;
           background: #fff1f0;
           color: #c5280c;
         }
@@ -743,19 +770,6 @@ export default function JobList() {
                                 onClick={() => updateJobStatus(job.id, "paused")}
                               >
                                 Pause
-                              </button>
-                            )}
-
-                            {job.status !== "archived" && (
-                              <button
-                                type="button"
-                                className="menu-action-btn"
-                                disabled={isSubmitting}
-                                onClick={() =>
-                                  updateJobStatus(job.id, "archived")
-                                }
-                              >
-                                Archive
                               </button>
                             )}
 
