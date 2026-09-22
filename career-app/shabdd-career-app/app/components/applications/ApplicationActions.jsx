@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSubmit } from "react-router";
+import ResumeDownloadButton from "./ResumeDownloadButton";
 
 const statusActions = [
   ["shortlist", "Move to Shortlisted"],
@@ -15,9 +16,6 @@ const statusActions = [
 export default function ApplicationActions({ application }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const submit = useSubmit();
-  const canDownloadResume =
-    application.hasResume && application.resumeDownloadUrl;
-
   const submitApplicationAction = (intent, status = "") => {
     if (
       intent === "delete-application" &&
@@ -44,31 +42,11 @@ export default function ApplicationActions({ application }) {
         View
       </button>
 
-      {canDownloadResume ? (
-        <a
-          className="application-icon-btn pdf"
-          href={application.resumeDownloadUrl}
-          download
-          aria-label={`Download resume PDF for ${application.name}`}
-          title="Download Resume (PDF)"
-        >
-          <span className="pdf-icon" aria-hidden="true">
-            PDF
-          </span>
-        </a>
-      ) : (
-        <button
-          type="button"
-          className="application-icon-btn pdf disabled"
-          aria-label={`No resume PDF available for ${application.name}`}
-          title="No resume PDF available"
-          disabled
-        >
-          <span className="pdf-icon" aria-hidden="true">
-            PDF
-          </span>
-        </button>
-      )}
+      <ResumeDownloadButton application={application}>
+        <span className="pdf-icon" aria-hidden="true">
+          PDF
+        </span>
+      </ResumeDownloadButton>
 
       <button
         type="button"
@@ -83,18 +61,11 @@ export default function ApplicationActions({ application }) {
       {isMenuOpen && (
         <div className="application-actions-menu">
           <button type="button">View Details</button>
-          {canDownloadResume ? (
-            <a
-              href={application.resumeDownloadUrl}
-              download
-            >
-              Download Resume
-            </a>
-          ) : (
-            <button type="button" disabled>
-              No Resume Available
-            </button>
-          )}
+          <ResumeDownloadButton
+            application={application}
+            className=""
+            onClick={() => setIsMenuOpen(false)}
+          />
           {statusActions.map(([status, label]) => (
             <button
               key={status}

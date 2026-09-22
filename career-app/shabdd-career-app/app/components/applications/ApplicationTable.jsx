@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import ApplicationStatusBadge from "./ApplicationStatusBadge";
+import ResumeDownloadButton from "./ResumeDownloadButton";
 
 export default function ApplicationTable({
   applications,
@@ -75,33 +76,14 @@ export default function ApplicationTable({
                     </button>
                   </td>
                   <td>
-                    {application.hasResume && application.resumeDownloadUrl ? (
-                      <a
-                        className="application-icon-btn pdf"
-                        href={application.resumeDownloadUrl}
-                        download
-                        aria-label={`Download resume PDF for ${application.name}`}
-                        title="Download Resume (PDF)"
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        <span className="pdf-icon" aria-hidden="true">
-                          PDF
-                        </span>
-                      </a>
-                    ) : (
-                      <button
-                        type="button"
-                        className="application-icon-btn pdf disabled"
-                        aria-label={`No resume PDF available for ${application.name}`}
-                        title="No resume PDF available"
-                        disabled
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        <span className="pdf-icon" aria-hidden="true">
-                          PDF
-                        </span>
-                      </button>
-                    )}
+                    <ResumeDownloadButton
+                      application={application}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <span className="pdf-icon" aria-hidden="true">
+                        PDF
+                      </span>
+                    </ResumeDownloadButton>
                   </td>
                 </tr>
               ))

@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { redirect, useFetcher, useLoaderData } from "react-router";
 import ApplicationTable from "../components/applications/ApplicationTable";
 import ApplicationStatusBadge from "../components/applications/ApplicationStatusBadge";
+import ResumeDownloadButton from "../components/applications/ResumeDownloadButton";
 import { client, db } from "../mongodb.server";
 import { getApplicationsForShop } from "../models/application.server";
 import { authenticate } from "../shopify.server";
@@ -901,7 +902,8 @@ export default function Applications() {
         }
 
         .application-status-editor button,
-        .application-resume-actions a:last-child {
+        .application-resume-actions a:last-child,
+        .application-resume-actions .application-resume-download {
           justify-self: end;
           border-color: #145de0;
           background: #145de0;
@@ -1620,7 +1622,8 @@ function ApplicationDetailStyles() {
         font-size: 13px;
       }
 
-      .application-resume-actions a:last-child {
+      .application-resume-actions a:last-child,
+      .application-resume-actions .application-resume-download {
         justify-self: end;
         border-color: #145de0;
         background: #145de0;
@@ -2179,9 +2182,12 @@ function ApplicationDetail({ application, applications, onBack, onSelect }) {
                     <a href={application.resumeViewUrl} target="_blank" rel="noreferrer">
                       View Resume
                     </a>
-                    <a href={application.resumeDownloadUrl} download>
+                    <ResumeDownloadButton
+                      application={application}
+                      className="application-resume-download"
+                    >
                       Download
-                    </a>
+                    </ResumeDownloadButton>
                   </>
                 ) : (
                   <button type="button" disabled>No Resume Available</button>
