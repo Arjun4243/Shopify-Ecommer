@@ -117,9 +117,11 @@ function matchesApplicationSearch(application, searchValue) {
 
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
+  const url = new URL(request.url);
   const applications = await getApplicationsForShop(session.shop);
 
   return {
+    initialApplicationId: url.searchParams.get("applicationId") || "",
     applications: applications.map((application, index) =>
       serializeApplication(application, index),
     ),
@@ -226,11 +228,15 @@ export const action = async ({ request }) => {
 };
 
 export default function Applications() {
-  const { applications } = useLoaderData();
+  const { applications, initialApplicationId } = useLoaderData();
   const [search, setSearch] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedApplicationId, setSelectedApplicationId] = useState("");
+  const [selectedApplicationId, setSelectedApplicationId] = useState(
+    applications.some((application) => application.id === initialApplicationId)
+      ? initialApplicationId
+      : "",
+  );
   const statusFilterOptions = [
     ["all", "All Status"],
     ["unlisted", "New"],

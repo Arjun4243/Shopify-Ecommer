@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { useState } from "react";
-import { redirect, useLoaderData, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { data, redirect, useFetcher, useLoaderData, useNavigate } from "react-router";
 import { client, db } from "../mongodb.server";
 import { authenticate } from "../shopify.server";
 
@@ -86,12 +86,80 @@ export const loader = async ({ request }) => {
   };
 };
 
+export const action = async ({ request }) => {
+  const { session } = await authenticate.admin(request);
+  const url = new URL(request.url);
+  const jobId = url.searchParams.get("jobId");
+  const formData = await request.formData();
+  const intent = String(formData.get("intent") || "");
+  const applicationId = String(formData.get("applicationId") || "");
+
+  if (
+    intent !== "delete-application" ||
+    !jobId ||
+    !ObjectId.isValid(jobId) ||
+    !ObjectId.isValid(applicationId)
+  ) {
+    return data({ error: "Application could not be deleted." }, { status: 400 });
+  }
+
+  await client.connect();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const jobObjectId = new ObjectId(jobId);
+  const result = await db.collection("applications").deleteOne({
+    _id: new ObjectId(applicationId),
+    shopId: session.shop,
+    jobId: {
+      $in: [jobObjectId, jobId],
+    },
+  });
+
+  if (result.deletedCount === 0) {
+    return data({ error: "Application was not found." }, { status: 404 });
+  }
+
+  return { success: true };
+};
+
 export default function JobDetail() {
   const navigate = useNavigate();
+  const deleteFetcher = useFetcher();
   const { job, stageCounts, applicants } = useLoaderData();
 
   const [activeStage, setActiveStage] = useState("unlisted");
   const [search, setSearch] = useState("");
+  const [deleteCandidate, setDeleteCandidate] = useState(null);
+  const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
+  const isDeleting = deleteFetcher.state !== "idle";
+
+  useEffect(() => {
+    if (deleteFetcher.data?.success) {
+      setDeleteCandidate(null);
+      setDeleteSuccessOpen(true);
+
+      const refreshTimer = window.setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+
+      return () => window.clearTimeout(refreshTimer);
+    }
+  }, [deleteFetcher.data]);
+
+  const openApplicantDetail = (applicationId) => {
+    navigate(`/app/application?applicationId=${applicationId}`);
+  };
+
+  const confirmDeleteApplication = () => {
+    if (!deleteCandidate || isDeleting) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("intent", "delete-application");
+    formData.append("applicationId", deleteCandidate.id);
+    deleteFetcher.submit(formData, { method: "post" });
+  };
 
   const stages = [
     {
@@ -177,10 +245,94 @@ export default function JobDetail() {
         .job-detail-page {
           width: 100%;
           min-height: 100vh;
+          position: relative;
 
           padding: 18px 20px 30px;
 
           background: #f5f7fa;
+        }
+
+        .job-modal-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          display: grid;
+          place-items: center;
+          padding: 20px;
+          background: rgba(7, 20, 54, 0.42);
+        }
+
+        .job-modal {
+          width: min(430px, 100%);
+          padding: 28px;
+          border: 1px solid #dfe7f2;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 28px 90px rgba(7, 20, 54, 0.28);
+          text-align: center;
+        }
+
+        .job-modal-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 56px;
+          height: 56px;
+          margin-bottom: 14px;
+          border-radius: 50%;
+          background: #fff1f2;
+          color: #be123c;
+          font-size: 24px;
+          font-weight: 900;
+        }
+
+        .job-modal-icon.success {
+          background: #dcfce7;
+          color: #15803d;
+        }
+
+        .job-modal h2 {
+          margin: 0;
+          color: #071436;
+          font-size: 22px;
+          line-height: 28px;
+          font-weight: 850;
+        }
+
+        .job-modal p {
+          margin: 8px 0 22px;
+          color: #4b587c;
+          font-size: 14px;
+          line-height: 21px;
+        }
+
+        .job-modal-actions {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+        }
+
+        .job-modal-actions button {
+          min-width: 116px;
+          height: 40px;
+          border: 1px solid #cfd7e7;
+          border-radius: 7px;
+          background: #ffffff;
+          color: #071436;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 800;
+        }
+
+        .job-modal-actions .danger {
+          border-color: #e11d48;
+          background: #e11d48;
+          color: #ffffff;
+        }
+
+        .job-modal-actions button:disabled {
+          cursor: not-allowed;
+          opacity: 0.7;
         }
 
 
@@ -619,7 +771,7 @@ export default function JobDetail() {
         }
 
         .preview-btn,
-        .quick-action-btn {
+        .delete-applicant-btn {
           padding: 6px 10px;
 
           border: 1px solid #d2d5d8;
@@ -635,8 +787,18 @@ export default function JobDetail() {
         }
 
         .preview-btn:hover,
-        .quick-action-btn:hover {
+        .delete-applicant-btn:hover {
           background: #f4f5f6;
+        }
+
+        .delete-applicant-btn {
+          border-color: #fecdd3;
+          color: #be123c;
+          font-weight: 700;
+        }
+
+        .delete-applicant-btn:hover {
+          background: #fff1f2;
         }
 
 
@@ -771,6 +933,46 @@ export default function JobDetail() {
 
 
       <div className="job-detail-page">
+        {deleteCandidate && (
+          <div className="job-modal-overlay" role="dialog" aria-modal="true">
+            <div className="job-modal">
+              <span className="job-modal-icon" aria-hidden="true">!</span>
+              <h2>Delete this application?</h2>
+              <p>
+                Are you sure you want to delete the application for {deleteCandidate.name}?
+                This action cannot be undone.
+              </p>
+              <div className="job-modal-actions">
+                <button
+                  type="button"
+                  disabled={isDeleting}
+                  onClick={() => setDeleteCandidate(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="danger"
+                  disabled={isDeleting}
+                  onClick={confirmDeleteApplication}
+                >
+                  {isDeleting ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {deleteSuccessOpen && (
+          <div className="job-modal-overlay" role="dialog" aria-modal="true">
+            <div className="job-modal">
+              <span className="job-modal-icon success" aria-hidden="true">✓</span>
+              <h2>Application deleted successfully.</h2>
+              <p>The list will refresh automatically.</p>
+            </div>
+          </div>
+        )}
+
 
         {/* =========================================
             HEADER
@@ -974,10 +1176,6 @@ export default function JobDetail() {
                   </th>
 
                   <th>
-                    Quick Actions
-                  </th>
-
-                  <th>
                     Experience
                   </th>
 
@@ -988,6 +1186,8 @@ export default function JobDetail() {
                   <th>
                     Application Date
                   </th>
+
+                  <th>Delete</th>
 
                 </tr>
 
@@ -1012,19 +1212,9 @@ export default function JobDetail() {
                           <button
                             type="button"
                             className="preview-btn"
+                            onClick={() => openApplicantDetail(applicant.id)}
                           >
                             Preview
-                          </button>
-
-                        </td>
-
-                        <td>
-
-                          <button
-                            type="button"
-                            className="quick-action-btn"
-                          >
-                            Actions
                           </button>
 
                         </td>
@@ -1039,6 +1229,18 @@ export default function JobDetail() {
 
                         <td>
                           {applicant.applicationDate}
+                        </td>
+
+                        <td>
+
+                          <button
+                            type="button"
+                            className="delete-applicant-btn"
+                            onClick={() => setDeleteCandidate(applicant)}
+                          >
+                            Delete
+                          </button>
+
                         </td>
 
                       </tr>
