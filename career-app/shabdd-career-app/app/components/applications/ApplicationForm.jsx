@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form, useActionData, useNavigation } from "react-router";
 
 export default function ApplicationForm({ job }) {
@@ -8,7 +8,20 @@ export default function ApplicationForm({ job }) {
   const navigation = useNavigation();
   const fileInputRef = useRef(null);
   const [resumeFile, setResumeFile] = useState(null);
+  const [isSuccessNoticeOpen, setIsSuccessNoticeOpen] = useState(false);
   const isSubmitting = navigation.state === "submitting";
+
+  useEffect(() => {
+    if (actionData?.success) {
+      setIsSuccessNoticeOpen(true);
+
+      const refreshTimer = window.setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+
+      return () => window.clearTimeout(refreshTimer);
+    }
+  }, [actionData]);
 
   const chooseResume = () => {
     fileInputRef.current?.click();
@@ -409,6 +422,55 @@ export default function ApplicationForm({ job }) {
           color: #be123c;
         }
 
+        .candidate-success-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          display: grid;
+          place-items: center;
+          padding: 20px;
+          background: rgba(7, 20, 54, 0.42);
+        }
+
+        .candidate-success-modal {
+          width: min(420px, 100%);
+          padding: 30px 28px;
+          border: 1px solid #b5ead2;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 28px 90px rgba(7, 20, 54, 0.28);
+          text-align: center;
+        }
+
+        .candidate-success-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 58px;
+          height: 58px;
+          margin-bottom: 16px;
+          border-radius: 50%;
+          background: #dcfce7;
+          color: #15803d;
+          font-size: 30px;
+          font-weight: 900;
+        }
+
+        .candidate-success-modal h2 {
+          margin: 0;
+          color: #071436;
+          font-size: 22px;
+          line-height: 28px;
+          font-weight: 850;
+        }
+
+        .candidate-success-modal p {
+          margin: 8px 0 22px;
+          color: #4b587c;
+          font-size: 14px;
+          line-height: 21px;
+        }
+
         .candidate-sidebar {
           display: grid;
           gap: 18px;
@@ -460,6 +522,16 @@ export default function ApplicationForm({ job }) {
         }
       `}</style>
 
+      {actionData?.success && isSuccessNoticeOpen && (
+        <div className="candidate-success-overlay" role="dialog" aria-modal="true">
+          <div className="candidate-success-modal">
+            <span className="candidate-success-icon" aria-hidden="true">✓</span>
+            <h2>Your application has been submitted.</h2>
+            <p>Thank you. We have received your application successfully.</p>
+          </div>
+        </div>
+      )}
+
       <div className="candidate-shell">
         <a className="candidate-back" href="/">
           &lt; Back to Jobs
@@ -472,12 +544,6 @@ export default function ApplicationForm({ job }) {
 
         <div className="candidate-layout">
           <main className="candidate-main">
-            {actionData?.success && (
-              <div className="candidate-alert success">
-                Application submitted successfully.
-              </div>
-            )}
-
             {actionData?.error && (
               <div className="candidate-alert error">{actionData.error}</div>
             )}

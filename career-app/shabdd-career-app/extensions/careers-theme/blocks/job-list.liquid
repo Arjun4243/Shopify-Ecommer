@@ -51,6 +51,13 @@
       <div class="career-layout">
         <main class="career-detail-main">
           <div class="career-notice" data-career-notice hidden></div>
+          <div class="career-success-overlay" data-career-success-modal hidden>
+            <div class="career-success-modal" role="dialog" aria-modal="true" aria-labelledby="career-success-title-{{ block.id }}">
+              <span class="career-success-icon" aria-hidden="true">✓</span>
+              <h2 id="career-success-title-{{ block.id }}">Your application has been submitted.</h2>
+              <p>Thank you. We have received your application successfully.</p>
+            </div>
+          </div>
 
           <article class="career-card career-job-summary">
             <div>
@@ -285,6 +292,12 @@
   #career-job-list-{{ block.id }} .career-notice { border-radius: 7px; font-size: 14px; font-weight: 700; padding: 12px 14px; }
   #career-job-list-{{ block.id }} .career-notice.success { background: #ecfdf5; border: 1px solid #b5ead2; color: #08784f; }
   #career-job-list-{{ block.id }} .career-notice.error { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; }
+  #career-job-list-{{ block.id }} .career-success-overlay { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 20px; background: rgba(7, 20, 54, .42); }
+  #career-job-list-{{ block.id }} .career-success-overlay[hidden] { display: none; }
+  #career-job-list-{{ block.id }} .career-success-modal { width: min(420px, 100%); padding: 30px 28px; border: 1px solid #b5ead2; border-radius: 10px; background: #fff; box-shadow: 0 28px 90px rgba(7, 20, 54, .28); text-align: center; }
+  #career-job-list-{{ block.id }} .career-success-icon { align-items: center; background: #dcfce7; border-radius: 50%; color: #15803d; display: inline-flex; font-size: 30px; font-weight: 900; height: 58px; justify-content: center; margin-bottom: 16px; width: 58px; }
+  #career-job-list-{{ block.id }} .career-success-modal h2 { color: #071436; font-size: 22px; font-weight: 850; line-height: 28px; margin: 0; }
+  #career-job-list-{{ block.id }} .career-success-modal p { color: #4b587c; font-size: 14px; line-height: 21px; margin: 8px 0 0; }
 
   #career-job-list-{{ block.id }} { background: radial-gradient(circle at 88% 35%, rgba(219, 234, 254, .72), transparent 34%), linear-gradient(180deg, #f7fbff 0%, #eef7ff 100%); color: #071436; min-height: 100vh; }
   #career-job-list-{{ block.id }} .career-hero { background: linear-gradient(90deg, rgba(239,247,255,.98) 0%, rgba(230,241,255,.72) 42%, rgba(247,250,255,.10) 70%), url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=85") center 42%/cover; min-height: 210px; padding: 34px 20px 28px; }
@@ -363,6 +376,7 @@
     const searchButton = root.querySelector("[data-career-search-button]");
     const form = root.querySelector("[data-career-form]");
     const notice = root.querySelector("[data-career-notice]");
+    const successModal = root.querySelector("[data-career-success-modal]");
     const submitButton = root.querySelector("[data-career-submit]");
     const applyNowButton = root.querySelector("[data-career-apply-now]");
     const resumeInput = root.querySelector("[data-career-resume]");
@@ -385,6 +399,17 @@
       notice.textContent = message;
       notice.className = `career-notice ${type}`;
       notice.hidden = false;
+    };
+    const showSuccessModal = () => {
+      if (!successModal) return;
+      successModal.hidden = false;
+      window.setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    };
+    const hideSuccessModal = () => {
+      if (!successModal) return;
+      successModal.hidden = true;
     };
     const setText = (selector, value) => {
       const element = root.querySelector(selector);
@@ -550,6 +575,9 @@
     locationSelect.addEventListener("change", renderJobs);
     typeSelect.addEventListener("change", renderJobs);
     searchButton.addEventListener("click", renderJobs);
+    successModal?.addEventListener("click", (event) => {
+      if (event.target === successModal) hideSuccessModal();
+    });
     applyNowButton.addEventListener("click", () => {
       form.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -579,7 +607,7 @@
         if (!response.ok || !payload.success) throw new Error(payload.error || "Application could not be submitted.");
         form.reset();
         resumeFile.hidden = true;
-        showNotice("Application submitted successfully.", "success");
+        showSuccessModal();
       } catch (error) {
         showNotice(error.message || "Application could not be submitted.", "error");
       } finally {

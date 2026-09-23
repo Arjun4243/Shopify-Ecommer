@@ -841,7 +841,8 @@ export default function Applications() {
 
         .application-detail-nav {
           display: flex;
-          gap: 12px;
+          flex-shrink: 0;
+          gap: 10px;
         }
 
         .application-detail-nav button,
@@ -852,6 +853,7 @@ export default function Applications() {
           align-items: center;
           justify-content: center;
           height: 40px;
+          min-width: 112px;
           padding: 0 18px;
           border: 1px solid #cfd7e7;
           border-radius: 7px;
@@ -861,6 +863,7 @@ export default function Applications() {
           font-size: 13px;
           font-weight: 800;
           text-decoration: none;
+          white-space: nowrap;
         }
 
         .application-detail-nav button:disabled,
@@ -1277,6 +1280,14 @@ export default function Applications() {
             flex-direction: column;
           }
 
+          .application-detail-nav {
+            width: 100%;
+          }
+
+          .application-detail-nav button {
+            flex: 1;
+          }
+
           .application-detail-grid,
           .application-status-card,
           .application-info-grid {
@@ -1484,7 +1495,8 @@ function ApplicationDetailStyles() {
 
       .application-detail-nav {
         display: flex;
-        gap: 12px;
+        flex-shrink: 0;
+        gap: 10px;
       }
 
       .application-detail-nav button,
@@ -1494,6 +1506,7 @@ function ApplicationDetailStyles() {
         align-items: center;
         justify-content: center;
         height: 40px;
+        min-width: 112px;
         padding: 0 18px;
         border: 1px solid #cfd7e7;
         border-radius: 7px;
@@ -1503,6 +1516,7 @@ function ApplicationDetailStyles() {
         font-size: 13px;
         font-weight: 800;
         text-decoration: none;
+        white-space: nowrap;
       }
 
       .application-detail-nav button:disabled,
@@ -2030,6 +2044,14 @@ function ApplicationDetailStyles() {
         .application-detail-top,
         .application-profile {
           flex-direction: column;
+        }
+
+        .application-detail-nav {
+          width: 100%;
+        }
+
+        .application-detail-nav button {
+          flex: 1;
         }
 
         .application-detail-grid,
