@@ -420,8 +420,21 @@
       if (element) element.hidden = !value;
     };
     const formatFileSize = (size) => `${Math.ceil(size / 1024)} KB`;
+    const currencySymbols = {
+      AED: "د.إ", AFN: "؋", ALL: "L", AMD: "֏", ANG: "ƒ", ARS: "$", AUD: "$", AZN: "₼",
+      BAM: "KM", BDT: "৳", BGN: "лв", BHD: ".د.ب", BND: "$", BOB: "Bs", BRL: "R$",
+      CAD: "$", CHF: "CHF", CLP: "$", CNY: "¥", COP: "$", CRC: "₡", CZK: "Kč",
+      DKK: "kr", DOP: "RD$", DZD: "د.ج", EGP: "£", ETB: "Br", EUR: "€", GBP: "£",
+      GEL: "₾", GHS: "₵", HKD: "$", HUF: "Ft", IDR: "Rp", ILS: "₪", INR: "₹",
+      IQD: "ع.د", JPY: "¥", KES: "KSh", KRW: "₩", KWD: "د.ك", KZT: "₸",
+      LKR: "Rs", MAD: "د.م.", MMK: "K", MUR: "₨", MXN: "$", MYR: "RM", NGN: "₦",
+      NOK: "kr", NPR: "₨", NZD: "$", OMR: "ر.ع.", PEN: "S/", PHP: "₱", PKR: "₨",
+      PLN: "zł", QAR: "ر.ق", RON: "lei", RSD: "дин", RUB: "₽", SAR: "﷼",
+      SEK: "kr", SGD: "$", THB: "฿", TRY: "₺", TWD: "NT$", UAH: "₴", USD: "$",
+      VND: "₫", XAF: "FCFA", XOF: "CFA", ZAR: "R"
+    };
     const formatSalary = (job) => {
-      const currencySymbol = job.currency === "INR" ? "₹" : job.currency || "";
+      const currencySymbol = currencySymbols[job.currency] || job.currency || "";
       const minimumSalary = Number(job.minimumSalary || 0);
       const maximumSalary = Number(job.maximumSalary || 0);
       const formatAmount = (value) => `${currencySymbol}${Number(value).toLocaleString("en-IN")}`;

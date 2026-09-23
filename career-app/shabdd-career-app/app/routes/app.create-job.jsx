@@ -76,6 +76,90 @@ const emptyFormData = {
   additionalNotes: "",
 };
 
+const currencyOptions = [
+  ["AED", "د.إ"],
+  ["AFN", "؋"],
+  ["ALL", "L"],
+  ["AMD", "֏"],
+  ["ANG", "ƒ"],
+  ["ARS", "$"],
+  ["AUD", "$"],
+  ["AZN", "₼"],
+  ["BAM", "KM"],
+  ["BDT", "৳"],
+  ["BGN", "лв"],
+  ["BHD", ".د.ب"],
+  ["BND", "$"],
+  ["BOB", "Bs"],
+  ["BRL", "R$"],
+  ["CAD", "$"],
+  ["CHF", "CHF"],
+  ["CLP", "$"],
+  ["CNY", "¥"],
+  ["COP", "$"],
+  ["CRC", "₡"],
+  ["CZK", "Kč"],
+  ["DKK", "kr"],
+  ["DOP", "RD$"],
+  ["DZD", "د.ج"],
+  ["EGP", "£"],
+  ["ETB", "Br"],
+  ["EUR", "€"],
+  ["GBP", "£"],
+  ["GEL", "₾"],
+  ["GHS", "₵"],
+  ["HKD", "$"],
+  ["HUF", "Ft"],
+  ["IDR", "Rp"],
+  ["ILS", "₪"],
+  ["INR", "₹"],
+  ["IQD", "ع.د"],
+  ["JPY", "¥"],
+  ["KES", "KSh"],
+  ["KRW", "₩"],
+  ["KWD", "د.ك"],
+  ["KZT", "₸"],
+  ["LKR", "Rs"],
+  ["MAD", "د.م."],
+  ["MMK", "K"],
+  ["MUR", "₨"],
+  ["MXN", "$"],
+  ["MYR", "RM"],
+  ["NGN", "₦"],
+  ["NOK", "kr"],
+  ["NPR", "₨"],
+  ["NZD", "$"],
+  ["OMR", "ر.ع."],
+  ["PEN", "S/"],
+  ["PHP", "₱"],
+  ["PKR", "₨"],
+  ["PLN", "zł"],
+  ["QAR", "ر.ق"],
+  ["RON", "lei"],
+  ["RSD", "дин"],
+  ["RUB", "₽"],
+  ["SAR", "﷼"],
+  ["SEK", "kr"],
+  ["SGD", "$"],
+  ["THB", "฿"],
+  ["TRY", "₺"],
+  ["TWD", "NT$"],
+  ["UAH", "₴"],
+  ["USD", "$"],
+  ["VND", "₫"],
+  ["XAF", "FCFA"],
+  ["XOF", "CFA"],
+  ["ZAR", "R"],
+];
+
+function getCurrencySymbol(currencyCode) {
+  return (
+    currencyOptions.find(([code]) => code === currencyCode)?.[1] ||
+    currencyCode ||
+    ""
+  );
+}
+
 function getText(formData, fieldName) {
   return String(formData.get(fieldName) || "").trim();
 }
@@ -1056,17 +1140,11 @@ export default function CreateJob() {
                         onChange={handleChange}
                         className="form-select"
                       >
-                        <option value="INR">
-                          INR ₹
-                        </option>
-
-                        <option value="USD">
-                          USD $
-                        </option>
-
-                        <option value="EUR">
-                          EUR €
-                        </option>
+                        {currencyOptions.map(([code, symbol]) => (
+                          <option key={code} value={code}>
+                            {code} {symbol}
+                          </option>
+                        ))}
                       </select>
                     </div>
 
@@ -1401,7 +1479,7 @@ export default function CreateJob() {
                     value={
                       formData.minimumSalary ||
                       formData.maximumSalary
-                        ? `${formData.currency} ${formData.minimumSalary || "-"} - ${formData.maximumSalary || "-"} ${formData.paymentType}`
+                        ? `${formData.currency} ${getCurrencySymbol(formData.currency)} ${formData.minimumSalary || "-"} - ${formData.maximumSalary || "-"} ${formData.paymentType}`
                         : ""
                     }
                   />
