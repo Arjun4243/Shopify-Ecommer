@@ -49,6 +49,72 @@ const orderedWorkflowStatuses = [
   "hired",
 ];
 
+function normalizeSearchValue(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function isOrderedSequence(value, token) {
+  let tokenIndex = 0;
+
+  for (const character of value) {
+    if (character === token[tokenIndex]) {
+      tokenIndex += 1;
+    }
+
+    if (tokenIndex === token.length) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function matchesSearchToken(values, token, { allowSequence = true } = {}) {
+  return values.some((value) => {
+    const normalizedValue = normalizeSearchValue(value);
+    const words = normalizedValue.split(/\s+/).filter(Boolean);
+
+    return (
+      normalizedValue === token ||
+      normalizedValue.startsWith(token) ||
+      words.some((word) => word.startsWith(token)) ||
+      normalizedValue.includes(token) ||
+      (allowSequence && words.some((word) => isOrderedSequence(word, token)))
+    );
+  });
+}
+
+function matchesApplicationSearch(application, searchValue) {
+  const tokens = normalizeSearchValue(searchValue).split(/\s+/).filter(Boolean);
+
+  if (tokens.length === 0) {
+    return true;
+  }
+
+  const nameValues = [application.name, application.initials];
+  const otherValues = [
+    application.email,
+    application.phone,
+    application.appliedFor,
+    application.experience,
+    application.expectedSalary,
+    application.availableStart,
+  ];
+
+  return tokens.every((token) => {
+    const isShortToken = token.length < 3;
+
+    return (
+      matchesSearchToken(nameValues, token, { allowSequence: !isShortToken }) ||
+      (!isShortToken &&
+        matchesSearchToken(otherValues, token, { allowSequence: true }))
+    );
+  });
+}
+
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const applications = await getApplicationsForShop(session.shop);
@@ -179,14 +245,8 @@ export default function Applications() {
     statusFilterOptions.find(([value]) => value === statusFilter)?.[1] || "All Status";
 
   const filteredApplications = useMemo(() => {
-    const value = search.trim().toLowerCase();
-
     return applications.filter((application) => {
-      const matchesSearch =
-        !value ||
-        application.name.toLowerCase().includes(value) ||
-        application.email.toLowerCase().includes(value) ||
-        application.appliedFor.toLowerCase().includes(value);
+      const matchesSearch = matchesApplicationSearch(application, search);
       const matchesStatus =
         statusFilter === "all" || application.statusKey === statusFilter;
 
@@ -305,10 +365,25 @@ export default function Applications() {
           position: absolute;
           top: 50%;
           left: 13px;
+          width: 14px;
+          height: 14px;
+          border: 2px solid #071436;
+          border-radius: 50%;
           color: #071436;
-          font-size: 13px;
-          font-weight: 700;
           transform: translateY(-50%);
+          pointer-events: none;
+        }
+
+        .applications-search-icon::after {
+          content: "";
+          position: absolute;
+          right: -5px;
+          bottom: -4px;
+          width: 7px;
+          height: 2px;
+          border-radius: 999px;
+          background: currentColor;
+          transform: rotate(45deg);
         }
 
         .applications-search {
@@ -1229,10 +1304,8 @@ export default function Applications() {
 
         <div className="applications-toolbar">
           <div className="applications-toolbar-left">
-            <label className="applications-search-wrap">
-              <span className="applications-search-icon" aria-hidden="true">
-                O
-              </span>
+            <label className="applications-search-wrap" aria-label="Search applications">
+              <span className="applications-search-icon" aria-hidden="true" />
               <input
                 type="text"
                 className="applications-search"
