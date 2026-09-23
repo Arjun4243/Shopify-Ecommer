@@ -1,0 +1,754 @@
+<section class="return-policy-banner" aria-labelledby="return-policy-banner-title-{{ section.id }}">
+  <div class="return-policy-banner__media" aria-hidden="true">
+    {% if section.settings.banner_image != blank %}
+      {{
+        section.settings.banner_image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 1900, 2400',
+          sizes: '100vw',
+          class: 'return-policy-banner__image',
+          alt: section.settings.image_alt
+      }}
+    {% else %}
+      <img
+        src="{{ section.settings.fallback_image_url | escape }}"
+        alt="{{ section.settings.image_alt | escape }}"
+        class="return-policy-banner__image"
+        width="1905"
+        height="450"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+  </div>
+
+  <div class="return-policy-banner__content">
+    {% if section.settings.heading != blank %}
+      <h1 id="return-policy-banner-title-{{ section.id }}" class="return-policy-banner__heading">
+        {{ section.settings.heading | newline_to_br }}
+      </h1>
+    {% endif %}
+
+    {% if section.settings.breadcrumb != blank %}
+      <div class="return-policy-banner__breadcrumb">{{ section.settings.breadcrumb }}</div>
+    {% endif %}
+
+    {% if section.settings.eyebrow != blank %}
+      <p class="return-policy-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="return-policy" aria-labelledby="return-policy-title-{{ section.id }}">
+  <div class="return-policy__inner">
+    {% if section.settings.intro != blank %}
+      <div class="return-policy__intro" id="return-policy-title-{{ section.id }}">
+        {{ section.settings.intro }}
+      </div>
+      <span class="return-policy__intro-rule" aria-hidden="true"></span>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="return-policy__items">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'policy_item' %}
+              <article class="return-policy-item" {{ block.shopify_attributes }}>
+                <div class="return-policy-item__icon" aria-hidden="true">
+                  {% case block.settings.icon %}
+                    {% when 'refund' %}
+                      <svg viewBox="0 0 48 48" focusable="false">
+                        <path d="M8 15.5h32v20H8v-20Zm3.2 3.2v13.6h25.6V18.7H11.2Z" />
+                        <path d="M15 23.8h5.5v3H15v-3Zm12.2 0H33v3h-5.8v-3ZM24 30.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-3.1a1.9 1.9 0 1 0 0-3.8 1.9 1.9 0 0 0 0 3.8ZM12 12.5h24v3H12v-3Z" />
+                      </svg>
+                    {% when 'document' %}
+                      <svg viewBox="0 0 48 48" focusable="false">
+                        <path d="M13 6h15.7L37 14.3V42H13V6Zm3.4 3.4v29.2h17.2V16h-7.3V9.4h-9.9Zm13.1 2.2V13h1.9l-1.9-1.4ZM20 22h10v3.1H20V22Zm0 6.2h10v3.1H20v-3.1Zm0 6.2h7v3.1h-7v-3.1Z" />
+                      </svg>
+                    {% when 'ban' %}
+                      <svg viewBox="0 0 48 48" focusable="false">
+                        <path d="M24 5.8a18.2 18.2 0 1 1 0 36.4 18.2 18.2 0 0 1 0-36.4Zm0 3.5a14.7 14.7 0 0 0-11.2 24.2l20.7-20.7A14.6 14.6 0 0 0 24 9.3Zm11.2 6.2L14.5 36.2a14.7 14.7 0 0 0 20.7-20.7Z" />
+                      </svg>
+                    {% when 'shipping' %}
+                      <svg viewBox="0 0 48 48" focusable="false">
+                        <path d="M6 12h25v21H6V12Zm3.4 3.4v14.2h18.2V15.4H9.4Z" />
+                        <path d="M29 19h7.4l5.6 6.5V33H29V19Zm3.4 3.4v7.2h6.2v-2.8l-3.8-4.4h-2.4Z" />
+                        <path d="M15.2 38.5a5.1 5.1 0 1 1 0-10.2 5.1 5.1 0 0 1 0 10.2Zm0-3.2a1.9 1.9 0 1 0 0-3.8 1.9 1.9 0 0 0 0 3.8Zm18.9 3.2a5.1 5.1 0 1 1 0-10.2 5.1 5.1 0 0 1 0 10.2Zm0-3.2a1.9 1.9 0 1 0 0-3.8 1.9 1.9 0 0 0 0 3.8Z" />
+                      </svg>
+                    {% else %}
+                      <svg viewBox="0 0 48 48" focusable="false">
+                        <path d="M15 14.5a12.4 12.4 0 0 1 19.2-2.8l2.6-2.6v9.6h-9.6l4.6-4.6a9 9 0 0 0-13.4 3.2l-3.4-2.8Zm18 19a12.4 12.4 0 0 1-19.2 2.8l-2.6 2.6v-9.6h9.6l-4.6 4.6a9 9 0 0 0 13.4-3.2l3.4 2.8Z" />
+                      </svg>
+                  {% endcase %}
+                </div>
+
+                <div class="return-policy-item__body return-policy-item__body--{{ block.settings.list_style }}">
+                  {% if block.settings.title != blank %}
+                    <h2>{{ block.settings.title }}</h2>
+                  {% endif %}
+
+                  {% if block.settings.description != blank %}
+                    <div class="return-policy-item__description">
+                      {{ block.settings.description }}
+                    </div>
+                  {% endif %}
+                </div>
+              </article>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <aside class="return-policy-help" aria-label="{{ section.settings.help_title | escape }}">
+      <div class="return-policy-help__icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" focusable="false">
+          <path d="M24 6a16 16 0 0 0-16 16v5a5 5 0 0 0 5 5h3V20h-3.5A11.6 11.6 0 0 1 24 9.6 11.6 11.6 0 0 1 35.5 20H32v12h3.2A8.4 8.4 0 0 1 27 39.2h-5V43h5a12.2 12.2 0 0 0 12-10.8 5 5 0 0 0 1-9.8V22A16 16 0 0 0 24 6Z" />
+        </svg>
+      </div>
+
+      <div class="return-policy-help__copy">
+        {% if section.settings.help_title != blank %}
+          <h2>{{ section.settings.help_title }}</h2>
+        {% endif %}
+
+        {% if section.settings.help_text != blank %}
+          <div>{{ section.settings.help_text }}</div>
+        {% endif %}
+      </div>
+
+      <div class="return-policy-help__details">
+        {% if section.settings.address != blank %}
+          <p>
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 2.5a7 7 0 0 0-7 7c0 5.3 7 12 7 12s7-6.7 7-12a7 7 0 0 0-7-7Zm0 10.1a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2Z" />
+              </svg>
+            </span>
+            {{ section.settings.address | newline_to_br }}
+          </p>
+        {% endif %}
+        {% if section.settings.phone != blank %}
+          <p>
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M6.6 3.5 10 4.3l1 5-2.1 1.2a12.6 12.6 0 0 0 4.6 4.6l1.2-2.1 5 1 0.8 3.4c.2.9-.3 1.8-1.2 2.1-1.2.4-2.5.6-3.8.4C9.8 19.3 4.7 14.2 4.1 8.5c-.2-1.3 0-2.6.4-3.8.3-.9 1.2-1.4 2.1-1.2Z" />
+              </svg>
+            </span>
+            <a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a>
+          </p>
+        {% endif %}
+        {% if section.settings.email != blank %}
+          <p>
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M3 5h18v14H3V5Zm2 3.1V17h14V8.1l-7 5.1-7-5.1Zm1.7-1.1 5.3 3.8L17.3 7H6.7Z" />
+              </svg>
+            </span>
+            <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+          </p>
+        {% endif %}
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .return-policy-banner {
+    position: relative;
+    min-height: clamp(290px, 26vw, 450px);
+    overflow: hidden;
+    background: #f6eee4;
+  }
+
+  .return-policy-banner__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .return-policy-banner__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .return-policy-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgba(255, 249, 239, 0.98) 0%, rgba(255, 249, 239, 0.9) 34%, rgba(255, 249, 239, 0.38) 63%, rgba(255, 249, 239, 0.04) 100%);
+    pointer-events: none;
+  }
+
+  .return-policy-banner__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min(100%, 1280px);
+    min-height: inherit;
+    margin: 0 auto;
+    padding: clamp(42px, 5.2vw, 78px) clamp(22px, 7vw, 112px);
+  }
+
+  .return-policy-banner__heading {
+    max-width: 590px;
+    margin: 0;
+    color: #0f0d0b;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(44px, 5vw, 72px);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: 0;
+  }
+
+  .return-policy-banner__breadcrumb {
+    margin-top: 22px;
+    color: #1f1a15;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .return-policy-banner__breadcrumb p {
+    margin: 0;
+  }
+
+  .return-policy-banner__breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .return-policy-banner__eyebrow {
+    position: relative;
+    margin: 42px 0 0;
+    color: #9c7136;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .return-policy-banner__eyebrow::before {
+    content: "";
+    display: block;
+    width: 74px;
+    height: 2px;
+    margin-bottom: 20px;
+    background: #bd9650;
+  }
+
+  .return-policy {
+    background: #fffdf9;
+    color: #211b16;
+    padding: clamp(26px, 3vw, 42px) 20px clamp(40px, 5vw, 72px);
+  }
+
+  .return-policy__inner {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+  }
+
+  .return-policy__intro {
+    max-width: 900px;
+    margin: 0 auto;
+    color: #1f1a15;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(16px, 1.2vw, 20px);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  .return-policy__intro p {
+    margin: 0;
+  }
+
+  .return-policy__intro-rule {
+    display: block;
+    width: 58px;
+    height: 2px;
+    margin: 24px auto 0;
+    background: #bd9650;
+  }
+
+  .return-policy__items {
+    margin-top: clamp(22px, 3vw, 34px);
+  }
+
+  .return-policy-item {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: clamp(20px, 3.2vw, 48px);
+    align-items: start;
+    padding: clamp(18px, 2.3vw, 32px) 8px;
+    border-bottom: 1px solid #eadfce;
+  }
+
+  .return-policy-item__icon {
+    display: grid;
+    place-items: center;
+    width: 114px;
+    height: 114px;
+    color: #a77a32;
+    background: #f6efe5;
+    border: 1px solid #eadfcc;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 8px #fffaf2;
+  }
+
+  .return-policy-item__icon svg {
+    width: 54px;
+    height: 54px;
+    fill: currentColor;
+  }
+
+  .return-policy-item__body h2 {
+    margin: 0 0 12px;
+    color: #16110e;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(25px, 2vw, 32px);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: 0;
+  }
+
+  .return-policy-item__description {
+    color: #24201c;
+    font-size: clamp(13px, 0.95vw, 15px);
+    line-height: 1.55;
+  }
+
+  .return-policy-item__description p {
+    margin: 0 0 8px;
+  }
+
+  .return-policy-item__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .return-policy-item__description ul,
+  .return-policy-item__description ol {
+    display: grid;
+    gap: 5px;
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .return-policy-item__description strong {
+    color: #16110e;
+    font-weight: 800;
+  }
+
+  .return-policy-item__body--gold ul {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .return-policy-item__body--gold li {
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .return-policy-item__body--gold li::before {
+    content: "";
+    position: absolute;
+    top: 0.58em;
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    background: #bd9650;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 3px #d7bb7b;
+  }
+
+  .return-policy-item__body--numbered ol {
+    padding-left: 0;
+    list-style: none;
+    counter-reset: exchange-step;
+  }
+
+  .return-policy-item__body--numbered li {
+    position: relative;
+    min-height: 24px;
+    padding-left: 36px;
+    counter-increment: exchange-step;
+  }
+
+  .return-policy-item__body--numbered li::before {
+    content: counter(exchange-step);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    background: #bd9650;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .return-policy-help {
+    display: grid;
+    grid-template-columns: 126px minmax(0, 1fr) minmax(280px, 0.9fr);
+    gap: 34px;
+    align-items: center;
+    margin-top: clamp(26px, 3.5vw, 44px);
+    padding: clamp(24px, 3vw, 36px) clamp(24px, 4vw, 56px);
+    background: #fbf8f1;
+    border-radius: 8px;
+  }
+
+  .return-policy-help__icon {
+    display: grid;
+    place-items: center;
+    width: 82px;
+    height: 82px;
+    color: #b58a3f;
+  }
+
+  .return-policy-help__icon svg {
+    width: 82px;
+    height: 82px;
+    fill: currentColor;
+  }
+
+  .return-policy-help__copy {
+    padding-left: 34px;
+    border-left: 1px solid #d8c5a5;
+  }
+
+  .return-policy-help__copy h2 {
+    margin: 0 0 8px;
+    color: #17120f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(22px, 1.7vw, 30px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .return-policy-help__copy div {
+    color: #403a34;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .return-policy-help__copy p {
+    margin: 0;
+  }
+
+  .return-policy-help__details {
+    padding-left: 34px;
+    border-left: 1px solid #c8a862;
+  }
+
+  .return-policy-help__details p {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    margin: 0 0 10px;
+    color: #211b16;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .return-policy-help__details p:last-child {
+    margin-bottom: 0;
+  }
+
+  .return-policy-help__details span {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    color: #fff;
+    background: #bd9650;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .return-policy-help__details span svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  .return-policy-help__details a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 899px) {
+    .return-policy-help {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .return-policy-help__copy,
+    .return-policy-help__details {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .return-policy-banner {
+      min-height: 390px;
+    }
+
+    .return-policy-banner::before {
+      background: linear-gradient(90deg, rgba(255, 249, 239, 0.98) 0%, rgba(255, 249, 239, 0.84) 58%, rgba(255, 249, 239, 0.22) 100%);
+    }
+
+    .return-policy-banner__image {
+      object-position: 66% center;
+    }
+
+    .return-policy-banner__content {
+      padding: 42px 22px;
+    }
+
+    .return-policy-banner__heading {
+      max-width: 330px;
+      font-size: clamp(38px, 12vw, 54px);
+    }
+
+    .return-policy-banner__breadcrumb {
+      max-width: 300px;
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .return-policy-banner__eyebrow {
+      max-width: 320px;
+      margin-top: 34px;
+      font-size: 11px;
+      letter-spacing: 0.32em;
+    }
+
+    .return-policy {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+
+    .return-policy__intro {
+      text-align: left;
+    }
+
+    .return-policy__intro-rule {
+      margin-left: 0;
+    }
+
+    .return-policy-item {
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 15px;
+      padding: 22px 0;
+    }
+
+    .return-policy-item__icon {
+      width: 72px;
+      height: 72px;
+      box-shadow: inset 0 0 0 5px #fffaf2;
+    }
+
+    .return-policy-item__icon svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .return-policy-item__body h2 {
+      font-size: clamp(21px, 6vw, 27px);
+    }
+
+    .return-policy-help {
+      padding: 24px 20px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Return exchange policy",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_image_url",
+      "label": "Fallback image URL",
+      "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Return_exchange_banner_image.webp?v=1790160147"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Jewellery box with gemstone for return and exchange policy"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Banner heading",
+      "default": "Return & Exchange\nPolicy"
+    },
+    {
+      "type": "richtext",
+      "id": "breadcrumb",
+      "label": "Breadcrumb",
+      "default": "<p>Home / Return & Exchange Policy</p>"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Banner eyebrow",
+      "default": "Your trust matters to us"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro text",
+      "default": "<p>Thank you for shopping with <strong>Raza Gems LLC</strong>. We take pride in offering carefully selected gemstones and jewellery.<br>Please review our Return & Exchange Policy before making a purchase.</p>"
+    },
+    {
+      "type": "text",
+      "id": "help_title",
+      "label": "Help title",
+      "default": "Still Have Questions?"
+    },
+    {
+      "type": "richtext",
+      "id": "help_text",
+      "label": "Help text",
+      "default": "<p>Our Customer Service Team is always here to help you.<br>Feel free to contact us for any return or exchange related queries.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "Raza Gems LLC\nGold & Diamond Park, Al Quoz, Industrial Area 3, Dubai"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone",
+      "default": "+971 58 585 8602"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "info@razagems.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "policy_item",
+      "name": "Policy item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "exchange", "label": "Exchange" },
+            { "value": "refund", "label": "Refund" },
+            { "value": "document", "label": "Document" },
+            { "value": "ban", "label": "Exclusion" },
+            { "value": "shipping", "label": "Shipping" }
+          ],
+          "default": "exchange"
+        },
+        {
+          "type": "select",
+          "id": "list_style",
+          "label": "List style",
+          "options": [
+            { "value": "default", "label": "Default bullets" },
+            { "value": "gold", "label": "Gold bullets" },
+            { "value": "numbered", "label": "Gold numbers" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Exchange Policy"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<ul><li>Exchange requests must be made within <strong>three (3) working days</strong> from the date of delivery.</li><li>Only non-customized gemstones are eligible for exchange.</li><li>Customized jewellery and customised stones are <strong>strictly non-returnable and non-exchangeable</strong>.</li></ul>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Return exchange policy",
+      "blocks": [
+        {
+          "type": "policy_item",
+          "settings": {
+            "icon": "exchange",
+            "list_style": "default",
+            "title": "Exchange Policy",
+            "description": "<ul><li>Exchange requests must be made within <strong>three (3) working days</strong> from the date of delivery.</li><li>Only non-customized gemstones are eligible for exchange.</li><li>Customized jewellery and customised stones (made on special order or designed as per customer request) are <strong>strictly non-returnable and non-exchangeable</strong>.</li><li>Item must be in <strong>original condition</strong>, with packaging and tags intact.</li><li>Items that show <strong>wear, alteration,</strong> or damage will not be accepted for exchange.</li><li>For stone authenticity checks, any <strong>lab testing</strong> fees must be paid by the customer.</li></ul>"
+          }
+        },
+        {
+          "type": "policy_item",
+          "settings": {
+            "icon": "refund",
+            "list_style": "gold",
+            "title": "Refund Policy",
+            "description": "<ul><li>No refunds are provided for any purchase made at Raza Gems LLC.</li><li>The only exception is if the product received is <strong>damaged or has a manufacturing defect.</strong></li><li>In such cases, we will arrange an exchange of the same or similar product after verification.</li></ul>"
+          }
+        },
+        {
+          "type": "policy_item",
+          "settings": {
+            "icon": "document",
+            "list_style": "numbered",
+            "title": "Procedure for Exchange",
+            "description": "<ol><li>Contact our <strong>Customer Service Team</strong> within the allowed exchange period.</li><li>Provide your <strong>original purchase receipt</strong>, order number and product details.</li><li>If the product is damaged or incorrect, share clear photographs when requested.</li><li>Return the item as per the instructions provided by our team.</li><li>Once the returned item is received and inspected, the exchange process will be completed.</li></ol>"
+          }
+        },
+        {
+          "type": "policy_item",
+          "settings": {
+            "icon": "ban",
+            "list_style": "default",
+            "title": "Exclusions",
+            "description": "<ul><li><strong>Customized jewellery</strong> and <strong>customised stones</strong> are not eligible for return or exchange under any condition.</li><li>Items purchased during <strong>special promotions or sales</strong> may carry different policies as per terms of that offer.</li><li>Products that are altered, resized, <strong>engraved,</strong> or <strong>damaged</strong> after delivery cannot be returned or exchanged.</li><li>Items without original packaging, certificates, or tags may not be accepted.</li></ul>"
+          }
+        },
+        {
+          "type": "policy_item",
+          "settings": {
+            "icon": "shipping",
+            "list_style": "default",
+            "title": "Shipping Charges",
+            "description": "<ul><li>Shipping and return shipping charges may apply depending on the reason for the exchange and your location.</li><li>If an exchange is required due to an incorrect or defective product, applicable shipping arrangements will be communicated by our team.</li><li>For international orders, customers may also be responsible for customs duties, taxes, or other charges unless otherwise stated.</li></ul>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

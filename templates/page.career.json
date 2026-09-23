@@ -64,14 +64,45 @@
     },
     "1789717523af06f751": {
       "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "1789819694f58b71ee": {
+      "type": "_blocks",
       "blocks": {
-        "jobly_app_block_6RaVMC": {
+        "jobly_app_block_DgxtVp": {
           "type": "shopify://apps/jobly/blocks/app-block/5c53c9c4-20c2-4d54-b536-3568d12daf65",
           "settings": {}
         }
       },
       "block_order": [
-        "jobly_app_block_6RaVMC"
+        "jobly_app_block_DgxtVp"
       ],
       "settings": {
         "content_direction": "column",
@@ -105,6 +136,7 @@
   },
   "order": [
     "main",
-    "1789717523af06f751"
+    "1789717523af06f751",
+    "1789819694f58b71ee"
   ]
 }
