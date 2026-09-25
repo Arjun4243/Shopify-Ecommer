@@ -109,6 +109,13 @@
       "foreground": "#000000",
       "color1": "#333333",
       "color2": "#DFDFDF"
+    },
+    "blocks": {
+      "21474836472147483647": {
+        "type": "shopify://apps/ecomposer-landing-page-builder/blocks/app-embed/a0fc26e1-7741-4773-8b27-39389b4fb4a0",
+        "disabled": false,
+        "settings": {}
+      }
     }
   },
   "presets": {

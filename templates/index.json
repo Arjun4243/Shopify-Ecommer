@@ -9,11 +9,67 @@
  */
 {
   "sections": {
+    "17898196119e1449f5": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
+      "blocks": {
+        "home_slide_default": {
+          "type": "home-slide",
+          "settings": {
+            "heading_line_1": "Discover the",
+            "heading_accent": "Beauty",
+            "heading_line_2": "of Nature",
+            "mobile_accent_word": "of",
+            "mobile_heading_line_2": "Nature",
+            "text": "Premium natural gemstones and jewellery, carefully selected for your special moments.",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/all",
+            "heading_color": "#08322d",
+            "accent_color": "#8a5d34",
+            "text_color": "#163c36",
+            "button_background": "#073f35",
+            "button_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "home_slide_default"
+      ],
       "name": "t:names.hero",
       "settings": {
         "use_home_slideshow": true,
+        "home_slideshow_autoplay_speed": 5,
         "home_slideshow_heading_line_1": "Discover the",
         "home_slideshow_heading_accent": "Beauty",
         "home_slideshow_heading_line_2": "of Nature",
@@ -31,6 +87,7 @@
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
         "media_type_2_mobile": "image",
+        "link": "",
         "open_in_new_tab": false,
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -52,28 +109,7 @@
         "reflection_opacity": 75,
         "padding-block-start": 100,
         "padding-block-end": 72
-      },
-      "blocks": {
-        "home_slide_default": {
-          "type": "home-slide",
-          "settings": {
-            "heading_line_1": "Discover the",
-            "heading_accent": "Beauty",
-            "heading_line_2": "of Nature",
-            "mobile_accent_word": "of",
-            "mobile_heading_line_2": "Nature",
-            "text": "Premium natural gemstones and jewellery, carefully selected for your special moments.",
-            "button_label": "Shop Now",
-            "button_link": "shopify://collections/all",
-            "heading_color": "#08322d",
-            "accent_color": "#8a5d34",
-            "text_color": "#163c36",
-            "button_background": "#073f35",
-            "button_color": "#ffffff"
-          }
-        }
-      },
-      "block_order": ["home_slide_default"]
+      }
     },
     "product_list_fa6P9H": {
       "type": "product-list",
@@ -98,11 +134,13 @@
             "height": "fit",
             "custom_height": 100,
             "background_media": "none",
+            "background_color": "",
             "video_position": "cover",
             "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
+            "border_color": "",
             "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
@@ -120,10 +158,12 @@
                 "alignment": "left",
                 "type_preset": "h4",
                 "font": "var(--font-body--family)",
+                "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
+                "text_color": "",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -141,6 +181,10 @@
                 "label": "View all",
                 "open_in_new_tab": false,
                 "style_class": "link",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "link_text_color": "",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
@@ -160,9 +204,11 @@
           "static": true,
           "settings": {
             "product_card_gap": 4,
+            "background_color": "",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
+            "border_color": "",
             "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
@@ -178,6 +224,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
+                "border_color": "",
                 "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -200,6 +247,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
+                "text_color": "",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -225,6 +273,7 @@
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
+                "text_color": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -260,10 +309,43 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "178981965052546672": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
+    "17898196119e1449f5",
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "178981965052546672"
   ]
 }
