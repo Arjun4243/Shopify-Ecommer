@@ -628,6 +628,16 @@ body,
   color: var(--color, var(--color-foreground));
 }
 
+.content-for-layout :is(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6),
+footer :is(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6) {
+  font-family: Jost, sans-serif !important;
+}
+
+.content-for-layout :is(p, li, blockquote, figcaption, label, input, textarea, select, button, .rte, [class*='description'], [class*='text'], [class*='copy']),
+footer :is(p, li, blockquote, figcaption, label, input, textarea, select, button, .rte, [class*='description'], [class*='text'], [class*='copy']) {
+  font-family: Jost, sans-serif;
+}
+
 /* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
 @media screen and (max-width: 1200px) {
   input.paragraph.paragraph,
