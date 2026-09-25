@@ -638,6 +638,11 @@ footer :is(p, li, blockquote, figcaption, label, input, textarea, select, button
   font-family: Jost, sans-serif;
 }
 
+.content-for-layout *,
+footer * {
+  font-family: Jost, sans-serif !important;
+}
+
 /* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
 @media screen and (max-width: 1200px) {
   input.paragraph.paragraph,

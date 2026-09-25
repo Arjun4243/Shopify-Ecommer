@@ -9,57 +9,162 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "about_raza_gems": {
+      "type": "about-raza-gems",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.title",
+        "hero_feature_trust": {
+          "type": "hero_feature",
           "settings": {
-            "text": "<h1>Arjun</h1><h1></h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "icon": "diamond",
+            "title": "Trusted Since 2005"
+          }
         },
-        "page-content": {
-          "type": "page-content",
+        "hero_feature_clients": {
+          "type": "hero_feature",
           "settings": {
-            "text_color": ""
-          },
-          "blocks": {}
+            "icon": "users",
+            "title": "Serving Global Clients"
+          }
+        },
+        "hero_feature_quality": {
+          "type": "hero_feature",
+          "settings": {
+            "icon": "trophy",
+            "title": "Premium Quality Gems"
+          }
+        },
+        "hero_feature_dubai": {
+          "type": "hero_feature",
+          "settings": {
+            "icon": "globe",
+            "title": "Dubai Hub Authority"
+          }
+        },
+        "commitment_natural": {
+          "type": "commitment_card",
+          "settings": {
+            "icon": "leaf",
+            "title": "100% Natural Stones",
+            "text": "<p>We deal exclusively in natural, untreated gemstones. What you see is exactly what nature intended.</p>"
+          }
+        },
+        "commitment_design": {
+          "type": "commitment_card",
+          "settings": {
+            "icon": "diamond",
+            "title": "Bespoke Design",
+            "text": "<p>From unique cuts to custom jewellery pieces, our manufacturing capability is fully customizable.</p>"
+          }
+        },
+        "commitment_value": {
+          "type": "commitment_card",
+          "settings": {
+            "icon": "tag",
+            "title": "Direct Value",
+            "text": "<p>The vertical model removes middlemen, giving you better access and more competitive pricing.</p>"
+          }
+        },
+        "commitment_secure": {
+          "type": "commitment_card",
+          "settings": {
+            "icon": "shield",
+            "title": "Secure & Certified",
+            "text": "<p>All stones are certified and verified for total peace of mind and authenticity.</p>"
+          }
+        },
+        "offering_gems": {
+          "type": "offering",
+          "settings": {
+            "image": "shopify://shop_images/about-left.webp",
+            "image_url": "",
+            "image_alt": "Loose gemstones in multiple colors",
+            "title": "Fine Loose Gemstones",
+            "text": "<ul><li>Sapphires, Rubies, Emeralds and more</li><li>GIA / IGI certified stones</li><li>Ideal for collectors and investors</li><li>High clarity, clean, and vibrant</li></ul>"
+          }
+        },
+        "offering_jewelry": {
+          "type": "offering",
+          "settings": {
+            "image": "shopify://shop_images/about-right.webp",
+            "image_url": "",
+            "image_alt": "Custom blue sapphire ring",
+            "title": "Bespoke Jewelry Creations",
+            "text": "<ul><li>Engagement rings, pendants and custom pieces</li><li>Expert CAD design and 3D rendering</li><li>Secure setting techniques</li><li>Lifetime quality guarantee</li></ul>"
+          }
+        },
+        "quality_step_analysis": {
+          "type": "quality_step",
+          "settings": {
+            "icon": "diamond",
+            "number": "01",
+            "title": "Internal Gemological Analysis",
+            "text": "Our in-house gemologists examine and grade each stone immediately after cutting."
+          }
+        },
+        "quality_step_certification": {
+          "type": "quality_step",
+          "settings": {
+            "icon": "document",
+            "number": "02",
+            "title": "Independent Certification",
+            "text": "The stone is sent to a globally recognized lab like GIA or IGI for unbiased verification."
+          }
+        },
+        "quality_step_review": {
+          "type": "quality_step",
+          "settings": {
+            "icon": "shield",
+            "number": "03",
+            "title": "Final Client Review",
+            "text": "You receive the stone with all reports and a full confirmation of its quality and provenance."
+          }
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
+        "hero_feature_trust",
+        "hero_feature_clients",
+        "hero_feature_quality",
+        "hero_feature_dubai",
+        "commitment_natural",
+        "commitment_design",
+        "commitment_value",
+        "commitment_secure",
+        "offering_gems",
+        "offering_jewelry",
+        "quality_step_analysis",
+        "quality_step_certification",
+        "quality_step_review"
       ],
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "breadcrumb_home": "Home",
+        "breadcrumb_current": "About Us",
+        "eyebrow": "About us",
+        "hero_heading": "Raza <em>Gems</em>",
+        "hero_text": "<p>A legacy of trust, craftsmanship and brilliance in the heart of Dubai's global gemstone trade.</p>",
+        "hero_image": "shopify://shop_images/About-banner.webp",
+        "hero_image_url": "",
+        "hero_image_alt": "Colorful gemstones on a jewellery workbench",
+        "story_eyebrow": "The Raza story",
+        "story_heading": "Mir Mohammad Raza: Expertise <em>Since 2005</em>",
+        "story_text": "<p>Our founder, Mir Mohammad Raza, has been intrinsically involved in the world of gemstones since 2005. His expertise spans the entire value chain, from negotiating rough acquisitions at the source to overseeing the precise cutting needed to maximize a stone's intrinsic beauty.</p>",
+        "quote_text": "We believe in transparency, quality, and long-term relationships, ensuring every gemstone we deliver tells a story of trust.",
+        "quote_author": "- Mir Mohammad Raza, Founder",
+        "story_image": "shopify://shop_images/about-after-banner.webp",
+        "story_image_url": "",
+        "story_image_alt": "Gemstone inspection with tweezers",
+        "commitment_eyebrow": "What makes Raza Gems unique",
+        "commitment_heading": "Our Commitment Sets Us Apart",
+        "offerings_eyebrow": "Our premium offerings",
+        "offerings_heading": "Fine Gems. Custom Creations.",
+        "offerings_text": "<p>Discover a world of naturally sourced gemstones and custom jewelry, tailored to your unique needs.</p>",
+        "quality_heading": "Our <em>Quality</em> Promise",
+        "quality_text": "<p>Every gemstone goes through a rigorous verification process to ensure you receive only the finest quality.</p>",
+        "contact_label": "Email us:",
+        "contact_email": "info@razagems.com"
       }
     }
   },
   "order": [
-    "main"
+    "about_raza_gems"
   ]
 }
