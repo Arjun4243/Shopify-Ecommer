@@ -80,11 +80,14 @@
   style="--menu-image-border-radius: {{ image_border_radius }}px; --mega-menu-icon-rows: {{ icon_grid_rows }};"
 >
   {% for link in parent_link.links %}
+    {% capture link_url %}
+      {% render 'resolve-menu-link-url', link: link %}
+    {% endcapture %}
     {% if menu_content_type == 'text' %}
       <li class="mega-menu__column mega-menu__icon-grid-item">
         <div>
           <a
-            href="{{ link.url }}"
+            href="{{ link_url | strip }}"
             class="mega-menu__link {% if link.links != blank %}mega-menu__link--parent{% endif %}"
           >
             {% render 'mega-menu-icon-link-content', title: link.title %}
@@ -92,9 +95,12 @@
           {% if link.links != blank %}
             <ul class="list-unstyled">
               {% for childLink in link.links %}
+                {% capture child_link_url %}
+                  {% render 'resolve-menu-link-url', link: childLink %}
+                {% endcapture %}
                 <li>
                   <a
-                    href="{{ childLink.url }}"
+                    href="{{ child_link_url | strip }}"
                     class="mega-menu__link"
                   >
                     {% render 'mega-menu-icon-link-content', title: childLink.title %}
@@ -139,7 +145,7 @@
     %}
     <div>
       <a
-        href="{{ link.url }}"
+        href="{{ link_url | strip }}"
         class="mega-menu__link {% if link.links != blank %}mega-menu__link--parent{% endif %}"
       >
         {% if menu_content_type == 'collection_images' %}
@@ -178,6 +184,9 @@
           {% endif %}
         >
           {% for childLink in link.links %}
+            {% capture child_link_url %}
+              {% render 'resolve-menu-link-url', link: childLink %}
+            {% endcapture %}
             {% assign break_after_modulo = forloop.index | modulo: links_before_wrap %}
             <li
               {% if break_after_modulo == 0 and should_break_columns %}
@@ -185,7 +194,7 @@
               {% endif %}
             >
               <a
-                href="{{ childLink.url }}"
+                href="{{ child_link_url | strip }}"
                 class="mega-menu__link"
               >
                 {% if menu_content_type == 'text' %}

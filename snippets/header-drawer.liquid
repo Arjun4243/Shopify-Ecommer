@@ -215,13 +215,16 @@
                           tabindex="-1"
                         >
                           {%- for childlink in link.links -%}
+                            {% capture childlink_url %}
+                              {% render 'resolve-menu-link-url', link: childlink %}
+                            {% endcapture %}
                             <li
                               class="menu-drawer__list-item"
                               style="--menu-drawer-animation-index: {{ forloop.index }};"
                             >
                               <a
                                 id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
-                                href="{{ childlink.url }}"
+                                href="{{ childlink_url | strip }}"
                                 class="menu-drawer__menu-item menu-drawer__menu-item--child gemora-mobile-submenu__item{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
                                 {% if childlink.current %}
                                   aria-current="page"
