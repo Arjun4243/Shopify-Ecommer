@@ -1,0 +1,494 @@
+<section class="faq-page section-{{ section.id }}" aria-labelledby="faq-page-title-{{ section.id }}">
+  <div class="faq-page__banner">
+    {% if section.settings.banner_image != blank %}
+      {{
+        section.settings.banner_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'faq-page__banner-image',
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2400',
+          sizes: '100vw',
+          alt: section.settings.banner_alt
+      }}
+    {% elsif section.settings.fallback_image_url != blank %}
+      <img src="{{ section.settings.fallback_image_url | escape }}" alt="{{ section.settings.banner_alt | escape }}" class="faq-page__banner-image" width="2400" height="520" loading="eager" fetchpriority="high">
+    {% endif %}
+
+    <div class="faq-page__banner-content">
+      {% if section.settings.banner_heading != blank %}
+        <h1 class="faq-page__banner-title">{{ section.settings.banner_heading }}</h1>
+      {% endif %}
+
+      {% if section.settings.breadcrumb_current != blank %}
+        <nav class="faq-page__breadcrumb" aria-label="Breadcrumb">
+          {% if section.settings.breadcrumb_home != blank %}
+            <span>{{ section.settings.breadcrumb_home }}</span>
+          {% endif %}
+          <span aria-hidden="true">/</span>
+          <span>{{ section.settings.breadcrumb_current }}</span>
+        </nav>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="faq-page__wrap">
+    <header class="faq-page__header">
+      {% if section.settings.heading != blank %}
+        <h2 id="faq-page-title-{{ section.id }}" class="faq-page__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="faq-page__description">{{ section.settings.description }}</div>
+      {% endif %}
+    </header>
+
+    {% if section.blocks.size > 0 %}
+      <div class="faq-page__grid">
+        {% for category_block in section.blocks %}
+          {% if category_block.type == 'faq_category' %}
+            {% assign category_key = category_block.settings.category_key %}
+          <article class="faq-page__card {% if category_block.settings.full_width %}faq-page__card--wide{% endif %}" style="--faq-card-accent: {{ category_block.settings.accent_color }}; --faq-card-tint: {{ category_block.settings.tint_color }};" {{ category_block.shopify_attributes }}>
+            <div class="faq-page__category">
+              <span class="faq-page__icon" aria-hidden="true">
+                {% case category_block.settings.icon %}
+                  {% when 'cart' %}
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="M7.1 18.3a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm10.1 0a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM3 3.2h2.8l2.4 10.7a2.6 2.6 0 0 0 2.5 2h6.9a2.6 2.6 0 0 0 2.5-2l1.4-6.4H8.1L7.5 5H3V3.2Zm5.5 6.1h10.8l-.9 4.2a.8.8 0 0 1-.8.6h-6.9a.8.8 0 0 1-.8-.6l-1.4-4.2Z" /></svg>
+                  {% when 'gear' %}
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="M10.9 2.2h2.2l.6 2.7c.7.2 1.4.5 2 .9l2.3-1.5 1.6 1.6-1.5 2.3c.4.6.7 1.3.9 2l2.7.6V13l-2.7.6c-.2.7-.5 1.4-.9 2l1.5 2.3-1.6 1.6-2.3-1.5c-.6.4-1.3.7-2 .9l-.6 2.7h-2.2l-.6-2.7c-.7-.2-1.4-.5-2-.9L6 19.5l-1.6-1.6 1.5-2.3c-.4-.6-.7-1.3-.9-2L2.3 13v-2.2l2.7-.6c.2-.7.5-1.4.9-2L4.4 5.9 6 4.3l2.3 1.5c.6-.4 1.3-.7 2-.9l.6-2.7Zm1.1 6.5a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8Z" /></svg>
+                  {% when 'box' %}
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2.7 3.4 6.9v10.2l8.6 4.2 8.6-4.2V6.9L12 2.7ZM6.1 7.1 12 4.3l5.9 2.8-5.9 2.8-5.9-2.8Zm-1 1.6 6 2.9v7.4l-6-2.9V8.7Zm7.8 10.3v-7.4l6-2.9v7.4l-6 2.9Z" /></svg>
+                  {% when 'tag' %}
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="M3.2 5.1c0-1 .8-1.9 1.9-1.9h6.4c.5 0 1 .2 1.3.6l8 8a1.9 1.9 0 0 1 0 2.7l-6.3 6.3a1.9 1.9 0 0 1-2.7 0l-8-8c-.4-.4-.6-.8-.6-1.3V5.1Zm4.6 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm4.5-2.9H5.1v6.2l8 8 6.3-6.3-7.1-7.9Z" /></svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="m12 2.3 8.9 6.5L17.5 19H6.5L3.1 8.8 12 2.3Zm0 2.3L6.8 8.4h10.4L12 4.6Zm-6.1 5.6 2.1 6.5 2.6-6.5H5.9Zm4.1 0 2 5 2-5h-4Zm5.4 0L12.8 16.7h3.9l2.1-6.5h-3.4Z" /></svg>
+                {% endcase %}
+              </span>
+
+              <div class="faq-page__category-copy">
+                {% if category_block.settings.title != blank %}
+                  <h3>{{ category_block.settings.title }}</h3>
+                {% endif %}
+                {% if category_block.settings.text != blank %}
+                  <p>{{ category_block.settings.text }}</p>
+                {% endif %}
+              </div>
+
+                       </div>
+
+            <div class="faq-page__questions">
+              {% assign rendered_questions = 0 %}
+              {% for question_block in section.blocks %}
+                {% if question_block.type == 'faq_question' and question_block.settings.category_key == category_key %}
+                  <details class="faq-page__item" {% if question_block.settings.open_by_default %}open{% elsif section.settings.open_first_question and rendered_questions == 0 %}open{% endif %} {{ question_block.shopify_attributes }}>
+                    <summary><span>{{ question_block.settings.question }}</span></summary>
+                    {% if question_block.settings.answer != blank %}
+                      <div class="faq-page__answer">{{ question_block.settings.answer }}</div>
+                    {% endif %}
+                  </details>
+                  {% assign rendered_questions = rendered_questions | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% style %}
+  .section-{{ section.id }} {
+    --faq-page-bg: {{ section.settings.background_color }};
+    --faq-page-text: {{ section.settings.text_color }};
+    --faq-page-muted: {{ section.settings.muted_color }};
+    background: var(--faq-page-bg);
+    color: var(--faq-page-text);
+  }
+{% endstyle %}
+
+<style>
+  .faq-page {
+    overflow: hidden;
+  }
+
+  .faq-page__banner {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(230px, 24vw, 380px);
+    background:
+      radial-gradient(circle at 8% 16%, rgba(172, 194, 226, 0.22), transparent 22%),
+      radial-gradient(circle at 92% 12%, rgba(172, 194, 226, 0.2), transparent 21%),
+      #f8fbff;
+  }
+
+  .faq-page__banner-image {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 58%;
+  }
+
+  .faq-page__banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.62) 34%, rgba(255, 255, 255, 0) 78%);
+    pointer-events: none;
+  }
+
+  .faq-page__banner-content {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 1220px);
+    margin: 0 auto;
+    padding: 32px 20px;
+    text-align: left;
+  }
+
+  .faq-page__banner-title {
+    margin: 0;
+    color: #080b17;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 4.2vw, 58px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .faq-page__breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 20px;
+    color: #384461;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .faq-page__wrap {
+    width: min(100%, 1220px);
+    margin: 0 auto;
+    padding: clamp(28px, 4vw, 54px) 20px clamp(42px, 5vw, 76px);
+  }
+
+  .faq-page__header {
+    max-width: 840px;
+    margin: 0 auto clamp(28px, 4vw, 48px);
+    text-align: center;
+  }
+
+  .faq-page__heading {
+    margin: 0;
+    color: var(--faq-page-text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: 0;
+  }
+
+  .faq-page__description {
+    max-width: 820px;
+    margin: 14px auto 0;
+    color: var(--faq-page-muted);
+    font-size: clamp(14px, 1.1vw, 18px);
+    line-height: 1.55;
+  }
+
+  .faq-page__description p,
+  .faq-page__answer p {
+    margin: 0;
+  }
+
+  .faq-page__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .faq-page__card {
+    min-width: 0;
+    padding: 18px 20px 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid #e6eaf2;
+    border-radius: 8px;
+    box-shadow: 0 18px 40px rgba(18, 29, 58, 0.045);
+  }
+
+  .faq-page__card--wide {
+    grid-column: 1 / -1;
+  }
+
+  .faq-page__category {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr) 26px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .faq-page__icon {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    color: var(--faq-card-accent);
+    background: var(--faq-card-tint);
+    border-radius: 50%;
+  }
+
+  .faq-page__icon svg {
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .faq-page__icon svg path {
+    fill: none;
+  }
+
+  .faq-page__category-copy h3 {
+    margin: 0;
+    color: var(--faq-page-text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(20px, 1.7vw, 28px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  .faq-page__category-copy p {
+    max-width: 410px;
+    margin: 8px 0 0;
+    color: var(--faq-page-muted);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .faq-page__category-arrow {
+    display: grid;
+    place-items: center;
+    color: #76829d;
+  }
+
+  .faq-page__category-arrow svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+
+  .faq-page__questions {
+    display: grid;
+    gap: 12px;
+  }
+
+  .faq-page__item {
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid #e7eaf0;
+    border-radius: 13px;
+    box-shadow: 0 8px 24px rgba(26, 38, 68, 0.035);
+  }
+
+  .faq-page__item summary {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    align-items: center;
+    gap: 14px;
+    min-height: 58px;
+    padding: 12px 16px;
+    color: var(--faq-page-text);
+    cursor: pointer;
+    list-style: none;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  .faq-page__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-page__item summary::after {
+    content: "+";
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    color: #0f1935;
+    background: #fbfcff;
+    border: 1px solid #dce2ec;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px rgba(23, 31, 52, 0.08);
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 180ms ease;
+  }
+
+  .faq-page__item[open] summary::after {
+    content: "-";
+    transform: rotate(180deg);
+  }
+
+  .faq-page__answer {
+    padding: 0 58px 17px 16px;
+    color: var(--faq-page-muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  @media screen and (max-width: 989px) {
+    .faq-page__grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .faq-page__card--wide {
+      grid-column: auto;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .faq-page__banner {
+      min-height: 220px;
+    }
+
+    .faq-page__banner-content {
+      padding: 28px 16px;
+    }
+
+    .faq-page__breadcrumb {
+      margin-top: 12px;
+      font-size: 12px;
+    }
+
+    .faq-page__wrap {
+      padding-inline: 12px;
+    }
+
+    .faq-page__header {
+      margin-bottom: 22px;
+    }
+
+    .faq-page__description {
+      font-size: 14px;
+    }
+
+    .faq-page__card {
+      padding: 14px 12px 16px;
+    }
+
+    .faq-page__category {
+      grid-template-columns: 52px minmax(0, 1fr) 20px;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .faq-page__icon {
+      width: 52px;
+      height: 52px;
+    }
+
+    .faq-page__icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .faq-page__category-copy h3 {
+      font-size: 20px;
+    }
+
+    .faq-page__category-copy p {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .faq-page__item summary {
+      min-height: 52px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .faq-page__answer {
+      padding: 0 48px 14px 12px;
+      font-size: 13px;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    document.querySelectorAll('.section-{{ section.id }} .faq-page__card').forEach((card) => {
+      const items = card.querySelectorAll('.faq-page__item');
+      items.forEach((item) => {
+        item.addEventListener('toggle', () => {
+          if (!item.open) return;
+          items.forEach((otherItem) => {
+            if (otherItem !== item) otherItem.open = false;
+          });
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Dynamic FAQ page",
+  "tag": "section",
+  "class": "dynamic-faq-page-section",
+  "settings": [
+    { "type": "image_picker", "id": "banner_image", "label": "Banner image" },
+    { "type": "text", "id": "fallback_image_url", "label": "Fallback banner image URL", "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp" },
+    { "type": "text", "id": "banner_alt", "label": "Banner image alt text", "default": "Diamonds on a soft white background" },
+    { "type": "text", "id": "banner_heading", "label": "Banner heading", "default": "FAQs" },
+    { "type": "text", "id": "breadcrumb_home", "label": "Breadcrumb home text", "default": "Home" },
+    { "type": "text", "id": "breadcrumb_current", "label": "Breadcrumb current text", "default": "FAQ" },
+    { "type": "textarea", "id": "heading", "label": "Main heading", "default": "Raza Gems LLC: Frequently Asked Questions" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Answers to all your questions regarding our natural gemstones, bespoke jewelry services, global purchases, and store locations in Dubai.</p>" },
+    { "type": "checkbox", "id": "open_first_question", "label": "Open first question by default", "default": false },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#fbfdff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#101832" },
+    { "type": "color", "id": "muted_color", "label": "Muted text color", "default": "#58647d" }
+  ],
+  "blocks": [
+    {
+      "type": "faq_category",
+      "name": "FAQ category",
+      "settings": [
+        { "type": "select", "id": "category_key", "label": "Category slot", "options": [{ "value": "company", "label": "Company & Expertise" }, { "value": "ordering", "label": "Ordering & Payment" }, { "value": "products", "label": "Products & Services" }, { "value": "returns", "label": "Returns, Exchange & Contact" }, { "value": "selling", "label": "Selling Gemstones" }, { "value": "category_6", "label": "Custom category 6" }, { "value": "category_7", "label": "Custom category 7" }, { "value": "category_8", "label": "Custom category 8" }], "default": "company" },
+        { "type": "text", "id": "title", "label": "Category title", "default": "Company & Expertise" },
+        { "type": "textarea", "id": "text", "label": "Category description", "default": "Learn about Raza Gems LLC, our history, expertise and what makes us unique." },
+        { "type": "select", "id": "icon", "label": "Icon", "options": [{ "value": "diamond", "label": "Diamond" }, { "value": "cart", "label": "Cart" }, { "value": "gear", "label": "Gear" }, { "value": "box", "label": "Box" }, { "value": "tag", "label": "Tag" }], "default": "diamond" },
+        { "type": "color", "id": "accent_color", "label": "Icon color", "default": "#2849c7" },
+        { "type": "color", "id": "tint_color", "label": "Icon background", "default": "#eef2ff" },
+        { "type": "checkbox", "id": "full_width", "label": "Make category full width", "default": false }
+      ]
+    },
+    {
+      "type": "faq_question",
+      "name": "FAQ question",
+      "settings": [
+        { "type": "select", "id": "category_key", "label": "Show under category", "options": [{ "value": "company", "label": "Company & Expertise" }, { "value": "ordering", "label": "Ordering & Payment" }, { "value": "products", "label": "Products & Services" }, { "value": "returns", "label": "Returns, Exchange & Contact" }, { "value": "selling", "label": "Selling Gemstones" }, { "value": "category_6", "label": "Custom category 6" }, { "value": "category_7", "label": "Custom category 7" }, { "value": "category_8", "label": "Custom category 8" }], "default": "company" },
+        { "type": "text", "id": "question", "label": "Question", "default": "What is the primary foundation of Raza Gems LLC?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Raza Gems LLC is built around natural gemstones, expert sourcing, honest guidance, and long-term customer trust.</p>" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Open this question by default", "default": false }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Dynamic FAQ page" }]
+}
+{% endschema %}

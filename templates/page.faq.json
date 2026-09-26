@@ -9,162 +9,243 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "faq_page": {
+      "type": "faq-page",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.title",
+        "company_expertise": {
+          "type": "faq_category",
           "settings": {
-            "text": "<h1>Arjun</h1><h1></h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "category_key": "company",
+            "title": "Company & Expertise",
+            "text": "Learn about Raza Gems LLC, our history, expertise and what makes us unique.",
+            "icon": "diamond",
+            "accent_color": "#2849c7",
+            "tint_color": "#eef2ff",
+            "full_width": false
+          }
         },
-        "page-content": {
-          "type": "page-content",
+        "ordering_payment": {
+          "type": "faq_category",
           "settings": {
-            "text_color": ""
-          },
-          "blocks": {}
+            "category_key": "ordering",
+            "title": "Ordering & Payment",
+            "text": "Get answers about placing orders, payment options and delivery details.",
+            "icon": "cart",
+            "accent_color": "#a87316",
+            "tint_color": "#fbf1de",
+            "full_width": false
+          }
+        },
+        "products_services": {
+          "type": "faq_category",
+          "settings": {
+            "category_key": "products",
+            "title": "Products & Services",
+            "text": "Explore our gemstones, jewelry services and customization options.",
+            "icon": "gear",
+            "accent_color": "#13744e",
+            "tint_color": "#dcf8ec",
+            "full_width": false
+          }
+        },
+        "returns_exchange_contact": {
+          "type": "faq_category",
+          "settings": {
+            "category_key": "returns",
+            "title": "Returns, Exchange & Contact",
+            "text": "Find information about returns, exchanges and how to reach our support team.",
+            "icon": "box",
+            "accent_color": "#67403a",
+            "tint_color": "#fde7e5",
+            "full_width": false
+          }
+        },
+        "selling_gemstones": {
+          "type": "faq_category",
+          "settings": {
+            "category_key": "selling",
+            "title": "Selling Gemstones",
+            "text": "Information for customers who want to sell gemstones to Raza Gems LLC.",
+            "icon": "tag",
+            "accent_color": "#2368e8",
+            "tint_color": "#eaf2ff",
+            "full_width": true
+          }
+        },
+        "company_question_1": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "company",
+            "question": "What is the primary foundation of Raza Gems LLC?",
+            "answer": "<p>Raza Gems LLC is built around natural gemstones, expert sourcing, honest guidance, and long-term customer trust.</p>",
+            "open_by_default": false
+          }
+        },
+        "company_question_2": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "company",
+            "question": "Who is the founder of Raza Gems LLC?",
+            "answer": "<p>Raza Gems LLC was founded and guided by Mr. Mohammad Raza and his experience in the gemstone trade.</p>",
+            "open_by_default": false
+          }
+        },
+        "company_question_3": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "company",
+            "question": "How long has Mr. Mohammad Raza been involved in the gemstone world?",
+            "answer": "<p>Mr. Mohammad Raza has spent many years working with gemstones, customers, suppliers, and bespoke jewelry needs.</p>",
+            "open_by_default": false
+          }
+        },
+        "ordering_question_1": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "ordering",
+            "question": "How do I get $10 off my first order and free shipping?",
+            "answer": "<p>Subscribe or use the active first-order offer shown on the store, then follow the checkout instructions.</p>",
+            "open_by_default": false
+          }
+        },
+        "ordering_question_2": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "ordering",
+            "question": "What are the delivery times for customers in the UAE?",
+            "answer": "<p>UAE delivery timing depends on product availability, customization, and destination. Contact support for the latest estimate.</p>",
+            "open_by_default": false
+          }
+        },
+        "ordering_question_3": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "ordering",
+            "question": "Can I pay via Bank Transfer?",
+            "answer": "<p>Yes, bank transfer is available. Please contact customer support for secure bank details before payment.</p>",
+            "open_by_default": false
+          }
+        },
+        "products_question_1": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "products",
+            "question": "What categories of stones do you sell?",
+            "answer": "<p>We sell precious and semi-precious natural gemstones in a wide variety of cuts, sizes, and qualities.</p>",
+            "open_by_default": false
+          }
+        },
+        "products_question_2": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "products",
+            "question": "Do you offer gemstone cutting and polishing services?",
+            "answer": "<p>Yes, gemstone cutting and polishing services are available through our specialist team.</p>",
+            "open_by_default": false
+          }
+        },
+        "products_question_3": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "products",
+            "question": "Can rough stones be cut and polished?",
+            "answer": "<p>Yes, suitable rough stones can be assessed, cut, shaped, and polished by our experts.</p>",
+            "open_by_default": false
+          }
+        },
+        "returns_question_1": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "returns",
+            "question": "What is your official refund policy?",
+            "answer": "<p>Refund eligibility depends on the item type, condition, timing, and the official policy shown on the store.</p>",
+            "open_by_default": false
+          }
+        },
+        "returns_question_2": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "returns",
+            "question": "Under what condition can I get an exchange instead of a refund?",
+            "answer": "<p>Exchange options depend on product condition, availability, and whether the item meets the exchange policy requirements.</p>",
+            "open_by_default": false
+          }
+        },
+        "returns_question_3": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "returns",
+            "question": "What is the Customer Support phone number?",
+            "answer": "<p>You can contact Raza Gems support at the phone number listed on the Contact or Store Locations page.</p>",
+            "open_by_default": false
+          }
+        },
+        "selling_question_1": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "selling",
+            "question": "Can I sell my gemstones to Raza Gems LLC?",
+            "answer": "<p>Yes, you can contact us with gemstone details and our team will guide you through the evaluation process.</p>",
+            "open_by_default": false
+          }
+        },
+        "selling_question_2": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "selling",
+            "question": "How long is your experience in buying/selling gemstones?",
+            "answer": "<p>Our team brings extensive gemstone trading experience across buying, selling, sourcing, and customer consultation.</p>",
+            "open_by_default": false
+          }
+        },
+        "selling_question_3": {
+          "type": "faq_question",
+          "settings": {
+            "category_key": "selling",
+            "question": "What is the first step in the selling process?",
+            "answer": "<p>The first step is to share gemstone photos, certificates if available, and basic details with our support team.</p>",
+            "open_by_default": false
+          }
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
+        "company_expertise",
+        "ordering_payment",
+        "products_services",
+        "returns_exchange_contact",
+        "selling_gemstones",
+        "company_question_1",
+        "company_question_2",
+        "company_question_3",
+        "ordering_question_1",
+        "ordering_question_2",
+        "ordering_question_3",
+        "products_question_1",
+        "products_question_2",
+        "products_question_3",
+        "returns_question_1",
+        "returns_question_2",
+        "returns_question_3",
+        "selling_question_1",
+        "selling_question_2",
+        "selling_question_3"
       ],
-      "disabled": true,
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "semi_fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-banner.webp?v=1789448977",
-        "semi_image_alt": "Gemstones and semi precious stones displayed on a soft natural background",
-        "semi_accessibility_label": "Semi precious gemstones banner",
-        "semi_eyebrow": "Natural - Ethical - Timeless",
-        "semi_heading": "Gemstones and Semi Precious<br>Stones for Sale",
-        "semi_subheading": "Handpicked, natural semi precious gemstones for beauty, healing and a more meaningful life.",
-        "semi_benefits_accessibility_label": "Gemstone benefits",
-        "semi_benefits_heading": "Gemstone Benefits",
-        "semi_benefits_subheading": "Discover the beauty, meaning and positive energy of natural gemstones",
-        "semi_card_1_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-1.webp?v=1789448977",
-        "semi_card_1_image_alt": "Purple amethyst gemstone on a natural rock",
-        "semi_card_1_eyebrow": "Gemstone Guide",
-        "semi_card_1_heading": "The Calming Power of Amethyst",
-        "semi_card_1_text": "Discover how amethyst brings calm, clarity and gentle positive energy into everyday moments.",
-        "semi_card_1_link_label": "Read More",
-        "semi_card_1_link": "",
-        "semi_card_2_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-2.webp?v=1789448977",
-        "semi_card_2_image_alt": "Red gemstone placed on a soft neutral stone",
-        "semi_card_2_eyebrow": "Wellness",
-        "semi_card_2_heading": "How Gemstones Support Emotional Balance",
-        "semi_card_2_text": "From garnet to rose quartz, see how natural gemstones can support balance, focus and a grounded mind.",
-        "semi_card_2_link_label": "Read More",
-        "semi_card_2_link": "",
-        "semi_card_3_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Semi-precious-bottom-3.webp?v=1789448977",
-        "semi_card_3_image_alt": "Collection of colorful semi precious gemstones",
-        "semi_card_3_eyebrow": "Buying Guide",
-        "semi_card_3_heading": "A Complete Guide to Semi Precious Gemstones",
-        "semi_card_3_text": "Know what to look for before you buy - from quality and pricing to the meaning behind each stone.",
-        "semi_card_3_link_label": "Read More",
-        "semi_card_3_link": "",
-        "padding-block-start": 40,
-        "padding-block-end": 80
-      }
-    },
-    "payment_methods_bU4KiD": {
-      "type": "payment-methods",
-      "blocks": {
-        "payment_method_YVH7Jy": {
-          "type": "payment_method",
-          "settings": {
-            "icon": "shopify://shop_images/payment-method-left-icon.png",
-            "icon_alt": "",
-            "icon_text": "BT",
-            "title": "Bank Transfer",
-            "description": "<p>You can make payments directly to our bank account. This method is ideal for high-value transactions and corporate purchases.</p>",
-            "banner_image": "shopify://shop_images/payment-method-righ-icon.png",
-            "banner_text": "Bank",
-            "accent_color": "#caa23d"
-          }
-        },
-        "payment_method_9tk4i3": {
-          "type": "payment_method",
-          "settings": {
-            "icon_alt": "",
-            "icon_text": "P",
-            "title": "PayPal",
-            "description": "<p>Enjoy the convenience and security of PayPal, a globally trusted online payment platform.</p>",
-            "banner_text": "PayPal",
-            "accent_color": "#20a7ff"
-          }
-        },
-        "payment_method_pcU48M": {
-          "type": "payment_method",
-          "settings": {
-            "icon_alt": "",
-            "icon_text": "CC",
-            "title": "Debit & Credit Cards",
-            "description": "<p>We welcome payments via all major credit and debit cards, including Visa, MasterCard, and American Express.</p>",
-            "banner_text": "VISA MC AMEX",
-            "accent_color": "#ef798a"
-          }
-        },
-        "payment_method_DBwtxF": {
-          "type": "payment_method",
-          "settings": {
-            "icon_alt": "",
-            "icon_text": "COD",
-            "title": "Cash on Delivery (COD)",
-            "description": "<p>We offer Cash on Delivery for select orders, providing added convenience for local customers.</p>",
-            "banner_text": "COD",
-            "accent_color": "#78c6ee"
-          }
-        }
-      },
-      "block_order": [
-        "payment_method_YVH7Jy",
-        "payment_method_9tk4i3",
-        "payment_method_pcU48M",
-        "payment_method_DBwtxF"
-      ],
-      "name": "Payment Methods",
-      "settings": {
-        "banner_image": "shopify://shop_images/About-banner.webp",
-        "banner_heading": "Payment Methods",
+        "fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp",
+        "banner_alt": "Diamonds on a soft white background",
+        "banner_heading": "FAQs",
         "breadcrumb_home": "Home",
-        "breadcrumb_text": "Payment Methods",
-        "heading": "Payment Methods at Raza Gems LLC",
-        "description": "<p>At Raza Gems LLC, we strive to make your gemstone and jewelry purchasing experience as smooth and secure as possible. To accommodate a wide range of preferences, we offer multiple convenient and reliable payment options:</p>",
-        "badge_title": "100% Secure Payments",
-        "badge_text": "Your transactions are safe with us",
-        "footer_note": "<p>At Raza Gems LLC, your security, flexibility, and peace of mind are central to our service. If you have any questions or require assistance with choosing the best payment method for your purchase, our dedicated support team is always here to help.</p>",
-        "background_color": "#fffdf9",
-        "text_color": "#111827",
-        "muted_color": "#626775",
-        "accent_color": "#caa23d"
+        "breadcrumb_current": "FAQ",
+        "heading": "Raza Gems LLC: Frequently Asked Questions",
+        "description": "<p>Answers to all your questions regarding our natural gemstones, bespoke jewelry services, global purchases, and store locations in Dubai.</p>",
+        "open_first_question": false,
+        "background_color": "#fbfdff",
+        "text_color": "#101832",
+        "muted_color": "#58647d"
       }
     }
   },
   "order": [
-    "main",
-    "payment_methods_bU4KiD"
+    "faq_page"
   ]
 }
