@@ -18,6 +18,9 @@
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 
+{% if search.terms == 'wishlist' %}
+  {% render 'wishlist-content' %}
+{% else %}
 <results-list
   class="section product-grid-container spacing-style{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
   style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
@@ -76,6 +79,7 @@
     {% endpaginate %}
   </div>
 </results-list>
+{% endif %}
 
 {% schema %}
 {

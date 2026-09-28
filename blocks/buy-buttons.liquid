@@ -253,9 +253,20 @@
     <div class="gemstone-purchase-tools" aria-label="{{ 'products.gemstone.purchase_tools' | t }}">
       <div class="gemstone-purchase-tools__links">
         {%- if block_settings.show_wishlist -%}
-          <a class="gemstone-purchase-tools__link" href="{{ block_settings.wishlist_url | default: routes.account_url }}">
+          <a
+            class="gemstone-purchase-tools__link gemstone-purchase-tools__wishlist"
+            href="{{ block_settings.wishlist_url | default: routes.search_url | append: '?q=wishlist&type=product' }}"
+            data-wishlist-add
+            data-product-handle="{{ product.handle | escape }}"
+            data-product-title="{{ product.title | escape }}"
+            data-product-url="{{ product.url | escape }}"
+            data-product-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 420 }}{% endif %}"
+            data-product-price="{{ product.price | money | strip_html | escape }}"
+            data-wishlist-add-label="{{ 'products.gemstone.add_to_wishlist' | t | escape }}"
+            data-wishlist-added-label="{{ 'products.gemstone.added_to_wishlist' | t | escape }}"
+          >
             <span aria-hidden="true">♡</span>
-            {{ 'products.gemstone.add_to_wishlist' | t }}
+            <span data-wishlist-label>{{ 'products.gemstone.add_to_wishlist' | t }}</span>
           </a>
         {%- endif -%}
         {%- if block_settings.show_ask_question -%}
@@ -457,13 +468,72 @@
       navigator.clipboard.writeText(shareData.url);
     }
   });
+
+  const wishlistStorageKey = 'raza-gems-wishlist';
+  const getWishlist = () => JSON.parse(localStorage.getItem(wishlistStorageKey) || '[]');
+  const setWishlist = (wishlist) => localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlist));
+
+  const updateWishlistButton = (button, isSaved) => {
+    const label = button.querySelector('[data-wishlist-label]');
+    button.classList.toggle('is-active', isSaved);
+
+    if (label) {
+      label.textContent = isSaved
+        ? button.dataset.wishlistAddedLabel
+        : button.dataset.wishlistAddLabel;
+    }
+  };
+
+  document.querySelectorAll('[data-wishlist-add]').forEach((button) => {
+    const wishlist = getWishlist();
+    updateWishlistButton(button, wishlist.some((item) => item.handle === button.dataset.productHandle));
+  });
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-wishlist-add]');
+    if (!button) return;
+
+    event.preventDefault();
+
+    const product = {
+      handle: button.dataset.productHandle,
+      title: button.dataset.productTitle,
+      url: button.dataset.productUrl,
+      image: button.dataset.productImage,
+      price: button.dataset.productPrice,
+    };
+
+    if (!product.handle) return;
+
+    const wishlist = getWishlist();
+    const existingIndex = wishlist.findIndex((item) => item.handle === product.handle);
+    const isSaved = existingIndex === -1;
+
+    if (existingIndex >= 0) {
+      wishlist.splice(existingIndex, 1);
+    } else {
+      wishlist.unshift(product);
+    }
+
+    setWishlist(wishlist);
+    updateWishlistButton(button, isSaved);
+    window.dispatchEvent(
+      new CustomEvent('raza-gems:wishlist-updated', {
+        detail: {
+          count: wishlist.length,
+          saved: isSaved,
+          handle: product.handle,
+        },
+      })
+    );
+  });
 {% endjavascript %}
 
 {% stylesheet %}
   .gemstone-purchase-tools {
     display: grid;
-    gap: var(--gap-sm);
-    margin-block-start: var(--margin-sm);
+    gap: 8px;
+    margin-block-start: 10px;
     width: 100%;
   }
 
@@ -472,25 +542,30 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: var(--gap-xs) var(--gap-md);
+    gap: 6px 18px;
+    order: 3;
   }
 
   .gemstone-purchase-tools__link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    min-height: 34px;
+    min-height: 26px;
     border: 0;
     background: transparent;
-    color: rgb(var(--color-foreground-rgb) / 0.76);
+    color: #07245b;
     font: inherit;
-    font-size: var(--font-paragraph-small--size);
+    font-size: 0.76rem;
     text-decoration: none;
     cursor: pointer;
   }
 
   .gemstone-purchase-tools__link:hover {
     color: var(--color-foreground);
+  }
+
+  .gemstone-purchase-tools__wishlist.is-active {
+    color: #c98209;
   }
 
   .gemstone-purchase-tools__link span {
@@ -502,12 +577,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--gap-xs);
-    min-height: var(--height-buy-buttons);
-    padding: var(--padding-sm) var(--padding-md);
+    gap: 8px;
+    order: 1;
+    min-height: 42px;
+    padding: 9px 16px;
     border-radius: 999px;
-    background: #108c42;
+    background: linear-gradient(180deg, #11984a 0%, #087f39 100%);
     color: #fff;
+    font-size: 0.84rem;
     font-weight: var(--font-weight-semibold);
     text-decoration: none;
     transition: transform 160ms ease, background-color 160ms ease;
@@ -520,32 +597,44 @@
   }
 
   .gemstone-purchase-tools__note {
-    margin: calc(var(--margin-xs) * -1) 0 0;
+    order: 2;
+    margin: -2px 0 0;
     color: rgb(var(--color-foreground-rgb) / 0.68);
-    font-size: var(--font-paragraph-small--size);
+    font-size: 0.74rem;
     text-align: center;
   }
 
   .gemstone-purchase-tools__policies {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--gap-xs);
-    margin-block-start: var(--margin-xs);
+    gap: 8px;
+    order: 4;
+    margin-block-start: 4px;
   }
 
   .gemstone-purchase-tools__policies span {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    padding: var(--padding-xs);
+    gap: 5px;
+    min-height: 40px;
+    padding: 6px 8px;
     border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
-    border-radius: 8px;
-    background: rgb(var(--color-foreground-rgb) / 0.025);
-    color: rgb(var(--color-foreground-rgb) / 0.78);
-    font-size: 0.72rem;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #07245b;
+    font-size: 0.62rem;
     font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
     text-align: center;
+  }
+
+  .gemstone-purchase-tools__policies span::before {
+    content: '◇';
+    color: #d99816;
+    font-size: 0.95rem;
+    line-height: 1;
+    flex: 0 0 auto;
   }
 
   @media screen and (max-width: 749px) {

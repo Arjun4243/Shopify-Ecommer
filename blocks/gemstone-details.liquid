@@ -173,76 +173,78 @@
       </div>
     {%- endif -%}
 
-    <div class="gemstone-details__accordions">
-      {%- if has_physical or has_identity -%}
-        <details class="gemstone-details__panel" open>
-          <summary>
-            <span>{{ 'products.gemstone.specifications' | t }}</span>
-            <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
-          </summary>
-          <dl class="gemstone-details__table">
-            {%- if gemstone_type != blank -%}
-              <div><dt>{{ 'products.gemstone.stone_type' | t }}</dt><dd>{{ gemstone_type }}</dd></div>
-            {%- endif -%}
-            {%- if gemstone_group != blank -%}
-              <div><dt>{{ 'products.gemstone.group' | t }}</dt><dd>{{ gemstone_group }}</dd></div>
-            {%- endif -%}
-            {%- if actual_carat_weight != blank -%}
-              <div><dt>{{ 'products.gemstone.weight' | t }}</dt><dd>{{ actual_carat_weight }}</dd></div>
-            {%- endif -%}
-            {%- if dimensions != blank -%}
-              <div><dt>{{ 'products.gemstone.dimensions' | t }}</dt><dd>{{ dimensions }}</dd></div>
-            {%- endif -%}
-            {%- if shape != blank or gemstone_cut != blank -%}
-              <div><dt>{{ 'products.gemstone.shape_cut' | t }}</dt><dd>{{ shape }}{% if shape != blank and gemstone_cut != blank %} / {% endif %}{{ gemstone_cut }}</dd></div>
-            {%- endif -%}
-            {%- if color != blank -%}
-              <div><dt>{{ 'products.gemstone.color' | t }}</dt><dd>{{ color }}</dd></div>
-            {%- endif -%}
-          </dl>
-        </details>
-      {%- endif -%}
+    {%- if block.settings.show_detail_accordions -%}
+      <div class="gemstone-details__accordions">
+        {%- if has_physical or has_identity -%}
+          <details class="gemstone-details__panel" open>
+            <summary>
+              <span>{{ 'products.gemstone.specifications' | t }}</span>
+              <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            </summary>
+            <dl class="gemstone-details__table">
+              {%- if gemstone_type != blank -%}
+                <div><dt>{{ 'products.gemstone.stone_type' | t }}</dt><dd>{{ gemstone_type }}</dd></div>
+              {%- endif -%}
+              {%- if gemstone_group != blank -%}
+                <div><dt>{{ 'products.gemstone.group' | t }}</dt><dd>{{ gemstone_group }}</dd></div>
+              {%- endif -%}
+              {%- if actual_carat_weight != blank -%}
+                <div><dt>{{ 'products.gemstone.weight' | t }}</dt><dd>{{ actual_carat_weight }}</dd></div>
+              {%- endif -%}
+              {%- if dimensions != blank -%}
+                <div><dt>{{ 'products.gemstone.dimensions' | t }}</dt><dd>{{ dimensions }}</dd></div>
+              {%- endif -%}
+              {%- if shape != blank or gemstone_cut != blank -%}
+                <div><dt>{{ 'products.gemstone.shape_cut' | t }}</dt><dd>{{ shape }}{% if shape != blank and gemstone_cut != blank %} / {% endif %}{{ gemstone_cut }}</dd></div>
+              {%- endif -%}
+              {%- if color != blank -%}
+                <div><dt>{{ 'products.gemstone.color' | t }}</dt><dd>{{ color }}</dd></div>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
 
-      {%- if has_origin -%}
-        <details class="gemstone-details__panel">
-          <summary>
-            <span>{{ 'products.gemstone.origin_treatment' | t }}</span>
-            <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
-          </summary>
-          <dl class="gemstone-details__table">
-            {%- if country_of_origin != blank -%}
-              <div><dt>{{ 'products.gemstone.origin' | t }}</dt><dd>{{ country_of_origin }}</dd></div>
-            {%- endif -%}
-            {%- if treatment != blank -%}
-              <div><dt>{{ 'products.gemstone.treatment' | t }}</dt><dd>{{ treatment }}</dd></div>
-            {%- endif -%}
-          </dl>
-        </details>
-      {%- endif -%}
+        {%- if has_origin -%}
+          <details class="gemstone-details__panel">
+            <summary>
+              <span>{{ 'products.gemstone.origin_treatment' | t }}</span>
+              <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            </summary>
+            <dl class="gemstone-details__table">
+              {%- if country_of_origin != blank -%}
+                <div><dt>{{ 'products.gemstone.origin' | t }}</dt><dd>{{ country_of_origin }}</dd></div>
+              {%- endif -%}
+              {%- if treatment != blank -%}
+                <div><dt>{{ 'products.gemstone.treatment' | t }}</dt><dd>{{ treatment }}</dd></div>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
 
-      {%- if has_certification -%}
-        <details class="gemstone-details__panel">
-          <summary>
-            <span>{{ 'products.gemstone.certification' | t }}</span>
-            <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
-          </summary>
-          <dl class="gemstone-details__table">
-            {%- if certification_status != blank -%}
-              <div><dt>{{ 'products.gemstone.certification_status' | t }}</dt><dd>{{ certification_status }}</dd></div>
-            {%- endif -%}
-            {%- if certification_laboratory != blank -%}
-              <div><dt>{{ 'products.gemstone.laboratory' | t }}</dt><dd>{{ certification_laboratory }}</dd></div>
-            {%- endif -%}
-            {%- if certificate_number != blank -%}
-              <div><dt>{{ 'products.gemstone.certificate_number' | t }}</dt><dd>{{ certificate_number }}</dd></div>
-            {%- endif -%}
-            {%- if certificate_file != blank -%}
-              <div><dt>{{ 'products.gemstone.certificate_file' | t }}</dt><dd><a href="{{ certificate_file.url | default: certificate_file }}" target="_blank" rel="noopener">{{ 'products.gemstone.view_certificate' | t }}</a></dd></div>
-            {%- endif -%}
-          </dl>
-        </details>
-      {%- endif -%}
-    </div>
+        {%- if has_certification -%}
+          <details class="gemstone-details__panel">
+            <summary>
+              <span>{{ 'products.gemstone.certification' | t }}</span>
+              <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            </summary>
+            <dl class="gemstone-details__table">
+              {%- if certification_status != blank -%}
+                <div><dt>{{ 'products.gemstone.certification_status' | t }}</dt><dd>{{ certification_status }}</dd></div>
+              {%- endif -%}
+              {%- if certification_laboratory != blank -%}
+                <div><dt>{{ 'products.gemstone.laboratory' | t }}</dt><dd>{{ certification_laboratory }}</dd></div>
+              {%- endif -%}
+              {%- if certificate_number != blank -%}
+                <div><dt>{{ 'products.gemstone.certificate_number' | t }}</dt><dd>{{ certificate_number }}</dd></div>
+              {%- endif -%}
+              {%- if certificate_file != blank -%}
+                <div><dt>{{ 'products.gemstone.certificate_file' | t }}</dt><dd><a href="{{ certificate_file.url | default: certificate_file }}" target="_blank" rel="noopener">{{ 'products.gemstone.view_certificate' | t }}</a></dd></div>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   {%- else -%}
     <div hidden shopify-block-empty></div>
   {%- endif -%}
@@ -611,6 +613,12 @@
       "type": "checkbox",
       "id": "show_highlights",
       "label": "Show highlights",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_detail_accordions",
+      "label": "Show detail accordions",
       "default": true
     },
     {
