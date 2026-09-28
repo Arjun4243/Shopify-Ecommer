@@ -346,6 +346,78 @@
       background: var(--color-background);
     }
 
+    .product-information__media slideshow-arrows {
+      mix-blend-mode: normal;
+      padding-inline: 14px;
+    }
+
+    .product-information__media slideshow-arrows .slideshow-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      min-height: 42px;
+      padding: 0;
+      border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+      border-radius: 50%;
+      background:
+        linear-gradient(145deg, #ffffff 0%, #f7f7f7 58%, #ededed 100%);
+      color: #111111;
+      opacity: 1;
+      box-shadow:
+        0 12px 22px rgb(0 0 0 / 0.18),
+        0 4px 8px rgb(0 0 0 / 0.1),
+        inset 0 1px 0 rgb(255 255 255 / 0.95),
+        inset 0 -2px 4px rgb(0 0 0 / 0.08);
+      transform: translateY(-1px);
+      transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        background-color 160ms ease;
+    }
+
+    .product-information__media slideshow-arrows .slideshow-control:hover {
+      background:
+        linear-gradient(145deg, #ffffff 0%, #fbfbfb 52%, #f0f0f0 100%);
+      transform: translateY(-3px);
+      box-shadow:
+        0 16px 26px rgb(0 0 0 / 0.2),
+        0 7px 12px rgb(0 0 0 / 0.12),
+        inset 0 1px 0 rgb(255 255 255 / 1),
+        inset 0 -2px 4px rgb(0 0 0 / 0.08);
+    }
+
+    .product-information__media slideshow-arrows .slideshow-control:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 7px 13px rgb(0 0 0 / 0.16),
+        0 2px 4px rgb(0 0 0 / 0.1),
+        inset 0 2px 5px rgb(0 0 0 / 0.12);
+    }
+
+    .product-information__media slideshow-arrows .slideshow-control .svg-wrapper,
+    .product-information__media slideshow-arrows .slideshow-control svg {
+      width: 18px;
+      height: 18px;
+      filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.8));
+    }
+
+    .product-information__media slideshow-arrows .slideshow-control .svg-wrapper {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 0;
+      transform: translate(-50%, -50%);
+    }
+
+    .product-information__media slideshow-arrows .slideshow-control .icon-caret {
+      translate: 1px 0;
+    }
+
     .product-details > .group-block {
       max-width: 440px;
       margin-inline-start: auto;
