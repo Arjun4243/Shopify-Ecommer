@@ -14,6 +14,7 @@
   assign certification_laboratory = product_resource.metafields.custom.certification_laboratory.value
   assign certificate_number = product_resource.metafields.custom.certificate_number.value
   assign certificate_file = product_resource.metafields.custom.certificate_file.value
+  assign selected_variant = product_resource.selected_or_first_available_variant
   assign has_identity = false
   assign has_physical = false
   assign has_origin = false
@@ -64,6 +65,22 @@
 
 <div class="gemstone-details spacing-style" style="{% render 'spacing-style', settings: block.settings %}" {{ block.shopify_attributes }}>
   {%- if has_details -%}
+    {%- if block.settings.show_assurance_badges -%}
+      <div class="gemstone-details__assurance" aria-label="{{ 'products.gemstone.assurance_badges' | t }}">
+        <span>{{ 'products.gemstone.unheated_natural' | t }}</span>
+        <span>{{ 'products.gemstone.certified_natural' | t }}</span>
+        <span>{{ 'products.gemstone.trusted_collectors' | t }}</span>
+        <span>{{ 'products.gemstone.worldwide_shipping' | t }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.show_viewing_count -%}
+      <p class="gemstone-details__viewer">
+        <span aria-hidden="true"></span>
+        {{ 'products.gemstone.people_viewing' | t: count: block.settings.active_viewers }}
+      </p>
+    {%- endif -%}
+
     {%- if block.settings.show_quick_specs -%}
       <div class="gemstone-details__quick-specs" aria-label="{{ 'products.gemstone.quick_specs' | t }}">
         {%- if shape != blank -%}
@@ -103,6 +120,21 @@
             </span>
           </div>
         {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.show_highlights -%}
+      <div class="gemstone-details__highlights" aria-label="{{ 'products.gemstone.highlights' | t }}">
+        <h3>{{ 'products.gemstone.highlights' | t }}</h3>
+        <ul>
+          <li>{{ 'products.gemstone.highlight_rare' | t }}</li>
+          <li>{{ 'products.gemstone.highlight_natural' | t }}</li>
+          <li>{{ 'products.gemstone.highlight_transparency' | t }}</li>
+          <li>{{ 'products.gemstone.highlight_collection' | t }}</li>
+          {%- if selected_variant.sku != blank -%}
+            <li>{{ 'products.gemstone.price_per_carat' | t }}: {{ selected_variant.sku }}</li>
+          {%- endif -%}
+        </ul>
       </div>
     {%- endif -%}
 
@@ -190,6 +222,45 @@
     width: 100%;
   }
 
+  .gemstone-details__assurance {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap-xs);
+    margin-block-end: var(--margin-md);
+  }
+
+  .gemstone-details__assurance span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: var(--padding-2xs) var(--padding-xs);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    background: rgb(var(--color-background-rgb) / 0.88);
+    color: rgb(var(--color-foreground-rgb) / 0.78);
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+  }
+
+  .gemstone-details__viewer {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    margin: 0 0 var(--margin-md);
+    color: rgb(var(--color-foreground-rgb) / 0.74);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__viewer span {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #19a45b;
+    box-shadow: 0 0 0 4px rgb(25 164 91 / 0.12);
+  }
+
   .gemstone-details__quick-specs {
     display: grid;
     gap: var(--gap-sm);
@@ -203,9 +274,9 @@
     min-height: 46px;
     padding: var(--padding-xs) var(--padding-sm);
     border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
-    border-radius: 8px;
+    border-radius: 7px;
     background: rgb(var(--color-background-rgb) / 0.82);
-    box-shadow: 0 8px 24px rgb(var(--color-foreground-rgb) / 0.06);
+    box-shadow: 0 8px 20px rgb(var(--color-foreground-rgb) / 0.04);
   }
 
   .gemstone-details__icon,
@@ -239,6 +310,46 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__highlights {
+    margin-block-start: var(--margin-md);
+    padding: var(--padding-md);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    background: rgb(var(--color-foreground-rgb) / 0.025);
+  }
+
+  .gemstone-details__highlights h3 {
+    margin: 0 0 var(--margin-xs);
+    font-size: var(--font-paragraph--size);
+  }
+
+  .gemstone-details__highlights ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-xs) var(--gap-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gemstone-details__highlights li {
+    position: relative;
+    padding-inline-start: 18px;
+    color: rgb(var(--color-foreground-rgb) / 0.78);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__highlights li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.55em;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #d99816;
   }
 
   .gemstone-details__accordions {
@@ -306,6 +417,11 @@
   }
 
   @media screen and (max-width: 749px) {
+    .gemstone-details__assurance,
+    .gemstone-details__highlights ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .gemstone-details__select-card,
     .gemstone-details__table div {
       grid-template-columns: 22px minmax(72px, 0.48fr) minmax(0, 1fr);
@@ -321,6 +437,13 @@
       padding: 0;
     }
   }
+
+  @media screen and (max-width: 420px) {
+    .gemstone-details__assurance,
+    .gemstone-details__highlights ul {
+      grid-template-columns: 1fr;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -332,6 +455,34 @@
       "type": "checkbox",
       "id": "show_quick_specs",
       "label": "Show quick specification cards",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_assurance_badges",
+      "label": "Show assurance badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_viewing_count",
+      "label": "Show viewing count",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "active_viewers",
+      "label": "Active viewers",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 20,
+      "visible_if": "{{ block.settings.show_viewing_count }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_highlights",
+      "label": "Show highlights",
       "default": true
     },
     {

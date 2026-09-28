@@ -240,6 +240,60 @@
         {%- endif -%}
       {%- endform -%}
     </product-form-component>
+
+    {%- liquid
+      assign whatsapp_phone = block_settings.whatsapp_phone | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+      capture whatsapp_message
+        echo 'products.gemstone.whatsapp_message' | t: product: product.title, url: canonical_url
+      endcapture
+      assign encoded_whatsapp_message = whatsapp_message | url_encode
+      assign whatsapp_href = 'https://wa.me/' | append: whatsapp_phone | append: '?text=' | append: encoded_whatsapp_message
+    -%}
+
+    <div class="gemstone-purchase-tools" aria-label="{{ 'products.gemstone.purchase_tools' | t }}">
+      <div class="gemstone-purchase-tools__links">
+        {%- if block_settings.show_wishlist -%}
+          <a class="gemstone-purchase-tools__link" href="{{ block_settings.wishlist_url | default: routes.account_url }}">
+            <span aria-hidden="true">♡</span>
+            {{ 'products.gemstone.add_to_wishlist' | t }}
+          </a>
+        {%- endif -%}
+        {%- if block_settings.show_ask_question -%}
+          <a class="gemstone-purchase-tools__link" href="{{ block_settings.ask_question_url | default: '/pages/contact' }}">
+            <span aria-hidden="true">?</span>
+            {{ 'products.gemstone.ask_question' | t }}
+          </a>
+        {%- endif -%}
+        {%- if block_settings.show_share -%}
+          <button
+            class="gemstone-purchase-tools__link gemstone-purchase-tools__share"
+            type="button"
+            data-share-title="{{ product.title | escape }}"
+            data-share-url="{{ canonical_url | escape }}"
+          >
+            <span aria-hidden="true">↗</span>
+            {{ 'products.gemstone.share' | t }}
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if block_settings.show_whatsapp and whatsapp_phone != blank -%}
+        <a class="gemstone-purchase-tools__whatsapp" href="{{ whatsapp_href }}" target="_blank" rel="noopener">
+          <span aria-hidden="true">✓</span>
+          {{ 'products.gemstone.enquire_whatsapp' | t }}
+        </a>
+        <p class="gemstone-purchase-tools__note">{{ 'products.gemstone.chat_with_team' | t }}</p>
+      {%- endif -%}
+
+      {%- if block_settings.show_policy_badges -%}
+        <div class="gemstone-purchase-tools__policies" aria-label="{{ 'products.gemstone.policy_badges' | t }}">
+          <span>{{ 'products.gemstone.return_policy' | t }}</span>
+          <span>{{ 'products.gemstone.secure_payment' | t }}</span>
+          <span>{{ 'products.gemstone.worldwide_delivery' | t }}</span>
+          <span>{{ 'products.gemstone.genuine_gemstones' | t }}</span>
+        </div>
+      {%- endif -%}
+    </div>
   {%- else -%}
     <div class="product-form-buttons">
       <button
@@ -383,6 +437,124 @@
 
 {% render 'buy-buttons-styles' %}
 
+{% javascript %}
+  document.addEventListener('click', (event) => {
+    const shareButton = event.target.closest('.gemstone-purchase-tools__share');
+
+    if (!shareButton) return;
+
+    const shareData = {
+      title: shareButton.dataset.shareTitle,
+      url: shareButton.dataset.shareUrl,
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData);
+      return;
+    }
+
+    if (navigator.clipboard && shareData.url) {
+      navigator.clipboard.writeText(shareData.url);
+    }
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .gemstone-purchase-tools {
+    display: grid;
+    gap: var(--gap-sm);
+    margin-block-start: var(--margin-sm);
+    width: 100%;
+  }
+
+  .gemstone-purchase-tools__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-xs) var(--gap-md);
+  }
+
+  .gemstone-purchase-tools__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 34px;
+    border: 0;
+    background: transparent;
+    color: rgb(var(--color-foreground-rgb) / 0.76);
+    font: inherit;
+    font-size: var(--font-paragraph-small--size);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .gemstone-purchase-tools__link:hover {
+    color: var(--color-foreground);
+  }
+
+  .gemstone-purchase-tools__link span {
+    color: #c98209;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .gemstone-purchase-tools__whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-xs);
+    min-height: var(--height-buy-buttons);
+    padding: var(--padding-sm) var(--padding-md);
+    border-radius: 999px;
+    background: #108c42;
+    color: #fff;
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: transform 160ms ease, background-color 160ms ease;
+  }
+
+  .gemstone-purchase-tools__whatsapp:hover {
+    background: #0d7a39;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .gemstone-purchase-tools__note {
+    margin: calc(var(--margin-xs) * -1) 0 0;
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+    font-size: var(--font-paragraph-small--size);
+    text-align: center;
+  }
+
+  .gemstone-purchase-tools__policies {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap-xs);
+    margin-block-start: var(--margin-xs);
+  }
+
+  .gemstone-purchase-tools__policies span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: var(--padding-xs);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    background: rgb(var(--color-foreground-rgb) / 0.025);
+    color: rgb(var(--color-foreground-rgb) / 0.78);
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gemstone-purchase-tools__policies {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_buy_buttons",
@@ -413,6 +585,57 @@
     {
       "type": "paragraph",
       "content": "t:content.local_pickup_description"
+    },
+    {
+      "type": "header",
+      "content": "Gemstone actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ask_question",
+      "label": "Show ask question link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "ask_question_url",
+      "label": "Ask question URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show share button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_whatsapp",
+      "label": "Show WhatsApp enquiry",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_phone",
+      "label": "WhatsApp phone number",
+      "default": "971000000000",
+      "visible_if": "{{ block.settings.show_whatsapp }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy_badges",
+      "label": "Show policy badges",
+      "default": true
     },
     {
       "type": "header",
