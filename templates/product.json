@@ -214,6 +214,18 @@
               },
               "blocks": {}
             },
+            "gemstone_details_RazaGems": {
+              "type": "gemstone-details",
+              "settings": {
+                "show_quick_specs": true,
+                "swatch_color": "#e73168",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
               "settings": {
@@ -305,6 +317,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "gemstone_details_RazaGems",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
           ]

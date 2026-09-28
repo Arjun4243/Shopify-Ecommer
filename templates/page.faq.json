@@ -231,6 +231,7 @@
         "selling_question_3"
       ],
       "settings": {
+        "banner_image": "shopify://shop_images/FAQ-banner.png",
         "fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp",
         "banner_alt": "Diamonds on a soft white background",
         "banner_heading": "FAQs",
