@@ -108,6 +108,7 @@
         data-testid="product-information-media"
       >
         {{ media_gallery }}
+        {% render 'gemstone-specifications-panel', product_resource: product %}
       </div>
     {% endcapture %}
 

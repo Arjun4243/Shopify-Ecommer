@@ -15,6 +15,17 @@
   assign certificate_number = product_resource.metafields.custom.certificate_number.value
   assign certificate_file = product_resource.metafields.custom.certificate_file.value
   assign selected_variant = product_resource.selected_or_first_available_variant
+  assign product_sku = selected_variant.sku | default: 'products.gemstone.sku_not_available' | t
+  assign product_available = false
+  if selected_variant.available
+    assign product_available = true
+  endif
+  assign active_viewers = block.settings.active_viewers | default: block.settings.viewer_min
+  assign viewer_min = block.settings.viewer_min | default: active_viewers
+  assign viewer_max = block.settings.viewer_max | default: active_viewers
+  if viewer_max < viewer_min
+    assign viewer_max = viewer_min
+  endif
   assign has_identity = false
   assign has_physical = false
   assign has_origin = false
@@ -65,6 +76,19 @@
 
 <div class="gemstone-details spacing-style" style="{% render 'spacing-style', settings: block.settings %}" {{ block.shopify_attributes }}>
   {%- if has_details -%}
+    {%- if block.settings.show_product_status -%}
+      <div class="gemstone-details__status">
+        <span class="gemstone-details__sku">{{ 'products.gemstone.sku' | t }}: {{ product_sku }}</span>
+        <span class="gemstone-details__stock {% if product_available %}gemstone-details__stock--in{% else %}gemstone-details__stock--out{% endif %}">
+          {%- if product_available -%}
+            {{ 'content.inventory_in_stock' | t }}
+          {%- else -%}
+            {{ 'content.inventory_out_of_stock' | t }}
+          {%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+
     {%- if block.settings.show_assurance_badges -%}
       <div class="gemstone-details__assurance" aria-label="{{ 'products.gemstone.assurance_badges' | t }}">
         <span>{{ 'products.gemstone.unheated_natural' | t }}</span>
@@ -75,9 +99,20 @@
     {%- endif -%}
 
     {%- if block.settings.show_viewing_count -%}
-      <p class="gemstone-details__viewer">
-        <span aria-hidden="true"></span>
-        {{ 'products.gemstone.people_viewing' | t: count: block.settings.active_viewers }}
+      <p
+        class="gemstone-details__viewer"
+        data-gemstone-viewer
+        data-product-id="{{ product_resource.id }}"
+        data-viewer-min="{{ viewer_min }}"
+        data-viewer-max="{{ viewer_max }}"
+        data-viewer-text="{{ 'products.gemstone.people_viewing' | t: count: '__COUNT__' | escape }}"
+      >
+        <span class="gemstone-details__viewer-icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20" focusable="false">
+            <path d="M10 4.2c4.7 0 7.7 4.4 7.8 4.6.3.4.3.9 0 1.3-.1.2-3.1 4.6-7.8 4.6s-7.7-4.4-7.8-4.6a1.1 1.1 0 0 1 0-1.3c.1-.2 3.1-4.6 7.8-4.6Zm0 8.6a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Zm0-1.7a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span data-gemstone-viewer-text>{{ 'products.gemstone.people_viewing' | t: count: active_viewers }}</span>
       </p>
     {%- endif -%}
 
@@ -222,6 +257,42 @@
     width: 100%;
   }
 
+  .gemstone-details__status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--gap-sm);
+    margin-block-end: var(--margin-sm);
+    color: rgb(var(--color-foreground-rgb) / 0.78);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__sku {
+    line-height: 1.4;
+  }
+
+  .gemstone-details__stock {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+  }
+
+  .gemstone-details__stock--in {
+    background: #bdf4d0;
+    color: #075c2d;
+  }
+
+  .gemstone-details__stock--out {
+    background: #f3f4f6;
+    color: rgb(var(--color-foreground-rgb) / 0.62);
+  }
+
   .gemstone-details__assurance {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -247,18 +318,23 @@
   .gemstone-details__viewer {
     display: flex;
     align-items: center;
-    gap: var(--gap-xs);
+    gap: 8px;
     margin: 0 0 var(--margin-md);
     color: rgb(var(--color-foreground-rgb) / 0.74);
     font-size: var(--font-paragraph-small--size);
   }
 
-  .gemstone-details__viewer span {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: #19a45b;
-    box-shadow: 0 0 0 4px rgb(25 164 91 / 0.12);
+  .gemstone-details__viewer-icon {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+    color: rgb(var(--color-foreground-rgb) / 0.72);
+    flex: 0 0 auto;
+  }
+
+  .gemstone-details__viewer-icon svg {
+    width: 100%;
+    height: 100%;
   }
 
   .gemstone-details__quick-specs {
@@ -446,11 +522,43 @@
   }
 {% endstylesheet %}
 
+{% javascript %}
+  const updateGemstoneViewers = () => {
+    document.querySelectorAll('[data-gemstone-viewer]').forEach((viewer) => {
+      const text = viewer.querySelector('[data-gemstone-viewer-text]');
+      if (!text) return;
+
+      const min = Number.parseInt(viewer.dataset.viewerMin, 10) || 1;
+      const max = Math.max(Number.parseInt(viewer.dataset.viewerMax, 10) || min, min);
+      const productId = viewer.dataset.productId || window.location.pathname;
+      const bucket = Math.floor(Date.now() / 180000);
+      const seed = `${productId}-${bucket}`;
+      let hash = 0;
+
+      for (let index = 0; index < seed.length; index += 1) {
+        hash = (hash * 31 + seed.charCodeAt(index)) >>> 0;
+      }
+
+      const count = min + (hash % (max - min + 1));
+      text.textContent = (viewer.dataset.viewerText || '').replace('__COUNT__', count);
+    });
+  };
+
+  updateGemstoneViewers();
+  document.addEventListener('shopify:section:load', updateGemstoneViewers);
+{% endjavascript %}
+
 {% schema %}
 {
   "name": "Gemstone details",
   "tag": null,
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_product_status",
+      "label": "Show SKU and stock badge",
+      "default": true
+    },
     {
       "type": "checkbox",
       "id": "show_quick_specs",
@@ -472,11 +580,31 @@
     {
       "type": "range",
       "id": "active_viewers",
-      "label": "Active viewers",
+      "label": "Fallback active viewers",
       "min": 1,
       "max": 50,
       "step": 1,
       "default": 20,
+      "visible_if": "{{ block.settings.show_viewing_count }}"
+    },
+    {
+      "type": "range",
+      "id": "viewer_min",
+      "label": "Minimum active viewers",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 12,
+      "visible_if": "{{ block.settings.show_viewing_count }}"
+    },
+    {
+      "type": "range",
+      "id": "viewer_max",
+      "label": "Maximum active viewers",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 28,
       "visible_if": "{{ block.settings.show_viewing_count }}"
     },
     {

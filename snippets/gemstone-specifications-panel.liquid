@@ -1,0 +1,541 @@
+{% doc %}
+  Renders the gemstone specifications panel beneath the product media gallery.
+  @param {product} product_resource - Product object used for gemstone details.
+  @example
+  {% render 'gemstone-specifications-panel', product_resource: product %}
+{% enddoc %}
+
+{%- liquid
+  assign gemstone_group = product_resource.metafields.custom.gemstone_group.value
+  assign gemstone_type = product_resource.metafields.custom.gemstone_type.value
+  assign shape = product_resource.metafields.custom.shape.value
+  assign gemstone_cut = product_resource.metafields.custom.cut.value
+  assign color = product_resource.metafields.custom.color.value
+  assign actual_carat_weight = product_resource.metafields.custom.actual_carat_weight.value
+  assign dimensions = product_resource.metafields.custom.dimensions.value
+  assign country_of_origin = product_resource.metafields.custom.country_of_origin.value
+  assign treatment = product_resource.metafields.custom.treatment.value
+  assign certification_status = product_resource.metafields.custom.certification_status.value
+  assign certification_laboratory = product_resource.metafields.custom.certification_laboratory.value
+  assign certificate_number = product_resource.metafields.custom.certificate_number.value
+  assign certificate_file = product_resource.metafields.custom.certificate_file.value
+  assign price_per_carat = product_resource.metafields.custom.price_per_carat.value
+  assign selected_variant = product_resource.selected_or_first_available_variant
+  assign product_description = product_resource.description
+
+  if price_per_carat == blank
+    assign price_per_carat = selected_variant.sku
+  endif
+
+  assign has_panel_details = false
+  if product_description != blank or gemstone_type != blank or gemstone_group != blank or actual_carat_weight != blank or dimensions != blank or shape != blank or gemstone_cut != blank or color != blank or country_of_origin != blank or treatment != blank or certification_status != blank
+    assign has_panel_details = true
+  endif
+
+  if has_panel_details == false and request.design_mode
+    assign gemstone_type = 'Natural Star Ruby'
+    assign actual_carat_weight = '5.38 Carats'
+    assign dimensions = '8.8 mm'
+    assign shape = 'Round'
+    assign gemstone_cut = 'Cabochon'
+    assign color = 'Pinkish Red'
+    assign country_of_origin = 'Mozambique / Africa'
+    assign treatment = '100% Unheated'
+    assign certification_status = 'Available upon request'
+    assign certification_laboratory = 'Available on request'
+    assign certificate_number = 'Available on request'
+    assign price_per_carat = '30$'
+    assign product_description = 'A rare and beautiful natural star ruby with rich pinkish red hue, excellent transparency and a well-defined star effect.'
+    assign has_panel_details = true
+  endif
+-%}
+
+{%- if has_panel_details -%}
+  <section class="gemstone-spec-panel" aria-label="{{ 'products.gemstone.spec_panel_label' | t }}" data-gemstone-tabs>
+    <div class="gemstone-spec-panel__tabs" role="tablist" aria-label="{{ 'products.gemstone.product_information_tabs' | t }}">
+      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabDescription" aria-controls="GemstonePanelDescription" aria-selected="false" data-gemstone-tab="description">
+        {{ 'products.gemstone.description_tab' | t }}
+      </button>
+      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabSpecifications" aria-controls="GemstonePanelSpecifications" aria-selected="true" data-gemstone-tab="specifications">
+        {{ 'products.gemstone.specifications' | t }}
+      </button>
+      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabAdditional" aria-controls="GemstonePanelAdditional" aria-selected="false" data-gemstone-tab="additional">
+        {{ 'products.gemstone.additional_information_tab' | t }}
+      </button>
+      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabCertification" aria-controls="GemstonePanelCertification" aria-selected="false" data-gemstone-tab="certification">
+        {{ 'products.gemstone.certification' | t }}
+      </button>
+      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabReviews" aria-controls="GemstonePanelReviews" aria-selected="false" data-gemstone-tab="reviews">
+        {{ 'products.gemstone.reviews_tab' | t }}
+      </button>
+      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabShipping" aria-controls="GemstonePanelShipping" aria-selected="false" data-gemstone-tab="shipping">
+        {{ 'products.gemstone.shipping_returns_tab' | t }}
+      </button>
+    </div>
+
+    <div class="gemstone-spec-panel__content">
+      <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelDescription" aria-labelledby="GemstoneTabDescription" data-gemstone-panel="description" hidden>
+        <article class="gemstone-spec-panel__card gemstone-spec-panel__card--copy">
+          <h2 class="gemstone-spec-panel__heading">{{ 'products.gemstone.description_tab' | t }}</h2>
+          <div class="gemstone-spec-panel__rte">
+            {%- if product_description != blank -%}
+              {{ product_description }}
+            {%- else -%}
+              <p>{{ 'products.gemstone.description_empty' | t }}</p>
+            {%- endif -%}
+          </div>
+        </article>
+      </div>
+
+      <div class="gemstone-spec-panel__panel gemstone-spec-panel__panel--active" role="tabpanel" id="GemstonePanelSpecifications" aria-labelledby="GemstoneTabSpecifications" data-gemstone-panel="specifications">
+        <div class="gemstone-spec-panel__grid">
+          <article class="gemstone-spec-panel__card gemstone-spec-panel__card--table">
+            <h2 class="gemstone-spec-panel__heading">
+              <span class="gemstone-spec-panel__gem" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 2 22 8l-10 14L2 8 12 2Zm0 2.4L5.8 8 12 16.7 18.2 8 12 4.4Zm-4.1 4L12 6l4.1 2.4L12 10.6 7.9 8.4Z" fill="currentColor"/>
+                </svg>
+              </span>
+              {{ 'products.gemstone.gemstone_specifications' | t }}
+            </h2>
+
+            <dl class="gemstone-spec-panel__table">
+              {%- if gemstone_type != blank -%}
+                <div><dt>{{ 'products.gemstone.stone_type' | t }}</dt><dd>{{ gemstone_type }}</dd></div>
+              {%- endif -%}
+              {%- if actual_carat_weight != blank -%}
+                <div><dt>{{ 'products.gemstone.weight_carats' | t }}</dt><dd>{{ actual_carat_weight }}</dd></div>
+              {%- endif -%}
+              {%- if dimensions != blank -%}
+                <div><dt>{{ 'products.gemstone.dimensions' | t }}</dt><dd>{{ dimensions }}</dd></div>
+              {%- endif -%}
+              {%- if shape != blank or gemstone_cut != blank -%}
+                <div><dt>{{ 'products.gemstone.shape_cut' | t }}</dt><dd>{{ shape }}{% if shape != blank and gemstone_cut != blank %} / {% endif %}{{ gemstone_cut }}</dd></div>
+              {%- endif -%}
+              {%- if color != blank -%}
+                <div><dt>{{ 'products.gemstone.color' | t }}</dt><dd>{{ color }}</dd></div>
+              {%- endif -%}
+              {%- if country_of_origin != blank -%}
+                <div><dt>{{ 'products.gemstone.origin' | t }}</dt><dd>{{ country_of_origin }}</dd></div>
+              {%- endif -%}
+              {%- if treatment != blank -%}
+                <div><dt>{{ 'products.gemstone.treatment' | t }}</dt><dd>{{ treatment }}</dd></div>
+              {%- endif -%}
+              {%- if certification_status != blank -%}
+                <div><dt>{{ 'products.gemstone.certificate' | t }}</dt><dd>{{ certification_status }}</dd></div>
+              {%- endif -%}
+            </dl>
+          </article>
+
+          <div class="gemstone-spec-panel__stack">
+            <article class="gemstone-spec-panel__card gemstone-spec-panel__card--highlights">
+              <h2 class="gemstone-spec-panel__heading">
+                <span class="gemstone-spec-panel__gem" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M12 2 22 8l-10 14L2 8 12 2Zm0 2.4L5.8 8 12 16.7 18.2 8 12 4.4Zm-4.1 4L12 6l4.1 2.4L12 10.6 7.9 8.4Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                {{ 'products.gemstone.highlights' | t }}
+              </h2>
+              <ul class="gemstone-spec-panel__list">
+                <li>{{ 'products.gemstone.highlight_rare' | t }}</li>
+                <li>{{ 'products.gemstone.highlight_natural' | t }}</li>
+                <li>{{ 'products.gemstone.highlight_transparency' | t }}</li>
+                <li>{{ 'products.gemstone.highlight_collection' | t }}</li>
+                <li>{{ 'products.gemstone.highlight_quality' | t }}</li>
+              </ul>
+            </article>
+
+            {%- if price_per_carat != blank -%}
+              <article class="gemstone-spec-panel__card gemstone-spec-panel__card--price">
+                <h2 class="gemstone-spec-panel__heading">
+                  <span class="gemstone-spec-panel__check" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.5 7.2-5.2 6.2a1 1 0 0 1-1.5 0l-2.5-3a1 1 0 0 1 1.5-1.3l1.7 2 4.4-5.2a1 1 0 1 1 1.6 1.3Z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                  {{ 'products.gemstone.price_value' | t }}
+                </h2>
+                <dl class="gemstone-spec-panel__price-row">
+                  <div>
+                    <dt>{{ 'products.gemstone.price_per_carat' | t }}</dt>
+                    <dd>{{ price_per_carat }}</dd>
+                  </div>
+                </dl>
+                <p class="gemstone-spec-panel__note">{{ 'products.gemstone.price_value_note' | t }}</p>
+              </article>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelAdditional" aria-labelledby="GemstoneTabAdditional" data-gemstone-panel="additional" hidden>
+        <article class="gemstone-spec-panel__card">
+          <h2 class="gemstone-spec-panel__heading">{{ 'products.gemstone.additional_information_tab' | t }}</h2>
+          <dl class="gemstone-spec-panel__table">
+            {%- if gemstone_group != blank -%}
+              <div><dt>{{ 'products.gemstone.group' | t }}</dt><dd>{{ gemstone_group }}</dd></div>
+            {%- endif -%}
+            {%- if country_of_origin != blank -%}
+              <div><dt>{{ 'products.gemstone.origin' | t }}</dt><dd>{{ country_of_origin }}</dd></div>
+            {%- endif -%}
+            {%- if treatment != blank -%}
+              <div><dt>{{ 'products.gemstone.treatment' | t }}</dt><dd>{{ treatment }}</dd></div>
+            {%- endif -%}
+            {%- if selected_variant.sku != blank -%}
+              <div><dt>{{ 'products.gemstone.price_per_carat' | t }}</dt><dd>{{ selected_variant.sku }}</dd></div>
+            {%- endif -%}
+          </dl>
+        </article>
+      </div>
+
+      <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelCertification" aria-labelledby="GemstoneTabCertification" data-gemstone-panel="certification" hidden>
+        <article class="gemstone-spec-panel__card">
+          <h2 class="gemstone-spec-panel__heading">{{ 'products.gemstone.certification' | t }}</h2>
+          <dl class="gemstone-spec-panel__table">
+            {%- if certification_status != blank -%}
+              <div><dt>{{ 'products.gemstone.certification_status' | t }}</dt><dd>{{ certification_status }}</dd></div>
+            {%- endif -%}
+            {%- if certification_laboratory != blank -%}
+              <div><dt>{{ 'products.gemstone.laboratory' | t }}</dt><dd>{{ certification_laboratory }}</dd></div>
+            {%- endif -%}
+            {%- if certificate_number != blank -%}
+              <div><dt>{{ 'products.gemstone.certificate_number' | t }}</dt><dd>{{ certificate_number }}</dd></div>
+            {%- endif -%}
+            {%- if certificate_file != blank -%}
+              <div>
+                <dt>{{ 'products.gemstone.certificate_file' | t }}</dt>
+                <dd>
+                  <a class="gemstone-spec-panel__download" href="{{ certificate_file.url | default: certificate_file }}" target="_blank" rel="noopener">
+                    {{ 'products.gemstone.view_certificate' | t }}
+                  </a>
+                </dd>
+              </div>
+            {%- endif -%}
+          </dl>
+        </article>
+      </div>
+
+      <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelReviews" aria-labelledby="GemstoneTabReviews" data-gemstone-panel="reviews" hidden>
+        <article class="gemstone-spec-panel__card gemstone-spec-panel__card--copy">
+          <h2 class="gemstone-spec-panel__heading">{{ 'products.gemstone.reviews_tab' | t }}</h2>
+          <p class="gemstone-spec-panel__note gemstone-spec-panel__note--standalone">{{ 'products.gemstone.reviews_note' | t }}</p>
+        </article>
+      </div>
+
+      <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelShipping" aria-labelledby="GemstoneTabShipping" data-gemstone-panel="shipping" hidden>
+        <article class="gemstone-spec-panel__card gemstone-spec-panel__card--copy">
+          <h2 class="gemstone-spec-panel__heading">{{ 'products.gemstone.shipping_returns_tab' | t }}</h2>
+          <ul class="gemstone-spec-panel__list gemstone-spec-panel__list--spacious">
+            <li>{{ 'products.gemstone.return_policy' | t }}</li>
+            <li>{{ 'products.gemstone.secure_payment' | t }}</li>
+            <li>{{ 'products.gemstone.worldwide_delivery' | t }}</li>
+            <li>{{ 'products.gemstone.genuine_gemstones' | t }}</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .gemstone-spec-panel {
+    margin-block-start: 16px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    background: rgb(var(--color-background-rgb) / 0.96);
+    box-shadow: 0 14px 34px rgb(var(--color-foreground-rgb) / 0.05);
+    overflow: hidden;
+  }
+
+  .gemstone-spec-panel__tabs {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(max-content, 1fr));
+    overflow-x: auto;
+    border-block-end: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    scrollbar-width: none;
+  }
+
+  .gemstone-spec-panel__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gemstone-spec-panel__tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 14px;
+    color: #00245f;
+    border: 0;
+    background: transparent;
+    font-size: 0.78rem;
+    font-weight: var(--font-weight-semibold);
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .gemstone-spec-panel__tab[aria-selected='true'] {
+    color: #c98209;
+  }
+
+  .gemstone-spec-panel__tab[aria-selected='true']::after {
+    content: '';
+    position: absolute;
+    inset-inline: 14px;
+    inset-block-end: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: #d99816;
+  }
+
+  .gemstone-spec-panel__content {
+    padding: 12px;
+  }
+
+  .gemstone-spec-panel__panel[hidden] {
+    display: none;
+  }
+
+  .gemstone-spec-panel__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
+    gap: 12px;
+  }
+
+  .gemstone-spec-panel__stack {
+    display: grid;
+    gap: 12px;
+  }
+
+  .gemstone-spec-panel__card {
+    min-width: 0;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgb(var(--color-foreground-rgb) / 0.035);
+  }
+
+  .gemstone-spec-panel__heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    padding: 13px 16px 8px;
+    color: #07245b;
+    font-size: clamp(1rem, 1.3vw, 1.18rem);
+    line-height: 1.2;
+  }
+
+  .gemstone-spec-panel__gem,
+  .gemstone-spec-panel__check {
+    display: inline-flex;
+    width: 25px;
+    height: 25px;
+    color: #d99816;
+    flex: 0 0 auto;
+  }
+
+  .gemstone-spec-panel__gem svg,
+  .gemstone-spec-panel__check svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gemstone-spec-panel__table,
+  .gemstone-spec-panel__price-row {
+    margin: 0 16px 16px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  .gemstone-spec-panel__table div,
+  .gemstone-spec-panel__price-row div {
+    display: grid;
+    grid-template-columns: minmax(132px, 0.42fr) minmax(0, 1fr);
+  }
+
+  .gemstone-spec-panel__table div + div,
+  .gemstone-spec-panel__price-row div + div {
+    border-block-start: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  }
+
+  .gemstone-spec-panel__table dt,
+  .gemstone-spec-panel__table dd,
+  .gemstone-spec-panel__price-row dt,
+  .gemstone-spec-panel__price-row dd {
+    margin: 0;
+    padding: 7px 11px;
+    min-width: 0;
+    color: #17325f;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .gemstone-spec-panel__table dt,
+  .gemstone-spec-panel__price-row dt {
+    font-weight: var(--font-weight-semibold);
+    background: rgb(var(--color-foreground-rgb) / 0.018);
+  }
+
+  .gemstone-spec-panel__table dd,
+  .gemstone-spec-panel__price-row dd {
+    border-inline-start: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  }
+
+  .gemstone-spec-panel__list {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+    padding: 0 16px 16px;
+    list-style: none;
+  }
+
+  .gemstone-spec-panel__list li {
+    position: relative;
+    padding-inline-start: 25px;
+    color: #17325f;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .gemstone-spec-panel__list li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 1px;
+    top: 0.1em;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #d99816;
+    box-shadow: inset 0 0 0 5px #d99816;
+  }
+
+  .gemstone-spec-panel__list li::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 6px;
+    top: calc(0.1em + 4px);
+    width: 6px;
+    height: 3px;
+    border: solid #ffffff;
+    border-width: 0 0 2px 2px;
+    transform: rotate(-45deg);
+  }
+
+  .gemstone-spec-panel__note {
+    margin: -8px 16px 16px;
+    color: #17325f;
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+
+  .gemstone-spec-panel__note--standalone {
+    margin: 0;
+    padding: 0 16px 16px;
+  }
+
+  .gemstone-spec-panel__rte {
+    padding: 0 16px 16px;
+    color: #17325f;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .gemstone-spec-panel__rte > :first-child {
+    margin-block-start: 0;
+  }
+
+  .gemstone-spec-panel__rte > :last-child {
+    margin-block-end: 0;
+  }
+
+  .gemstone-spec-panel__download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 5px 12px;
+    border: 1px solid #d99816;
+    border-radius: 999px;
+    color: #07245b;
+    font-size: 0.74rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .gemstone-spec-panel__download:hover {
+    background: rgb(217 152 22 / 0.1);
+  }
+
+  .gemstone-spec-panel__list--spacious {
+    gap: 10px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .gemstone-spec-panel__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .gemstone-spec-panel {
+      margin: 12px 16px 0;
+    }
+
+    .gemstone-spec-panel__tabs {
+      grid-template-columns: repeat(6, max-content);
+    }
+
+    .gemstone-spec-panel__tab {
+      min-height: 44px;
+      font-size: 0.74rem;
+    }
+
+    .gemstone-spec-panel__grid {
+      gap: 10px;
+    }
+
+    .gemstone-spec-panel__content {
+      padding: 10px;
+    }
+
+    .gemstone-spec-panel__table div,
+    .gemstone-spec-panel__price-row div {
+      grid-template-columns: minmax(108px, 0.44fr) minmax(0, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  const setupGemstoneTabs = () => {
+    document.querySelectorAll('[data-gemstone-tabs]').forEach((tabset) => {
+      const tabs = Array.from(tabset.querySelectorAll('[data-gemstone-tab]'));
+      const panels = Array.from(tabset.querySelectorAll('[data-gemstone-panel]'));
+
+      const activateTab = (target) => {
+        tabs.forEach((tab) => {
+          tab.setAttribute('aria-selected', String(tab.dataset.gemstoneTab === target));
+        });
+
+        panels.forEach((panel) => {
+          panel.hidden = panel.dataset.gemstonePanel !== target;
+        });
+      };
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => activateTab(tab.dataset.gemstoneTab));
+      });
+    });
+  };
+
+  setupGemstoneTabs();
+  document.addEventListener('shopify:section:load', setupGemstoneTabs);
+{% endjavascript %}
