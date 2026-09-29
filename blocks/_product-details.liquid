@@ -1,6 +1,15 @@
 
 
-{%- assign block_settings = block.settings -%}
+{%- liquid
+  assign block_settings = block.settings
+  assign product_resource = closest.product
+  assign selected_variant = product_resource.selected_or_first_available_variant
+  assign product_sku = selected_variant.sku | default: 'products.gemstone.sku_not_available' | t
+  assign product_available = false
+  if selected_variant.available
+    assign product_available = true
+  endif
+-%}
 {%- if block_settings.height == 'fill' -%}
   {% # `.full-height--desktop` consumes `--header-group-height` at first paint (stylesheet below) %}
   {% render 'measure-header-heights', only_on_desktop: true %}
@@ -19,6 +28,40 @@
   {% endif %}
 >
   {% capture children %}
+    <div class="product-details__meta-bar">
+      <div class="product-details__status" aria-label="{{ 'accessibility.inventory_status' | t }}">
+        <span class="product-details__sku">{{ 'products.gemstone.sku' | t }}: {{ product_sku }}</span>
+        <span class="product-details__stock {% if product_available %}product-details__stock--in{% else %}product-details__stock--out{% endif %}">
+          {%- if product_available -%}
+            {{ 'content.inventory_in_stock' | t }}
+          {%- else -%}
+            {{ 'content.inventory_out_of_stock' | t }}
+          {%- endif -%}
+        </span>
+      </div>
+
+      <a
+        class="product-details__wishlist"
+        href="{{ routes.search_url | append: '?q=wishlist&type=product' }}"
+        data-wishlist-add
+        data-product-handle="{{ product_resource.handle | escape }}"
+        data-product-title="{{ product_resource.title | escape }}"
+        data-product-url="{{ product_resource.url | escape }}"
+        data-product-image="{% if product_resource.featured_image %}{{ product_resource.featured_image | image_url: width: 420 }}{% endif %}"
+        data-product-price="{{ product_resource.price | money | strip_html | escape }}"
+        data-wishlist-add-label="{{ 'products.gemstone.add_to_wishlist' | t | escape }}"
+        data-wishlist-added-label="{{ 'products.gemstone.added_to_wishlist' | t | escape }}"
+      >
+        <span class="product-details__action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path class="product-details__heart-outline" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Zm0-2.7.1-.1c4.8-4.3 7.9-7.2 7.9-10.1C20 6.5 18.5 5 16.5 5c-1.5 0-3 .9-3.6 2.1h-1.8C10.5 5.9 9 5 7.5 5 5.5 5 4 6.5 4 8.5c0 2.9 3.1 5.8 7.9 10.1l.1.1Z" fill="currentColor"/>
+            <path class="product-details__heart-fill" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span data-wishlist-label>{{ 'products.gemstone.add_to_wishlist' | t }}</span>
+      </a>
+    </div>
+
     <div class="view-product-title">
       <a
         href="{{ closest.product.selected_or_first_available_variant.url }}"
@@ -27,6 +70,19 @@
       </a>
     </div>
     {% content_for 'blocks' %}
+    <button
+      class="product-details__share gemstone-purchase-tools__share"
+      type="button"
+      data-share-title="{{ product_resource.title | escape }}"
+      data-share-url="{{ canonical_url | escape }}"
+    >
+      <span class="product-details__action-icon" aria-hidden="true">
+        <svg viewBox="0 0 20 20" focusable="false">
+          <path d="M15 13.4c-.9 0-1.7.4-2.2 1l-5.5-3.1c.1-.3.2-.6.2-.9s-.1-.6-.2-.9l5.4-3.1c.6.7 1.4 1.1 2.3 1.1 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .4.1.6L6.5 8.3c-.5-.5-1.2-.8-2-.8-1.7 0-3 1.3-3 3s1.3 3 3 3c.8 0 1.5-.3 2-.8l5.6 3.2c-.1.2-.1.4-.1.6 0 1.7 1.3 3 3 3s3-1.3 3-3-1.3-3.1-3-3.1Zm0-10.2c.7 0 1.3.6 1.3 1.3S15.7 5.8 15 5.8s-1.3-.6-1.3-1.3.6-1.3 1.3-1.3ZM4.5 11.7c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3ZM15 17.8c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3Z" fill="currentColor"/>
+        </svg>
+      </span>
+      {{ 'products.gemstone.share' | t }}
+    </button>
   {% endcapture %}
 
   {% render 'group',
@@ -57,6 +113,126 @@
     justify-content: center;
   }
 
+  .product-details__meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .product-details__status {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .product-details__sku,
+  .product-details__stock {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .product-details__sku {
+    background: #eef5ff;
+    color: #123c76;
+  }
+
+  .product-details__stock--in {
+    background: #bdf4d0;
+    color: #075c2d;
+  }
+
+  .product-details__stock--out {
+    background: #f3f4f6;
+    color: rgb(var(--color-foreground-rgb) / 0.62);
+  }
+
+  .product-details__wishlist,
+  .product-details__share {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    border-radius: 6px;
+    background: #ffffff;
+    color: #315078;
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgb(var(--color-foreground-rgb) / 0.05);
+  }
+
+  .product-details__wishlist:hover,
+  .product-details__wishlist.is-active,
+  .product-details__share:hover {
+    color: #c98209;
+  }
+
+  .product-details__action-icon {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
+
+  .product-details__action-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-details__heart-fill {
+    display: none;
+  }
+
+  .product-details__wishlist.is-active .product-details__action-icon {
+    color: #e02424;
+  }
+
+  .product-details__wishlist.is-active .product-details__heart-outline {
+    display: none;
+  }
+
+  .product-details__wishlist.is-active .product-details__heart-fill {
+    display: block;
+  }
+
+  .product-details__share {
+    width: fit-content;
+    margin-block-start: -6px;
+  }
+
+  .product-details > .group-block > .group-block-content > .product-details__meta-bar {
+    order: -30;
+  }
+
+  .product-details > .group-block > .group-block-content > .group-block:first-of-type {
+    order: -20;
+  }
+
+  .product-details > .group-block > .group-block-content > .product-details__share {
+    order: -10;
+  }
+
+  .product-details .gemstone-details__status {
+    display: none;
+  }
+
   @media screen and (min-width: 750px) {
     .product-details > .group-block {
       height: min-content;
@@ -70,6 +246,23 @@
 
     .full-height--desktop .group-block {
       align-self: var(--details-position, 'flex-start');
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    .product-details__meta-bar {
+      align-items: flex-start;
+    }
+
+    .product-details__status {
+      gap: 6px;
+    }
+
+    .product-details__sku,
+    .product-details__stock,
+    .product-details__wishlist,
+    .product-details__share {
+      font-size: 0.68rem;
     }
   }
 {% endstylesheet %}
