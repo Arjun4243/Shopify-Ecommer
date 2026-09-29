@@ -89,15 +89,6 @@
       </div>
     {%- endif -%}
 
-    {%- if block.settings.show_assurance_badges -%}
-      <div class="gemstone-details__assurance" aria-label="{{ 'products.gemstone.assurance_badges' | t }}">
-        <span>{{ 'products.gemstone.unheated_natural' | t }}</span>
-        <span>{{ 'products.gemstone.certified_natural' | t }}</span>
-        <span>{{ 'products.gemstone.trusted_collectors' | t }}</span>
-        <span>{{ 'products.gemstone.worldwide_shipping' | t }}</span>
-      </div>
-    {%- endif -%}
-
     {%- if block.settings.show_viewing_count -%}
       <p
         class="gemstone-details__viewer"
@@ -127,6 +118,18 @@
             </span>
             <span class="gemstone-details__select-label">{{ 'products.gemstone.shape' | t }}</span>
             <span class="gemstone-details__select-value">{{ shape }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if gemstone_cut != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__icon">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 1.5 18 6l-8 12.5L2 6l8-4.5Zm0 1.9L4.4 6.6 10 15.4l5.6-8.8L10 3.4Zm-3.5 3L10 4.4l3.5 2-3.5 1.9-3.5-1.9Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.cut' | t }}</span>
+            <span class="gemstone-details__select-value">{{ gemstone_cut }}</span>
           </div>
         {%- endif -%}
 
@@ -293,28 +296,6 @@
   .gemstone-details__stock--out {
     background: #f3f4f6;
     color: rgb(var(--color-foreground-rgb) / 0.62);
-  }
-
-  .gemstone-details__assurance {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--gap-xs);
-    margin-block-end: var(--margin-md);
-  }
-
-  .gemstone-details__assurance span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 34px;
-    padding: var(--padding-2xs) var(--padding-xs);
-    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
-    border-radius: 8px;
-    background: rgb(var(--color-background-rgb) / 0.88);
-    color: rgb(var(--color-foreground-rgb) / 0.78);
-    font-size: 0.72rem;
-    font-weight: var(--font-weight-semibold);
-    text-align: center;
   }
 
   .gemstone-details__viewer {
@@ -495,7 +476,6 @@
   }
 
   @media screen and (max-width: 749px) {
-    .gemstone-details__assurance,
     .gemstone-details__highlights ul {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -517,7 +497,6 @@
   }
 
   @media screen and (max-width: 420px) {
-    .gemstone-details__assurance,
     .gemstone-details__highlights ul {
       grid-template-columns: 1fr;
     }
@@ -565,12 +544,6 @@
       "type": "checkbox",
       "id": "show_quick_specs",
       "label": "Show quick specification cards",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_assurance_badges",
-      "label": "Show assurance badges",
       "default": true
     },
     {

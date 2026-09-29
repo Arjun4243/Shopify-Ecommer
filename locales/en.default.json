@@ -369,6 +369,7 @@
       "sku": "SKU",
       "sku_not_available": "N/A",
       "shape": "Shape",
+      "cut": "Cut",
       "color": "Color",
       "carat_weight": "Carat weight",
       "specifications": "Specifications",
