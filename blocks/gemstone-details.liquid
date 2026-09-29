@@ -75,6 +75,7 @@
 -%}
 
 <div class="gemstone-details spacing-style" style="{% render 'spacing-style', settings: block.settings %}" {{ block.shopify_attributes }}>
+ 
   {%- if has_details -%}
     {%- if block.settings.show_product_status -%}
       <div class="gemstone-details__status">
@@ -109,6 +110,18 @@
 
     {%- if block.settings.show_quick_specs -%}
       <div class="gemstone-details__quick-specs" aria-label="{{ 'products.gemstone.quick_specs' | t }}">
+        {%- if gemstone_type != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__icon">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 1.5 18 6l-8 12.5L2 6l8-4.5Zm0 1.9L4.4 6.6 10 15.4l5.6-8.8L10 3.4Zm-3.5 3L10 4.4l3.5 2-3.5 1.9-3.5-1.9Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.stone_type' | t }}</span>
+            <span class="gemstone-details__select-value">{{ gemstone_type }}</span>
+          </div>
+        {%- endif -%}
+
         {%- if shape != blank -%}
           <div class="gemstone-details__select-card">
             <span class="gemstone-details__icon">
