@@ -87,6 +87,7 @@
       <span class="visually-hidden">{{ 'content.price_range' | t }}&nbsp;</span>
       {{ price_min }} - {{ price_max }}
     </span>
+
   {% else %}
     {% comment %} Standard pricing display: render only the active branch (regular or sale) {% endcomment %}
     {% if show_compare_price %}
