@@ -146,25 +146,6 @@
               </ul>
             </article>
 
-            {%- if price_per_carat != blank -%}
-              <article class="gemstone-spec-panel__card gemstone-spec-panel__card--price">
-                <h2 class="gemstone-spec-panel__heading">
-                  <span class="gemstone-spec-panel__check" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.5 7.2-5.2 6.2a1 1 0 0 1-1.5 0l-2.5-3a1 1 0 0 1 1.5-1.3l1.7 2 4.4-5.2a1 1 0 1 1 1.6 1.3Z" fill="currentColor"/>
-                    </svg>
-                  </span>
-                  {{ 'products.gemstone.price_value' | t }}
-                </h2>
-                <dl class="gemstone-spec-panel__price-row">
-                  <div>
-                    <dt>{{ 'products.gemstone.price_per_carat' | t }}</dt>
-                    <dd>{{ price_per_carat }}</dd>
-                  </div>
-                </dl>
-                <p class="gemstone-spec-panel__note">{{ 'products.gemstone.price_value_note' | t }}</p>
-              </article>
-            {%- endif -%}
           </div>
         </div>
       </div>
