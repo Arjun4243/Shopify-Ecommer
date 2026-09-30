@@ -219,7 +219,6 @@
               "type": "gemstone-details",
               "settings": {
                 "show_quick_specs": true,
-                "show_assurance_badges": true,
                 "show_viewing_count": true,
                 "active_viewers": 20,
                 "show_highlights": false,

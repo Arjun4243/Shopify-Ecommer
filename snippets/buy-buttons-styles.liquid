@@ -324,8 +324,15 @@
 
   .buy-buttons-block .product-form-buttons {
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 10px;
+  }
+
+  .buy-buttons-block .product-form-buttons > .product-form-text__error {
+    order: -1;
+    flex: 0 0 100%;
+    width: 100%;
+    margin-block-end: 0;
   }
 
   .buy-buttons-block .product-form-buttons > .quantity-selector-wrapper {
