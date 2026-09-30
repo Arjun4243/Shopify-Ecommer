@@ -4,7 +4,10 @@
   assign block_settings = block.settings
   assign product_resource = closest.product
   assign selected_variant = product_resource.selected_or_first_available_variant
-  assign product_sku = selected_variant.sku | default: 'products.gemstone.sku_not_available' | t
+  assign product_sku = selected_variant.sku
+  if product_sku == blank
+    assign product_sku = 'products.gemstone.sku_not_available' | t
+  endif
   assign product_available = false
   if selected_variant.available
     assign product_available = true
@@ -29,6 +32,7 @@
 >
   {% capture children %}
     <div class="product-details__meta-bar">
+    
       <div class="product-details__status" aria-label="{{ 'accessibility.inventory_status' | t }}">
         <span class="product-details__sku">{{ 'products.gemstone.sku' | t }}: {{ product_sku }}</span>
         <span class="product-details__stock {% if product_available %}product-details__stock--in{% else %}product-details__stock--out{% endif %}">

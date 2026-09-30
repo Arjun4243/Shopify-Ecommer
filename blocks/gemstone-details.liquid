@@ -15,7 +15,10 @@
   assign certificate_number = product_resource.metafields.custom.certificate_number.value
   assign certificate_file = product_resource.metafields.custom.certificate_file.value
   assign selected_variant = product_resource.selected_or_first_available_variant
-  assign product_sku = selected_variant.sku | default: 'products.gemstone.sku_not_available' | t
+  assign product_sku = selected_variant.sku
+  if product_sku == blank
+    assign product_sku = 'products.gemstone.sku_not_available' | t
+  endif
   assign product_available = false
   if selected_variant.available
     assign product_available = true
