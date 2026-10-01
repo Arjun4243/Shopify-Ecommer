@@ -1,0 +1,791 @@
+{% doc %}
+Renders a filterable gemstone product listing for a product gemstone group.
+@param {string} group_handle - Product metafield group handle to show.
+@param {string} heading - Page/listing heading.
+@param {string} subtitle - Listing subtitle.
+@param {string} section_id - Parent section id for quick-add.
+@example
+{% render 'stone-product-listing', group_handle: 'precious', heading: 'Gemstones', subtitle: 'Discover natural gemstones', section_id: section.id %}
+{% enddoc %}
+
+{% liquid
+  assign source_collection = collections.all
+  assign products_limit = 250
+  assign rendered_products_count = 0
+  assign quick_add_enabled = false
+  if settings.quick_add or settings.mobile_quick_add
+    assign quick_add_enabled = true
+  endif
+%}
+
+<section class="stone-listing" data-stone-listing data-group="{{ group_handle | escape }}">
+  <div class="stone-listing__top">
+    <nav class="stone-listing__breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span aria-hidden="true">&gt;</span>
+      <span>{{ heading | escape }}</span>
+    </nav>
+    <div class="stone-listing__hero">
+      <div>
+        <h2>{{ heading | escape }}</h2>
+        {% if subtitle != blank %}
+          <p>{{ subtitle | escape }}</p>
+        {% endif %}
+      </div>
+      <label class="stone-listing__search">
+        <span class="visually-hidden">Search gemstones</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
+        </svg>
+        <input type="search" placeholder="Search gemstones..." data-stone-search>
+      </label>
+    </div>
+  </div>
+
+  <div class="stone-listing__layout">
+    <aside class="stone-listing__filters" aria-label="Filters">
+      <div class="stone-listing__filters-head">
+        <h3>Filters</h3>
+        <button type="button" data-stone-clear>Clear all</button>
+      </div>
+
+      <details class="stone-filter" open>
+        <summary>Gemstone Type</summary>
+        <label class="stone-filter__search">
+          <span class="visually-hidden">Search gemstone type</span>
+          <input type="search" placeholder="Search gemstone..." data-filter-search="type">
+        </label>
+        <div class="stone-filter__options" data-filter-options="type"></div>
+      </details>
+
+      <details class="stone-filter" open>
+        <summary>Price Range</summary>
+        <div class="stone-price-filter">
+          <label><span>Rs</span><input type="number" placeholder="Min" data-price-min></label>
+          <label><span>Rs</span><input type="number" placeholder="Max" data-price-max></label>
+        </div>
+        <div class="stone-price-filter__hint" data-price-hint></div>
+      </details>
+
+      <details class="stone-filter" open>
+        <summary>Weight (Carats)</summary>
+        <div class="stone-filter__options" data-filter-options="carat"></div>
+      </details>
+
+      <details class="stone-filter" open>
+        <summary>Shape</summary>
+        <div class="stone-filter__options" data-filter-options="shape"></div>
+      </details>
+    </aside>
+
+    <div class="stone-listing__main">
+      <div class="stone-listing__toolbar">
+        <div class="stone-listing__status">
+          <span data-stone-count>Showing products</span>
+          <div class="stone-listing__chips" data-stone-chips></div>
+        </div>
+        <div class="stone-listing__tools">
+          <label class="stone-listing__sort">
+            <span>Sort by:</span>
+            <select data-stone-sort>
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="title-asc">Name: A to Z</option>
+            </select>
+          </label>
+          <button type="button" class="is-active" data-view-mode="grid" aria-label="Grid view">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="stone-type-rail" data-type-rail></div>
+
+      <div class="stone-listing__grid" data-stone-grid>
+        {% if source_collection != blank and source_collection.products_count > 0 %}
+          {% paginate source_collection.products by products_limit %}
+            {% for product in source_collection.products %}
+              {% liquid
+                assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+                assign product_group_handle = product_group | handleize
+              %}
+              {% if product_group_handle == group_handle %}
+                {% liquid
+                  assign rendered_products_count = rendered_products_count | plus: 1
+                  assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
+                  assign shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape
+                  assign carat_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
+                  assign card_image = ''
+                  if product.featured_media.preview_image != blank
+                    assign card_image = product.featured_media.preview_image | image_url: width: 240
+                  endif
+                %}
+                <div
+                  class="stone-listing__item"
+                  data-stone-item
+                  data-index="{{ rendered_products_count }}"
+                  data-title="{{ product.title | escape }}"
+                  data-price="{{ product.price }}"
+                  data-type="{{ gemstone_type | escape }}"
+                  data-type-key="{{ gemstone_type | handleize }}"
+                  data-shape="{{ shape | escape }}"
+                  data-shape-key="{{ shape | handleize }}"
+                  data-carat="{{ carat_weight | escape }}"
+                  data-image="{{ card_image }}"
+                >
+                  {% render 'stone-product-card',
+                    product: product,
+                    card_class: 'stone-listing-card',
+                    section_id: section_id,
+                    quick_add_enabled: quick_add_enabled
+                  %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endpaginate %}
+        {% endif %}
+      </div>
+
+      <p class="stone-listing__empty" data-stone-empty hidden>No products match these filters.</p>
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+  const moneyFormat = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+  const parseCarat = (value) => {
+    const match = String(value || '').match(/[\d.]+/);
+    return match ? Number(match[0]) : NaN;
+  };
+  const normalize = (value) => String(value || '').trim().toLowerCase();
+  const handle = (value) => normalize(value).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  document.querySelectorAll('[data-stone-listing]').forEach((listing) => {
+    const items = Array.from(listing.querySelectorAll('[data-stone-item]'));
+    const search = listing.querySelector('[data-stone-search]');
+    const count = listing.querySelector('[data-stone-count]');
+    const chips = listing.querySelector('[data-stone-chips]');
+    const grid = listing.querySelector('[data-stone-grid]');
+    const empty = listing.querySelector('[data-stone-empty]');
+    const priceMinInput = listing.querySelector('[data-price-min]');
+    const priceMaxInput = listing.querySelector('[data-price-max]');
+    const priceHint = listing.querySelector('[data-price-hint]');
+    const sort = listing.querySelector('[data-stone-sort]');
+    const clearButtons = listing.querySelectorAll('[data-stone-clear]');
+    const typeRail = listing.querySelector('[data-type-rail]');
+    const viewButtons = listing.querySelectorAll('[data-view-mode]');
+
+    const state = {
+      search: '',
+      types: new Set(),
+      shapes: new Set(),
+      carats: new Set(),
+      min: null,
+      max: null,
+      sort: 'featured',
+    };
+
+    const prices = items.map((item) => Number(item.dataset.price || 0) / 100).filter((price) => price > 0);
+    const minPrice = prices.length ? Math.floor(Math.min(...prices)) : 0;
+    const maxPrice = prices.length ? Math.ceil(Math.max(...prices)) : 0;
+
+    if (priceMinInput && priceMaxInput) {
+      priceMinInput.min = minPrice;
+      priceMinInput.max = maxPrice;
+      priceMaxInput.min = minPrice;
+      priceMaxInput.max = maxPrice;
+      priceMinInput.placeholder = String(minPrice);
+      priceMaxInput.placeholder = String(maxPrice);
+      priceHint.textContent = `Available price: Rs. ${moneyFormat.format(minPrice)} - Rs. ${moneyFormat.format(maxPrice)}`;
+    }
+
+    const makeMap = (attr, labelAttr = attr) => {
+      const map = new Map();
+      items.forEach((item) => {
+        const key = item.dataset[attr];
+        const label = item.dataset[labelAttr];
+        if (!key || !label) return;
+        const entry = map.get(key) || { key, label, count: 0, image: item.dataset.image || '' };
+        entry.count += 1;
+        if (!entry.image && item.dataset.image) entry.image = item.dataset.image;
+        map.set(key, entry);
+      });
+      return Array.from(map.values()).sort((a, b) => a.label.localeCompare(b.label));
+    };
+
+    const typeOptions = makeMap('typeKey', 'type');
+    const shapeOptions = makeMap('shapeKey', 'shape');
+    const caratRanges = [
+      { key: 'under-1', label: 'Under 1 ct', min: 0, max: 1 },
+      { key: '1-3', label: '1 - 3 ct', min: 1, max: 3 },
+      { key: '3-5', label: '3 - 5 ct', min: 3, max: 5 },
+      { key: '5-10', label: '5 - 10 ct', min: 5, max: 10 },
+      { key: 'above-10', label: 'Above 10 ct', min: 10, max: Infinity },
+    ].map((range) => ({
+      ...range,
+      count: items.filter((item) => {
+        const carat = parseCarat(item.dataset.carat);
+        return !Number.isNaN(carat) && carat >= range.min && carat < range.max;
+      }).length,
+    })).filter((range) => range.count > 0);
+
+    const renderCheckboxes = (target, options, type) => {
+      const container = listing.querySelector(`[data-filter-options="${target}"]`);
+      if (!container) return;
+      container.innerHTML = options.map((option) => `
+        <label class="stone-filter__option" data-option-label="${option.label.toLowerCase()}">
+          <input type="checkbox" value="${option.key}" data-filter-check="${type}">
+          <span></span>
+          <em>${option.label} (${option.count})</em>
+        </label>
+      `).join('');
+    };
+
+    renderCheckboxes('type', typeOptions, 'type');
+    renderCheckboxes('shape', shapeOptions, 'shape');
+    renderCheckboxes('carat', caratRanges, 'carat');
+
+    typeRail.innerHTML = [
+      `<button type="button" class="is-active" data-type-tile="">All</button>`,
+      ...typeOptions.map((option) => `
+        <button type="button" data-type-tile="${option.key}">
+          ${option.image ? `<img src="${option.image}" alt="">` : ''}
+          <span>${option.label}</span>
+        </button>
+      `),
+    ].join('');
+
+    const clampPrices = () => {
+      let min = Number(priceMinInput.value || minPrice);
+      let max = Number(priceMaxInput.value || maxPrice);
+      min = Math.max(minPrice, Math.min(min, maxPrice));
+      max = Math.max(minPrice, Math.min(max, maxPrice));
+      if (min > max) min = max;
+      state.min = min;
+      state.max = max;
+    };
+
+    const matchesCarat = (item) => {
+      if (!state.carats.size) return true;
+      const carat = parseCarat(item.dataset.carat);
+      if (Number.isNaN(carat)) return false;
+      return Array.from(state.carats).some((key) => {
+        const range = caratRanges.find((entry) => entry.key === key);
+        return range && carat >= range.min && carat < range.max;
+      });
+    };
+
+    const apply = () => {
+      clampPrices();
+      let visible = items.filter((item) => {
+        const price = Number(item.dataset.price || 0) / 100;
+        const title = normalize(item.dataset.title);
+        return (!state.search || title.includes(state.search))
+          && (!state.types.size || state.types.has(item.dataset.typeKey))
+          && (!state.shapes.size || state.shapes.has(item.dataset.shapeKey))
+          && matchesCarat(item)
+          && price >= state.min
+          && price <= state.max;
+      });
+
+      visible.sort((a, b) => {
+        if (state.sort === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
+        if (state.sort === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
+        if (state.sort === 'title-asc') return a.dataset.title.localeCompare(b.dataset.title);
+        return Number(a.dataset.index) - Number(b.dataset.index);
+      });
+
+      items.forEach((item) => { item.hidden = true; });
+      visible.forEach((item) => {
+        item.hidden = false;
+        grid.appendChild(item);
+      });
+
+      count.textContent = `Showing ${visible.length} of ${items.length} products`;
+      empty.hidden = visible.length > 0;
+
+      const chipValues = [
+        ...typeOptions.filter((option) => state.types.has(option.key)).map((option) => option.label),
+        ...shapeOptions.filter((option) => state.shapes.has(option.key)).map((option) => option.label),
+        ...caratRanges.filter((option) => state.carats.has(option.key)).map((option) => option.label),
+      ];
+      chips.innerHTML = chipValues.map((label) => `<span>${label}</span>`).join('');
+    };
+
+    listing.addEventListener('change', (event) => {
+      const checkbox = event.target.closest('[data-filter-check]');
+      if (checkbox) {
+        const targetSet = checkbox.dataset.filterCheck === 'type' ? state.types : checkbox.dataset.filterCheck === 'shape' ? state.shapes : state.carats;
+        checkbox.checked ? targetSet.add(checkbox.value) : targetSet.delete(checkbox.value);
+      }
+      if (event.target === sort) state.sort = sort.value;
+      apply();
+    });
+
+    listing.addEventListener('input', (event) => {
+      if (event.target === search) state.search = normalize(search.value);
+      if (event.target === priceMinInput || event.target === priceMaxInput) apply();
+      const filterSearch = event.target.closest('[data-filter-search]');
+      if (filterSearch) {
+        const term = normalize(filterSearch.value);
+        listing.querySelectorAll(`[data-filter-options="${filterSearch.dataset.filterSearch}"] [data-option-label]`).forEach((option) => {
+          option.hidden = term && !option.dataset.optionLabel.includes(term);
+        });
+      }
+      apply();
+    });
+
+    typeRail.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-type-tile]');
+      if (!button) return;
+      state.types.clear();
+      if (button.dataset.typeTile) state.types.add(button.dataset.typeTile);
+      listing.querySelectorAll('[data-type-tile]').forEach((tile) => tile.classList.toggle('is-active', tile === button));
+      listing.querySelectorAll('[data-filter-check="type"]').forEach((checkbox) => {
+        checkbox.checked = state.types.has(checkbox.value);
+      });
+      apply();
+    });
+
+    clearButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        state.search = '';
+        state.types.clear();
+        state.shapes.clear();
+        state.carats.clear();
+        state.sort = 'featured';
+        search.value = '';
+        sort.value = 'featured';
+        priceMinInput.value = '';
+        priceMaxInput.value = '';
+        listing.querySelectorAll('[data-filter-check]').forEach((checkbox) => { checkbox.checked = false; });
+        listing.querySelectorAll('[data-type-tile]').forEach((tile, index) => tile.classList.toggle('is-active', index === 0));
+        apply();
+      });
+    });
+
+    viewButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        viewButtons.forEach((control) => control.classList.toggle('is-active', control === button));
+        grid.classList.toggle('stone-listing__grid--list', button.dataset.viewMode === 'list');
+      });
+    });
+
+    apply();
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .stone-listing {
+    padding: 30px 0 56px;
+    background: #fffdf9;
+    color: #111827;
+    font-family: Inter, sans-serif;
+  }
+
+  .stone-listing__top,
+  .stone-listing__layout {
+    width: min(100%, 1600px);
+    margin: 0 auto;
+    padding: 0 6%;
+  }
+
+  .stone-listing__breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #a46f0a;
+    font-size: 14px;
+  }
+
+  .stone-listing__breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .stone-listing__hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
+    margin-top: 6px;
+  }
+
+  .stone-listing__hero h2 {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    font-size: clamp(40px, 4.2vw, 72px);
+    line-height: 0.95;
+  }
+
+  .stone-listing__hero p {
+    margin: 8px 0 0;
+    color: #565b64;
+    font-size: clamp(15px, 1.1vw, 20px);
+  }
+
+  .stone-listing__search,
+  .stone-filter__search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgb(17 24 39 / 8%);
+  }
+
+  .stone-listing__search {
+    width: min(100%, 430px);
+  }
+
+  .stone-listing__search svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .stone-listing input,
+  .stone-listing select,
+  .stone-listing button {
+    font: inherit;
+  }
+
+  .stone-listing input,
+  .stone-listing select {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+  }
+
+  .stone-listing__layout {
+    display: grid;
+    grid-template-columns: minmax(240px, 330px) minmax(0, 1fr);
+    gap: 32px;
+    margin-top: 34px;
+  }
+
+  .stone-listing__filters {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+    padding: 18px;
+    border: 1px solid #ece7df;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 12px 34px rgb(17 24 39 / 7%);
+  }
+
+  .stone-listing__filters-head,
+  .stone-listing__toolbar,
+  .stone-listing__tools,
+  .stone-listing__status {
+    display: flex;
+    align-items: center;
+  }
+
+  .stone-listing__filters-head,
+  .stone-listing__toolbar {
+    justify-content: space-between;
+    gap: 18px;
+  }
+
+  .stone-listing__filters-head h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .stone-listing__filters button,
+  .stone-listing__toolbar button {
+    cursor: pointer;
+  }
+
+  .stone-listing__filters-head button,
+  .stone-listing__chips span,
+  .stone-type-rail button.is-active {
+    color: #a46f0a;
+  }
+
+  .stone-listing__filters-head button {
+    border: 0;
+    background: transparent;
+    font-weight: 800;
+  }
+
+  .stone-filter {
+    padding: 16px 0;
+    border-top: 1px solid #ece7df;
+  }
+
+  .stone-filter summary {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .stone-filter__search {
+    min-height: 40px;
+    margin-top: 12px;
+    box-shadow: none;
+  }
+
+  .stone-filter__options {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .stone-filter__option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2f3540;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .stone-filter__option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .stone-filter__option span {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #b8bdc5;
+    border-radius: 4px;
+    background: #fff;
+  }
+
+  .stone-filter__option input:checked + span {
+    border-color: #b47a00;
+    background: #b47a00;
+  }
+
+  .stone-filter__option input:checked + span::after {
+    content: "";
+    width: 9px;
+    height: 5px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg);
+  }
+
+  .stone-filter__option em {
+    font-style: normal;
+  }
+
+  .stone-price-filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .stone-price-filter label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+  }
+
+  .stone-price-filter__hint {
+    margin-top: 10px;
+    color: #747983;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .stone-listing__main {
+    min-width: 0;
+  }
+
+  .stone-listing__status {
+    flex-wrap: wrap;
+    gap: 12px;
+    color: #454b55;
+  }
+
+  .stone-listing__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stone-listing__chips span {
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #f6eddc;
+    font-size: 14px;
+  }
+
+  .stone-listing__tools {
+    gap: 12px;
+  }
+
+  .stone-listing__sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    white-space: nowrap;
+  }
+
+  .stone-listing__sort select {
+    width: auto;
+    min-width: 150px;
+  }
+
+  .stone-listing__tools button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #303640;
+  }
+
+  .stone-listing__tools button.is-active {
+    border-color: #b47a00;
+    background: #b47a00;
+    color: #fff;
+  }
+
+  .stone-listing__tools svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  .stone-type-rail {
+    display: grid;
+    grid-auto-columns: 76px;
+    grid-auto-flow: column;
+    gap: 10px;
+    overflow-x: auto;
+    margin: 18px 0 26px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .stone-type-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .stone-type-rail button {
+    display: grid;
+    grid-template-rows: 46px auto;
+    align-items: center;
+    gap: 6px;
+    justify-items: center;
+    width: 76px;
+    min-height: 78px;
+    padding: 7px 6px 8px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: #f6f3ee;
+    color: #303640;
+    cursor: pointer;
+  }
+
+  .stone-type-rail button.is-active {
+    border-color: #b47a00;
+    background: #fff;
+  }
+
+  .stone-type-rail img {
+    width: 44px;
+    height: 44px;
+    border-radius: 7px;
+    object-fit: cover;
+  }
+
+  .stone-type-rail span {
+    max-width: 68px;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stone-listing__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+
+  .stone-listing__grid--list {
+    grid-template-columns: 1fr;
+  }
+
+  .stone-listing__grid--list .stone-listing__item .stone-product-card__content {
+    grid-template-columns: minmax(120px, 220px) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .stone-listing__empty {
+    margin: 30px 0 0;
+    color: #747983;
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 1180px) {
+    .stone-listing__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .stone-listing__hero,
+    .stone-listing__toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .stone-listing__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .stone-listing__filters {
+      position: static;
+    }
+
+    .stone-listing__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 560px) {
+    .stone-listing__top,
+    .stone-listing__layout {
+      padding: 0 18px;
+    }
+
+    .stone-listing__grid {
+      gap: 24px 14px;
+    }
+
+    .stone-listing__tools {
+      flex-wrap: wrap;
+    }
+  }
+{% endstylesheet %}

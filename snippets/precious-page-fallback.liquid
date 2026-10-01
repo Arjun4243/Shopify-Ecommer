@@ -75,110 +75,12 @@
       </a>
     </section>
 
-    {% liquid
-      assign precious_products_collection = collections.all
-      assign precious_products_group = 'precious'
-      assign precious_products_limit = 8
-      assign rendered_products_count = 0
-      assign quick_add_enabled = false
-      if settings.quick_add or settings.mobile_quick_add
-        assign quick_add_enabled = true
-      endif
+    {% render 'stone-product-listing',
+      group_handle: 'precious',
+      heading: 'Precious Gemstones',
+      subtitle: 'Discover natural, certified precious gemstones for astrology, jewelry and collection.',
+      section_id: section.id
     %}
-
-    <script>
-      console.log('Precious page handle:', {{ page.handle | json }});
-      console.log('Precious product group filter:', {{ precious_products_group | json }});
-      console.log('Precious product source collection:', {{ precious_products_collection.handle | json }});
-    </script>
-
-    {% render 'resource-list-styles' %}
-    {% render 'product-card-styles' %}
-    {% render 'product-badges-styles' %}
-
-    {% if precious_products_collection != blank and precious_products_collection.products_count > 0 %}
-      <section class="precious-products section-resource-list" aria-label="Precious gemstone products">
-        <div class="section-resource-list__header precious-products__header">
-          <div>
-            <p class="precious-products__eyebrow">Products</p>
-            <h2>Precious products</h2>
-          </div>
-          <a href="{{ routes.all_products_collection_url }}">View all</a>
-        </div>
-
-        <div
-          class="resource-list resource-list--grid precious-products__grid"
-          data-testid="precious-products-grid"
-        >
-          {% paginate precious_products_collection.products by 250 %}
-            {% for product in precious_products_collection.products %}
-              {% liquid
-                assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
-                assign product_group_handle = product_group | handleize
-              %}
-              {% if product_group_handle == precious_products_group and rendered_products_count < precious_products_limit %}
-                {% assign rendered_products_count = rendered_products_count | plus: 1 %}
-                <div class="resource-list__item">
-                <product-card class="product-card precious-product-card" data-product-id="{{ product.id }}">
-                  <div class="product-card__content product-grid__card precious-product-card__content">
-                    <div class="precious-product-card__media">
-                      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-                        {% if product.featured_media.preview_image != blank %}
-                          {{
-                            product.featured_media.preview_image
-                            | image_url: width: 900
-                            | image_tag:
-                              loading: 'lazy',
-                              widths: '300, 450, 600, 750, 900',
-                              sizes: '(min-width: 1000px) 25vw, (min-width: 750px) 33vw, 50vw',
-                              alt: product.title,
-                              class: 'precious-product-card__image'
-                          }}
-                        {% else %}
-                          {{ 'product-apparel-1' | placeholder_svg_tag: 'precious-product-card__placeholder' }}
-                        {% endif %}
-                      </a>
-
-                      {% if product.available == false or product.compare_at_price > product.price %}
-                        <div
-                          class="product-badges product-badges--top-right"
-                          style="
-                            --badge-border-radius: {{ settings.badge_corner_radius }}px;
-                            --badge-font-family: var(--font-{{ settings.badge_font_family }}--family);
-                            --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight);
-                            --badge-text-transform: {{ settings.badge_text_transform }};
-                          "
-                        >
-                          <div class="product-badges__badge product-badges__badge--rectangle {% if product.available == false %}color-custom-badge-sold-out{% else %}color-custom-badge-sale{% endif %}">
-                            {% if product.available == false %}
-                              {{ 'content.product_badge_sold_out' | t }}
-                            {% else %}
-                              {{ 'content.product_badge_sale' | t }}
-                            {% endif %}
-                          </div>
-                        </div>
-                      {% endif %}
-
-                      {% if product.available and quick_add_enabled %}
-                        {% render 'quick-add', product: product, section_id: section.id %}
-                      {% endif %}
-                    </div>
-
-                    <a class="precious-product-card__title" href="{{ product.url }}">
-                      {{ product.title }}
-                    </a>
-                    <div class="precious-product-card__price">
-                      {% render 'price', product_resource: product, show_sale_price_first: true %}
-                    </div>
-                  </div>
-                </product-card>
-                </div>
-              {% endif %}
-            {% endfor %}
-          {% endpaginate %}
-        </div>
-      </section>
-    {% endif %}
   </div>
 
   <section class="precious-story">
@@ -773,11 +675,12 @@
     text-decoration: underline;
     text-underline-offset: 4px;
   }
+  
 
   .precious-products__grid {
     --resource-list-column-gap-desktop: 18px;
     --resource-list-row-gap-desktop: 28px;
-    --resource-list-columns: repeat(4, minmax(0, 1fr));
+    --resource-list-columns: repeat(5, minmax(0, 1fr));
     --resource-list-columns-mobile: repeat(2, minmax(0, 1fr));
     --column-count-mobile: 2;
   }
