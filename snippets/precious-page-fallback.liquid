@@ -70,22 +70,27 @@
           <strong>Custom Jewellery</strong>
           <small>Turn your vision into reality.</small>
           <em>Craft Now →</em>
+          if preciou
         </span>
       </a>
     </section>
 
     {% liquid
-      assign precious_products_collection = collections.precious
-      if precious_products_collection == blank or precious_products_collection.products_count == 0
-        assign precious_products_collection = collections.all
-      endif
-
+      assign precious_products_collection = collections.all
+      assign precious_products_group = 'precious'
       assign precious_products_limit = 8
+      assign rendered_products_count = 0
       assign quick_add_enabled = false
       if settings.quick_add or settings.mobile_quick_add
         assign quick_add_enabled = true
       endif
     %}
+
+    <script>
+      console.log('Precious page handle:', {{ page.handle | json }});
+      console.log('Precious product group filter:', {{ precious_products_group | json }});
+      console.log('Precious product source collection:', {{ precious_products_collection.handle | json }});
+    </script>
 
     {% render 'resource-list-styles' %}
     {% render 'product-card-styles' %}
@@ -96,18 +101,24 @@
         <div class="section-resource-list__header precious-products__header">
           <div>
             <p class="precious-products__eyebrow">Products</p>
-            <h2>{{ precious_products_collection.title }}</h2>
+            <h2>Precious products</h2>
           </div>
-          <a href="{{ precious_products_collection.url }}">View all</a>
+          <a href="{{ routes.all_products_collection_url }}">View all</a>
         </div>
 
         <div
           class="resource-list resource-list--grid precious-products__grid"
           data-testid="precious-products-grid"
         >
-          {% paginate precious_products_collection.products by precious_products_limit %}
-            {% for product in precious_products_collection.products limit: precious_products_limit %}
-              <div class="resource-list__item">
+          {% paginate precious_products_collection.products by 250 %}
+            {% for product in precious_products_collection.products %}
+              {% liquid
+                assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+                assign product_group_handle = product_group | handleize
+              %}
+              {% if product_group_handle == precious_products_group and rendered_products_count < precious_products_limit %}
+                {% assign rendered_products_count = rendered_products_count | plus: 1 %}
+                <div class="resource-list__item">
                 <product-card class="product-card precious-product-card" data-product-id="{{ product.id }}">
                   <div class="product-card__content product-grid__card precious-product-card__content">
                     <div class="precious-product-card__media">
@@ -161,7 +172,8 @@
                     </div>
                   </div>
                 </product-card>
-              </div>
+                </div>
+              {% endif %}
             {% endfor %}
           {% endpaginate %}
         </div>
