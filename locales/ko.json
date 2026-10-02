@@ -313,6 +313,27 @@
     "blog_post_description": "블로그 게시물 콘텐츠의 요약"
   },
   "products": {
+    "gemstone": {
+      "quick_specs": "Gemstone quick specifications",
+      "shape": "Shape",
+      "color": "Color",
+      "carat_weight": "Carat weight",
+      "specifications": "Specifications",
+      "stone_type": "Stone type",
+      "group": "Group",
+      "weight": "Weight",
+      "dimensions": "Dimensions",
+      "shape_cut": "Shape / Cut",
+      "origin_treatment": "Origin & treatment",
+      "origin": "Origin",
+      "treatment": "Treatment",
+      "certification": "Certification",
+      "certification_status": "Certification status",
+      "laboratory": "Laboratory",
+      "certificate_number": "Certificate number",
+      "certificate_file": "Certificate file",
+      "view_certificate": "View certificate"
+    },
     "product": {
       "add_to_cart": "카트에 추가",
       "added_to_cart": "카트에 추가됨",

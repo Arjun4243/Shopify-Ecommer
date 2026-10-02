@@ -336,6 +336,27 @@
     "blog_post_description": "آپ کی بلاگ پوسٹ کے مواد کا ایک اقتباس"
   },
   "products": {
+    "gemstone": {
+      "quick_specs": "Gemstone quick specifications",
+      "shape": "Shape",
+      "color": "Color",
+      "carat_weight": "Carat weight",
+      "specifications": "Specifications",
+      "stone_type": "Stone type",
+      "group": "Group",
+      "weight": "Weight",
+      "dimensions": "Dimensions",
+      "shape_cut": "Shape / Cut",
+      "origin_treatment": "Origin & treatment",
+      "origin": "Origin",
+      "treatment": "Treatment",
+      "certification": "Certification",
+      "certification_status": "Certification status",
+      "laboratory": "Laboratory",
+      "certificate_number": "Certificate number",
+      "certificate_file": "Certificate file",
+      "view_certificate": "View certificate"
+    },
     "product": {
       "add_to_cart": "کارٹ میں شامل کریں",
       "adding_to_cart": "شامل کیا جا رہا ہے...",

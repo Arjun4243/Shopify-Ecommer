@@ -1,0 +1,156 @@
+{% doc %}
+  Renders the browser-based wishlist content.
+  @example
+  {% render 'wishlist-content' %}
+{% enddoc %}
+
+<section class="wishlist-page section section--page-width" data-wishlist-page data-remove-label="{{ 'actions.remove' | t | escape }}">
+  <div class="wishlist-page__header">
+    <h1>{{ 'products.gemstone.wishlist' | t }}</h1>
+  </div>
+
+  <div class="wishlist-page__empty" data-wishlist-empty>
+    <p>{{ 'products.gemstone.wishlist_empty' | t }}</p>
+    <a href="{{ routes.collections_url }}" class="button">{{ 'actions.continue_shopping' | t }}</a>
+  </div>
+
+  <div class="wishlist-page__grid" data-wishlist-grid hidden></div>
+</section>
+
+{% javascript %}
+  const renderRazaGemsWishlist = () => {
+    const page = document.querySelector('[data-wishlist-page]');
+    const grid = document.querySelector('[data-wishlist-grid]');
+    const empty = document.querySelector('[data-wishlist-empty]');
+    if (!grid || !empty) return;
+    const removeLabel = page?.dataset.removeLabel || 'Remove';
+
+    const wishlist = JSON.parse(localStorage.getItem('raza-gems-wishlist') || '[]');
+    grid.innerHTML = '';
+    grid.hidden = wishlist.length === 0;
+    empty.hidden = wishlist.length > 0;
+
+    wishlist.forEach((product) => {
+      const card = document.createElement('article');
+      card.className = 'wishlist-page__card';
+      card.innerHTML = `
+        <a class="wishlist-page__image-link" href="${product.url || '#'}">
+          ${
+            product.image
+              ? `<img src="${product.image}" alt="${product.title || ''}" loading="lazy">`
+              : '<div class="wishlist-page__placeholder"></div>'
+          }
+        </a>
+        <div class="wishlist-page__content">
+          <a class="wishlist-page__title" href="${product.url || '#'}">${product.title || ''}</a>
+          <p class="wishlist-page__price">${product.price || ''}</p>
+          <button class="wishlist-page__remove" type="button" data-wishlist-remove="${product.handle}">
+            ${removeLabel}
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  };
+
+  document.addEventListener('click', (event) => {
+    const removeButton = event.target.closest('[data-wishlist-remove]');
+    if (!removeButton) return;
+
+    const wishlist = JSON.parse(localStorage.getItem('raza-gems-wishlist') || '[]').filter(
+      (product) => product.handle !== removeButton.dataset.wishlistRemove
+    );
+    localStorage.setItem('raza-gems-wishlist', JSON.stringify(wishlist));
+    renderRazaGemsWishlist();
+  });
+
+  renderRazaGemsWishlist();
+  window.addEventListener('raza-gems:wishlist-updated', renderRazaGemsWishlist);
+{% endjavascript %}
+
+{% stylesheet %}
+  .wishlist-page {
+    padding-block: 40px;
+  }
+
+  .wishlist-page__header h1 {
+    margin: 0 0 24px;
+    color: #07245b;
+  }
+
+  .wishlist-page__empty {
+    display: grid;
+    justify-items: start;
+    gap: 16px;
+    padding: 32px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+  }
+
+  .wishlist-page__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .wishlist-page__card {
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  .wishlist-page__image-link {
+    display: block;
+    aspect-ratio: 1;
+    background: rgb(var(--color-foreground-rgb) / 0.025);
+  }
+
+  .wishlist-page__image-link img,
+  .wishlist-page__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wishlist-page__content {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .wishlist-page__title {
+    color: #07245b;
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+  }
+
+  .wishlist-page__price {
+    margin: 0;
+    color: rgb(var(--color-foreground-rgb) / 0.75);
+    font-size: 0.86rem;
+  }
+
+  .wishlist-page__remove {
+    justify-self: start;
+    border: 0;
+    background: transparent;
+    color: #c98209;
+    font: inherit;
+    font-size: 0.78rem;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .wishlist-page__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .wishlist-page__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}

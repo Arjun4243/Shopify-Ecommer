@@ -1,0 +1,671 @@
+{%- liquid
+  assign product_resource = closest.product | default: product
+  assign gemstone_group = product_resource.metafields.custom.gemstone_group.value
+  assign gemstone_type = product_resource.metafields.custom.gemstone_type.value
+  assign shape = product_resource.metafields.custom.shape.value
+  assign gemstone_cut = product_resource.metafields.custom.cut.value
+  assign color = product_resource.metafields.custom.color.value
+  assign actual_carat_weight = product_resource.metafields.custom.actual_carat_weight.value
+  assign carat_range = product_resource.metafields.custom.carat_range.value
+  assign dimensions = product_resource.metafields.custom.dimensions.value
+  assign country_of_origin = product_resource.metafields.custom.country_of_origin.value
+  assign treatment = product_resource.metafields.custom.treatment.value
+  assign certification_status = product_resource.metafields.custom.certification_status.value
+  assign certification_laboratory = product_resource.metafields.custom.certification_laboratory.value
+  assign certificate_number = product_resource.metafields.custom.certificate_number.value
+  assign certificate_file = product_resource.metafields.custom.certificate_file.value
+  assign selected_variant = product_resource.selected_or_first_available_variant
+  assign product_sku = selected_variant.sku
+  if product_sku == blank
+    assign product_sku = 'products.gemstone.sku_not_available' | t
+  endif
+  assign product_available = false
+  if selected_variant.available
+    assign product_available = true
+  endif
+  assign active_viewers = block.settings.active_viewers | default: block.settings.viewer_min
+  assign viewer_min = block.settings.viewer_min | default: active_viewers
+  assign viewer_max = block.settings.viewer_max | default: active_viewers
+  if viewer_max < viewer_min
+    assign viewer_max = viewer_min
+  endif
+  assign has_identity = false
+  assign has_physical = false
+  assign has_origin = false
+  assign has_certification = false
+
+  if gemstone_group != blank or gemstone_type != blank
+    assign has_identity = true
+  endif
+
+  if shape != blank or gemstone_cut != blank or color != blank or actual_carat_weight != blank or carat_range != blank or dimensions != blank
+    assign has_physical = true
+  endif
+
+  if country_of_origin != blank or treatment != blank
+    assign has_origin = true
+  endif
+
+  if certification_status != blank or certification_laboratory != blank or certificate_number != blank or certificate_file != blank
+    assign has_certification = true
+  endif
+
+  assign has_details = false
+  if has_identity or has_physical or has_origin or has_certification
+    assign has_details = true
+  endif
+
+  if has_details == false and request.design_mode
+    assign gemstone_group = 'Precious'
+    assign gemstone_type = 'Natural Star Ruby'
+    assign shape = 'Round'
+    assign gemstone_cut = 'Cabochon Cut'
+    assign color = 'Indian Red'
+    assign actual_carat_weight = '5.38 ct'
+    assign carat_range = '4 - 5 Carats'
+    assign dimensions = '8.8 x 7.2 x 4.5 mm'
+    assign country_of_origin = 'Mozambique'
+    assign treatment = 'Unheated'
+    assign certification_status = 'Available on Request'
+    assign certification_laboratory = 'GIA'
+    assign certificate_number = 'Sample certificate'
+    assign has_identity = true
+    assign has_physical = true
+    assign has_origin = true
+    assign has_certification = true
+    assign has_details = true
+  endif
+-%}
+
+<div class="gemstone-details spacing-style" style="{% render 'spacing-style', settings: block.settings %}" {{ block.shopify_attributes }}>
+ 
+  {%- if has_details -%}
+    {%- if block.settings.show_product_status -%}
+      <div class="gemstone-details__status">
+        <span class="gemstone-details__sku">{{ 'products.gemstone.sku' | t }}: {{ product_sku }}</span>
+        <span class="gemstone-details__stock {% if product_available %}gemstone-details__stock--in{% else %}gemstone-details__stock--out{% endif %}">
+          {%- if product_available -%}
+            {{ 'content.inventory_in_stock' | t }}
+          {%- else -%}
+            {{ 'content.inventory_out_of_stock' | t }}
+          {%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.show_viewing_count -%}
+      <p
+        class="gemstone-details__viewer"
+        data-gemstone-viewer
+        data-product-id="{{ product_resource.id }}"
+        data-viewer-min="{{ viewer_min }}"
+        data-viewer-max="{{ viewer_max }}"
+        data-viewer-text="{{ 'products.gemstone.people_viewing' | t: count: '__COUNT__' | escape }}"
+      >
+        <span class="gemstone-details__viewer-icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20" focusable="false">
+            <path d="M10 4.2c4.7 0 7.7 4.4 7.8 4.6.3.4.3.9 0 1.3-.1.2-3.1 4.6-7.8 4.6s-7.7-4.4-7.8-4.6a1.1 1.1 0 0 1 0-1.3c.1-.2 3.1-4.6 7.8-4.6Zm0 8.6a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Zm0-1.7a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span data-gemstone-viewer-text>{{ 'products.gemstone.people_viewing' | t: count: active_viewers }}</span>
+      </p>
+    {%- endif -%}
+
+    {%- if block.settings.show_quick_specs -%}
+      <div class="gemstone-details__quick-specs" aria-label="{{ 'products.gemstone.quick_specs' | t }}">
+        {%- if gemstone_type != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__icon">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 1.5 18 6l-8 12.5L2 6l8-4.5Zm0 1.9L4.4 6.6 10 15.4l5.6-8.8L10 3.4Zm-3.5 3L10 4.4l3.5 2-3.5 1.9-3.5-1.9Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.stone_type' | t }}</span>
+            <span class="gemstone-details__select-value">{{ gemstone_type }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if shape != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__icon">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 1.5 18 6l-8 12.5L2 6l8-4.5Zm0 1.9L4.4 6.6 10 15.4l5.6-8.8L10 3.4Zm-3.5 3L10 4.4l3.5 2-3.5 1.9-3.5-1.9Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.shape' | t }}</span>
+            <span class="gemstone-details__select-value">{{ shape }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if gemstone_cut != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__icon">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 1.5 18 6l-8 12.5L2 6l8-4.5Zm0 1.9L4.4 6.6 10 15.4l5.6-8.8L10 3.4Zm-3.5 3L10 4.4l3.5 2-3.5 1.9-3.5-1.9Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.cut' | t }}</span>
+            <span class="gemstone-details__select-value">{{ gemstone_cut }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if color != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__swatch" style="--gemstone-swatch: {{ block.settings.swatch_color }}"></span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.color' | t }}</span>
+            <span class="gemstone-details__select-value">{{ color }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if carat_range != blank or actual_carat_weight != blank -%}
+          <div class="gemstone-details__select-card">
+            <span class="gemstone-details__icon">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 1.5 18 6l-8 12.5L2 6l8-4.5Zm0 1.9L4.4 6.6 10 15.4l5.6-8.8L10 3.4Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="gemstone-details__select-label">{{ 'products.gemstone.carat_weight' | t }}</span>
+            <span class="gemstone-details__select-value">
+              {%- if actual_carat_weight != blank -%}
+                {{ actual_carat_weight }}
+              {%- else -%}
+                {{ carat_range }}
+              {%- endif -%}
+            </span>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.show_highlights -%}
+      <div class="gemstone-details__highlights" aria-label="{{ 'products.gemstone.highlights' | t }}">
+        <h3>{{ 'products.gemstone.highlights' | t }}</h3>
+        <ul>
+          <li>{{ 'products.gemstone.highlight_rare' | t }}</li>
+          <li>{{ 'products.gemstone.highlight_natural' | t }}</li>
+          <li>{{ 'products.gemstone.highlight_transparency' | t }}</li>
+          <li>{{ 'products.gemstone.highlight_collection' | t }}</li>
+          {%- if selected_variant.sku != blank -%}
+            <li>{{ 'products.gemstone.price_per_carat' | t }}: {{ selected_variant.sku }}</li>
+          {%- endif -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.show_detail_accordions -%}
+      <div class="gemstone-details__accordions">
+        {%- if has_physical or has_identity -%}
+          <details class="gemstone-details__panel" open>
+            <summary>
+              <span>{{ 'products.gemstone.specifications' | t }}</span>
+              <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            </summary>
+            <dl class="gemstone-details__table">
+              {%- if gemstone_type != blank -%}
+                <div><dt>{{ 'products.gemstone.stone_type' | t }}</dt><dd>{{ gemstone_type }}</dd></div>
+              {%- endif -%}
+              {%- if gemstone_group != blank -%}
+                <div><dt>{{ 'products.gemstone.group' | t }}</dt><dd>{{ gemstone_group }}</dd></div>
+              {%- endif -%}
+              {%- if actual_carat_weight != blank -%}
+                <div><dt>{{ 'products.gemstone.weight' | t }}</dt><dd>{{ actual_carat_weight }}</dd></div>
+              {%- endif -%}
+              {%- if dimensions != blank -%}
+                <div><dt>{{ 'products.gemstone.dimensions' | t }}</dt><dd>{{ dimensions }}</dd></div>
+              {%- endif -%}
+              {%- if shape != blank or gemstone_cut != blank -%}
+                <div><dt>{{ 'products.gemstone.shape_cut' | t }}</dt><dd>{{ shape }}{% if shape != blank and gemstone_cut != blank %} / {% endif %}{{ gemstone_cut }}</dd></div>
+              {%- endif -%}
+              {%- if color != blank -%}
+                <div><dt>{{ 'products.gemstone.color' | t }}</dt><dd>{{ color }}</dd></div>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
+
+        {%- if has_origin -%}
+          <details class="gemstone-details__panel">
+            <summary>
+              <span>{{ 'products.gemstone.origin_treatment' | t }}</span>
+              <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            </summary>
+            <dl class="gemstone-details__table">
+              {%- if country_of_origin != blank -%}
+                <div><dt>{{ 'products.gemstone.origin' | t }}</dt><dd>{{ country_of_origin }}</dd></div>
+              {%- endif -%}
+              {%- if treatment != blank -%}
+                <div><dt>{{ 'products.gemstone.treatment' | t }}</dt><dd>{{ treatment }}</dd></div>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
+
+        {%- if has_certification -%}
+          <details class="gemstone-details__panel">
+            <summary>
+              <span>{{ 'products.gemstone.certification' | t }}</span>
+              <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            </summary>
+            <dl class="gemstone-details__table">
+              {%- if certification_status != blank -%}
+                <div><dt>{{ 'products.gemstone.certification_status' | t }}</dt><dd>{{ certification_status }}</dd></div>
+              {%- endif -%}
+              {%- if certification_laboratory != blank -%}
+                <div><dt>{{ 'products.gemstone.laboratory' | t }}</dt><dd>{{ certification_laboratory }}</dd></div>
+              {%- endif -%}
+              {%- if certificate_number != blank -%}
+                <div><dt>{{ 'products.gemstone.certificate_number' | t }}</dt><dd>{{ certificate_number }}</dd></div>
+              {%- endif -%}
+              {%- if certificate_file != blank -%}
+                <div><dt>{{ 'products.gemstone.certificate_file' | t }}</dt><dd><a href="{{ certificate_file.url | default: certificate_file }}" target="_blank" rel="noopener">{{ 'products.gemstone.view_certificate' | t }}</a></dd></div>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <div hidden shopify-block-empty></div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .gemstone-details:has(> [shopify-block-empty]) {
+    display: none;
+  }
+
+  .gemstone-details {
+    width: 100%;
+  }
+
+  .gemstone-details__status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--gap-sm);
+    margin-block-end: var(--margin-sm);
+    color: rgb(var(--color-foreground-rgb) / 0.78);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__sku {
+    line-height: 1.4;
+  }
+
+  .gemstone-details__stock {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+  }
+
+  .gemstone-details__stock--in {
+    background: #bdf4d0;
+    color: #075c2d;
+  }
+
+  .gemstone-details__stock--out {
+    background: #f3f4f6;
+    color: rgb(var(--color-foreground-rgb) / 0.62);
+  }
+
+  .gemstone-details__viewer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 var(--margin-md);
+    color: rgb(var(--color-foreground-rgb) / 0.74);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__viewer-icon {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+    color: rgb(var(--color-foreground-rgb) / 0.72);
+    flex: 0 0 auto;
+  }
+
+  .gemstone-details__viewer-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gemstone-details__quick-specs {
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  .gemstone-details__select-card {
+    display: grid;
+    grid-template-columns: 24px minmax(86px, 0.55fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--gap-sm);
+    min-height: 46px;
+    padding: var(--padding-xs) var(--padding-sm);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    border-radius: 7px;
+    background: rgb(var(--color-background-rgb) / 0.82);
+    box-shadow: 0 8px 20px rgb(var(--color-foreground-rgb) / 0.04);
+  }
+
+  .gemstone-details__icon,
+  .gemstone-details__swatch {
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    color: #c98209;
+  }
+
+  .gemstone-details__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gemstone-details__swatch {
+    border-radius: 999px;
+    background: var(--gemstone-swatch);
+    border: 2px solid rgb(var(--color-background-rgb));
+    box-shadow: 0 0 0 1px rgb(var(--color-foreground-rgb) / 0.16);
+  }
+
+  .gemstone-details__select-label {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__select-value {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__highlights {
+    margin-block-start: var(--margin-md);
+    padding: var(--padding-md);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    background: rgb(var(--color-foreground-rgb) / 0.025);
+  }
+
+  .gemstone-details__highlights h3 {
+    margin: 0 0 var(--margin-xs);
+    font-size: var(--font-paragraph--size);
+  }
+
+  .gemstone-details__highlights ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-xs) var(--gap-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gemstone-details__highlights li {
+    position: relative;
+    padding-inline-start: 18px;
+    color: rgb(var(--color-foreground-rgb) / 0.78);
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__highlights li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.55em;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #d99816;
+  }
+
+  .gemstone-details__accordions {
+    margin-block-start: var(--margin-md);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .gemstone-details__panel + .gemstone-details__panel {
+    border-block-start: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  .gemstone-details__panel summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-sm);
+    padding: var(--padding-md);
+    cursor: pointer;
+    font-weight: var(--font-weight-semibold);
+    list-style: none;
+  }
+
+  .gemstone-details__panel summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .gemstone-details__panel summary .svg-wrapper {
+    width: 14px;
+    height: 14px;
+    transition: transform 180ms ease;
+  }
+
+  .gemstone-details__panel[open] summary .svg-wrapper {
+    transform: rotate(45deg);
+  }
+
+  .gemstone-details__table {
+    display: grid;
+    margin: 0;
+    padding: 0 var(--padding-md) var(--padding-md);
+  }
+
+  .gemstone-details__table div {
+    display: grid;
+    grid-template-columns: minmax(112px, 0.48fr) minmax(0, 1fr);
+    border-block-start: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  }
+
+  .gemstone-details__table dt,
+  .gemstone-details__table dd {
+    margin: 0;
+    padding: var(--padding-xs) 0;
+    font-size: var(--font-paragraph-small--size);
+  }
+
+  .gemstone-details__table dt {
+    color: rgb(var(--color-foreground-rgb) / 0.72);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .gemstone-details__table dd {
+    overflow-wrap: anywhere;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gemstone-details__highlights ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gemstone-details__select-card,
+    .gemstone-details__table div {
+      grid-template-columns: 22px minmax(72px, 0.48fr) minmax(0, 1fr);
+    }
+
+    .gemstone-details__table div {
+      display: block;
+      padding-block: var(--padding-xs);
+    }
+
+    .gemstone-details__table dt,
+    .gemstone-details__table dd {
+      padding: 0;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    .gemstone-details__highlights ul {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  const updateGemstoneViewers = () => {
+    document.querySelectorAll('[data-gemstone-viewer]').forEach((viewer) => {
+      const text = viewer.querySelector('[data-gemstone-viewer-text]');
+      if (!text) return;
+
+      const min = Number.parseInt(viewer.dataset.viewerMin, 10) || 1;
+      const max = Math.max(Number.parseInt(viewer.dataset.viewerMax, 10) || min, min);
+      const productId = viewer.dataset.productId || window.location.pathname;
+      const bucket = Math.floor(Date.now() / 180000);
+      const seed = `${productId}-${bucket}`;
+      let hash = 0;
+
+      for (let index = 0; index < seed.length; index += 1) {
+        hash = (hash * 31 + seed.charCodeAt(index)) >>> 0;
+      }
+
+      const count = min + (hash % (max - min + 1));
+      text.textContent = (viewer.dataset.viewerText || '').replace('__COUNT__', count);
+    });
+  };
+
+  updateGemstoneViewers();
+  document.addEventListener('shopify:section:load', updateGemstoneViewers);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Gemstone details",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_product_status",
+      "label": "Show SKU and stock badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_specs",
+      "label": "Show quick specification cards",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_viewing_count",
+      "label": "Show viewing count",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "active_viewers",
+      "label": "Fallback active viewers",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 20,
+      "visible_if": "{{ block.settings.show_viewing_count }}"
+    },
+    {
+      "type": "range",
+      "id": "viewer_min",
+      "label": "Minimum active viewers",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 12,
+      "visible_if": "{{ block.settings.show_viewing_count }}"
+    },
+    {
+      "type": "range",
+      "id": "viewer_max",
+      "label": "Maximum active viewers",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 28,
+      "visible_if": "{{ block.settings.show_viewing_count }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_highlights",
+      "label": "Show highlights",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_detail_accordions",
+      "label": "Show detail accordions",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "swatch_color",
+      "label": "Color swatch fallback",
+      "default": "#e73168"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gemstone details",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

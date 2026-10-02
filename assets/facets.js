@@ -325,6 +325,12 @@ if (!customElements.get('facet-inputs-component')) {
  * @typedef {Object} PriceFacetRefs
  * @property {HTMLInputElement} minInput - The minimum price input
  * @property {HTMLInputElement} maxInput - The maximum price input
+ * @property {HTMLInputElement} [minRange] - The minimum price range slider
+ * @property {HTMLInputElement} [maxRange] - The maximum price range slider
+ * @property {HTMLElement} [rangeWrapper] - The range slider wrapper
+ * @property {HTMLElement} [minRangeValue] - The minimum price value label
+ * @property {HTMLElement} [maxRangeValue] - The maximum price value label
+ * @property {HTMLElement} [maxRangeBubble] - The maximum price value bubble
  */
 
 /**
@@ -340,13 +346,22 @@ class PriceFacetComponent extends Component {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('keydown', this.#onKeyDown);
+    this.refs.minRange?.addEventListener('input', this.#syncInputsFromRange);
+    this.refs.maxRange?.addEventListener('input', this.#syncInputsFromRange);
+    this.refs.minRange?.addEventListener('change', this.updatePriceFilterAndResults);
+    this.refs.maxRange?.addEventListener('change', this.updatePriceFilterAndResults);
     this.currency = this.dataset.currency ?? 'USD';
     this.moneyFormat = this.#extractMoneyPlaceholder(this.dataset.moneyFormat ?? '{{amount}}');
+    this.#syncRangeUi();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('keydown', this.#onKeyDown);
+    this.refs.minRange?.removeEventListener('input', this.#syncInputsFromRange);
+    this.refs.maxRange?.removeEventListener('input', this.#syncInputsFromRange);
+    this.refs.minRange?.removeEventListener('change', this.updatePriceFilterAndResults);
+    this.refs.maxRange?.removeEventListener('change', this.updatePriceFilterAndResults);
   }
 
   /**
@@ -373,11 +388,12 @@ class PriceFacetComponent extends Component {
   /**
    * Updates price filter and results
    */
-  updatePriceFilterAndResults() {
+  updatePriceFilterAndResults = () => {
     const { minInput, maxInput } = this.refs;
 
     this.#adjustToValidValues(minInput);
     this.#adjustToValidValues(maxInput);
+    this.#syncRangeFromInputs();
 
     const facetsForm = this.closest('facets-form-component');
     if (!(facetsForm instanceof FacetsFormComponent)) return;
@@ -385,7 +401,7 @@ class PriceFacetComponent extends Component {
     facetsForm.updateFilters();
     this.#setMinAndMaxValues();
     this.#updateSummary();
-  }
+  };
 
   /**
    * Parses a formatted money value into minor units
@@ -418,6 +434,79 @@ class PriceFacetComponent extends Component {
     } else if (value > max) {
       input.value = formatMoney(max, moneyFormat, currency);
     }
+  }
+
+  #parseRangeValue(value, fallback = 0) {
+    const parsed = Number.parseFloat((value ?? '').replace(/[^\d.-]/g, ''));
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  #formatRangeValue(value) {
+    const symbol = this.dataset.currencySymbol ?? '';
+    const formatted = new Intl.NumberFormat(undefined, {
+      maximumFractionDigits: 2,
+    }).format(value);
+
+    return `${symbol} ${formatted}`.trim();
+  }
+
+  #syncInputsFromRange = () => {
+    const { minInput, maxInput, minRange, maxRange } = this.refs;
+    if (!minRange || !maxRange) return;
+
+    const rangeMax = this.#parseRangeValue(maxRange.max, 0);
+    let min = this.#parseRangeValue(minRange.value, 0);
+    let max = this.#parseRangeValue(maxRange.value, rangeMax);
+
+    if (min > max) {
+      if (document.activeElement === minRange) {
+        max = min;
+        maxRange.value = String(max);
+      } else {
+        min = max;
+        minRange.value = String(min);
+      }
+    }
+
+    minInput.value = min > 0 ? String(min) : '';
+    maxInput.value = max < rangeMax ? String(max) : '';
+    this.#setMinAndMaxValues();
+    this.#syncRangeUi();
+    this.#updateSummary();
+  };
+
+  #syncRangeFromInputs() {
+    const { minInput, maxInput, minRange, maxRange } = this.refs;
+    if (!minRange || !maxRange) return;
+
+    const rangeMax = this.#parseRangeValue(maxRange.max, 0);
+    let min = minInput.value ? this.#parseRangeValue(minInput.value, 0) : 0;
+    let max = maxInput.value ? this.#parseRangeValue(maxInput.value, rangeMax) : rangeMax;
+
+    min = Math.min(Math.max(min, 0), rangeMax);
+    max = Math.min(Math.max(max, min), rangeMax);
+
+    minRange.value = String(min);
+    maxRange.value = String(max);
+    this.#syncRangeUi();
+  }
+
+  #syncRangeUi() {
+    const { minRange, maxRange, rangeWrapper, minRangeValue, maxRangeValue, maxRangeBubble } = this.refs;
+    if (!minRange || !maxRange) return;
+
+    const rangeMax = this.#parseRangeValue(maxRange.max, 0);
+    const min = this.#parseRangeValue(minRange.value, 0);
+    const max = this.#parseRangeValue(maxRange.value, rangeMax);
+    const minPercent = rangeMax > 0 ? Math.min(Math.max((min / rangeMax) * 100, 0), 100) : 0;
+    const maxPercent = rangeMax > 0 ? Math.min(Math.max((max / rangeMax) * 100, 0), 100) : 100;
+
+    rangeWrapper?.style.setProperty('--price-range-min-percent', `${minPercent}%`);
+    rangeWrapper?.style.setProperty('--price-range-max-percent', `${maxPercent}%`);
+    maxRangeBubble?.style.setProperty('--price-range-bubble-percent', `${maxPercent}%`);
+
+    if (minRangeValue) minRangeValue.textContent = this.#formatRangeValue(min);
+    if (maxRangeValue) maxRangeValue.textContent = this.#formatRangeValue(max);
   }
 
   /**

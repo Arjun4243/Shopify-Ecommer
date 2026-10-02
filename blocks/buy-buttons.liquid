@@ -240,6 +240,71 @@
         {%- endif -%}
       {%- endform -%}
     </product-form-component>
+
+    {%- liquid
+      assign whatsapp_phone = block_settings.whatsapp_phone | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+      capture whatsapp_message
+        echo 'products.gemstone.whatsapp_message' | t: product: product.title, url: canonical_url
+      endcapture
+      assign encoded_whatsapp_message = whatsapp_message | url_encode
+      assign whatsapp_href = 'https://wa.me/' | append: whatsapp_phone | append: '?text=' | append: encoded_whatsapp_message
+    -%}
+
+    <div class="gemstone-purchase-tools" aria-label="{{ 'products.gemstone.purchase_tools' | t }}">
+      <div class="gemstone-purchase-tools__links">
+        {%- if block_settings.show_wishlist -%}
+          <a
+            class="gemstone-purchase-tools__link gemstone-purchase-tools__wishlist"
+            href="{{ block_settings.wishlist_url | default: routes.search_url | append: '?q=wishlist&type=product' }}"
+            data-wishlist-add
+            data-product-handle="{{ product.handle | escape }}"
+            data-product-title="{{ product.title | escape }}"
+            data-product-url="{{ product.url | escape }}"
+            data-product-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 420 }}{% endif %}"
+            data-product-price="{{ product.price | money | strip_html | escape }}"
+            data-wishlist-add-label="{{ 'products.gemstone.add_to_wishlist' | t | escape }}"
+            data-wishlist-added-label="{{ 'products.gemstone.added_to_wishlist' | t | escape }}"
+          >
+            <span aria-hidden="true">♡</span>
+            <span data-wishlist-label>{{ 'products.gemstone.add_to_wishlist' | t }}</span>
+          </a>
+        {%- endif -%}
+        {%- if block_settings.show_ask_question -%}
+          <a class="gemstone-purchase-tools__link" href="{{ block_settings.ask_question_url | default: '/pages/contact' }}">
+            <span aria-hidden="true">?</span>
+            {{ 'products.gemstone.ask_question' | t }}
+          </a>
+        {%- endif -%}
+        {%- if block_settings.show_share -%}
+          <button
+            class="gemstone-purchase-tools__link gemstone-purchase-tools__share"
+            type="button"
+            data-share-title="{{ product.title | escape }}"
+            data-share-url="{{ canonical_url | escape }}"
+          >
+            <span aria-hidden="true">↗</span>
+            {{ 'products.gemstone.share' | t }}
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if block_settings.show_whatsapp and whatsapp_phone != blank -%}
+        <a class="gemstone-purchase-tools__whatsapp" href="{{ whatsapp_href }}" target="_blank" rel="noopener">
+          <span aria-hidden="true">✓</span>
+          {{ 'products.gemstone.enquire_whatsapp' | t }}
+        </a>
+        <p class="gemstone-purchase-tools__note">{{ 'products.gemstone.chat_with_team' | t }}</p>
+      {%- endif -%}
+
+      {%- if block_settings.show_policy_badges -%}
+        <div class="gemstone-purchase-tools__policies" aria-label="{{ 'products.gemstone.policy_badges' | t }}">
+          <span>{{ 'products.gemstone.return_policy' | t }}</span>
+          <span>{{ 'products.gemstone.secure_payment' | t }}</span>
+          <span>{{ 'products.gemstone.worldwide_delivery' | t }}</span>
+          <span>{{ 'products.gemstone.genuine_gemstones' | t }}</span>
+        </div>
+      {%- endif -%}
+    </div>
   {%- else -%}
     <div class="product-form-buttons">
       <button
@@ -383,6 +448,207 @@
 
 {% render 'buy-buttons-styles' %}
 
+{% javascript %}
+  document.addEventListener('click', (event) => {
+    const shareButton = event.target.closest('.gemstone-purchase-tools__share');
+
+    if (!shareButton) return;
+
+    const shareData = {
+      title: shareButton.dataset.shareTitle,
+      url: shareButton.dataset.shareUrl,
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData);
+      return;
+    }
+
+    if (navigator.clipboard && shareData.url) {
+      navigator.clipboard.writeText(shareData.url);
+    }
+  });
+
+  const wishlistStorageKey = 'raza-gems-wishlist';
+  const getWishlist = () => JSON.parse(localStorage.getItem(wishlistStorageKey) || '[]');
+  const setWishlist = (wishlist) => localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlist));
+
+  const updateWishlistButton = (button, isSaved) => {
+    const label = button.querySelector('[data-wishlist-label]');
+    button.classList.toggle('is-active', isSaved);
+
+    if (label) {
+      label.textContent = isSaved
+        ? button.dataset.wishlistAddedLabel
+        : button.dataset.wishlistAddLabel;
+    }
+  };
+
+  document.querySelectorAll('[data-wishlist-add]').forEach((button) => {
+    const wishlist = getWishlist();
+    updateWishlistButton(button, wishlist.some((item) => item.handle === button.dataset.productHandle));
+  });
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-wishlist-add]');
+    if (!button) return;
+
+    event.preventDefault();
+
+    const product = {
+      handle: button.dataset.productHandle,
+      title: button.dataset.productTitle,
+      url: button.dataset.productUrl,
+      image: button.dataset.productImage,
+      price: button.dataset.productPrice,
+    };
+
+    if (!product.handle) return;
+
+    const wishlist = getWishlist();
+    const existingIndex = wishlist.findIndex((item) => item.handle === product.handle);
+    const isSaved = existingIndex === -1;
+
+    if (existingIndex >= 0) {
+      wishlist.splice(existingIndex, 1);
+    } else {
+      wishlist.unshift(product);
+    }
+
+    setWishlist(wishlist);
+    updateWishlistButton(button, isSaved);
+    window.dispatchEvent(
+      new CustomEvent('raza-gems:wishlist-updated', {
+        detail: {
+          count: wishlist.length,
+          saved: isSaved,
+          handle: product.handle,
+        },
+      })
+    );
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .gemstone-purchase-tools {
+    display: grid;
+    gap: 8px;
+    margin-block-start: 10px;
+    width: 100%;
+  }
+
+  .gemstone-purchase-tools__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 18px;
+    order: 3;
+  }
+
+  .gemstone-purchase-tools__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 26px;
+    border: 0;
+    background: transparent;
+    color: #07245b;
+    font: inherit;
+    font-size: 0.76rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .gemstone-purchase-tools__link:hover {
+    color: var(--color-foreground);
+  }
+
+  .gemstone-purchase-tools .gemstone-purchase-tools__wishlist,
+  .gemstone-purchase-tools .gemstone-purchase-tools__share {
+    display: none;
+  }
+
+  .gemstone-purchase-tools__wishlist.is-active {
+    color: #c98209;
+  }
+
+  .gemstone-purchase-tools__link span {
+    color: #c98209;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .gemstone-purchase-tools__whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    order: 1;
+    min-height: 42px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #11984a 0%, #087f39 100%);
+    color: #fff;
+    font-size: 0.84rem;
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: transform 160ms ease, background-color 160ms ease;
+  }
+
+  .gemstone-purchase-tools__whatsapp:hover {
+    background: #0d7a39;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .gemstone-purchase-tools__note {
+    order: 2;
+    margin: -2px 0 0;
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+    font-size: 0.74rem;
+    text-align: center;
+  }
+
+  .gemstone-purchase-tools__policies {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    order: 4;
+    margin-block-start: 4px;
+  }
+
+  .gemstone-purchase-tools__policies span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 40px;
+    padding: 6px 8px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 7px;
+    background: #ffffff;
+    color: #07245b;
+    font-size: 0.62rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .gemstone-purchase-tools__policies span::before {
+    content: '◇';
+    color: #d99816;
+    font-size: 0.95rem;
+    line-height: 1;
+    flex: 0 0 auto;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gemstone-purchase-tools__policies {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_buy_buttons",
@@ -413,6 +679,57 @@
     {
       "type": "paragraph",
       "content": "t:content.local_pickup_description"
+    },
+    {
+      "type": "header",
+      "content": "Gemstone actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ask_question",
+      "label": "Show ask question link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "ask_question_url",
+      "label": "Ask question URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show share button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_whatsapp",
+      "label": "Show WhatsApp enquiry",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_phone",
+      "label": "WhatsApp phone number",
+      "default": "971000000000",
+      "visible_if": "{{ block.settings.show_whatsapp }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy_badges",
+      "label": "Show policy badges",
+      "default": true
     },
     {
       "type": "header",

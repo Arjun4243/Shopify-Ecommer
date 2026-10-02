@@ -24,6 +24,21 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 
+<nav class="product-breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ routes.root_url }}">Home</a>
+  <span aria-hidden="true">&gt;</span>
+
+  <a href="{{ routes.collections_url | append: '/gemstones' }}">Gemstones</a>
+  <span aria-hidden="true">&gt;</span>
+
+  {% if product.collections.first != blank %}
+    <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+    <span aria-hidden="true">&gt;</span>
+  {% endif %}
+
+  <span aria-current="page">{{ product.title }}</span>
+</nav>
+
 {% render 'deferred-media-product-model-styles' %}
 {% render 'deferred-media-video-styles' %}
 
@@ -184,6 +199,52 @@
 %}
 
 {% stylesheet %}
+  .product-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eeeeee;
+    color: #5f7185;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .product-breadcrumb::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-breadcrumb a {
+    flex: 0 0 auto;
+    color: #1d6fb8;
+    text-decoration: none;
+  }
+
+  .product-breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .product-breadcrumb span {
+    flex: 0 0 auto;
+  }
+
+  .product-breadcrumb span[aria-current='page'] {
+    min-width: 0;
+    overflow: hidden;
+    color: #1f2933;
+    text-overflow: ellipsis;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-breadcrumb {
+      padding-inline: 16px;
+    }
+  }
   .sticky-add-to-cart__bar {
     position: fixed;
     bottom: 20px;
@@ -482,3 +543,4 @@
   "presets": []
 }
 {% endschema %}
+
