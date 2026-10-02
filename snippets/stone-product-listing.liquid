@@ -51,10 +51,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
       <details class="stone-filter" open>
         <summary>Gemstone Type</summary>
-        <label class="stone-filter__search">
-          <span class="visually-hidden">Search gemstone type</span>
-          <input type="search" placeholder="Search gemstone..." data-filter-search="type">
-        </label>
         <div class="stone-filter__options" data-filter-options="type"></div>
       </details>
 
@@ -175,7 +171,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
   document.querySelectorAll('[data-stone-listing]').forEach((listing) => {
     const items = Array.from(listing.querySelectorAll('[data-stone-item]'));
-    const search = listing.querySelector('[data-stone-search]');
+    const searchInputs = Array.from(listing.querySelectorAll('[data-stone-search]'));
     const count = listing.querySelector('[data-stone-count]');
     const chips = listing.querySelector('[data-stone-chips]');
     const grid = listing.querySelector('[data-stone-grid]');
@@ -260,18 +256,21 @@ Renders a filterable gemstone product listing for a product gemstone group.
     const typeOptions = makeMap('typeKey', 'type');
     const shapeOptions = makeMap('shapeKey', 'shape');
     const caratRanges = [
-      { key: 'under-1', label: 'Under 1 ct', min: 0, max: 1 },
-      { key: '1-3', label: '1 - 3 ct', min: 1, max: 3 },
-      { key: '3-5', label: '3 - 5 ct', min: 3, max: 5 },
-      { key: '5-10', label: '5 - 10 ct', min: 5, max: 10 },
-      { key: 'above-10', label: 'Above 10 ct', min: 10, max: Infinity },
+      { key: '0-1', label: '0-1 Carat', min: 0, max: 1 },
+      { key: '1-2', label: '1-2 Carats', min: 1, max: 2 },
+      { key: '2-3', label: '2-3 Carats', min: 2, max: 3 },
+      { key: '3-4', label: '3-4 Carats', min: 3, max: 4 },
+      { key: '4-5', label: '4-5 Carats', min: 4, max: 5 },
+      { key: '5-6', label: '5-6 Carats', min: 5, max: 6 },
+      { key: '6-10', label: '6-10 Carats', min: 6, max: 10 },
+      { key: '10-plus', label: '10+ Carats', min: 10, max: Infinity },
     ].map((range) => ({
       ...range,
       count: items.filter((item) => {
         const carat = parseCarat(item.dataset.carat);
         return !Number.isNaN(carat) && carat >= range.min && carat < range.max;
       }).length,
-    })).filter((range) => range.count > 0);
+    }));
 
     const renderCheckboxes = (target, options, type) => {
       const container = listing.querySelector(`[data-filter-options="${target}"]`);
@@ -344,7 +343,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
       let visible = items.filter((item) => {
         const price = Number(item.dataset.price || 0) / 100;
         const title = normalize(item.dataset.title);
-        return (!state.search || title.includes(state.search))
+        return (!state.search || title.startsWith(state.search))
           && (!state.types.size || state.types.has(item.dataset.typeKey))
           && (!state.shapes.size || state.shapes.has(item.dataset.shapeKey))
           && matchesCarat(item)
@@ -387,16 +386,15 @@ Renders a filterable gemstone product listing for a product gemstone group.
     });
 
     listing.addEventListener('input', (event) => {
-      if (event.target === search) state.search = normalize(search.value);
-      if (event.target === priceMinRange || event.target === priceMaxRange) syncPriceInputsFromRange(event.target);
-      if (event.target === priceMinInput || event.target === priceMaxInput) apply();
-      const filterSearch = event.target.closest('[data-filter-search]');
-      if (filterSearch) {
-        const term = normalize(filterSearch.value);
-        listing.querySelectorAll(`[data-filter-options="${filterSearch.dataset.filterSearch}"] [data-option-label]`).forEach((option) => {
-          option.hidden = term && !option.dataset.optionLabel.includes(term);
+      const searchInput = event.target.closest('[data-stone-search]');
+      if (searchInput) {
+        state.search = normalize(searchInput.value);
+        searchInputs.forEach((input) => {
+          if (input !== searchInput) input.value = searchInput.value;
         });
       }
+      if (event.target === priceMinRange || event.target === priceMaxRange) syncPriceInputsFromRange(event.target);
+      if (event.target === priceMinInput || event.target === priceMaxInput) apply();
       apply();
     });
 
@@ -419,7 +417,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
         state.shapes.clear();
         state.carats.clear();
         state.sort = 'featured';
-        search.value = '';
+        searchInputs.forEach((input) => { input.value = ''; });
         sort.value = 'featured';
         priceMinInput.value = '';
         priceMaxInput.value = '';
@@ -490,8 +488,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
     font-size: clamp(15px, 1.1vw, 20px);
   }
 
-  .stone-listing__search,
-  .stone-filter__search {
+  .stone-listing__search {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -591,12 +588,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
     cursor: pointer;
     font-size: 18px;
     font-weight: 900;
-  }
-
-  .stone-filter__search {
-    min-height: 40px;
-    margin-top: 12px;
-    box-shadow: none;
   }
 
   .stone-filter__options {
