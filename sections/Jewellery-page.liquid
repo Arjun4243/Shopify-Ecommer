@@ -1,0 +1,1193 @@
+<div class="jewellery-page" data-jewellery-page data-currency="{{ cart.currency.iso_code }}">
+  {% assign target_group_handle = section.settings.collection_group | replace: '_', '-' | handleize %}
+
+  <section
+    class="jewellery-banner"
+    style="
+      {% if section.settings.banner_image != blank %}
+        --banner-image: url('{{ section.settings.banner_image | image_url: width: 2400 }}');
+      {% endif %}
+    "
+  >
+    <div class="jewellery-banner__content">
+      <h1>{{ section.settings.heading }}</h1>
+
+      {% if section.settings.subheading_one != blank %}
+        <p>{{ section.settings.subheading_one }}</p>
+      {% endif %}
+
+      {% if section.settings.subheading_two != blank %}
+        <p>{{ section.settings.subheading_two }}</p>
+      {% endif %}
+
+      <div class="jewellery-banner__breadcrumb">
+        <span>{{ section.settings.breadcrumb_home }}</span>
+        <span>/</span>
+        <strong>{{ section.settings.breadcrumb_current }}</strong>
+      </div>
+    </div>
+
+  </section>
+
+  {% liquid
+    assign product_collection = section.settings.products_collection
+    assign source_collection = collections.all
+    assign highest_product_price = 0
+    assign matching_products_count = 0
+
+    if source_collection == blank
+      assign source_collection = product_collection
+    endif
+  %}
+
+  {% paginate source_collection.products by 250 %}
+    {% for product in source_collection.products %}
+      {% liquid
+        assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+        assign product_group_handle = product_group | replace: '_', '-' | handleize
+        assign product_matches_group = false
+      %}
+
+      {% if product_group_handle == target_group_handle %}
+        {% assign product_matches_group = true %}
+      {% else %}
+        {% for product_collection_item in product.collections %}
+          {% liquid
+            assign product_collection_group = product_collection_item.metafields.custom.collection_group.value | default: product_collection_item.metafields.custom.collection_group
+            assign product_collection_group_handle = product_collection_group | replace: '_', '-' | handleize
+          %}
+
+          {% if product_collection_group_handle == target_group_handle %}
+            {% assign product_matches_group = true %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if product_matches_group %}
+        {% assign matching_products_count = matching_products_count | plus: 1 %}
+
+        {% if matching_products_count <= section.settings.products_limit and product.price > highest_product_price %}
+          {% assign highest_product_price = product.price %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+  {% assign highest_filter_price = highest_product_price | divided_by: 100.0 | ceil %}
+
+  {% if highest_filter_price == 0 %}
+    {% assign highest_filter_price = section.settings.fallback_max_price %}
+  {% endif %}
+
+  <div class="jewellery-page__body">
+    <aside class="jewellery-filters" aria-label="Product filters">
+      <div class="jewellery-filters__header">
+        <h2>{{ section.settings.filters_heading }}</h2>
+        <button type="button" data-clear-filters>{{ section.settings.clear_filters_text }}</button>
+      </div>
+
+      <div class="jewellery-filters__group">
+        <h3>Price</h3>
+        <label class="jewellery-filters__range-label" for="JewelleryPriceRange">
+          Up to {{ highest_filter_price | times: 100 | money }}
+        </label>
+        <input
+          id="JewelleryPriceRange"
+          type="range"
+          min="0"
+          max="{{ highest_filter_price }}"
+          value="{{ highest_filter_price }}"
+          step="1"
+          data-price-filter
+        >
+        <div class="jewellery-filters__range-values">
+          <span>{{ 0 | money }}</span>
+          <span data-price-output>{{ highest_filter_price | times: 100 | money }}</span>
+        </div>
+      </div>
+
+      <div class="jewellery-filters__group">
+        <h3>Color</h3>
+        {% assign seen_colors = '|' %}
+        {% assign has_color_filters = false %}
+
+        {% if source_collection != blank %}
+          {% for product in source_collection.products %}
+            {% liquid
+              assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+              assign product_group_handle = product_group | replace: '_', '-' | handleize
+              assign product_matches_group = false
+              assign product_color = product.metafields.custom.color.value | strip | downcase
+            %}
+
+            {% if product_group_handle == target_group_handle %}
+              {% assign product_matches_group = true %}
+            {% else %}
+              {% for product_collection_item in product.collections %}
+                {% liquid
+                  assign product_collection_group = product_collection_item.metafields.custom.collection_group.value | default: product_collection_item.metafields.custom.collection_group
+                  assign product_collection_group_handle = product_collection_group | replace: '_', '-' | handleize
+                %}
+
+                {% if product_collection_group_handle == target_group_handle %}
+                  {% assign product_matches_group = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {% if product_matches_group and product_color != blank %}
+              {% assign color_token = '|' | append: product_color | append: '|' %}
+
+              {% unless seen_colors contains color_token %}
+                {% assign seen_colors = seen_colors | append: product_color | append: '|' %}
+                {% assign has_color_filters = true %}
+                {% assign color_count = 0 %}
+
+                {% for count_product in source_collection.products %}
+                  {% liquid
+                    assign count_group = count_product.metafields.custom.gemstone_group.value | default: count_product.metafields.custom.gemstone_group
+                    assign count_group_handle = count_group | replace: '_', '-' | handleize
+                    assign count_product_matches_group = false
+                    assign count_color = count_product.metafields.custom.color.value | strip | downcase
+                  %}
+
+                  {% if count_group_handle == target_group_handle %}
+                    {% assign count_product_matches_group = true %}
+                  {% else %}
+                    {% for count_product_collection_item in count_product.collections %}
+                      {% liquid
+                        assign count_product_collection_group = count_product_collection_item.metafields.custom.collection_group.value | default: count_product_collection_item.metafields.custom.collection_group
+                        assign count_product_collection_group_handle = count_product_collection_group | replace: '_', '-' | handleize
+                      %}
+
+                      {% if count_product_collection_group_handle == target_group_handle %}
+                        {% assign count_product_matches_group = true %}
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+
+                  {% if count_product_matches_group and count_color == product_color %}
+                    {% assign color_count = color_count | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+
+                <label>
+                  <input type="checkbox" value="{{ product_color | escape }}" data-color-filter>
+                  {{ product_color | replace: '_', ' ' | capitalize }} ({{ color_count }})
+                </label>
+              {% endunless %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% unless has_color_filters %}
+          <p class="jewellery-filters__empty">Add product color metafields to show color filters.</p>
+        {% endunless %}
+      </div>
+
+      <div class="jewellery-filters__group">
+        <h3>Shape</h3>
+        {% assign seen_shapes = '|' %}
+        {% assign has_shape_filters = false %}
+
+        {% if source_collection != blank %}
+          {% for product in source_collection.products %}
+            {% liquid
+              assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+              assign product_group_handle = product_group | replace: '_', '-' | handleize
+              assign product_matches_group = false
+              assign product_shape = product.metafields.custom.shape.value | strip | downcase
+            %}
+
+            {% if product_group_handle == target_group_handle %}
+              {% assign product_matches_group = true %}
+            {% else %}
+              {% for product_collection_item in product.collections %}
+                {% liquid
+                  assign product_collection_group = product_collection_item.metafields.custom.collection_group.value | default: product_collection_item.metafields.custom.collection_group
+                  assign product_collection_group_handle = product_collection_group | replace: '_', '-' | handleize
+                %}
+
+                {% if product_collection_group_handle == target_group_handle %}
+                  {% assign product_matches_group = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {% if product_matches_group and product_shape != blank %}
+              {% assign shape_token = '|' | append: product_shape | append: '|' %}
+
+              {% unless seen_shapes contains shape_token %}
+                {% assign seen_shapes = seen_shapes | append: product_shape | append: '|' %}
+                {% assign has_shape_filters = true %}
+                {% assign shape_count = 0 %}
+
+                {% for count_product in source_collection.products %}
+                  {% liquid
+                    assign count_group = count_product.metafields.custom.gemstone_group.value | default: count_product.metafields.custom.gemstone_group
+                    assign count_group_handle = count_group | replace: '_', '-' | handleize
+                    assign count_product_matches_group = false
+                    assign count_shape = count_product.metafields.custom.shape.value | strip | downcase
+                  %}
+
+                  {% if count_group_handle == target_group_handle %}
+                    {% assign count_product_matches_group = true %}
+                  {% else %}
+                    {% for count_product_collection_item in count_product.collections %}
+                      {% liquid
+                        assign count_product_collection_group = count_product_collection_item.metafields.custom.collection_group.value | default: count_product_collection_item.metafields.custom.collection_group
+                        assign count_product_collection_group_handle = count_product_collection_group | replace: '_', '-' | handleize
+                      %}
+
+                      {% if count_product_collection_group_handle == target_group_handle %}
+                        {% assign count_product_matches_group = true %}
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+
+                  {% if count_product_matches_group and count_shape == product_shape %}
+                    {% assign shape_count = shape_count | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+
+                <label>
+                  <input type="checkbox" value="{{ product_shape | escape }}" data-shape-filter>
+                  {{ product_shape | replace: '_', ' ' | capitalize }} ({{ shape_count }})
+                </label>
+              {% endunless %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% unless has_shape_filters %}
+          <p class="jewellery-filters__empty">Add product shape metafields to show shape filters.</p>
+        {% endunless %}
+      </div>
+    </aside>
+
+    <main class="jewellery-main">
+      <section class="shop-by-collection">
+        <div class="shop-by-collection__header">
+          <h2>{{ section.settings.collection_heading }}</h2>
+
+          {% if section.settings.view_all_link != blank %}
+            <a class="shop-by-collection__view-all" href="{{ section.settings.view_all_link }}">
+              {{ section.settings.view_all_text }}
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="shop-by-collection__grid">
+          {% for collection_item in collections %}
+            {% assign collection_group = collection_item.metafields.custom.collection_group.value | default: collection_item.metafields.custom.collection_group %}
+            {% assign collection_group_handle = collection_group | replace: '_', '-' | handleize %}
+
+            {% if collection_group_handle == target_group_handle %}
+              <a class="shop-by-collection__card" href="{{ collection_item.url }}">
+                <div class="shop-by-collection__image-wrap">
+                  {% if collection_item.image != blank %}
+                    {{
+                      collection_item.image
+                      | image_url: width: 520
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'shop-by-collection__image',
+                        alt: collection_item.title
+                    }}
+                  {% elsif collection_item.products.first.featured_image != blank %}
+                    {{
+                      collection_item.products.first.featured_image
+                      | image_url: width: 520
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'shop-by-collection__image',
+                        alt: collection_item.title
+                    }}
+                  {% endif %}
+                </div>
+
+                <span class="shop-by-collection__title">
+                  {{ collection_item.title }}
+                </span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="jewellery-products">
+        <div class="jewellery-products__toolbar">
+          <p>
+            {% if matching_products_count > 0 %}
+              Showing {{ matching_products_count }} products
+            {% else %}
+              No {{ section.settings.collection_group | replace: '_', '-' | replace: '-', ' ' }} products found
+            {% endif %}
+          </p>
+
+          <div class="jewellery-products__controls">
+            <label for="JewellerySortBy">Sort by:</label>
+            <select id="JewellerySortBy" data-sort-products>
+              <option value="featured">Featured</option>
+              <option value="title-ascending">Title A-Z</option>
+              <option value="price-ascending">Price low to high</option>
+              <option value="price-descending">Price high to low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="jewellery-products__grid" data-products-grid>
+          {% assign rendered_products_count = 0 %}
+
+          {% for product in source_collection.products %}
+            {% liquid
+              assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+              assign product_group_handle = product_group | replace: '_', '-' | handleize
+              assign product_matches_group = false
+              assign product_color = product.metafields.custom.color.value | downcase
+              assign product_shape = product.metafields.custom.shape.value | downcase
+              assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
+              assign carat_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
+              assign certification_status = product.metafields.custom.certification_status.value | default: product.metafields.custom.certification_status
+              assign selected_variant = product.selected_or_first_available_variant
+              assign detail_count = 0
+            %}
+
+            {% if product_group_handle == target_group_handle %}
+              {% assign product_matches_group = true %}
+            {% else %}
+              {% for product_collection_item in product.collections %}
+                {% liquid
+                  assign product_collection_group = product_collection_item.metafields.custom.collection_group.value | default: product_collection_item.metafields.custom.collection_group
+                  assign product_collection_group_handle = product_collection_group | replace: '_', '-' | handleize
+                %}
+
+                {% if product_collection_group_handle == target_group_handle %}
+                  {% assign product_matches_group = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {% if product_matches_group and rendered_products_count < section.settings.products_limit %}
+              {% assign rendered_products_count = rendered_products_count | plus: 1 %}
+
+              <article
+                class="jewellery-product-card"
+                data-product-card
+                data-title="{{ product.title | escape }}"
+                data-price="{{ selected_variant.price | divided_by: 100.0 }}"
+                data-color="{{ product_color }}"
+                data-shape="{{ product_shape }}"
+              >
+                <a class="jewellery-product-card__media" href="{{ product.url }}">
+                  {% if product.featured_media.preview_image != blank %}
+                    {{
+                      product.featured_media.preview_image
+                      | image_url: width: 720
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 720',
+                        sizes: '(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw',
+                        class: 'jewellery-product-card__image',
+                        alt: product.title
+                    }}
+                  {% else %}
+                    {{ 'product-apparel-1' | placeholder_svg_tag: 'jewellery-product-card__placeholder' }}
+                  {% endif %}
+                </a>
+
+                <button
+                  class="jewellery-product-card__heart"
+                  type="button"
+                  aria-label="Add to wishlist"
+                  data-jewellery-wishlist
+                  data-product-handle="{{ product.handle | escape }}"
+                  data-product-title="{{ product.title | escape }}"
+                  data-product-url="{{ product.url }}"
+                  data-product-image="{% if product.featured_media.preview_image != blank %}{{ product.featured_media.preview_image | image_url: width: 600 }}{% endif %}"
+                  data-product-price="{{ selected_variant.price | money | strip_html | escape }}"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path class="jewellery-product-card__heart-outline" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Zm0-2.7.1-.1c4.8-4.3 7.9-7.2 7.9-10.1C20 6.5 18.5 5 16.5 5c-1.5 0-3 .9-3.6 2.1h-1.8C10.5 5.9 9 5 7.5 5 5.5 5 4 6.5 4 8.5c0 2.9 3.1 5.8 7.9 10.1l.1.1Z" />
+                    <path class="jewellery-product-card__heart-fill" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" />
+                  </svg>
+                </button>
+
+                <div class="jewellery-product-card__content">
+                  <h3>
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h3>
+
+                  {% if gemstone_type != blank or product_shape != blank or product_color != blank or carat_weight != blank or certification_status != blank %}
+                    <p class="jewellery-product-card__details">
+                      {% if gemstone_type != blank %}
+                        {% assign detail_count = detail_count | plus: 1 %}
+                        <span>{{ gemstone_type }}</span>
+                      {% endif %}
+
+                      {% if product_shape != blank %}
+                        {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+                        {% assign detail_count = detail_count | plus: 1 %}
+                        <span>{{ product_shape | replace: '_', ' ' | capitalize }}</span>
+                      {% endif %}
+
+                      {% if product_color != blank %}
+                        {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+                        {% assign detail_count = detail_count | plus: 1 %}
+                        <span>{{ product_color | replace: '_', ' ' | capitalize }}</span>
+                      {% endif %}
+
+                      {% if carat_weight != blank %}
+                        {% assign carat_text = carat_weight %}
+                        {% assign carat_text_downcase = carat_text | downcase %}
+                        {% unless carat_text_downcase contains 'ct' or carat_text_downcase contains 'carat' %}
+                          {% assign carat_text = carat_text | append: ' ct' %}
+                        {% endunless %}
+                        {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+                        {% assign detail_count = detail_count | plus: 1 %}
+                        <span>{{ carat_text }}</span>
+                      {% endif %}
+
+                      {% if certification_status != blank %}
+                        {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+                        <span>{{ certification_status }}</span>
+                      {% endif %}
+                    </p>
+                  {% endif %}
+
+                  <p class="jewellery-product-card__price">
+                    {% if selected_variant.compare_at_price > selected_variant.price %}
+                      <span class="jewellery-product-card__price-current">{{ selected_variant.price | money }}</span>
+                      <span class="jewellery-product-card__price-compare">{{ selected_variant.compare_at_price | money }}</span>
+                    {% elsif product.price_varies %}
+                      <span class="jewellery-product-card__price-current">From {{ product.price_min | money }}</span>
+                    {% else %}
+                      <span class="jewellery-product-card__price-current">{{ selected_variant.price | money }}</span>
+                    {% endif %}
+                  </p>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+  </div>
+  {% endpaginate %}
+</div>
+
+{% stylesheet %}
+  .jewellery-page {
+    background: #ffffff;
+    color: #111827;
+  }
+
+  .jewellery-banner {
+    position: relative;
+    min-height: 270px;
+    background-color: #f6efe7;
+    background-image: var(--banner-image);
+    background-size: cover;
+    background-position: center;
+    padding-block: clamp(28px, 6vw, 56px) 72px;
+    padding-inline: clamp(20px, 8vw, 120px);
+    display: flex;
+    align-items: center;
+  }
+
+  .jewellery-banner__content {
+    width: min(100%, 560px);
+    min-width: 0;
+  }
+
+  .jewellery-banner__content h1 {
+    margin: 0 0 8px;
+    color: #14243b;
+    font-size: clamp(30px, 7vw, 56px);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .jewellery-banner__content p {
+    margin: 4px 0;
+    color: #1f2933;
+    font-size: clamp(14px, 3.5vw, 16px);
+    line-height: 1.45;
+    overflow-wrap: break-word;
+  }
+
+  .jewellery-banner__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+    font-size: clamp(13px, 3vw, 14px);
+    line-height: 1.4;
+  }
+
+  .jewellery-banner__breadcrumb span:first-child {
+    color: #c89b2c;
+  }
+
+  .jewellery-banner__breadcrumb strong {
+    color: #111827;
+  }
+
+  .jewellery-page__body {
+    width: min(100% - 40px, 1380px);
+    margin-inline: auto;
+    padding-block: 22px 48px;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .jewellery-filters {
+    align-self: start;
+    border: 1px solid #ebe7df;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgb(17 24 39 / 6%);
+  }
+
+  .jewellery-filters__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #ebe7df;
+  }
+
+  .jewellery-filters__header h2 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .jewellery-filters__header button {
+    border: 0;
+    background: transparent;
+    color: #b9850f;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .jewellery-filters__group {
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid #ebe7df;
+  }
+
+  .jewellery-filters__group h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+  }
+
+  .jewellery-filters__group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .jewellery-filters__range-label,
+  .jewellery-filters__range-values,
+  .jewellery-filters__empty {
+    display: flex;
+    justify-content: space-between;
+    color: #4b5563;
+    font-size: 12px;
+  }
+
+  .jewellery-filters__empty {
+    display: block;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .shop-by-collection {
+    padding-block: 0 28px;
+  }
+
+  .shop-by-collection__header,
+  .jewellery-products__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .shop-by-collection__header h2 {
+    margin: 0;
+    color: #14243b;
+    font-size: clamp(24px, 4vw, 32px);
+    line-height: 1.2;
+  }
+
+  .shop-by-collection__view-all {
+    color: #b9850f;
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .shop-by-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .shop-by-collection__card {
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f7f1e8;
+    color: #111827;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgb(17 24 39 / 8%);
+  }
+
+  .shop-by-collection__image-wrap {
+    aspect-ratio: 4 / 3;
+    background: #f0e7db;
+  }
+
+  .shop-by-collection__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .shop-by-collection__title {
+    display: block;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .jewellery-products__toolbar p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .jewellery-products__controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .jewellery-products__controls select {
+    min-height: 38px;
+    border: 1px solid #e5e0d8;
+    border-radius: 8px;
+    background: #ffffff;
+    padding-inline: 12px;
+  }
+
+  .jewellery-products__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 198px));
+    gap: 22px 18px;
+    justify-content: start;
+  }
+
+  .jewellery-product-card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 8px;
+    width: min(100%, 198px);
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  .jewellery-product-card.is-hidden {
+    display: none;
+  }
+
+  .jewellery-product-card__media {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    background: #f0e7db;
+  }
+
+  .jewellery-product-card__image,
+  .jewellery-product-card__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 220ms ease;
+  }
+
+  .jewellery-product-card:hover .jewellery-product-card__image {
+    transform: scale(1.035);
+  }
+
+  .jewellery-product-card__heart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #202124;
+    cursor: pointer;
+    box-shadow: 0 9px 20px rgb(155 92 24 / 22%);
+    transition:
+      background 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .jewellery-product-card__heart:hover,
+  .jewellery-product-card__heart.is-active {
+    background: #ffffff;
+    color: #d63b55;
+    transform: translateY(-1px);
+  }
+
+  .jewellery-product-card__heart svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+
+  .jewellery-product-card__heart-fill {
+    display: none;
+  }
+
+  .jewellery-product-card__heart.is-active .jewellery-product-card__heart-outline {
+    display: none;
+  }
+
+  .jewellery-product-card__heart.is-active .jewellery-product-card__heart-fill {
+    display: block;
+  }
+
+  .jewellery-product-card__content {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .jewellery-product-card__content h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .jewellery-product-card__content a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .jewellery-product-card__details {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .jewellery-product-card__price {
+    margin: 1px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    color: #111827;
+  }
+
+  .jewellery-product-card__price-current {
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .jewellery-product-card__price-compare {
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: line-through;
+  }
+
+  @media screen and (max-width: 1100px) {
+    .jewellery-page__body {
+      grid-template-columns: 1fr;
+    }
+
+    .jewellery-filters {
+      position: static;
+    }
+
+    .jewellery-products__grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 198px));
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .shop-by-collection__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .jewellery-banner {
+      min-height: 220px;
+      align-items: flex-start;
+    }
+
+    .jewellery-page__body {
+      width: min(100% - 28px, 1380px);
+      gap: 24px;
+    }
+
+    .jewellery-products__toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .jewellery-products__grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .jewellery-product-card__content h3 {
+      font-size: 14px;
+    }
+
+    .jewellery-product-card__details {
+      font-size: 11px;
+    }
+
+    .jewellery-product-card__price-current {
+      font-size: 13px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .shop-by-collection__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  const jewelleryPages = document.querySelectorAll('[data-jewellery-page]');
+
+  jewelleryPages.forEach((page) => {
+    const priceFilter = page.querySelector('[data-price-filter]');
+    const priceOutput = page.querySelector('[data-price-output]');
+    const colorFilters = page.querySelectorAll('[data-color-filter]');
+    const shapeFilters = page.querySelectorAll('[data-shape-filter]');
+    const clearButton = page.querySelector('[data-clear-filters]');
+    const sortSelect = page.querySelector('[data-sort-products]');
+    const productsGrid = page.querySelector('[data-products-grid]');
+    const cards = Array.from(page.querySelectorAll('[data-product-card]'));
+    const wishlistStorageKey = 'raza-gems-wishlist';
+    const wishlistButtons = page.querySelectorAll('[data-jewellery-wishlist]');
+
+    const getWishlist = () => JSON.parse(localStorage.getItem(wishlistStorageKey) || '[]');
+    const setWishlist = (wishlist) => localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlist));
+
+    const syncWishlistButtons = () => {
+      const wishlist = getWishlist();
+
+      wishlistButtons.forEach((button) => {
+        const active = wishlist.some((item) => item.handle === button.dataset.productHandle);
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+        button.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');
+      });
+    };
+
+    const selectedValues = (inputs) => {
+      return Array.from(inputs)
+        .filter((input) => input.checked)
+        .map((input) => input.value);
+    };
+
+    const applyFilters = () => {
+      if (!priceFilter) return;
+
+      const maxPrice = Number(priceFilter.value);
+      const colors = selectedValues(colorFilters);
+      const shapes = selectedValues(shapeFilters);
+
+      if (priceOutput) {
+        priceOutput.textContent = new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency: page.dataset.currency
+        }).format(maxPrice);
+      }
+
+      cards.forEach((card) => {
+        const price = Number(card.dataset.price);
+        const color = card.dataset.color;
+        const shape = card.dataset.shape;
+        const priceMatches = price <= maxPrice;
+        const colorMatches = colors.length === 0 || colors.includes(color);
+        const shapeMatches = shapes.length === 0 || shapes.includes(shape);
+
+        card.classList.toggle('is-hidden', !(priceMatches && colorMatches && shapeMatches));
+      });
+    };
+
+    const sortProducts = () => {
+      const sortedCards = [...cards];
+
+      sortedCards.sort((firstCard, secondCard) => {
+        if (sortSelect.value === 'title-ascending') {
+          return firstCard.dataset.title.localeCompare(secondCard.dataset.title);
+        }
+
+        if (sortSelect.value === 'price-ascending') {
+          return Number(firstCard.dataset.price) - Number(secondCard.dataset.price);
+        }
+
+        if (sortSelect.value === 'price-descending') {
+          return Number(secondCard.dataset.price) - Number(firstCard.dataset.price);
+        }
+
+        return cards.indexOf(firstCard) - cards.indexOf(secondCard);
+      });
+
+      sortedCards.forEach((card) => productsGrid.appendChild(card));
+    };
+
+    priceFilter?.addEventListener('input', applyFilters);
+    colorFilters.forEach((input) => input.addEventListener('change', applyFilters));
+    shapeFilters.forEach((input) => input.addEventListener('change', applyFilters));
+    sortSelect?.addEventListener('change', sortProducts);
+
+    wishlistButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const product = {
+          handle: button.dataset.productHandle,
+          title: button.dataset.productTitle,
+          url: button.dataset.productUrl,
+          image: button.dataset.productImage,
+          price: button.dataset.productPrice,
+        };
+
+        if (!product.handle) return;
+
+        const wishlist = getWishlist();
+        const existingIndex = wishlist.findIndex((item) => item.handle === product.handle);
+        const isSaved = existingIndex === -1;
+
+        if (existingIndex >= 0) {
+          wishlist.splice(existingIndex, 1);
+        } else {
+          wishlist.unshift(product);
+        }
+
+        setWishlist(wishlist);
+        syncWishlistButtons();
+        window.dispatchEvent(
+          new CustomEvent('raza-gems:wishlist-updated', {
+            detail: {
+              count: wishlist.length,
+              saved: isSaved,
+              handle: product.handle,
+            },
+          })
+        );
+      });
+    });
+
+    clearButton?.addEventListener('click', () => {
+      priceFilter.value = priceFilter.max;
+      colorFilters.forEach((input) => {
+        input.checked = false;
+      });
+      shapeFilters.forEach((input) => {
+        input.checked = false;
+      });
+      applyFilters();
+    });
+
+    if (priceFilter) {
+      applyFilters();
+    }
+
+    syncWishlistButtons();
+    window.addEventListener('raza-gems:wishlist-updated', syncWishlistButtons);
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Jewellery page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Jewellery Collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading_one",
+      "label": "First subtitle",
+      "default": "Elegant designs crafted with natural gemstones."
+    },
+    {
+      "type": "text",
+      "id": "subheading_two",
+      "label": "Second subtitle",
+      "default": "Timeless beauty for every occasion."
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_home",
+      "label": "Breadcrumb home text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_current",
+      "label": "Breadcrumb current text",
+      "default": "Jewellery"
+    },
+    {
+      "type": "header",
+      "content": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "collection_heading",
+      "label": "Collection heading",
+      "default": "Shop by Collection"
+    },
+    {
+      "type": "select",
+      "id": "collection_group",
+      "label": "Collection group to show",
+      "options": [
+        {
+          "value": "jewellery",
+          "label": "Jewellery"
+        },
+        {
+          "value": "precious",
+          "label": "Precious"
+        },
+        {
+          "value": "semi_precious",
+          "label": "Semi-precious"
+        }
+      ],
+      "default": "jewellery"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all text",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "collection",
+      "id": "products_collection",
+      "label": "Products collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Products to show",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "fallback_max_price",
+      "label": "Fallback maximum price",
+      "options": [
+        {
+          "value": "10000",
+          "label": "10,000"
+        },
+        {
+          "value": "25000",
+          "label": "25,000"
+        },
+        {
+          "value": "50000",
+          "label": "50,000"
+        },
+        {
+          "value": "100000",
+          "label": "100,000"
+        },
+        {
+          "value": "200000",
+          "label": "200,000"
+        }
+      ],
+      "default": "50000"
+    },
+    {
+      "type": "header",
+      "content": "Filters"
+    },
+    {
+      "type": "text",
+      "id": "filters_heading",
+      "label": "Filters heading",
+      "default": "Filters"
+    },
+    {
+      "type": "text",
+      "id": "clear_filters_text",
+      "label": "Clear filters text",
+      "default": "Clear all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jewellery page"
+    }
+  ]
+}
+{% endschema %}

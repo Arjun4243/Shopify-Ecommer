@@ -51,10 +51,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
       <details class="stone-filter" open>
         <summary>Gemstone Type</summary>
-        <label class="stone-filter__search">
-          <span class="visually-hidden">Search gemstone type</span>
-          <input type="search" placeholder="Search gemstone..." data-filter-search="type">
-        </label>
         <div class="stone-filter__options" data-filter-options="type"></div>
       </details>
 
@@ -63,6 +59,18 @@ Renders a filterable gemstone product listing for a product gemstone group.
         <div class="stone-price-filter">
           <label><span>Rs</span><input type="number" placeholder="Min" data-price-min></label>
           <label><span>Rs</span><input type="number" placeholder="Max" data-price-max></label>
+        </div>
+        <div class="stone-price-range" data-price-range>
+          <div class="stone-price-range__labels">
+            <span data-price-range-min-label></span>
+            <span class="stone-price-range__bubble" data-price-range-max-bubble>
+              <span data-price-range-max-label></span>
+            </span>
+          </div>
+          <div class="stone-price-range__track" data-price-range-track>
+            <input type="range" data-price-range-min aria-label="Minimum price">
+            <input type="range" data-price-range-max aria-label="Maximum price">
+          </div>
         </div>
         <div class="stone-price-filter__hint" data-price-hint></div>
       </details>
@@ -163,7 +171,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
   document.querySelectorAll('[data-stone-listing]').forEach((listing) => {
     const items = Array.from(listing.querySelectorAll('[data-stone-item]'));
-    const search = listing.querySelector('[data-stone-search]');
+    const searchInputs = Array.from(listing.querySelectorAll('[data-stone-search]'));
     const count = listing.querySelector('[data-stone-count]');
     const chips = listing.querySelector('[data-stone-chips]');
     const grid = listing.querySelector('[data-stone-grid]');
@@ -171,6 +179,12 @@ Renders a filterable gemstone product listing for a product gemstone group.
     const priceMinInput = listing.querySelector('[data-price-min]');
     const priceMaxInput = listing.querySelector('[data-price-max]');
     const priceHint = listing.querySelector('[data-price-hint]');
+    const priceMinRange = listing.querySelector('[data-price-range-min]');
+    const priceMaxRange = listing.querySelector('[data-price-range-max]');
+    const priceRangeTrack = listing.querySelector('[data-price-range-track]');
+    const priceRangeMinLabel = listing.querySelector('[data-price-range-min-label]');
+    const priceRangeMaxLabel = listing.querySelector('[data-price-range-max-label]');
+    const priceRangeMaxBubble = listing.querySelector('[data-price-range-max-bubble]');
     const sort = listing.querySelector('[data-stone-sort]');
     const clearButtons = listing.querySelectorAll('[data-stone-clear]');
     const typeRail = listing.querySelector('[data-type-rail]');
@@ -189,6 +203,22 @@ Renders a filterable gemstone product listing for a product gemstone group.
     const prices = items.map((item) => Number(item.dataset.price || 0) / 100).filter((price) => price > 0);
     const minPrice = prices.length ? Math.floor(Math.min(...prices)) : 0;
     const maxPrice = prices.length ? Math.ceil(Math.max(...prices)) : 0;
+    const formatPrice = (price) => `Rs. ${moneyFormat.format(Math.round(Number(price) || 0))}`;
+
+    const syncPriceRangeUi = (min, max) => {
+      if (!priceMinRange || !priceMaxRange || !priceRangeTrack) return;
+      const total = Math.max(maxPrice - minPrice, 1);
+      const minPercent = Math.max(0, Math.min(((min - minPrice) / total) * 100, 100));
+      const maxPercent = Math.max(0, Math.min(((max - minPrice) / total) * 100, 100));
+
+      priceMinRange.value = String(min);
+      priceMaxRange.value = String(max);
+      priceRangeTrack.style.setProperty('--stone-price-min', `${minPercent}%`);
+      priceRangeTrack.style.setProperty('--stone-price-max', `${maxPercent}%`);
+      priceRangeMaxBubble?.style.setProperty('--stone-price-max', `${maxPercent}%`);
+      if (priceRangeMinLabel) priceRangeMinLabel.textContent = formatPrice(min);
+      if (priceRangeMaxLabel) priceRangeMaxLabel.textContent = formatPrice(max);
+    };
 
     if (priceMinInput && priceMaxInput) {
       priceMinInput.min = minPrice;
@@ -197,7 +227,16 @@ Renders a filterable gemstone product listing for a product gemstone group.
       priceMaxInput.max = maxPrice;
       priceMinInput.placeholder = String(minPrice);
       priceMaxInput.placeholder = String(maxPrice);
-      priceHint.textContent = `Available price: Rs. ${moneyFormat.format(minPrice)} - Rs. ${moneyFormat.format(maxPrice)}`;
+      priceHint.textContent = `Available price: ${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
+    }
+
+    if (priceMinRange && priceMaxRange) {
+      [priceMinRange, priceMaxRange].forEach((range) => {
+        range.min = minPrice;
+        range.max = maxPrice;
+        range.step = 1;
+      });
+      syncPriceRangeUi(minPrice, maxPrice);
     }
 
     const makeMap = (attr, labelAttr = attr) => {
@@ -217,18 +256,21 @@ Renders a filterable gemstone product listing for a product gemstone group.
     const typeOptions = makeMap('typeKey', 'type');
     const shapeOptions = makeMap('shapeKey', 'shape');
     const caratRanges = [
-      { key: 'under-1', label: 'Under 1 ct', min: 0, max: 1 },
-      { key: '1-3', label: '1 - 3 ct', min: 1, max: 3 },
-      { key: '3-5', label: '3 - 5 ct', min: 3, max: 5 },
-      { key: '5-10', label: '5 - 10 ct', min: 5, max: 10 },
-      { key: 'above-10', label: 'Above 10 ct', min: 10, max: Infinity },
+      { key: '0-1', label: '0-1 Carat', min: 0, max: 1 },
+      { key: '1-2', label: '1-2 Carats', min: 1, max: 2 },
+      { key: '2-3', label: '2-3 Carats', min: 2, max: 3 },
+      { key: '3-4', label: '3-4 Carats', min: 3, max: 4 },
+      { key: '4-5', label: '4-5 Carats', min: 4, max: 5 },
+      { key: '5-6', label: '5-6 Carats', min: 5, max: 6 },
+      { key: '6-10', label: '6-10 Carats', min: 6, max: 10 },
+      { key: '10-plus', label: '10+ Carats', min: 10, max: Infinity },
     ].map((range) => ({
       ...range,
       count: items.filter((item) => {
         const carat = parseCarat(item.dataset.carat);
         return !Number.isNaN(carat) && carat >= range.min && carat < range.max;
       }).length,
-    })).filter((range) => range.count > 0);
+    }));
 
     const renderCheckboxes = (target, options, type) => {
       const container = listing.querySelector(`[data-filter-options="${target}"]`);
@@ -264,6 +306,26 @@ Renders a filterable gemstone product listing for a product gemstone group.
       if (min > max) min = max;
       state.min = min;
       state.max = max;
+      syncPriceRangeUi(min, max);
+    };
+
+    const syncPriceInputsFromRange = (activeRange) => {
+      let min = Number(priceMinRange.value || minPrice);
+      let max = Number(priceMaxRange.value || maxPrice);
+
+      if (min > max) {
+        if (activeRange === priceMinRange) {
+          max = min;
+          priceMaxRange.value = String(max);
+        } else {
+          min = max;
+          priceMinRange.value = String(min);
+        }
+      }
+
+      priceMinInput.value = min === minPrice ? '' : String(min);
+      priceMaxInput.value = max === maxPrice ? '' : String(max);
+      syncPriceRangeUi(min, max);
     };
 
     const matchesCarat = (item) => {
@@ -281,7 +343,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
       let visible = items.filter((item) => {
         const price = Number(item.dataset.price || 0) / 100;
         const title = normalize(item.dataset.title);
-        return (!state.search || title.includes(state.search))
+        return (!state.search || title.startsWith(state.search))
           && (!state.types.size || state.types.has(item.dataset.typeKey))
           && (!state.shapes.size || state.shapes.has(item.dataset.shapeKey))
           && matchesCarat(item)
@@ -324,15 +386,15 @@ Renders a filterable gemstone product listing for a product gemstone group.
     });
 
     listing.addEventListener('input', (event) => {
-      if (event.target === search) state.search = normalize(search.value);
-      if (event.target === priceMinInput || event.target === priceMaxInput) apply();
-      const filterSearch = event.target.closest('[data-filter-search]');
-      if (filterSearch) {
-        const term = normalize(filterSearch.value);
-        listing.querySelectorAll(`[data-filter-options="${filterSearch.dataset.filterSearch}"] [data-option-label]`).forEach((option) => {
-          option.hidden = term && !option.dataset.optionLabel.includes(term);
+      const searchInput = event.target.closest('[data-stone-search]');
+      if (searchInput) {
+        state.search = normalize(searchInput.value);
+        searchInputs.forEach((input) => {
+          if (input !== searchInput) input.value = searchInput.value;
         });
       }
+      if (event.target === priceMinRange || event.target === priceMaxRange) syncPriceInputsFromRange(event.target);
+      if (event.target === priceMinInput || event.target === priceMaxInput) apply();
       apply();
     });
 
@@ -355,10 +417,11 @@ Renders a filterable gemstone product listing for a product gemstone group.
         state.shapes.clear();
         state.carats.clear();
         state.sort = 'featured';
-        search.value = '';
+        searchInputs.forEach((input) => { input.value = ''; });
         sort.value = 'featured';
         priceMinInput.value = '';
         priceMaxInput.value = '';
+        syncPriceRangeUi(minPrice, maxPrice);
         listing.querySelectorAll('[data-filter-check]').forEach((checkbox) => { checkbox.checked = false; });
         listing.querySelectorAll('[data-type-tile]').forEach((tile, index) => tile.classList.toggle('is-active', index === 0));
         apply();
@@ -425,8 +488,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
     font-size: clamp(15px, 1.1vw, 20px);
   }
 
-  .stone-listing__search,
-  .stone-filter__search {
+  .stone-listing__search {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -528,12 +590,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
     font-weight: 900;
   }
 
-  .stone-filter__search {
-    min-height: 40px;
-    margin-top: 12px;
-    box-shadow: none;
-  }
-
   .stone-filter__options {
     display: grid;
     gap: 10px;
@@ -605,6 +661,165 @@ Renders a filterable gemstone product listing for a product gemstone group.
     color: #747983;
     font-size: 12px;
     line-height: 1.35;
+  }
+
+  .stone-price-range {
+    margin-top: 14px;
+  }
+
+  .stone-price-range__labels {
+    --stone-price-max: 100%;
+
+    position: relative;
+    min-height: 34px;
+  }
+
+  .stone-price-range__labels > span:first-child {
+    color: #5c6678;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .stone-price-range__bubble {
+    position: absolute;
+    top: 0;
+    left: var(--stone-price-max);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: max-content;
+    padding: 7px 10px;
+    border-radius: 6px;
+    background: #253046;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 6px 14px rgb(37 48 70 / 18%);
+    transform: translateX(-100%);
+  }
+
+  .stone-price-range__bubble::after {
+    content: "";
+    position: absolute;
+    top: calc(100% - 1px);
+    right: 16px;
+    width: 12px;
+    height: 12px;
+    background: #253046;
+    transform: rotate(45deg);
+  }
+
+  .stone-price-range__bubble span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .stone-price-range__track {
+    --stone-price-min: 0%;
+    --stone-price-max: 100%;
+    --stone-price-track-height: 5px;
+    --stone-price-thumb-size: 24px;
+    --stone-price-active: #0b8df7;
+    --stone-price-active-dark: #0674dd;
+    --stone-price-track: #dbe7f5;
+
+    position: relative;
+    min-height: var(--stone-price-thumb-size);
+  }
+
+  .stone-price-range__track::before,
+  .stone-price-range__track::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: var(--stone-price-track-height);
+    border-radius: 999px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .stone-price-range__track::before {
+    left: var(--stone-price-min);
+    right: calc(100% - var(--stone-price-max));
+    z-index: 1;
+    background: linear-gradient(90deg, var(--stone-price-active), var(--stone-price-active-dark));
+  }
+
+  .stone-price-range__track::after {
+    left: 0;
+    right: 0;
+    z-index: 0;
+    background: var(--stone-price-track);
+  }
+
+  .stone-price-range input[type="range"] {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: var(--stone-price-track-height);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--stone-price-active);
+    pointer-events: none;
+    transform: translateY(-50%);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .stone-price-range input[type="range"]::-webkit-slider-runnable-track {
+    height: var(--stone-price-track-height);
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .stone-price-range input[type="range"]::-moz-range-track {
+    height: var(--stone-price-track-height);
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .stone-price-range input[type="range"]::-webkit-slider-thumb {
+    width: var(--stone-price-thumb-size);
+    height: var(--stone-price-thumb-size);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: var(--stone-price-active);
+    box-shadow: 0 3px 10px rgb(11 141 247 / 24%);
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: calc((var(--stone-price-thumb-size) - var(--stone-price-track-height)) / -2);
+  }
+
+  .stone-price-range input[type="range"]::-moz-range-thumb {
+    width: var(--stone-price-thumb-size);
+    height: var(--stone-price-thumb-size);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: var(--stone-price-active);
+    box-shadow: 0 3px 10px rgb(11 141 247 / 24%);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .stone-price-range input[type="range"]:focus-visible {
+    outline: none;
+  }
+
+  .stone-price-range input[type="range"]:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  .stone-price-range input[type="range"]:focus-visible::-moz-range-thumb {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
   }
 
   .stone-listing__main {

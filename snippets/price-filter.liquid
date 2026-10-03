@@ -71,6 +71,9 @@
     >
       {% assign min_input_max_value = filter.max_value.value | default: filter.range_max %}
       {% assign max_input_min_value = filter.min_value.value | default: 0 %}
+      {% assign range_slider_max = filter.range_max | money_without_currency | replace: ',', '' %}
+      {% assign range_slider_min_value = filter.min_value.value | default: 0 | money_without_currency | replace: ',', '' %}
+      {% assign range_slider_max_value = filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' %}
 
       <price-facet-component
         class="
@@ -82,6 +85,7 @@
         id="facet-inputs-{{ filter.param_name | escape | replace: '.', '-' }}"
         data-money-format="{{ shop.money_format | strip_html }}"
         data-currency="{{ localization.country.currency.iso_code }}"
+        data-currency-symbol="{{ cart.currency.symbol }}"
         on:change="/updatePriceFilterAndResults"
       >
         <div class="facets__inputs-wrapper facets__inputs-wrapper--row">
@@ -141,6 +145,47 @@
               </label>
             </div>
           </div>
+        </div>
+
+        <div class="price-facet__range-readout">
+          <span
+            class="price-facet__range-value price-facet__range-value--min"
+            ref="minRangeValue"
+          >
+            {{ cart.currency.symbol }} {{ range_slider_min_value }}
+          </span>
+          <span
+            class="price-facet__range-bubble"
+            ref="maxRangeBubble"
+          >
+            <span ref="maxRangeValue">{{ cart.currency.symbol }} {{ range_slider_max_value }}</span>
+          </span>
+        </div>
+
+        <div
+          class="price-facet__range-wrapper"
+          ref="rangeWrapper"
+        >
+          <input
+            type="range"
+            class="price-facet__range price-facet__range--min"
+            min="0"
+            max="{{ range_slider_max }}"
+            value="{{ range_slider_min_value }}"
+            step="1"
+            ref="minRange"
+            aria-label="{{ 'accessibility.price_filter_low' | t }}"
+          >
+          <input
+            type="range"
+            class="price-facet__range price-facet__range--max"
+            min="0"
+            max="{{ range_slider_max }}"
+            value="{{ range_slider_max_value }}"
+            step="1"
+            ref="maxRange"
+            aria-label="{{ 'accessibility.price_filter_high' | t }}"
+          >
         </div>
 
         <div
@@ -227,6 +272,162 @@
     align-items: center;
     justify-content: center;
     font-size: var(--font-paragraph--size);
+  }
+
+  .price-facet__range-readout {
+    --price-range-bubble-percent: 100%;
+
+    position: relative;
+    min-height: 34px;
+    margin-block-start: var(--padding-xs);
+  }
+
+  .price-facet__range-value {
+    color: #5c6678;
+    font-size: 1.2rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .price-facet__range-bubble {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: var(--price-range-bubble-percent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: max-content;
+    padding: 7px 10px;
+    border-radius: 6px;
+    background: #253046;
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 6px 14px rgb(37 48 70 / 18%);
+    transform: translateX(-100%);
+  }
+
+  .price-facet__range-bubble::after {
+    content: '';
+    position: absolute;
+    inset-block-start: calc(100% - 1px);
+    inset-inline-end: 16px;
+    width: 12px;
+    height: 12px;
+    background: #253046;
+    transform: rotate(45deg);
+  }
+
+  .price-facet__range-bubble > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .price-facet__range-wrapper {
+    --price-range-track-height: 5px;
+    --price-range-thumb-size: 24px;
+    --price-range-min-percent: 0%;
+    --price-range-max-percent: 100%;
+    --price-range-active-color: #0b8df7;
+    --price-range-active-color-dark: #0674dd;
+    --price-range-track-color: #dbe7f5;
+
+    position: relative;
+    min-height: var(--price-range-thumb-size);
+    margin-block: 0 var(--padding-sm);
+  }
+
+  .price-facet__range-wrapper::before,
+  .price-facet__range-wrapper::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    height: var(--price-range-track-height);
+    border-radius: 999px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .price-facet__range-wrapper::before {
+    inset-inline-start: var(--price-range-min-percent);
+    inset-inline-end: calc(100% - var(--price-range-max-percent));
+    background: linear-gradient(90deg, var(--price-range-active-color), var(--price-range-active-color-dark));
+    z-index: 1;
+  }
+
+  .price-facet__range-wrapper::after {
+    inset-inline: 0;
+    background: var(--price-range-track-color);
+    z-index: 0;
+  }
+
+  .price-facet__range {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline: 0;
+    width: 100%;
+    height: var(--price-range-track-height);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--price-range-active-color);
+    pointer-events: none;
+    transform: translateY(-50%);
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 2;
+  }
+
+  .price-facet__range::-webkit-slider-runnable-track {
+    height: var(--price-range-track-height);
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .price-facet__range::-moz-range-track {
+    height: var(--price-range-track-height);
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .price-facet__range::-webkit-slider-thumb {
+    width: var(--price-range-thumb-size);
+    height: var(--price-range-thumb-size);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: var(--price-range-active-color);
+    box-shadow: 0 3px 10px rgb(11 141 247 / 24%);
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: calc((var(--price-range-thumb-size) - var(--price-range-track-height)) / -2);
+  }
+
+  .price-facet__range::-moz-range-thumb {
+    width: var(--price-range-thumb-size);
+    height: var(--price-range-thumb-size);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: var(--price-range-active-color);
+    box-shadow: 0 3px 10px rgb(11 141 247 / 24%);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .price-facet__range:focus-visible {
+    outline: none;
+  }
+
+  .price-facet__range:focus-visible::-webkit-slider-thumb {
+    outline: var(--focus-outline-width) solid currentcolor;
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .price-facet__range:focus-visible::-moz-range-thumb {
+    outline: var(--focus-outline-width) solid currentcolor;
+    outline-offset: var(--focus-outline-offset);
   }
 
   .price-facet__highest-price {
