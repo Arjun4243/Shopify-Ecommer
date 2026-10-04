@@ -10,7 +10,7 @@
 {
   "sections": {
     "jewellery_page": {
-      "type": "Jewellery-page",
+      "type": "jewellery-page",
       "settings": {
         "banner_image": "shopify://shop_images/Jewellery_banner.webp",
         "heading": "Jewellery Collection",
