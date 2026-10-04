@@ -1,1 +1,127 @@
-<h1>Jewellery</h1>
+<section
+  class="jewellery-banner"
+  style="
+    {% if section.settings.banner_image != blank %}
+      --banner-image: url('{{ section.settings.banner_image | image_url: width: 2400 }}');
+    {% endif %}
+  "
+>
+  <div class="jewellery-banner__content">
+    <h1>{{ section.settings.heading }}</h1>
+
+    <p>{{ section.settings.subheading_one }}</p>
+    <p>{{ section.settings.subheading_two }}</p>
+
+    <div class="jewellery-banner__breadcrumb">
+      <span>{{ section.settings.breadcrumb_home }}</span>
+      <span>/</span>
+      <strong>{{ section.settings.breadcrumb_current }}</strong>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .jewellery-banner {
+    min-height: 220px;
+    background-image: var(--banner-image);
+    background-size: cover;
+    background-position: center;
+    padding-block: clamp(28px, 6vw, 56px);
+    padding-inline: clamp(20px, 8vw, 120px);
+    display: flex;
+    align-items: center;
+  }
+
+  .jewellery-banner__content {
+    width: min(100%, 560px);
+    min-width: 0;
+  }
+
+  .jewellery-banner__content h1 {
+    margin: 0 0 8px;
+    color: #14243b;
+    font-size: clamp(30px, 7vw, 48px);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .jewellery-banner__content p {
+    margin: 4px 0;
+    color: #1f2933;
+    font-size: clamp(14px, 3.5vw, 16px);
+    line-height: 1.45;
+    overflow-wrap: break-word;
+  }
+
+  .jewellery-banner__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+    font-size: clamp(13px, 3vw, 14px);
+    line-height: 1.4;
+  }
+
+  .jewellery-banner__breadcrumb span:first-child {
+    color: #c89b2c;
+  }
+
+  .jewellery-banner__breadcrumb strong {
+    color: #111827;
+  }
+
+  @media screen and (max-width: 749px) {
+    .jewellery-banner {
+      min-height: 180px;
+      align-items: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Jewellery banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Jewellery Collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading_one",
+      "label": "First subtitle",
+      "default": "Elegant designs crafted with natural gemstones."
+    },
+    {
+      "type": "text",
+      "id": "subheading_two",
+      "label": "Second subtitle",
+      "default": "Timeless beauty for every occasion."
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_home",
+      "label": "Breadcrumb home text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_current",
+      "label": "Breadcrumb current text",
+      "default": "Jewellery"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jewellery banner"
+    }
+  ]
+}
+{% endschema %}
