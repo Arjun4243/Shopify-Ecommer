@@ -43,10 +43,13 @@ Renders a filterable gemstone product listing for a product gemstone group.
   </div>
 
   <div class="stone-listing__layout">
-    <aside class="stone-listing__filters" aria-label="Filters">
+    <aside id="StoneFilters-{{ group_handle | handleize }}" class="stone-listing__filters" aria-label="Filters" data-stone-filter-drawer>
       <div class="stone-listing__filters-head">
         <h3>Filters</h3>
-        <button type="button" data-stone-clear>Clear all</button>
+        <div class="stone-listing__filters-actions">
+          <button type="button" data-stone-clear>Clear all</button>
+          <button class="stone-listing__filter-close" type="button" aria-label="{{ 'actions.close' | t }}" data-stone-filter-close>X</button>
+        </div>
       </div>
 
       <details class="stone-filter" open>
@@ -85,9 +88,20 @@ Renders a filterable gemstone product listing for a product gemstone group.
         <div class="stone-filter__options" data-filter-options="shape"></div>
       </details>
     </aside>
+    <button class="stone-listing__scrim" type="button" aria-label="{{ 'actions.close' | t }}" data-stone-filter-close></button>
 
     <div class="stone-listing__main">
       <div class="stone-listing__toolbar">
+        <button
+          class="stone-listing__filter-toggle"
+          type="button"
+          aria-controls="StoneFilters-{{ group_handle | handleize }}"
+          aria-expanded="false"
+          data-stone-filter-toggle
+        >
+          {{ 'actions.show_filters' | t }}
+        </button>
+
         <div class="stone-listing__status">
           <span data-stone-count>Showing products</span>
           <div class="stone-listing__chips" data-stone-chips></div>
@@ -169,7 +183,11 @@ Renders a filterable gemstone product listing for a product gemstone group.
   const normalize = (value) => String(value || '').trim().toLowerCase();
   const handle = (value) => normalize(value).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-  document.querySelectorAll('[data-stone-listing]').forEach((listing) => {
+  const initStoneListing = (listing) => {
+    if (listing.dataset.stoneListingInitialized === 'true') return;
+
+    listing.dataset.stoneListingInitialized = 'true';
+
     const items = Array.from(listing.querySelectorAll('[data-stone-item]'));
     const searchInputs = Array.from(listing.querySelectorAll('[data-stone-search]'));
     const count = listing.querySelector('[data-stone-count]');
@@ -189,6 +207,11 @@ Renders a filterable gemstone product listing for a product gemstone group.
     const clearButtons = listing.querySelectorAll('[data-stone-clear]');
     const typeRail = listing.querySelector('[data-type-rail]');
     const viewButtons = listing.querySelectorAll('[data-view-mode]');
+    const filterDrawer = listing.querySelector('[data-stone-filter-drawer]');
+    const filterToggle = listing.querySelector('[data-stone-filter-toggle]');
+    const filterCloseButtons = listing.querySelectorAll('[data-stone-filter-close]');
+    const mobileMedia = window.matchMedia('(max-width: 900px)');
+    let filterToggleReturn = null;
 
     const state = {
       search: '',
@@ -198,6 +221,32 @@ Renders a filterable gemstone product listing for a product gemstone group.
       min: null,
       max: null,
       sort: 'featured',
+    };
+
+    const closeFilterDrawer = () => {
+      listing.classList.remove('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'false');
+
+      if (filterDrawer) {
+        filterDrawer.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+      }
+
+      document.documentElement.classList.remove('stone-filter-drawer-open');
+
+      if (filterToggleReturn instanceof HTMLElement) {
+        filterToggleReturn.focus();
+      }
+    };
+
+    const openFilterDrawer = () => {
+      if (!mobileMedia.matches) return;
+
+      filterToggleReturn = document.activeElement;
+      listing.classList.add('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'true');
+      filterDrawer?.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('stone-filter-drawer-open');
+      filterDrawer?.querySelector('[data-stone-filter-close]')?.focus();
     };
 
     const prices = items.map((item) => Number(item.dataset.price || 0) / 100).filter((price) => price > 0);
@@ -435,7 +484,47 @@ Renders a filterable gemstone product listing for a product gemstone group.
       });
     });
 
+    filterToggle?.addEventListener('click', openFilterDrawer);
+    filterCloseButtons.forEach((button) => button.addEventListener('click', closeFilterDrawer));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && listing.classList.contains('is-filter-drawer-open')) {
+        closeFilterDrawer();
+      }
+    });
+
+    mobileMedia.addEventListener('change', () => {
+      if (mobileMedia.matches) {
+        filterDrawer?.setAttribute('aria-hidden', listing.classList.contains('is-filter-drawer-open') ? 'false' : 'true');
+      } else {
+        closeFilterDrawer();
+        filterDrawer?.setAttribute('aria-hidden', 'false');
+      }
+    });
+
+    if (filterDrawer) {
+      filterDrawer.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+    }
+
     apply();
+  };
+
+  const initStoneListings = (root = document) => {
+    if (root.matches?.('[data-stone-listing]')) {
+      initStoneListing(root);
+    }
+
+    root.querySelectorAll('[data-stone-listing]').forEach(initStoneListing);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initStoneListings(), { once: true });
+  } else {
+    initStoneListings();
+  }
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initStoneListings(event.target);
   });
 {% endjavascript %}
 
@@ -543,6 +632,12 @@ Renders a filterable gemstone product listing for a product gemstone group.
     box-shadow: 0 12px 34px rgb(17 24 39 / 7%);
   }
 
+  .stone-listing__filter-toggle,
+  .stone-listing__filter-close,
+  .stone-listing__scrim {
+    display: none;
+  }
+
   .stone-listing__filters-head,
   .stone-listing__toolbar,
   .stone-listing__tools,
@@ -560,6 +655,12 @@ Renders a filterable gemstone product listing for a product gemstone group.
   .stone-listing__filters-head h3 {
     margin: 0;
     font-size: 20px;
+  }
+
+  .stone-listing__filters-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .stone-listing__filters button,
@@ -981,7 +1082,71 @@ Renders a filterable gemstone product listing for a product gemstone group.
     }
 
     .stone-listing__filters {
-      position: static;
+      position: fixed;
+      z-index: 60;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: min(86vw, 360px);
+      max-width: 100%;
+      overflow-y: auto;
+      border-radius: 0;
+      transform: translateX(-100%);
+      transition: transform 220ms ease;
+    }
+
+    [dir='rtl'] .stone-listing__filters {
+      transform: translateX(100%);
+    }
+
+    html.stone-filter-drawer-open {
+      overflow: hidden;
+    }
+
+    .stone-listing.is-filter-drawer-open .stone-listing__filters {
+      transform: translateX(0);
+    }
+
+    .stone-listing__filter-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      width: max-content;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fff;
+      color: #253046;
+      padding-inline: 16px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgb(17 24 39 / 8%);
+    }
+
+    .stone-listing__filter-close {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: #111827;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .stone-listing__scrim {
+      position: fixed;
+      z-index: 50;
+      inset: 0;
+      display: block;
+      border: 0;
+      background: rgb(17 24 39 / 44%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .stone-listing.is-filter-drawer-open .stone-listing__scrim {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .stone-listing__grid {

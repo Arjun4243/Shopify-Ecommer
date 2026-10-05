@@ -85,10 +85,13 @@
   {% endif %}
 
   <div class="jewellery-page__body">
-    <aside class="jewellery-filters" aria-label="Product filters">
+    <aside id="JewelleryFilters-{{ section.id }}" class="jewellery-filters" aria-label="{{ 'accessibility.filters' | t }}" data-filter-drawer>
       <div class="jewellery-filters__header">
         <h2>{{ section.settings.filters_heading }}</h2>
-        <button type="button" data-clear-filters>{{ section.settings.clear_filters_text }}</button>
+        <div class="jewellery-filters__header-actions">
+          <button type="button" data-clear-filters>{{ section.settings.clear_filters_text }}</button>
+          <button class="jewellery-filters__close" type="button" aria-label="{{ 'actions.close' | t }}" data-filter-close>X</button>
+        </div>
       </div>
 
       <div class="jewellery-filters__group">
@@ -273,6 +276,7 @@
         {% endunless %}
       </div>
     </aside>
+    <button class="jewellery-filters__scrim" type="button" aria-label="{{ 'actions.close' | t }}" data-filter-close></button>
 
     <main class="jewellery-main">
       <section class="shop-by-collection">
@@ -326,6 +330,16 @@
 
       <section class="jewellery-products">
         <div class="jewellery-products__toolbar">
+          <button
+            class="jewellery-filter-toggle"
+            type="button"
+            aria-controls="JewelleryFilters-{{ section.id }}"
+            aria-expanded="false"
+            data-filter-toggle
+          >
+            {{ 'actions.show_filters' | t }}
+          </button>
+
           <p>
             {% if matching_products_count > 0 %}
               Showing {{ matching_products_count }} products
@@ -578,6 +592,12 @@
     box-shadow: 0 8px 24px rgb(17 24 39 / 6%);
   }
 
+  .jewellery-filter-toggle,
+  .jewellery-filters__close,
+  .jewellery-filters__scrim {
+    display: none;
+  }
+
   .jewellery-filters__header {
     display: flex;
     align-items: center;
@@ -592,7 +612,13 @@
     font-size: 16px;
   }
 
-  .jewellery-filters__header button {
+  .jewellery-filters__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .jewellery-filters__header-actions button {
     border: 0;
     background: transparent;
     color: #b9850f;
@@ -960,6 +986,75 @@
       gap: 24px;
     }
 
+    html.jewellery-filter-drawer-open {
+      overflow: hidden;
+    }
+
+    .jewellery-filter-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border: 1px solid #e5e0d8;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #14243b;
+      padding-inline: 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgb(17 24 39 / 8%);
+    }
+
+    .jewellery-filters {
+      position: fixed;
+      z-index: 60;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: min(86vw, 360px);
+      max-width: 100%;
+      overflow-y: auto;
+      border-radius: 0;
+      transform: translateX(-100%);
+      transition: transform 220ms ease;
+    }
+
+    [dir='rtl'] .jewellery-filters {
+      transform: translateX(100%);
+    }
+
+    .jewellery-page.is-filter-drawer-open .jewellery-filters {
+      transform: translateX(0);
+    }
+
+    .jewellery-filters__close {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: #111827;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .jewellery-filters__scrim {
+      position: fixed;
+      z-index: 50;
+      inset: 0;
+      display: block;
+      border: 0;
+      background: rgb(17 24 39 / 44%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .jewellery-page.is-filter-drawer-open .jewellery-filters__scrim {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .jewellery-products__toolbar {
       align-items: flex-start;
       flex-direction: column;
@@ -1031,9 +1126,11 @@
 {% endstylesheet %}
 
 {% javascript %}
-  const jewelleryPages = document.querySelectorAll('[data-jewellery-page]');
+  const initJewelleryPage = (page) => {
+    if (page.dataset.jewelleryPageInitialized === 'true') return;
 
-  jewelleryPages.forEach((page) => {
+    page.dataset.jewelleryPageInitialized = 'true';
+
     const priceFilter = page.querySelector('[data-price-filter]');
     const priceOutput = page.querySelector('[data-price-output]');
     const colorFilters = page.querySelectorAll('[data-color-filter]');
@@ -1042,11 +1139,42 @@
     const sortSelect = page.querySelector('[data-sort-products]');
     const productsGrid = page.querySelector('[data-products-grid]');
     const cards = Array.from(page.querySelectorAll('[data-product-card]'));
+    const filterDrawer = page.querySelector('[data-filter-drawer]');
+    const filterToggle = page.querySelector('[data-filter-toggle]');
+    const filterCloseButtons = page.querySelectorAll('[data-filter-close]');
     const wishlistStorageKey = 'raza-gems-wishlist';
     const wishlistButtons = page.querySelectorAll('[data-jewellery-wishlist]');
+    const mobileMedia = window.matchMedia('(max-width: 749px)');
+    let filterToggleReturn = null;
 
     const getWishlist = () => JSON.parse(localStorage.getItem(wishlistStorageKey) || '[]');
     const setWishlist = (wishlist) => localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlist));
+
+    const closeFilterDrawer = () => {
+      page.classList.remove('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'false');
+
+      if (filterDrawer) {
+        filterDrawer.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+      }
+
+      document.documentElement.classList.remove('jewellery-filter-drawer-open');
+
+      if (filterToggleReturn instanceof HTMLElement) {
+        filterToggleReturn.focus();
+      }
+    };
+
+    const openFilterDrawer = () => {
+      if (!mobileMedia.matches) return;
+
+      filterToggleReturn = document.activeElement;
+      page.classList.add('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'true');
+      filterDrawer?.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('jewellery-filter-drawer-open');
+      filterDrawer?.querySelector('[data-filter-close]')?.focus();
+    };
 
     const syncWishlistButtons = () => {
       const wishlist = getWishlist();
@@ -1117,6 +1245,27 @@
     colorFilters.forEach((input) => input.addEventListener('change', applyFilters));
     shapeFilters.forEach((input) => input.addEventListener('change', applyFilters));
     sortSelect?.addEventListener('change', sortProducts);
+    filterToggle?.addEventListener('click', openFilterDrawer);
+    filterCloseButtons.forEach((button) => button.addEventListener('click', closeFilterDrawer));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && page.classList.contains('is-filter-drawer-open')) {
+        closeFilterDrawer();
+      }
+    });
+
+    mobileMedia.addEventListener('change', () => {
+      if (mobileMedia.matches) {
+        filterDrawer?.setAttribute('aria-hidden', page.classList.contains('is-filter-drawer-open') ? 'false' : 'true');
+      } else {
+        closeFilterDrawer();
+        filterDrawer?.setAttribute('aria-hidden', 'false');
+      }
+    });
+
+    if (filterDrawer) {
+      filterDrawer.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+    }
 
     wishlistButtons.forEach((button) => {
       button.addEventListener('click', () => {
@@ -1171,6 +1320,24 @@
 
     syncWishlistButtons();
     window.addEventListener('raza-gems:wishlist-updated', syncWishlistButtons);
+  };
+
+  const initJewelleryPages = (root = document) => {
+    if (root.matches?.('[data-jewellery-page]')) {
+      initJewelleryPage(root);
+    }
+
+    root.querySelectorAll('[data-jewellery-page]').forEach(initJewelleryPage);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initJewelleryPages(), { once: true });
+  } else {
+    initJewelleryPages();
+  }
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initJewelleryPages(event.target);
   });
 {% endjavascript %}
 
