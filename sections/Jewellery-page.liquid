@@ -562,6 +562,12 @@
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
     gap: 32px;
+    min-width: 0;
+  }
+
+  .jewellery-main {
+    min-width: 0;
+    overflow: hidden;
   }
 
   .jewellery-filters {
@@ -629,6 +635,8 @@
   }
 
   .shop-by-collection {
+    min-width: 0;
+    overflow: hidden;
     padding-block: 0 28px;
   }
 
@@ -656,21 +664,27 @@
   }
 
   .shop-by-collection__grid {
+    --collection-card-width: clamp(112px, 11vw, 140px);
+
     display: flex;
     flex-wrap: nowrap;
     gap: 12px;
     overflow-x: auto;
     overflow-y: hidden;
-    width: 100%;
+    box-sizing: border-box;
+    inline-size: 100%;
+    max-inline-size: 100%;
     padding-bottom: 6px;
     scroll-snap-type: x mandatory;
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
   }
 
   .shop-by-collection__card {
-    flex: 0 0 clamp(130px, 13vw, 160px);
+    flex: 0 0 var(--collection-card-width);
     min-width: 0;
+    max-width: var(--collection-card-width);
     overflow: hidden;
     border-radius: 8px;
     background: #f7f1e8;
@@ -930,8 +944,8 @@
   }
 
   @media screen and (max-width: 989px) {
-    .shop-by-collection__card {
-      flex-basis: clamp(124px, 26vw, 150px);
+    .shop-by-collection__grid {
+      --collection-card-width: clamp(108px, 24vw, 132px);
     }
   }
 
@@ -958,16 +972,14 @@
     }
 
     .shop-by-collection__grid {
+      --collection-card-width: 96px;
+
       gap: 10px;
     }
 
-    .shop-by-collection__card {
-      flex-basis: 118px;
-    }
-
     .shop-by-collection__title {
-      padding: 8px 10px;
-      font-size: 12px;
+      padding: 7px 8px;
+      font-size: 11px;
     }
 
     .jewellery-product-card {
@@ -1016,11 +1028,6 @@
     }
   }
 
-  @media screen and (max-width: 640px) {
-    .shop-by-collection__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
 {% endstylesheet %}
 
 {% javascript %}
