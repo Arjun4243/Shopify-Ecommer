@@ -34,9 +34,14 @@
     assign source_collection = collections.all
     assign highest_product_price = 0
     assign matching_products_count = 0
+    assign quick_add_enabled = false
 
     if source_collection == blank
       assign source_collection = product_collection
+    endif
+
+    if settings.quick_add
+      assign quick_add_enabled = true
     endif
   %}
 
@@ -376,47 +381,59 @@
             {% if product_matches_group and rendered_products_count < section.settings.products_limit %}
               {% assign rendered_products_count = rendered_products_count | plus: 1 %}
 
-              <article
-                class="jewellery-product-card"
+              <product-card
+                class="product-card jewellery-product-card"
+                data-product-id="{{ product.id }}"
                 data-product-card
                 data-title="{{ product.title | escape }}"
                 data-price="{{ selected_variant.price | divided_by: 100.0 }}"
                 data-color="{{ product_color }}"
                 data-shape="{{ product_shape }}"
+                style="
+                  --quick-add-display: flex;
+                  --quick-add-mobile-display: {% if settings.mobile_quick_add %}flex{% else %}none{% endif %};
+                  --quick-add-mobile-opacity: {% if settings.mobile_quick_add %}1{% else %}0{% endif %};
+                "
               >
-                <a class="jewellery-product-card__media" href="{{ product.url }}">
-                  {% if product.featured_media.preview_image != blank %}
-                    {{
-                      product.featured_media.preview_image
-                      | image_url: width: 720
-                      | image_tag:
-                        loading: 'lazy',
-                        widths: '320, 480, 640, 720',
-                        sizes: '(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw',
-                        class: 'jewellery-product-card__image',
-                        alt: product.title
-                    }}
-                  {% else %}
-                    {{ 'product-apparel-1' | placeholder_svg_tag: 'jewellery-product-card__placeholder' }}
-                  {% endif %}
-                </a>
+                <div class="jewellery-product-card__media">
+                  <a class="jewellery-product-card__image-link" href="{{ product.url }}" ref="productCardLink">
+                    {% if product.featured_media.preview_image != blank %}
+                      {{
+                        product.featured_media.preview_image
+                        | image_url: width: 720
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '320, 480, 640, 720',
+                          sizes: '(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw',
+                          class: 'jewellery-product-card__image',
+                          alt: product.title
+                      }}
+                    {% else %}
+                      {{ 'product-apparel-1' | placeholder_svg_tag: 'jewellery-product-card__placeholder' }}
+                    {% endif %}
+                  </a>
 
-                <button
-                  class="jewellery-product-card__heart"
-                  type="button"
-                  aria-label="Add to wishlist"
-                  data-jewellery-wishlist
-                  data-product-handle="{{ product.handle | escape }}"
-                  data-product-title="{{ product.title | escape }}"
-                  data-product-url="{{ product.url }}"
-                  data-product-image="{% if product.featured_media.preview_image != blank %}{{ product.featured_media.preview_image | image_url: width: 600 }}{% endif %}"
-                  data-product-price="{{ selected_variant.price | money | strip_html | escape }}"
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path class="jewellery-product-card__heart-outline" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Zm0-2.7.1-.1c4.8-4.3 7.9-7.2 7.9-10.1C20 6.5 18.5 5 16.5 5c-1.5 0-3 .9-3.6 2.1h-1.8C10.5 5.9 9 5 7.5 5 5.5 5 4 6.5 4 8.5c0 2.9 3.1 5.8 7.9 10.1l.1.1Z" />
-                    <path class="jewellery-product-card__heart-fill" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" />
-                  </svg>
-                </button>
+                  <button
+                    class="jewellery-product-card__heart"
+                    type="button"
+                    aria-label="Add to wishlist"
+                    data-jewellery-wishlist
+                    data-product-handle="{{ product.handle | escape }}"
+                    data-product-title="{{ product.title | escape }}"
+                    data-product-url="{{ product.url }}"
+                    data-product-image="{% if product.featured_media.preview_image != blank %}{{ product.featured_media.preview_image | image_url: width: 600 }}{% endif %}"
+                    data-product-price="{{ selected_variant.price | money | strip_html | escape }}"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path class="jewellery-product-card__heart-outline" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Zm0-2.7.1-.1c4.8-4.3 7.9-7.2 7.9-10.1C20 6.5 18.5 5 16.5 5c-1.5 0-3 .9-3.6 2.1h-1.8C10.5 5.9 9 5 7.5 5 5.5 5 4 6.5 4 8.5c0 2.9 3.1 5.8 7.9 10.1l.1.1Z" />
+                      <path class="jewellery-product-card__heart-fill" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" />
+                    </svg>
+                  </button>
+
+                  {% if product.available and quick_add_enabled %}
+                    {% render 'quick-add', product: product, section_id: section.id %}
+                  {% endif %}
+                </div>
 
                 <div class="jewellery-product-card__content">
                   <h3>
@@ -471,7 +488,7 @@
                     {% endif %}
                   </p>
                 </div>
-              </article>
+              </product-card>
             {% endif %}
           {% endfor %}
         </div>
@@ -697,6 +714,7 @@
     grid-template-columns: repeat(auto-fill, minmax(180px, 198px));
     gap: 22px 18px;
     justify-content: start;
+    width: 100%;
   }
 
   .jewellery-product-card {
@@ -704,7 +722,8 @@
     overflow: hidden;
     display: grid;
     gap: 8px;
-    width: min(100%, 198px);
+    width: 100%;
+    min-width: 0;
     border-radius: 10px;
     background: transparent;
   }
@@ -714,11 +733,17 @@
   }
 
   .jewellery-product-card__media {
+    position: relative;
     display: block;
     overflow: hidden;
     aspect-ratio: 1 / 1;
     border-radius: 8px;
     background: #f0e7db;
+  }
+
+  .jewellery-product-card__image-link {
+    display: block;
+    height: 100%;
   }
 
   .jewellery-product-card__image,
@@ -777,6 +802,23 @@
 
   .jewellery-product-card__heart.is-active .jewellery-product-card__heart-fill {
     display: block;
+  }
+
+  .jewellery-product-card .quick-add {
+    --padding-sm: 10px;
+    --padding-md: 10px;
+    --padding-inline-end: 0px;
+    --padding-block-end: 0px;
+    --border-radius: 8px;
+  }
+
+  .jewellery-product-card .quick-add__button {
+    inset-block-end: 10px;
+    inset-inline-end: 10px;
+  }
+
+  .jewellery-product-card:is(:hover, :focus-within) .quick-add__button {
+    opacity: 1;
   }
 
   .jewellery-product-card__content {
@@ -869,20 +911,46 @@
     }
 
     .jewellery-products__grid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px 12px;
+      justify-content: stretch;
     }
 
     .jewellery-product-card__content h3 {
-      font-size: 14px;
+      font-size: 13px;
+      line-height: 1.2;
     }
 
     .jewellery-product-card__details {
+      gap: 3px;
       font-size: 11px;
     }
 
     .jewellery-product-card__price-current {
       font-size: 13px;
+    }
+
+    .jewellery-product-card__heart {
+      top: 8px;
+      right: 8px;
+      width: 34px;
+      height: 34px;
+    }
+
+    .jewellery-product-card__heart svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .jewellery-product-card .quick-add {
+      --button-size-md: 36px;
+      --padding-sm: 8px;
+      --padding-md: 8px;
+    }
+
+    .jewellery-product-card .quick-add__button {
+      inset-block-end: 8px;
+      inset-inline-end: 8px;
     }
   }
 

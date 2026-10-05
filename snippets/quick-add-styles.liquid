@@ -44,20 +44,12 @@
     display: none;
   }
 
-  product-card:is(:hover, :focus-within) .quick-add__button {
-    opacity: 1;
-
-    &:disabled {
-      opacity: var(--opacity-muted-text);
-    }
-  }
-
   button.quick-add__button {
     --quick-add-collapsed-width: var(--button-size-md);
     --quick-add-icon-width: calc(var(--button-size-md) - 4px);
     --quick-add-expanded-width: max-content;
 
-    display: var(--quick-add-mobile-display, none);
+    display: var(--quick-add-display, flex);
     align-items: center;
     justify-content: flex-start;
     gap: 0;
@@ -68,7 +60,7 @@
     height: var(--button-size-md);
     width: var(--quick-add-collapsed-width);
     cursor: pointer;
-    opacity: var(--quick-add-mobile-opacity, 0);
+    opacity: 1;
     overflow: hidden;
     color: var(--quick-add-foreground, var(--color-foreground));
     pointer-events: all;
@@ -103,11 +95,10 @@
 
     @media screen and (min-width: 750px) {
       display: var(--quick-add-display, flex);
-      opacity: 0;
 
       /* Explicit "disabled" rule is needed to beat the `.button:disabled { opacity: 0.5 }` rule in base.css */
       &:disabled {
-        opacity: 0;
+        opacity: var(--opacity-muted-text);
       }
     }
   }

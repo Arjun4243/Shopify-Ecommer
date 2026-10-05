@@ -25,10 +25,23 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
   assign detail_count = 0
 %}
 
-<product-card class="product-card stone-product-card {{ card_class }}" data-product-id="{{ product.id }}">
+<product-card
+  class="product-card stone-product-card {{ card_class }}"
+  data-product-id="{{ product.id }}"
+  style="
+    --quick-add-display: flex;
+    --quick-add-mobile-display: {% if settings.mobile_quick_add %}flex{% else %}none{% endif %};
+    --quick-add-mobile-opacity: {% if settings.mobile_quick_add %}1{% else %}0{% endif %};
+  "
+>
   <div class="stone-product-card__content">
     <div class="stone-product-card__media">
-      <a class="stone-product-card__image-link" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      <a
+        class="stone-product-card__image-link"
+        href="{{ product.url }}"
+        ref="productCardLink"
+        aria-label="{{ product.title | escape }}"
+      >
         {% if product.featured_media.preview_image != blank %}
           {{
             product.featured_media.preview_image
@@ -234,6 +247,14 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
 
   .stone-product-card__wishlist.is-active .stone-product-card__heart-fill {
     display: block;
+  }
+
+  .stone-product-card__media .quick-add {
+    --padding-sm: 10px;
+    --padding-md: 10px;
+    --padding-inline-end: 0px;
+    --padding-block-end: 0px;
+    --border-radius: 8px;
   }
 
   .stone-product-card__title {
