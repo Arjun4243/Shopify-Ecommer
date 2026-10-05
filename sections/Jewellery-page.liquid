@@ -656,22 +656,33 @@
   }
 
   .shop-by-collection__grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 16px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
   }
 
   .shop-by-collection__card {
+    flex: 0 0 clamp(130px, 13vw, 160px);
+    min-width: 0;
     overflow: hidden;
     border-radius: 8px;
     background: #f7f1e8;
     color: #111827;
     text-decoration: none;
     box-shadow: 0 1px 2px rgb(17 24 39 / 8%);
+    scroll-snap-align: start;
   }
 
   .shop-by-collection__image-wrap {
     aspect-ratio: 4 / 3;
+    overflow: hidden;
     background: #f0e7db;
   }
 
@@ -684,9 +695,12 @@
 
   .shop-by-collection__title {
     display: block;
+    overflow: hidden;
     padding: 10px 12px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .jewellery-products__toolbar p {
@@ -721,6 +735,7 @@
     position: relative;
     overflow: hidden;
     display: grid;
+    grid-template-rows: auto 76px;
     gap: 8px;
     width: 100%;
     min-width: 0;
@@ -823,12 +838,16 @@
 
   .jewellery-product-card__content {
     display: grid;
+    grid-template-rows: 36px 17px 18px;
     gap: 3px;
     min-width: 0;
+    overflow: hidden;
   }
 
   .jewellery-product-card__content h3 {
     margin: 0;
+    min-width: 0;
+    overflow: hidden;
     color: #111827;
     font-size: 15px;
     font-weight: 800;
@@ -837,8 +856,12 @@
   }
 
   .jewellery-product-card__content a {
+    display: -webkit-box;
+    overflow: hidden;
     color: inherit;
     text-decoration: none;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .jewellery-product-card__details {
@@ -846,10 +869,19 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
+    min-width: 0;
+    overflow: hidden;
     color: #6b7280;
     font-size: 12px;
     font-weight: 700;
     line-height: 1.35;
+    white-space: nowrap;
+  }
+
+  .jewellery-product-card__details span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .jewellery-product-card__price {
@@ -858,20 +890,29 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: 8px;
+    min-width: 0;
+    overflow: hidden;
     color: #111827;
+    white-space: nowrap;
   }
 
   .jewellery-product-card__price-current {
+    min-width: 0;
+    overflow: hidden;
     font-size: 14px;
     font-weight: 900;
     line-height: 1.2;
+    text-overflow: ellipsis;
   }
 
   .jewellery-product-card__price-compare {
+    min-width: 0;
+    overflow: hidden;
     color: #9ca3af;
     font-size: 12px;
     font-weight: 700;
     text-decoration: line-through;
+    text-overflow: ellipsis;
   }
 
   @media screen and (max-width: 1100px) {
@@ -889,8 +930,8 @@
   }
 
   @media screen and (max-width: 989px) {
-    .shop-by-collection__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .shop-by-collection__card {
+      flex-basis: clamp(124px, 26vw, 150px);
     }
   }
 
@@ -914,6 +955,27 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px 12px;
       justify-content: stretch;
+    }
+
+    .shop-by-collection__grid {
+      gap: 10px;
+    }
+
+    .shop-by-collection__card {
+      flex-basis: 118px;
+    }
+
+    .shop-by-collection__title {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .jewellery-product-card {
+      grid-template-rows: auto 72px;
+    }
+
+    .jewellery-product-card__content {
+      grid-template-rows: 32px 16px 18px;
     }
 
     .jewellery-product-card__content h3 {
