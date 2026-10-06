@@ -1,0 +1,103 @@
+{% doc %}
+Renders a compact gemstone detail line for product cards.
+@example
+{% content_for 'block', type: 'product-card-gemstone-summary', id: 'summary', closest.product: product %}
+{% enddoc %}
+
+{% liquid
+  assign product_resource = closest.product | default: product
+  assign gemstone_type = product_resource.metafields.custom.gemstone_type.value | default: product_resource.metafields.custom.gemstone_type
+  assign shape = product_resource.metafields.custom.shape.value | default: product_resource.metafields.custom.shape
+  assign carat_weight = product_resource.metafields.custom.actual_carat_weight.value | default: product_resource.metafields.custom.actual_carat_weight
+  assign certification_status = product_resource.metafields.custom.certification_status.value | default: product_resource.metafields.custom.certification_status
+  assign detail_count = 0
+%}
+
+{% if gemstone_type != blank or shape != blank or carat_weight != blank or certification_status != blank %}
+  <p class="product-card-gemstone-summary" {{ block.shopify_attributes }}>
+    {% if gemstone_type != blank %}
+      {% assign detail_count = detail_count | plus: 1 %}
+      <span>{{ gemstone_type }}</span>
+    {% endif %}
+    {% if shape != blank %}
+      {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+      {% assign detail_count = detail_count | plus: 1 %}
+      <span>{{ shape }}</span>
+    {% endif %}
+    {% if carat_weight != blank %}
+      {% assign carat_text = carat_weight %}
+      {% assign carat_text_downcase = carat_text | downcase %}
+      {% unless carat_text_downcase contains 'ct' or carat_text_downcase contains 'carat' %}
+        {% assign carat_text = carat_text | append: ' ct' %}
+      {% endunless %}
+      {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+      {% assign detail_count = detail_count | plus: 1 %}
+      <span>{{ carat_text }}</span>
+    {% endif %}
+    {% if certification_status != blank %}
+      {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
+      <span>{{ certification_status }}</span>
+    {% endif %}
+  </p>
+{% endif %}
+
+{% stylesheet %}
+  .product-card-gemstone-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .section-resource-list .product-grid__card {
+    gap: 6px;
+  }
+
+  .section-resource-list .product-card .card-gallery {
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f4f4f4;
+    aspect-ratio: 1 / 1;
+  }
+
+  .section-resource-list .product-card .card-gallery .product-media-container {
+    aspect-ratio: 1 / 1;
+  }
+
+  .section-resource-list .product-card .card-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .section-resource-list .product-card :is(h4, .h4) {
+    color: #111827;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .section-resource-list .product-card .price {
+    color: #111827;
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1.3;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Gemstone summary",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "Gemstone summary"
+    }
+  ]
+}
+{% endschema %}

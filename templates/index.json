@@ -220,7 +220,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "landscape",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -258,6 +258,12 @@
               },
               "blocks": {}
             },
+            "product_card_gemstone_summary_home": {
+              "type": "product-card-gemstone-summary",
+              "name": "Gemstone summary",
+              "settings": {},
+              "blocks": {}
+            },
             "price_JQzVV4": {
               "type": "price",
               "name": "t:names.product_price",
@@ -285,6 +291,7 @@
           "block_order": [
             "product_card_gallery_677WP3",
             "product_title_YXxMTj",
+            "product_card_gemstone_summary_home",
             "price_JQzVV4"
           ]
         }
@@ -295,10 +302,10 @@
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 8,
-        "columns": 4,
+        "columns": 6,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
-        "columns_gap": 8,
+        "columns_gap": 24,
         "rows_gap": 24,
         "icons_style": "arrow",
         "icons_shape": "none",

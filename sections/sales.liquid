@@ -103,15 +103,16 @@
       </details>
       <details class="sales-filter">
         <summary>Price</summary>
-        <div class="sales-price-filter">
-          <label><span>Min</span><input type="number" inputmode="numeric" data-sales-price-min></label>
-          <label><span>Max</span><input type="number" inputmode="numeric" data-sales-price-max></label>
-        </div>
         <div class="sales-price-range" data-sales-price-range>
-          <input type="range" aria-label="Minimum price" data-sales-price-min-range>
-          <input type="range" aria-label="Maximum price" data-sales-price-max-range>
+          <label class="sales-price-range__label" for="SalesPriceRange-{{ section.id }}">
+            Up to <span data-sales-price-selected-label></span>
+          </label>
+          <input id="SalesPriceRange-{{ section.id }}" type="range" aria-label="Maximum price" data-sales-price-max-range>
+          <div class="sales-price-range__values">
+            <span data-sales-price-min-label></span>
+            <span data-sales-price-max-label></span>
+          </div>
         </div>
-        <p class="sales-price-filter__hint" data-sales-price-hint></p>
       </details>
       <details class="sales-filter">
         <summary>Gemstone Type</summary>
@@ -222,7 +223,7 @@
 
 {% javascript %}
   (() => {
-    const formatMoney = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+    const formatMoney = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const handle = (value) => String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
     const initSalesPage = (page) => {
@@ -234,12 +235,11 @@
       const count = page.querySelector('[data-sales-count]');
       const empty = page.querySelector('[data-sales-empty]');
       const sort = page.querySelector('[data-sales-sort]');
-      const priceMinInput = page.querySelector('[data-sales-price-min]');
-      const priceMaxInput = page.querySelector('[data-sales-price-max]');
-      const priceMinRange = page.querySelector('[data-sales-price-min-range]');
       const priceMaxRange = page.querySelector('[data-sales-price-max-range]');
       const priceRange = page.querySelector('[data-sales-price-range]');
-      const priceHint = page.querySelector('[data-sales-price-hint]');
+      const priceMinLabel = page.querySelector('[data-sales-price-min-label]');
+      const priceMaxLabel = page.querySelector('[data-sales-price-max-label]');
+      const priceSelectedLabel = page.querySelector('[data-sales-price-selected-label]');
       const clearButtons = page.querySelectorAll('[data-sales-clear]');
       const drawer = page.querySelector('[data-sales-filter-drawer]');
       const filterToggle = page.querySelector('[data-sales-filter-toggle]');
@@ -262,24 +262,12 @@
       const minPrice = prices.length ? Math.floor(Math.min(...prices)) : 0;
       const maxPrice = prices.length ? Math.ceil(Math.max(...prices)) : 0;
 
-      if (priceMinInput && priceMaxInput) {
-        priceMinInput.min = minPrice;
-        priceMinInput.max = maxPrice;
-        priceMaxInput.min = minPrice;
-        priceMaxInput.max = maxPrice;
-        priceMinInput.placeholder = String(minPrice);
-        priceMaxInput.placeholder = String(maxPrice);
-      }
-      if (priceMinRange && priceMaxRange) {
-        [priceMinRange, priceMaxRange].forEach((input) => {
-          input.min = minPrice;
-          input.max = maxPrice;
-          input.step = 1;
-        });
-        priceMinRange.value = minPrice;
+      if (priceMaxRange) {
+        priceMaxRange.min = minPrice;
+        priceMaxRange.max = maxPrice;
+        priceMaxRange.step = 1;
         priceMaxRange.value = maxPrice;
       }
-      if (priceHint) priceHint.textContent = `Available price: Rs. ${formatMoney.format(minPrice)} - Rs. ${formatMoney.format(maxPrice)}`;
 
       const closeDrawer = () => {
         page.classList.remove('is-filter-drawer-open');
@@ -347,32 +335,21 @@
       });
 
       const updatePriceRangeTrack = () => {
-        if (!priceRange || !priceMinRange || !priceMaxRange || maxPrice <= minPrice) return;
-        const minValue = Number(priceMinRange.value || minPrice);
+        if (!priceRange || !priceMaxRange || maxPrice <= minPrice) return;
         const maxValue = Number(priceMaxRange.value || maxPrice);
-        const start = ((minValue - minPrice) / (maxPrice - minPrice)) * 100;
         const end = ((maxValue - minPrice) / (maxPrice - minPrice)) * 100;
-        priceRange.style.setProperty('--range-start', `${start}%`);
         priceRange.style.setProperty('--range-end', `${end}%`);
+        if (priceMinLabel) priceMinLabel.textContent = `Rs. ${formatMoney.format(minPrice)}`;
+        if (priceMaxLabel) priceMaxLabel.textContent = `Rs. ${formatMoney.format(maxValue)}`;
+        if (priceSelectedLabel) priceSelectedLabel.textContent = `Rs. ${formatMoney.format(maxValue)}`;
       };
 
-      const syncPriceControls = (source = 'number') => {
-        const minSource = source === 'range' ? priceMinRange : priceMinInput;
-        const maxSource = source === 'range' ? priceMaxRange : priceMaxInput;
-        let min = Number(minSource?.value || minPrice);
-        let max = Number(maxSource?.value || maxPrice);
-        min = Math.max(minPrice, Math.min(min, maxPrice));
+      const syncPriceControls = () => {
+        let max = Number(priceMaxRange?.value || maxPrice);
         max = Math.max(minPrice, Math.min(max, maxPrice));
-        if (min > max) min = max;
-        state.min = min;
+        state.min = minPrice;
         state.max = max;
-        if (source === 'range') {
-          if (priceMinInput) priceMinInput.value = min;
-          if (priceMaxInput) priceMaxInput.value = max;
-        } else {
-          if (priceMinRange) priceMinRange.value = min;
-          if (priceMaxRange) priceMaxRange.value = max;
-        }
+        if (priceMaxRange) priceMaxRange.value = max;
         updatePriceRangeTrack();
       };
 
@@ -426,11 +403,7 @@
       });
 
       page.addEventListener('input', (event) => {
-        if (event.target === priceMinInput || event.target === priceMaxInput) apply();
-        if (event.target === priceMinRange || event.target === priceMaxRange) {
-          syncPriceControls('range');
-          apply();
-        }
+        if (event.target === priceMaxRange) apply();
       });
 
       clearButtons.forEach((button) => {
@@ -440,9 +413,6 @@
           });
           state.sort = 'discount-desc';
           if (sort) sort.value = state.sort;
-          if (priceMinInput) priceMinInput.value = '';
-          if (priceMaxInput) priceMaxInput.value = '';
-          if (priceMinRange) priceMinRange.value = minPrice;
           if (priceMaxRange) priceMaxRange.value = maxPrice;
           page.querySelectorAll('[data-sales-check]').forEach((checkbox) => { checkbox.checked = false; });
           apply();
@@ -596,11 +566,15 @@
     position: sticky;
     top: 20px;
     align-self: start;
+    max-block-size: calc(100dvh - 40px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: 18px 20px;
     border: 1px solid #eee6dc;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 12px 34px rgb(17 24 39 / 7%);
+    -webkit-overflow-scrolling: touch;
   }
 
   .sales-page__filters-head,
@@ -716,28 +690,6 @@
     font-style: normal;
   }
 
-  .sales-price-filter {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 12px;
-  }
-
-  .sales-price-filter label {
-    display: grid;
-    gap: 4px;
-    padding: 8px 10px;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-  }
-
-  .sales-price-filter span,
-  .sales-price-filter__hint {
-    color: #6b7280;
-    font-size: 12px;
-  }
-
-  .sales-price-filter input,
   .sales-page__sort select {
     width: 100%;
     border: 0;
@@ -747,24 +699,34 @@
     outline: 0;
   }
 
-  .sales-price-filter__hint {
-    margin: 10px 0 0;
+  .sales-price-range {
+    --range-end: 100%;
+    position: relative;
+    margin-top: 14px;
+  }
+
+  .sales-price-range__label,
+  .sales-price-range__values {
+    display: flex;
+    justify-content: space-between;
+    color: #4b5563;
+    font-size: 13px;
     line-height: 1.35;
   }
 
-  .sales-price-range {
-    --range-start: 0%;
-    --range-end: 100%;
-    position: relative;
-    height: 26px;
-    margin-top: 14px;
+  .sales-price-range__label {
+    margin-bottom: 14px;
+  }
+
+  .sales-price-range__values {
+    margin-top: 12px;
   }
 
   .sales-price-range::before,
   .sales-price-range::after {
     content: "";
     position: absolute;
-    inset-block-start: 10px;
+    inset-block-start: 43px;
     inset-inline: 0;
     height: 4px;
     border-radius: 999px;
@@ -775,15 +737,13 @@
   }
 
   .sales-price-range::after {
-    inset-inline-start: var(--range-start);
+    inset-inline-start: 0;
     inset-inline-end: calc(100% - var(--range-end));
     background: #b40012;
   }
 
   .sales-price-range input {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
+    position: relative;
     z-index: 1;
     width: 100%;
     height: 26px;
@@ -859,16 +819,10 @@
 
   .sales-page__grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 28px 24px;
+    grid-template-columns: repeat(auto-fill, 174px);
+    gap: 28px 26px;
+    justify-content: start;
     margin-top: 16px;
-  }
-
-  .sales-product-card .quick-add {
-    position: static;
-    margin: 0;
-    opacity: 1;
-    transform: none;
   }
 
   .sales-page__empty {
@@ -879,7 +833,7 @@
 
   @media screen and (max-width: 1180px) {
     .sales-page__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fill, 174px);
     }
   }
 
@@ -912,12 +866,17 @@
       z-index: 60;
       inset-block: 0;
       inset-inline-start: 0;
+      block-size: 100dvh;
+      max-block-size: 100dvh;
       width: min(86vw, 360px);
       max-width: 100%;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-bottom: max(18px, env(safe-area-inset-bottom));
       border-radius: 0;
       transform: translateX(-100%);
       transition: transform 220ms ease;
+      -webkit-overflow-scrolling: touch;
     }
 
     [dir='rtl'] .sales-page__filters {

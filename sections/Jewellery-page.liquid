@@ -32,6 +32,7 @@
   {% liquid
     assign product_collection = section.settings.products_collection
     assign source_collection = collections.all
+    assign lowest_product_price = 0
     assign highest_product_price = 0
     assign matching_products_count = 0
     assign quick_add_enabled = false
@@ -72,12 +73,19 @@
       {% if product_matches_group %}
         {% assign matching_products_count = matching_products_count | plus: 1 %}
 
-        {% if matching_products_count <= section.settings.products_limit and product.price > highest_product_price %}
-          {% assign highest_product_price = product.price %}
+        {% if matching_products_count <= section.settings.products_limit %}
+          {% if lowest_product_price == 0 or product.price < lowest_product_price %}
+            {% assign lowest_product_price = product.price %}
+          {% endif %}
+
+          {% if product.price > highest_product_price %}
+            {% assign highest_product_price = product.price %}
+          {% endif %}
         {% endif %}
       {% endif %}
     {% endfor %}
 
+  {% assign lowest_filter_price = lowest_product_price | divided_by: 100.0 | floor %}
   {% assign highest_filter_price = highest_product_price | divided_by: 100.0 | ceil %}
 
   {% if highest_filter_price == 0 %}
@@ -102,14 +110,14 @@
         <input
           id="JewelleryPriceRange"
           type="range"
-          min="0"
+          min="{{ lowest_filter_price }}"
           max="{{ highest_filter_price }}"
           value="{{ highest_filter_price }}"
           step="1"
           data-price-filter
         >
         <div class="jewellery-filters__range-values">
-          <span>{{ 0 | money }}</span>
+          <span>{{ lowest_filter_price | times: 100 | money }}</span>
           <span data-price-output>{{ highest_filter_price | times: 100 | money }}</span>
         </div>
       </div>
@@ -586,10 +594,14 @@
 
   .jewellery-filters {
     align-self: start;
+    max-block-size: calc(100dvh - 40px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     border: 1px solid #ebe7df;
     border-radius: 8px;
     background: #ffffff;
     box-shadow: 0 8px 24px rgb(17 24 39 / 6%);
+    -webkit-overflow-scrolling: touch;
   }
 
   .jewellery-filter-toggle,
@@ -765,8 +777,8 @@
 
   .jewellery-products__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 198px));
-    gap: 22px 18px;
+    grid-template-columns: repeat(auto-fill, 174px);
+    gap: 28px 26px;
     justify-content: start;
     width: 100%;
   }
@@ -775,11 +787,10 @@
     position: relative;
     overflow: hidden;
     display: grid;
-    grid-template-rows: auto 76px;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
     min-width: 0;
-    border-radius: 10px;
+    border-radius: 0;
     background: transparent;
   }
 
@@ -793,7 +804,7 @@
     overflow: hidden;
     aspect-ratio: 1 / 1;
     border-radius: 8px;
-    background: #f0e7db;
+    background: #f4f4f4;
   }
 
   .jewellery-product-card__image-link {
@@ -811,23 +822,23 @@
   }
 
   .jewellery-product-card:hover .jewellery-product-card__image {
-    transform: scale(1.035);
+    transform: scale(1.025);
   }
 
   .jewellery-product-card__heart {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border: 0;
     border-radius: 50%;
     background: #ffffff;
-    color: #202124;
+    color: #111827;
     cursor: pointer;
-    box-shadow: 0 9px 20px rgb(155 92 24 / 22%);
+    box-shadow: 0 8px 18px rgb(17 24 39 / 14%);
     transition:
       background 180ms ease,
       color 180ms ease,
@@ -842,8 +853,8 @@
   }
 
   .jewellery-product-card__heart svg {
-    width: 22px;
-    height: 22px;
+    width: 21px;
+    height: 21px;
     fill: currentColor;
   }
 
@@ -860,16 +871,21 @@
   }
 
   .jewellery-product-card .quick-add {
-    --padding-sm: 10px;
-    --padding-md: 10px;
+    --button-size-md: 40px;
+    --padding-sm: 8px;
+    --padding-md: 8px;
     --padding-inline-end: 0px;
     --padding-block-end: 0px;
     --border-radius: 8px;
   }
 
   .jewellery-product-card .quick-add__button {
-    inset-block-end: 10px;
-    inset-inline-end: 10px;
+    inset-block-end: 8px;
+    inset-inline-end: 8px;
+    border-color: #b8c8cc;
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 8px 18px rgb(17 24 39 / 14%);
   }
 
   .jewellery-product-card:is(:hover, :focus-within) .quick-add__button {
@@ -878,8 +894,7 @@
 
   .jewellery-product-card__content {
     display: grid;
-    grid-template-rows: 36px 17px 18px;
-    gap: 3px;
+    gap: 5px;
     min-width: 0;
     overflow: hidden;
   }
@@ -889,9 +904,9 @@
     min-width: 0;
     overflow: hidden;
     color: #111827;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
-    line-height: 1.15;
+    line-height: 1.2;
     overflow-wrap: anywhere;
   }
 
@@ -908,14 +923,13 @@
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 5px;
     min-width: 0;
     overflow: hidden;
     color: #6b7280;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     line-height: 1.35;
-    white-space: nowrap;
   }
 
   .jewellery-product-card__details span {
@@ -939,7 +953,7 @@
   .jewellery-product-card__price-current {
     min-width: 0;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 900;
     line-height: 1.2;
     text-overflow: ellipsis;
@@ -962,10 +976,12 @@
 
     .jewellery-filters {
       position: static;
+      max-block-size: none;
+      overflow-y: visible;
     }
 
     .jewellery-products__grid {
-      grid-template-columns: repeat(auto-fill, minmax(180px, 198px));
+      grid-template-columns: repeat(auto-fill, 174px);
     }
   }
 
@@ -1011,12 +1027,17 @@
       z-index: 60;
       inset-block: 0;
       inset-inline-start: 0;
+      block-size: 100dvh;
+      max-block-size: 100dvh;
       width: min(86vw, 360px);
       max-width: 100%;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-bottom: max(18px, env(safe-area-inset-bottom));
       border-radius: 0;
       transform: translateX(-100%);
       transition: transform 220ms ease;
+      -webkit-overflow-scrolling: touch;
     }
 
     [dir='rtl'] .jewellery-filters {
@@ -1078,25 +1099,25 @@
     }
 
     .jewellery-product-card {
-      grid-template-rows: auto 72px;
+      gap: 6px;
     }
 
     .jewellery-product-card__content {
-      grid-template-rows: 32px 16px 18px;
+      gap: 5px;
     }
 
     .jewellery-product-card__content h3 {
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.2;
     }
 
     .jewellery-product-card__details {
       gap: 3px;
-      font-size: 11px;
+      font-size: 12px;
     }
 
     .jewellery-product-card__price-current {
-      font-size: 13px;
+      font-size: 14px;
     }
 
     .jewellery-product-card__heart {

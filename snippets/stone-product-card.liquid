@@ -12,6 +12,7 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
 {% liquid
   assign card_class = card_class | default: 'stone-product-card'
   assign selected_variant = product.selected_or_first_available_variant
+  assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
   assign shape = product.metafields.custom.shape.value
   assign carat_weight = product.metafields.custom.actual_carat_weight.value
   assign certification_status = product.metafields.custom.certification_status.value
@@ -99,9 +100,14 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
 
     <a class="stone-product-card__title" href="{{ product.url }}">{{ product.title }}</a>
 
-    {% if shape != blank or carat_weight != blank or certification_status != blank %}
+    {% if gemstone_type != blank or shape != blank or carat_weight != blank or certification_status != blank %}
       <p class="stone-product-card__details">
+        {% if gemstone_type != blank %}
+          {% assign detail_count = detail_count | plus: 1 %}
+          <span>{{ gemstone_type }}</span>
+        {% endif %}
         {% if shape != blank %}
+          {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
           {% assign detail_count = detail_count | plus: 1 %}
           <span>{{ shape }}</span>
         {% endif %}
@@ -185,14 +191,15 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
 
   .stone-product-card__content {
     display: grid;
-    gap: 8px;
+    gap: 6px;
+    min-width: 0;
   }
 
   .stone-product-card__media {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    background: #f5efe7;
+    background: #f4f4f4;
   }
 
   .stone-product-card__image-link {
@@ -205,18 +212,23 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    transition: transform 220ms ease;
+  }
+
+  .stone-product-card:hover .stone-product-card__image {
+    transform: scale(1.025);
   }
 
   .stone-product-card__badge,
   .stone-product-card__wishlist {
     position: absolute;
-    top: 10px;
+    top: 8px;
     z-index: 2;
-    min-height: 30px;
+    min-height: 34px;
     border: 0;
     border-radius: 999px;
     background: #fff;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 12%);
+    box-shadow: 0 8px 18px rgb(17 24 39 / 14%);
   }
 
   .stone-product-card__badge {
@@ -232,19 +244,19 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
   }
 
   .stone-product-card__wishlist {
-    right: 10px;
+    right: 8px;
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     padding: 0;
-    color: #242830;
+    color: #111827;
     cursor: pointer;
   }
 
   .stone-product-card__wishlist svg {
-    width: 19px;
-    height: 19px;
+    width: 21px;
+    height: 21px;
     fill: currentColor;
   }
 
@@ -265,41 +277,49 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
   }
 
   .stone-product-card__media .quick-add {
-    --padding-sm: 10px;
-    --padding-md: 10px;
+    --button-size-md: 40px;
+    --padding-sm: 8px;
+    --padding-md: 8px;
     --padding-inline-end: 0px;
     --padding-block-end: 0px;
     --border-radius: 8px;
   }
 
+  .stone-product-card__media .quick-add__button {
+    border-color: #b8c8cc;
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 8px 18px rgb(17 24 39 / 14%);
+  }
+
   .stone-product-card__title {
-    margin-top: 4px;
-    color: #141820;
-    font-size: clamp(15px, 1vw, 17px);
+    margin-top: 2px;
+    color: #111827;
+    font-size: 16px;
     font-weight: 800;
-    line-height: 1.25;
+    line-height: 1.2;
     text-decoration: none;
   }
 
   .stone-product-card__details {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin: -2px 0 0;
-    color: #727780;
-    font-size: clamp(12px, 0.85vw, 14px);
+    gap: 5px;
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.45;
   }
 
   .stone-product-card__price {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 10px;
-    margin-top: 4px;
+    gap: 8px;
+    margin-top: 3px;
     color: #111722;
-    font-size: clamp(14px, 1vw, 16px);
+    font-size: 15px;
     font-weight: 900;
     line-height: 1.3;
   }

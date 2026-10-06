@@ -108,10 +108,12 @@
         "payment_method_9tk4i3": {
           "type": "payment_method",
           "settings": {
+            "icon": "shopify://shop_images/Paypal-icon.webp",
             "icon_alt": "",
             "icon_text": "P",
             "title": "PayPal",
             "description": "<p>Enjoy the convenience and security of PayPal, a globally trusted online payment platform.</p>",
+            "banner_image": "shopify://shop_images/Paypal-banner.webp",
             "banner_text": "PayPal",
             "accent_color": "#20a7ff"
           }
@@ -119,10 +121,12 @@
         "payment_method_pcU48M": {
           "type": "payment_method",
           "settings": {
+            "icon": "shopify://shop_images/Debit-icon.webp",
             "icon_alt": "",
             "icon_text": "CC",
             "title": "Debit & Credit Cards",
             "description": "<p>We welcome payments via all major credit and debit cards, including Visa, MasterCard, and American Express.</p>",
+            "banner_image": "shopify://shop_images/Debit-banner.webp",
             "banner_text": "VISA MC AMEX",
             "accent_color": "#ef798a"
           }
@@ -130,10 +134,12 @@
         "payment_method_DBwtxF": {
           "type": "payment_method",
           "settings": {
+            "icon": "shopify://shop_images/Cash_on_delivery-icon.webp",
             "icon_alt": "",
             "icon_text": "COD",
             "title": "Cash on Delivery (COD)",
             "description": "<p>We offer Cash on Delivery for select orders, providing added convenience for local customers.</p>",
+            "banner_image": "shopify://shop_images/Cash_on_Delivery_banner.webp",
             "banner_text": "COD",
             "accent_color": "#78c6ee"
           }
