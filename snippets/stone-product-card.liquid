@@ -335,15 +335,50 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
   }
 
   @media screen and (max-width: 640px) {
+    .stone-product-card__content {
+      gap: 5px;
+    }
+
     .stone-product-card__badge {
-      min-height: 26px;
-      padding: 0 8px;
+      top: 7px;
+      left: 7px;
+      min-height: 28px;
+      padding: 0 9px;
       font-size: 11px;
     }
 
     .stone-product-card__wishlist {
-      width: 30px;
-      height: 30px;
+      top: 7px;
+      right: 7px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .stone-product-card__wishlist svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .stone-product-card__media .quick-add {
+      --button-size-md: 36px;
+      --padding-sm: 7px;
+      --padding-md: 7px;
+    }
+
+    .stone-product-card__title {
+      font-size: 14px;
+      line-height: 1.22;
+    }
+
+    .stone-product-card__details {
+      gap: 4px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .stone-product-card__price {
+      gap: 6px;
+      font-size: 14px;
     }
   }
 {% endstylesheet %}

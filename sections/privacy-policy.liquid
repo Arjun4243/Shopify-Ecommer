@@ -352,6 +352,29 @@
       line-height: 1.65;
     }
   }
+
+  @media screen and (max-width: 420px) {
+    .privacy-policy-card {
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 12px;
+      padding: 18px 14px;
+    }
+
+    .privacy-policy-card__rule {
+      display: none;
+    }
+
+    .privacy-policy-card__number {
+      width: 34px;
+      height: 34px;
+      font-size: 15px;
+    }
+
+    .privacy-policy-card h2 {
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
