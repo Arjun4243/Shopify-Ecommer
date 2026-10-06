@@ -1,5 +1,6 @@
 {% doc %}
 Renders a stone product card with gemstone details, sale badge, wishlist button, and pricing.
+Uses product.metafields.custom.sale_discount_percentage or compare-at pricing for sale display.
 @param {product} product - Product object to render.
 @param {string} [card_class] - Optional class prefix for page-specific styling hooks.
 @param {string} [section_id] - Parent section id for quick-add.
@@ -14,12 +15,24 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
   assign shape = product.metafields.custom.shape.value
   assign carat_weight = product.metafields.custom.actual_carat_weight.value
   assign certification_status = product.metafields.custom.certification_status.value
+  assign sale_discount_raw = product.metafields.custom.sale_discount_percentage.value | default: product.metafields.custom.sale_discount_percentage
+  assign sale_discount = sale_discount_raw | plus: 0
   assign compare_at_price = selected_variant.compare_at_price
   assign price = selected_variant.price
   assign show_sale_badge = false
+  assign sale_badge_text = 'Sale'
 
-  if compare_at_price > price
+  if sale_discount > 0 and sale_discount < 100
+    assign discount_remainder = 100 | minus: sale_discount
+    assign compare_at_price = price | times: 100 | divided_by: discount_remainder
     assign show_sale_badge = true
+    assign sale_badge_text = sale_discount | round | append: '% OFF'
+  elsif compare_at_price > price
+    assign sale_discount = compare_at_price | minus: price | times: 100 | divided_by: compare_at_price
+    assign show_sale_badge = true
+    if sale_discount > 0
+      assign sale_badge_text = sale_discount | round | append: '% OFF'
+    endif
   endif
 
   assign detail_count = 0
@@ -59,7 +72,7 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
       </a>
 
       {% if show_sale_badge %}
-        <span class="stone-product-card__badge">Sale</span>
+        <span class="stone-product-card__badge">{{ sale_badge_text }}</span>
       {% endif %}
 
       <button
@@ -110,7 +123,7 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
     {% endif %}
 
     <div class="stone-product-card__price">
-      <span class="stone-product-card__price-current">{{ price | money }}</span>
+      <span class="stone-product-card__price-current{% if show_sale_badge %} stone-product-card__price-current--sale{% endif %}">{{ price | money }}</span>
       {% if show_sale_badge %}
         <span class="stone-product-card__price-compare">{{ compare_at_price | money }}</span>
       {% endif %}
@@ -211,9 +224,11 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
     display: inline-flex;
     align-items: center;
     padding: 0 10px;
-    color: #1e1f24;
+    background: #b40012;
+    color: #fff;
     font-size: 12px;
     font-weight: 800;
+    letter-spacing: 0;
   }
 
   .stone-product-card__wishlist {
@@ -293,6 +308,10 @@ Renders a stone product card with gemstone details, sale badge, wishlist button,
     color: #81858d;
     font-weight: 700;
     text-decoration: line-through;
+  }
+
+  .stone-product-card__price-current--sale {
+    color: #d20f1f;
   }
 
   @media screen and (max-width: 640px) {
