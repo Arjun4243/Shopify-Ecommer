@@ -121,10 +121,6 @@
         <summary>Color</summary>
         <div class="sales-filter__options" data-sales-options="color"></div>
       </details>
-      <details class="sales-filter">
-        <summary>Availability</summary>
-        <div class="sales-filter__options" data-sales-options="availability"></div>
-      </details>
     </aside>
 
     <button class="sales-page__scrim" type="button" aria-label="{{ 'actions.close' | t }}" data-sales-filter-close></button>
@@ -152,12 +148,6 @@
               <option value="title-asc">Name: A to Z</option>
             </select>
           </label>
-          <button type="button" class="is-active" data-sales-view="grid" aria-label="Grid view">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" /></svg>
-          </button>
-          <button type="button" data-sales-view="list" aria-label="List view">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v3H4V6Zm0 5h16v3H4v-3Zm0 5h16v3H4v-3Z" /></svg>
-          </button>
         </div>
       </div>
 
@@ -181,6 +171,8 @@
               {% if is_sale_product %}
                 {% liquid
                   assign rendered_products_count = rendered_products_count | plus: 1
+                  assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+                  assign product_type_label = product_group | default: product.type
                   assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
                   assign shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape
                   assign color = product.metafields.custom.color.value | default: product.metafields.custom.color
@@ -188,12 +180,6 @@
                     assign color_option = product.options_with_values | where: 'name', 'Color' | first
                     assign first_color_value = color_option.values | first
                     assign color = first_color_value.name | default: first_color_value
-                  endif
-                  assign availability_label = 'Out of stock'
-                  assign availability_key = 'out-of-stock'
-                  if product.available
-                    assign availability_label = 'In stock'
-                    assign availability_key = 'in-stock'
                   endif
                 %}
                 <div
@@ -203,16 +189,14 @@
                   data-title="{{ product.title | escape }}"
                   data-price="{{ product.price }}"
                   data-discount="{{ sale_discount }}"
-                  data-product-type="{{ product.type | escape }}"
-                  data-product-type-key="{{ product.type | handleize }}"
+                  data-product-type="{{ product_type_label | escape }}"
+                  data-product-type-key="{{ product_type_label | handleize }}"
                   data-gemstone-type="{{ gemstone_type | escape }}"
                   data-gemstone-type-key="{{ gemstone_type | handleize }}"
                   data-shape="{{ shape | escape }}"
                   data-shape-key="{{ shape | handleize }}"
                   data-color="{{ color | escape }}"
                   data-color-key="{{ color | handleize }}"
-                  data-availability="{{ availability_label }}"
-                  data-availability-key="{{ availability_key }}"
                 >
                   {% render 'stone-product-card',
                     product: product,
@@ -250,7 +234,6 @@
       const priceMaxInput = page.querySelector('[data-sales-price-max]');
       const priceHint = page.querySelector('[data-sales-price-hint]');
       const clearButtons = page.querySelectorAll('[data-sales-clear]');
-      const viewButtons = page.querySelectorAll('[data-sales-view]');
       const drawer = page.querySelector('[data-sales-filter-drawer]');
       const filterToggle = page.querySelector('[data-sales-filter-toggle]');
       const filterCloseButtons = page.querySelectorAll('[data-sales-filter-close]');
@@ -263,7 +246,6 @@
         gemstoneType: new Set(),
         shape: new Set(),
         color: new Set(),
-        availability: new Set(),
         min: null,
         max: null,
         sort: 'discount-desc',
@@ -334,7 +316,6 @@
         gemstoneType: makeOptions('gemstoneTypeKey', 'gemstoneType'),
         shape: makeOptions('shapeKey', 'shape'),
         color: makeOptions('colorKey', 'color'),
-        availability: makeOptions('availabilityKey', 'availability'),
       };
 
       Object.entries(optionGroups).forEach(([group, options]) => {
@@ -377,7 +358,6 @@
             && (!state.gemstoneType.size || state.gemstoneType.has(item.dataset.gemstoneTypeKey))
             && (!state.shape.size || state.shape.has(item.dataset.shapeKey))
             && (!state.color.size || state.color.has(item.dataset.colorKey))
-            && (!state.availability.size || state.availability.has(item.dataset.availabilityKey))
             && price >= state.min
             && price <= state.max;
         });
@@ -424,13 +404,6 @@
           if (priceMaxInput) priceMaxInput.value = '';
           page.querySelectorAll('[data-sales-check]').forEach((checkbox) => { checkbox.checked = false; });
           apply();
-        });
-      });
-
-      viewButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          viewButtons.forEach((control) => control.classList.toggle('is-active', control === button));
-          grid.classList.toggle('sales-page__grid--list', button.dataset.salesView === 'list');
         });
       });
 
@@ -624,8 +597,7 @@
   }
 
   .sales-page__filter-actions button,
-  .sales-page__filter-toggle,
-  .sales-page__tools button {
+  .sales-page__filter-toggle {
     cursor: pointer;
   }
 
@@ -767,36 +739,11 @@
     color: #4b5563;
   }
 
-  .sales-page__tools button {
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    background: #fff;
-    color: #111827;
-  }
-
-  .sales-page__tools button.is-active {
-    border-color: #f1e4d3;
-    background: #f1e4d3;
-  }
-
   .sales-page__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 28px 24px;
     margin-top: 16px;
-  }
-
-  .sales-page__grid--list {
-    grid-template-columns: 1fr;
-  }
-
-  .sales-page__grid--list .stone-product-card__content {
-    grid-template-columns: minmax(140px, 240px) minmax(0, 1fr);
-    align-items: start;
   }
 
   .sales-product-card .quick-add {
