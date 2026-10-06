@@ -107,6 +107,10 @@
           <label><span>Min</span><input type="number" inputmode="numeric" data-sales-price-min></label>
           <label><span>Max</span><input type="number" inputmode="numeric" data-sales-price-max></label>
         </div>
+        <div class="sales-price-range" data-sales-price-range>
+          <input type="range" aria-label="Minimum price" data-sales-price-min-range>
+          <input type="range" aria-label="Maximum price" data-sales-price-max-range>
+        </div>
         <p class="sales-price-filter__hint" data-sales-price-hint></p>
       </details>
       <details class="sales-filter">
@@ -232,6 +236,9 @@
       const sort = page.querySelector('[data-sales-sort]');
       const priceMinInput = page.querySelector('[data-sales-price-min]');
       const priceMaxInput = page.querySelector('[data-sales-price-max]');
+      const priceMinRange = page.querySelector('[data-sales-price-min-range]');
+      const priceMaxRange = page.querySelector('[data-sales-price-max-range]');
+      const priceRange = page.querySelector('[data-sales-price-range]');
       const priceHint = page.querySelector('[data-sales-price-hint]');
       const clearButtons = page.querySelectorAll('[data-sales-clear]');
       const drawer = page.querySelector('[data-sales-filter-drawer]');
@@ -262,6 +269,15 @@
         priceMaxInput.max = maxPrice;
         priceMinInput.placeholder = String(minPrice);
         priceMaxInput.placeholder = String(maxPrice);
+      }
+      if (priceMinRange && priceMaxRange) {
+        [priceMinRange, priceMaxRange].forEach((input) => {
+          input.min = minPrice;
+          input.max = maxPrice;
+          input.step = 1;
+        });
+        priceMinRange.value = minPrice;
+        priceMaxRange.value = maxPrice;
       }
       if (priceHint) priceHint.textContent = `Available price: Rs. ${formatMoney.format(minPrice)} - Rs. ${formatMoney.format(maxPrice)}`;
 
@@ -330,14 +346,34 @@
         `).join('');
       });
 
-      const clampPrices = () => {
-        let min = Number(priceMinInput?.value || minPrice);
-        let max = Number(priceMaxInput?.value || maxPrice);
+      const updatePriceRangeTrack = () => {
+        if (!priceRange || !priceMinRange || !priceMaxRange || maxPrice <= minPrice) return;
+        const minValue = Number(priceMinRange.value || minPrice);
+        const maxValue = Number(priceMaxRange.value || maxPrice);
+        const start = ((minValue - minPrice) / (maxPrice - minPrice)) * 100;
+        const end = ((maxValue - minPrice) / (maxPrice - minPrice)) * 100;
+        priceRange.style.setProperty('--range-start', `${start}%`);
+        priceRange.style.setProperty('--range-end', `${end}%`);
+      };
+
+      const syncPriceControls = (source = 'number') => {
+        const minSource = source === 'range' ? priceMinRange : priceMinInput;
+        const maxSource = source === 'range' ? priceMaxRange : priceMaxInput;
+        let min = Number(minSource?.value || minPrice);
+        let max = Number(maxSource?.value || maxPrice);
         min = Math.max(minPrice, Math.min(min, maxPrice));
         max = Math.max(minPrice, Math.min(max, maxPrice));
         if (min > max) min = max;
         state.min = min;
         state.max = max;
+        if (source === 'range') {
+          if (priceMinInput) priceMinInput.value = min;
+          if (priceMaxInput) priceMaxInput.value = max;
+        } else {
+          if (priceMinRange) priceMinRange.value = min;
+          if (priceMaxRange) priceMaxRange.value = max;
+        }
+        updatePriceRangeTrack();
       };
 
       const matchesDiscount = (item) => {
@@ -350,7 +386,7 @@
       };
 
       const apply = () => {
-        clampPrices();
+        syncPriceControls();
         let visible = items.filter((item) => {
           const price = Number(item.dataset.price || 0) / 100;
           return (!state.productType.size || state.productType.has(item.dataset.productTypeKey))
@@ -391,6 +427,10 @@
 
       page.addEventListener('input', (event) => {
         if (event.target === priceMinInput || event.target === priceMaxInput) apply();
+        if (event.target === priceMinRange || event.target === priceMaxRange) {
+          syncPriceControls('range');
+          apply();
+        }
       });
 
       clearButtons.forEach((button) => {
@@ -402,6 +442,8 @@
           if (sort) sort.value = state.sort;
           if (priceMinInput) priceMinInput.value = '';
           if (priceMaxInput) priceMaxInput.value = '';
+          if (priceMinRange) priceMinRange.value = minPrice;
+          if (priceMaxRange) priceMaxRange.value = maxPrice;
           page.querySelectorAll('[data-sales-check]').forEach((checkbox) => { checkbox.checked = false; });
           apply();
         });
@@ -421,6 +463,7 @@
         }
       });
       drawer?.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+      updatePriceRangeTrack();
       apply();
     };
 
@@ -707,6 +750,81 @@
   .sales-price-filter__hint {
     margin: 10px 0 0;
     line-height: 1.35;
+  }
+
+  .sales-price-range {
+    --range-start: 0%;
+    --range-end: 100%;
+    position: relative;
+    height: 26px;
+    margin-top: 14px;
+  }
+
+  .sales-price-range::before,
+  .sales-price-range::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline: 0;
+    height: 4px;
+    border-radius: 999px;
+  }
+
+  .sales-price-range::before {
+    background: #e5e7eb;
+  }
+
+  .sales-price-range::after {
+    inset-inline-start: var(--range-start);
+    inset-inline-end: calc(100% - var(--range-end));
+    background: #b40012;
+  }
+
+  .sales-price-range input {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 1;
+    width: 100%;
+    height: 26px;
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .sales-price-range input::-webkit-slider-runnable-track {
+    height: 4px;
+    background: transparent;
+  }
+
+  .sales-price-range input::-moz-range-track {
+    height: 4px;
+    background: transparent;
+  }
+
+  .sales-price-range input::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -7px;
+    border: 3px solid #b40012;
+    border-radius: 50%;
+    appearance: none;
+    background: #fff;
+    box-shadow: 0 2px 8px rgb(17 24 39 / 18%);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .sales-price-range input::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #b40012;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgb(17 24 39 / 18%);
+    cursor: pointer;
+    pointer-events: auto;
   }
 
   .sales-page__main {
