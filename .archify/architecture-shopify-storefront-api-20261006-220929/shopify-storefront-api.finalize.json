@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "startedAt": "2026-10-06T16:40:55.159Z",
+  "specification": {
+    "path": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\candidate.json",
+    "sha256": "1b561a22af655060493449d066cb1f0d2f42a7ed271cafae9916aa7aaf4c4679",
+    "bytes": 4810
+  },
+  "artifact": {
+    "path": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+    "sha256": "70b787d86c9c91f38574c5c0c202dd2b9a89ae9ee62f569c8e9c9b2a35e9fc18",
+    "bytes": 762550
+  },
+  "stages": {
+    "validate": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": null,
+      "execution": "embedded-in-deliver",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Pinky\\AppData\\Local\\Temp\\skills-use-oXPqSp\\archify\\bin\\archify.mjs",
+        "deliver",
+        "architecture",
+        "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\candidate.json",
+        "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": true,
+        "command": "validate",
+        "specification": {
+          "sha256": "1b561a22af655060493449d066cb1f0d2f42a7ed271cafae9916aa7aaf4c4679",
+          "bytes": 4810
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        }
+      }
+    },
+    "deliver": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 963,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Pinky\\AppData\\Local\\Temp\\skills-use-oXPqSp\\archify\\bin\\archify.mjs",
+        "deliver",
+        "architecture",
+        "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\candidate.json",
+        "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "receiptId": "90a30933-07ef-426d-a8d2-56a797f8c9ab",
+        "ok": true,
+        "command": "deliver",
+        "type": "architecture",
+        "input": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\candidate.json",
+        "output": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+        "specification": {
+          "sha256": "1b561a22af655060493449d066cb1f0d2f42a7ed271cafae9916aa7aaf4c4679",
+          "bytes": 4810
+        },
+        "artifact": {
+          "sha256": "70b787d86c9c91f38574c5c0c202dd2b9a89ae9ee62f569c8e9c9b2a35e9fc18",
+          "bytes": 762550
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        },
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      }
+    },
+    "check": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 461,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Pinky\\AppData\\Local\\Temp\\skills-use-oXPqSp\\archify\\bin\\archify.mjs",
+        "check",
+        "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+        "--require-provenance"
+      ],
+      "receipt": {
+        "ok": true,
+        "file": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+        "artifact": {
+          "sha256": "70b787d86c9c91f38574c5c0c202dd2b9a89ae9ee62f569c8e9c9b2a35e9fc18",
+          "bytes": 762550
+        },
+        "checks": [
+          {
+            "name": "single_svg",
+            "ok": true,
+            "details": [
+              "found 1 <svg> block(s)"
+            ]
+          },
+          {
+            "name": "finite_svg",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "orthogonal_arrows",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "label_route_clearance",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_crossings",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_corridors",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "container_border_runs",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "route_rhythm",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "legend_clearance",
+            "ok": true,
+            "details": []
+          }
+        ],
+        "composition": {
+          "schemaVersion": 1,
+          "profile": "showcase",
+          "status": "pass",
+          "summary": {
+            "errors": 0,
+            "warnings": 0
+          },
+          "metrics": {
+            "properCrossings": 0,
+            "resolvedCrossovers": 0,
+            "ambiguousCorridors": 0,
+            "arrowheadCollisions": 0,
+            "containerBorderRuns": 0,
+            "labelRouteClearanceIssues": 0,
+            "labelCanvasOverflowIssues": 0,
+            "minLabelRouteClearance": 64.3,
+            "desktopReadabilityIssues": 0,
+            "viewportHeightIssues": 0,
+            "minProjectedNodeTextPx": 7.5,
+            "maxBends": 2,
+            "routesOverSuggestedBends": 0,
+            "maxStretch": 1,
+            "routesOverSuggestedStretch": 0,
+            "minSegmentPx": 52,
+            "minInteriorSegmentPx": 345,
+            "shortSegmentCount": 0,
+            "shortEndpointSegmentCount": 0,
+            "shortInteriorSegmentCount": 0,
+            "microSegmentCount": 0
+          },
+          "suggestedLimits": {
+            "bendsPerRelationship": 2,
+            "stretch": 1.35,
+            "segmentPx": 16,
+            "microSegmentPx": 8
+          },
+          "routeReview": {
+            "crossings": [],
+            "detours": []
+          },
+          "leadingSpace": {
+            "measured": true,
+            "emptyTopPx": 48,
+            "emptyTopRatio": 0.081,
+            "occupiedTop": 48,
+            "viewBoxTop": 0,
+            "canvasHeight": 596,
+            "typicalNodeHeight": 78,
+            "reviewSuggested": false
+          },
+          "desktopReadability": {
+            "budgetBasis": "recognized-declared-wide",
+            "readerContract": "declared-wide-v1",
+            "availableDiagramWidth": 1180.3125,
+            "actualBudgetPx": 1180.3125,
+            "actualReaderWidth": 1210.3125,
+            "desiredReaderWidth": 1210.3125,
+            "viewportCap": 1376,
+            "limit": "source-size",
+            "requestedTargetPx": 7.5,
+            "requestedTargetMet": true,
+            "hardFloorPx": 6,
+            "hardFloorMet": true,
+            "minimumOwner": {
+              "kind": "edge",
+              "id": "login",
+              "from": "shopper",
+              "to": "theme"
+            },
+            "minimumSourceTextPx": 8,
+            "minimumProjectedTextPx": 7.5,
+            "semanticTextCount": 25
+          },
+          "issues": []
+        },
+        "provenance": "current",
+        "deliveryReceiptId": "90a30933-07ef-426d-a8d2-56a797f8c9ab"
+      }
+    },
+    "browser-check": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": 4024,
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Pinky\\AppData\\Local\\Temp\\skills-use-oXPqSp\\archify\\bin\\archify.mjs",
+        "browser-check",
+        "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+        "--json",
+        "--require-provenance"
+      ],
+      "execution": "in-process",
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "browser-check",
+        "evidenceKind": "automated-browser",
+        "status": "fail",
+        "visualReview": "not-requested",
+        "provenance": "current",
+        "deliveryReceiptId": "90a30933-07ef-426d-a8d2-56a797f8c9ab",
+        "artifact": {
+          "path": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+          "sha256": "70b787d86c9c91f38574c5c0c202dd2b9a89ae9ee62f569c8e9c9b2a35e9fc18",
+          "bytes": 762550
+        },
+        "state": {
+          "detail": "read",
+          "motion": "still"
+        },
+        "chrome": {
+          "status": "available",
+          "executable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+        },
+        "diagnostics": [
+          {
+            "code": "viewer/browser-check-runtime",
+            "severity": "error",
+            "message": "browser-check could not complete its Chrome inspection.",
+            "subject": {
+              "artifact": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html"
+            },
+            "evidence": {
+              "reason": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[17860:24892:1006/221059.619:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:270] Failed opening key Software\\Google\\Update\\ClientStateMedium\\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5\r\n[17860:11588:1006/221100.313:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26012:1006/221100.316:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.479:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:1992:1006/221100.482:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.564:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26896:1006/221100.590:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.612:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26012:1006/221100.614:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:28480:1006/221100.618:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Access is denied. (0x80070005)\r\n[17860:11588:1006/221100.653:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:11588:1006/221100.676:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:11588:1006/221100.676:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.15.0, libuv 1.51.0, win32; pid=17860, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=1328, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=false, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+            },
+            "supportedFixes": [
+              "resolve the reported Chrome inspection error, then rerun browser-check"
+            ]
+          }
+        ],
+        "containment": {
+          "status": "fail",
+          "policy": "fit-or-reader-declared-readable-vertical-scroll",
+          "viewports": []
+        },
+        "themeStates": {
+          "status": "fail",
+          "viewports": []
+        },
+        "readability": {
+          "status": "fail",
+          "minimumProjectedNodeTextPx": 6,
+          "viewports": []
+        },
+        "viewerChrome": {
+          "status": "fail",
+          "viewports": []
+        },
+        "captures": {
+          "status": "not-requested",
+          "screenshots": [],
+          "contactSheet": null
+        },
+        "sidecars": {
+          "receipt": "shopify-storefront-api.browser-check.json",
+          "files": []
+        },
+        "error": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[17860:24892:1006/221059.619:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:270] Failed opening key Software\\Google\\Update\\ClientStateMedium\\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5\r\n[17860:11588:1006/221100.313:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26012:1006/221100.316:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.479:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:1992:1006/221100.482:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.564:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26896:1006/221100.590:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.612:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26012:1006/221100.614:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:28480:1006/221100.618:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Access is denied. (0x80070005)\r\n[17860:11588:1006/221100.653:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:11588:1006/221100.676:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:11588:1006/221100.676:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.15.0, libuv 1.51.0, win32; pid=17860, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=1328, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=false, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "viewer/browser-check-runtime",
+      "severity": "error",
+      "message": "browser-check could not complete its Chrome inspection.",
+      "subject": {
+        "artifact": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html"
+      },
+      "evidence": {
+        "reason": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[17860:24892:1006/221059.619:ERROR:chrome\\installer\\util\\google_update_settings_win.cc:270] Failed opening key Software\\Google\\Update\\ClientStateMedium\\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5\r\n[17860:11588:1006/221100.313:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26012:1006/221100.316:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.479:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:1992:1006/221100.482:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.564:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26896:1006/221100.590:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:11588:1006/221100.612:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:26012:1006/221100.614:ERROR:components\\viz\\host\\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory \"C:\\Users\\Pinky\\AppData\\Local\\Temp\\archify-visual-check-profile-Jx9DfR\\GPUPersistentCache\\DawnGraphiteCache\\H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA\", error: 0: The process cannot access the file because it is being used by another process. (0x20)\r\n[17860:28480:1006/221100.618:ERROR:services\\device\\public\\cpp\\geolocation\\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Access is denied. (0x80070005)\r\n[17860:11588:1006/221100.653:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:11588:1006/221100.676:ERROR:content\\browser\\gpu\\gpu_process_host.cc:1130] GPU process exited unexpectedly: exit_code=-1073741790\r\n[17860:11588:1006/221100.676:FATAL:content\\browser\\gpu\\gpu_data_manager_impl_private.cc:417] GPU process isn't usable. Goodbye.\nChrome transport: Node v24.15.0, libuv 1.51.0, win32; pid=17860, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=1328, messages=3, bufferedBytes=0.\nChrome write pipe: writable=false, ended=true, destroyed=false, completedWrites=3, writtenBytes=255, bufferedBytes=0."
+      },
+      "supportedFixes": [
+        "resolve the reported Chrome inspection error, then rerun browser-check"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.finalize.json",
+    "summaryReceipt": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.finalize-summary.json",
+    "browserCheckReceipt": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.browser-check.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "browser-check",
+  "finishedAt": "2026-10-06T16:41:01.373Z",
+  "durationMs": 6213,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "90a30933-07ef-426d-a8d2-56a797f8c9ab",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\candidate.json",
+  "output": "D:\\All project\\Shopify-theme\\.archify\\architecture-shopify-storefront-api-20261006-220929\\shopify-storefront-api.html",
+  "specification": {
+    "sha256": "1b561a22af655060493449d066cb1f0d2f42a7ed271cafae9916aa7aaf4c4679",
+    "bytes": 4810
+  },
+  "artifact": {
+    "sha256": "70b787d86c9c91f38574c5c0c202dd2b9a89ae9ee62f569c8e9c9b2a35e9fc18",
+    "bytes": 762550
+  }
+}

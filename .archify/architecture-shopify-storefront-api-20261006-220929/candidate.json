@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Shopify Storefront Collection Fetch",
+    "output": ".archify/architecture-shopify-storefront-api-20261006-220929/shopify-storefront-api.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "shopper",
+      "type": "external",
+      "label": "User",
+      "sublabel": "Logs into storefront",
+      "icon": "person",
+      "pos": [40, 250],
+      "size": [130, 66]
+    },
+    {
+      "id": "theme",
+      "type": "frontend",
+      "label": "Shopify Theme",
+      "sublabel": "Liquid + storefront JavaScript",
+      "tag": "Browser session",
+      "pos": [315, 240],
+      "size": [170, 86]
+    },
+    {
+      "id": "session",
+      "type": "security",
+      "label": "Customer Session",
+      "sublabel": "Login state / access context",
+      "tag": "Authenticated",
+      "pos": [315, 90],
+      "size": [170, 76]
+    },
+    {
+      "id": "storefrontApi",
+      "type": "backend",
+      "label": "Storefront API",
+      "sublabel": "GraphQL endpoint",
+      "tag": "HTTPS",
+      "pos": [650, 240],
+      "size": [170, 86]
+    },
+    {
+      "id": "shopifyGraphql",
+      "type": "cloud",
+      "label": "Shopify GraphQL API",
+      "sublabel": "Collection query resolver",
+      "tag": "Shopify",
+      "pos": [995, 240],
+      "size": [190, 86]
+    },
+    {
+      "id": "collectionData",
+      "type": "database",
+      "label": "Collection Data",
+      "sublabel": "Products, handles, images, prices",
+      "tag": "Response payload",
+      "pos": [995, 430],
+      "size": [190, 78]
+    },
+    {
+      "id": "renderedCollection",
+      "type": "frontend",
+      "label": "Rendered Collection UI",
+      "sublabel": "Cards / filters / links update",
+      "tag": "Storefront page",
+      "pos": [650, 430],
+      "size": [190, 78]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Shopify Storefront",
+      "wraps": ["theme", "session", "storefrontApi", "renderedCollection"],
+      "pad": 36
+    },
+    {
+      "kind": "security-group",
+      "label": "Storefront API access context",
+      "wraps": ["session", "storefrontApi"],
+      "pad": 24
+    },
+    {
+      "kind": "region",
+      "label": "Shopify Platform",
+      "wraps": ["shopifyGraphql", "collectionData"],
+      "pad": 34
+    }
+  ],
+  "connections": [
+    {
+      "id": "login",
+      "from": "shopper",
+      "to": "theme",
+      "label": "Login / open storefront",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sessionState",
+      "from": "theme",
+      "to": "session",
+      "label": "uses login state",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "apiRequest",
+      "from": "theme",
+      "to": "storefrontApi",
+      "label": "GraphQL collection request",
+      "variant": "emphasis"
+    },
+    {
+      "id": "authorizedContext",
+      "from": "session",
+      "to": "storefrontApi",
+      "label": "customer/access context",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [[555, 128], [735, 128], [735, 218]]
+    },
+    {
+      "id": "graphqlFetch",
+      "from": "storefrontApi",
+      "to": "shopifyGraphql",
+      "label": "fetch collection data",
+      "variant": "emphasis"
+    },
+    {
+      "id": "resolveCollections",
+      "from": "shopifyGraphql",
+      "to": "collectionData",
+      "label": "resolves collection fields",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "collectionResponse",
+      "from": "collectionData",
+      "to": "renderedCollection",
+      "label": "returns products + metadata",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "hydrateTheme",
+      "from": "renderedCollection",
+      "to": "theme",
+      "label": "renders collection view",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Main path",
+      "items": [
+        "User logs into or opens the Shopify storefront.",
+        "The theme sends a GraphQL collection query through the Storefront API.",
+        "Shopify resolves and returns collection data for rendering."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Access context",
+      "items": [
+        "Login state is represented separately from the theme UI.",
+        "The Storefront API request carries the customer/access context needed for eligible data."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Result",
+      "items": [
+        "The response contains collection metadata and product fields.",
+        "The storefront renders collection cards, filters, links, or other UI from the payload."
+      ]
+    }
+  ]
+}
