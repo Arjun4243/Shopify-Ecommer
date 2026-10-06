@@ -12,6 +12,10 @@
   if selected_variant.available
     assign product_available = true
   endif
+  assign wishlist_color = product_resource.metafields.custom.color.value | default: product_resource.metafields.custom.color
+  assign wishlist_shape = product_resource.metafields.custom.shape.value | default: product_resource.metafields.custom.shape
+  assign wishlist_gemstone_type = product_resource.metafields.custom.gemstone_type.value | default: product_resource.metafields.custom.gemstone_type
+  assign wishlist_product_type = product_resource.metafields.custom.gemstone_group.value | default: product_resource.metafields.custom.gemstone_group | default: product_resource.type
 -%}
 {%- if block_settings.height == 'fill' -%}
   {% # `.full-height--desktop` consumes `--header-group-height` at first paint (stylesheet below) %}
@@ -53,6 +57,11 @@
           data-product-url="{{ product_resource.url | escape }}"
           data-product-image="{% if product_resource.featured_image %}{{ product_resource.featured_image | image_url: width: 420 }}{% endif %}"
           data-product-price="{{ product_resource.price | money | strip_html | escape }}"
+          data-product-variant-id="{{ selected_variant.id }}"
+          data-product-color="{{ wishlist_color | escape }}"
+          data-product-shape="{{ wishlist_shape | escape }}"
+          data-product-type="{{ wishlist_product_type | escape }}"
+          data-product-gemstone-type="{{ wishlist_gemstone_type | escape }}"
           data-wishlist-add-label="{{ 'products.gemstone.add_to_wishlist' | t | escape }}"
           data-wishlist-added-label="{{ 'products.gemstone.added_to_wishlist' | t | escape }}"
         >

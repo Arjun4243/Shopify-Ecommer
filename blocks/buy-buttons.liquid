@@ -8,6 +8,10 @@
   endif
 
   assign variant = closest.product.selected_or_first_available_variant
+  assign wishlist_color = product.metafields.custom.color.value | default: product.metafields.custom.color
+  assign wishlist_shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape
+  assign wishlist_gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
+  assign wishlist_product_type = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group | default: product.type
   assign inventory_quantity = variant.inventory_quantity
   assign inventory_policy = variant.inventory_policy
 
@@ -262,6 +266,11 @@
             data-product-url="{{ product.url | escape }}"
             data-product-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 420 }}{% endif %}"
             data-product-price="{{ product.price | money | strip_html | escape }}"
+            data-product-variant-id="{{ variant.id }}"
+            data-product-color="{{ wishlist_color | escape }}"
+            data-product-shape="{{ wishlist_shape | escape }}"
+            data-product-type="{{ wishlist_product_type | escape }}"
+            data-product-gemstone-type="{{ wishlist_gemstone_type | escape }}"
             data-wishlist-add-label="{{ 'products.gemstone.add_to_wishlist' | t | escape }}"
             data-wishlist-added-label="{{ 'products.gemstone.added_to_wishlist' | t | escape }}"
           >
@@ -501,6 +510,12 @@
       url: button.dataset.productUrl,
       image: button.dataset.productImage,
       price: button.dataset.productPrice,
+      variantId: button.dataset.productVariantId,
+      color: button.dataset.productColor,
+      shape: button.dataset.productShape,
+      type: button.dataset.productGemstoneType,
+      gemstoneType: button.dataset.productGemstoneType,
+      productType: button.dataset.productType,
     };
 
     if (!product.handle) return;

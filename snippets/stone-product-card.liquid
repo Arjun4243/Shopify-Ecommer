@@ -13,7 +13,10 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
   assign card_class = card_class | default: 'stone-product-card'
   assign selected_variant = product.selected_or_first_available_variant
   assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
-  assign shape = product.metafields.custom.shape.value
+  assign gemstone_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
+  assign shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape
+  assign product_color = product.metafields.custom.color.value | default: product.metafields.custom.color
+  assign wishlist_product_type = gemstone_group | default: product.type
   assign carat_weight = product.metafields.custom.actual_carat_weight.value
   assign certification_status = product.metafields.custom.certification_status.value
   assign sale_discount_raw = product.metafields.custom.sale_discount_percentage.value | default: product.metafields.custom.sale_discount_percentage
@@ -86,6 +89,11 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
         data-product-url="{{ product.url }}"
         data-product-image="{% if product.featured_media.preview_image != blank %}{{ product.featured_media.preview_image | image_url: width: 600 }}{% endif %}"
         data-product-price="{{ price | money | strip_html | escape }}"
+        data-product-variant-id="{{ selected_variant.id }}"
+        data-product-color="{{ product_color | escape }}"
+        data-product-shape="{{ shape | escape }}"
+        data-product-type="{{ wishlist_product_type | escape }}"
+        data-product-gemstone-type="{{ gemstone_type | escape }}"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path class="stone-product-card__heart-outline" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Zm0-2.7.1-.1c4.8-4.3 7.9-7.2 7.9-10.1C20 6.5 18.5 5 16.5 5c-1.5 0-3 .9-3.6 2.1h-1.8C10.5 5.9 9 5 7.5 5 5.5 5 4 6.5 4 8.5c0 2.9 3.1 5.8 7.9 10.1l.1.1Z" />
@@ -164,6 +172,12 @@ Uses product.metafields.custom.sale_discount_percentage or compare-at pricing fo
       url: button.dataset.productUrl,
       image: button.dataset.productImage,
       price: button.dataset.productPrice,
+      variantId: button.dataset.productVariantId,
+      color: button.dataset.productColor,
+      shape: button.dataset.productShape,
+      type: button.dataset.productGemstoneType,
+      gemstoneType: button.dataset.productGemstoneType,
+      productType: button.dataset.productType,
     };
     const existingIndex = wishlist.findIndex((item) => item.handle === product.handle);
 
