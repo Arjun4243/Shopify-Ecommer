@@ -9,41 +9,94 @@
  */
 {
   "sections": {
-    "privacy_policy_banner": {
+    "privacy_policy_page": {
       "type": "privacy-policy",
       "settings": {
         "fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/privacy-policy.webp?v=1789558458",
-        "image_alt": "Gemstones arranged on a soft neutral privacy policy banner",
-        "eyebrow": "Privacy Policy",
-        "heading": "Privacy Policy",
-        "text": "<p>Your trust matters to us. Learn how we collect, use, and protect your information.</p>"
-      }
-    },
-    "main": {
-      "type": "main-page",
+        "image_alt": "Gemstone and flowers on a soft privacy policy banner",
+        "heading": "",
+        "description": "<p>Privacy Policy for Raza Gems LLC - razagems.com</p>",
+        "last_updated": "May 29, 2025"
+      },
       "blocks": {
-        "page-content": {
-          "type": "page-content",
+        "introduction": {
+          "type": "policy_item",
           "settings": {
-            "text_color": ""
-          },
-          "blocks": {}
+            "title": "Introduction",
+            "description": "<p>Welcome to <strong>Raza Gems LLC</strong> (\"we,\" \"our,\" or \"us\"). This Privacy Policy explains how we collect, use, and protect your personal information when you visit or shop on <strong>razagems.com</strong> (the \"Website\").</p><p>By using our Website, you agree to the terms in this Privacy Policy. If you do not agree, please do not use our Website.</p>"
+          }
+        },
+        "information_we_collect": {
+          "type": "policy_item",
+          "settings": {
+            "title": "Information We Collect",
+            "description": "<p>We collect information you provide when you create an account, place an order, subscribe to updates, or contact us directly. This may include your name, email, phone number, shipping address, billing address, and order details.</p>"
+          }
+        },
+        "how_we_use": {
+          "type": "policy_item",
+          "settings": {
+            "title": "How We Use Your Information",
+            "description": "<p>We use your information to process orders, deliver products, provide customer support, improve our website, personalize your shopping experience, and send updates or marketing messages where permitted.</p>"
+          }
+        },
+        "sharing": {
+          "type": "policy_item",
+          "settings": {
+            "title": "Sharing Your Information",
+            "description": "<p>We may share information with Shopify, payment providers, shipping partners, service providers, and legal authorities where required. We do not sell or rent your personal information.</p>"
+          }
+        },
+        "international_transfers": {
+          "type": "policy_item",
+          "settings": {
+            "title": "International Data Transfers",
+            "description": "<p>Your information may be processed outside your country, including where Shopify and our trusted partners operate. We take reasonable steps to protect your data wherever it is processed.</p>"
+          }
+        },
+        "choices_rights": {
+          "type": "policy_item",
+          "settings": {
+            "title": "Your Choices and Rights",
+            "description": "<p>You may request access, correction, or deletion of your personal information where applicable. You can also manage account details and unsubscribe from marketing emails at any time.</p>"
+          }
+        },
+        "security": {
+          "type": "policy_item",
+          "settings": {
+            "title": "Security",
+            "description": "<p>We follow Shopify's best practices and use security measures such as SSL encryption, firewalls, and limited access controls to protect your personal information.</p>"
+          }
+        },
+        "changes": {
+          "type": "policy_item",
+          "settings": {
+            "title": "Changes to This Policy",
+            "description": "<p>We may update this policy to reflect changes in laws, technology, Shopify features, or our business practices. Updates will be posted on this page with a new effective date.</p>"
+          }
+        },
+        "contact": {
+          "type": "policy_item",
+          "settings": {
+            "title": "Contact Us",
+            "description": "<p>If you have questions or need help with your personal information, email us at <strong>info@razagems.com</strong>.</p><p><strong>Effective Date:</strong> May 29, 2025</p>"
+          }
         }
       },
       "block_order": [
-        "page-content"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 80
-      }
+        "introduction",
+        "information_we_collect",
+        "how_we_use",
+        "sharing",
+        "international_transfers",
+        "choices_rights",
+        "security",
+        "changes",
+        "contact"
+      ]
     }
   },
   "order": [
-    "privacy_policy_banner",
-    "main"
+    "privacy_policy_page"
   ]
 }

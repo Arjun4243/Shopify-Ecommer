@@ -1,61 +1,103 @@
-<section class="privacy-policy-banner" aria-labelledby="privacy-policy-banner-title-{{ section.id }}">
-  <div class="privacy-policy-banner__media" aria-hidden="true">
-    {% if section.settings.banner_image != blank %}
-      {{
-        section.settings.banner_image
-        | image_url: width: 2200
-        | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          widths: '750, 1100, 1500, 1800, 2200',
-          sizes: '100vw',
-          class: 'privacy-policy-banner__image',
-          alt: section.settings.image_alt
-      }}
-    {% else %}
-      <img
-        src="{{ section.settings.fallback_image_url | escape }}"
-        alt="{{ section.settings.image_alt | escape }}"
-        class="privacy-policy-banner__image"
-        width="1905"
-        height="450"
-        loading="eager"
-        fetchpriority="high"
-      >
-    {% endif %}
+{% liquid
+  assign banner_heading = section.settings.heading | default: page.title
+  assign banner_description = section.settings.description
+%}
+
+<section class="privacy-policy-page" aria-labelledby="privacy-policy-title-{{ section.id }}">
+  <div class="privacy-policy-hero">
+    <div class="privacy-policy-hero__media" aria-hidden="true">
+      {% if section.settings.banner_image != blank %}
+        {{
+          section.settings.banner_image
+          | image_url: width: 2200
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '750, 1100, 1500, 1800, 2200',
+            sizes: '100vw',
+            class: 'privacy-policy-hero__image',
+            alt: section.settings.image_alt
+        }}
+      {% else %}
+        <img
+          src="{{ section.settings.fallback_image_url | escape }}"
+          alt="{{ section.settings.image_alt | escape }}"
+          class="privacy-policy-hero__image"
+          width="1905"
+          height="380"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {% endif %}
+    </div>
+
+    <div class="privacy-policy-hero__content">
+      <h1 id="privacy-policy-title-{{ section.id }}" class="privacy-policy-hero__heading">{{ banner_heading }}</h1>
+      {% if banner_description != blank %}
+        <div class="privacy-policy-hero__description">{{ banner_description }}</div>
+      {% endif %}
+      {% if section.settings.last_updated != blank %}
+        <p class="privacy-policy-hero__date">
+          <span aria-hidden="true">Calendar</span>
+          Last Updated: {{ section.settings.last_updated }}
+        </p>
+      {% endif %}
+    </div>
   </div>
 
-  <div class="privacy-policy-banner__content">
-    {% if section.settings.eyebrow != blank %}
-      <p class="privacy-policy-banner__eyebrow">{{ section.settings.eyebrow }}</p>
-    {% endif %}
-
-    {% if section.settings.heading != blank %}
-      <h1 id="privacy-policy-banner-title-{{ section.id }}" class="privacy-policy-banner__heading">
-        {{ section.settings.heading }}
-      </h1>
-    {% endif %}
-
-    {% if section.settings.text != blank %}
-      <div class="privacy-policy-banner__text">{{ section.settings.text }}</div>
+  <div class="privacy-policy-page__body">
+    {% if section.blocks.size > 0 %}
+      <div class="privacy-policy-page__cards">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'policy_item' %}
+              <article class="privacy-policy-card" {{ block.shopify_attributes }}>
+                <div class="privacy-policy-card__number" aria-hidden="true">{{ forloop.index }}</div>
+                <div class="privacy-policy-card__rule" aria-hidden="true"></div>
+                <div class="privacy-policy-card__content">
+                  {% if block.settings.title != blank %}
+                    <h2>{{ block.settings.title }}</h2>
+                  {% endif %}
+                  {% if block.settings.description != blank %}
+                    <div class="privacy-policy-card__description">{{ block.settings.description }}</div>
+                  {% endif %}
+                </div>
+              </article>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% elsif page.content != blank %}
+      <article class="privacy-policy-card privacy-policy-card--single">
+        <div class="privacy-policy-card__number" aria-hidden="true">1</div>
+        <div class="privacy-policy-card__rule" aria-hidden="true"></div>
+        <div class="privacy-policy-card__content privacy-policy-card__content--page">
+          {{ page.content }}
+        </div>
+      </article>
     {% endif %}
   </div>
 </section>
 
-<style>
-  .privacy-policy-banner {
-    position: relative;
-    min-height: clamp(280px, 28vw, 450px);
-    overflow: hidden;
-    background: #f7efe3;
+{% stylesheet %}
+  .privacy-policy-page {
+    background: #fffdfa;
+    color: #1c2328;
   }
 
-  .privacy-policy-banner__media {
+  .privacy-policy-hero {
+    position: relative;
+    min-height: clamp(220px, 21vw, 320px);
+    overflow: hidden;
+    border-block-start: 1px solid #f0e6d8;
+    background: #f7efe5;
+  }
+
+  .privacy-policy-hero__media {
     position: absolute;
     inset: 0;
   }
 
-  .privacy-policy-banner__image {
+  .privacy-policy-hero__image {
     display: block;
     width: 100%;
     height: 100%;
@@ -63,121 +105,278 @@
     object-position: center;
   }
 
-  .privacy-policy-banner::before {
+  .privacy-policy-hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 250, 243, 0.98) 0%,
-      rgba(255, 250, 243, 0.88) 34%,
-      rgba(255, 250, 243, 0.42) 62%,
-      rgba(255, 250, 243, 0.08) 100%
-    );
+    background: linear-gradient(90deg, rgb(255 253 249 / 0.96) 0%, rgb(255 253 249 / 0.84) 34%, rgb(255 253 249 / 0.36) 64%, rgb(255 253 249 / 0.04) 100%);
     pointer-events: none;
   }
 
-  .privacy-policy-banner__content {
+  .privacy-policy-hero__content {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: clamp(280px, 28vw, 450px);
-    width: min(100%, 1280px);
+    min-height: clamp(220px, 21vw, 320px);
+    width: min(100% - 40px, 1120px);
     margin: 0 auto;
-    padding: clamp(38px, 5vw, 78px) 6%;
+    padding-block: clamp(34px, 4vw, 62px);
   }
 
-  .privacy-policy-banner__eyebrow {
-    margin: 0 0 16px;
-    color: #7a7064;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 3px;
-    line-height: 1.2;
-    text-transform: uppercase;
-  }
-
-  .privacy-policy-banner__eyebrow::after {
-    content: "";
-    display: inline-block;
-    width: 48px;
-    height: 1px;
-    margin-left: 14px;
-    vertical-align: middle;
-    background: #c6a156;
-  }
-
-  .privacy-policy-banner__heading {
-    max-width: 560px;
+  .privacy-policy-hero__heading {
     margin: 0;
-    color: #17120f;
+    max-width: 520px;
+    color: #182227;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(42px, 5vw, 74px);
-    font-weight: 400;
-    line-height: 0.98;
+    font-size: clamp(42px, 4.2vw, 64px);
+    font-weight: 700;
+    line-height: 1.04;
     letter-spacing: 0;
   }
 
-  .privacy-policy-banner__text {
-    max-width: 580px;
-    margin-top: 20px;
-    color: #4d4740;
-    font-size: clamp(14px, 1.1vw, 17px);
-    font-weight: 500;
-    line-height: 1.7;
+  .privacy-policy-hero__heading::after {
+    content: "";
+    display: block;
+    width: 74px;
+    height: 1px;
+    margin-block-start: 18px;
+    background: #d6ae62;
   }
 
-  .privacy-policy-banner__text p {
+  .privacy-policy-hero__description {
+    max-width: 640px;
+    margin-block-start: 18px;
+    color: #273034;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  .privacy-policy-hero__description p {
     margin: 0;
   }
 
+  .privacy-policy-hero__date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 0;
+    color: #6c6460;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .privacy-policy-hero__date span {
+    display: grid;
+    place-items: center;
+    width: 15px;
+    height: 15px;
+    overflow: hidden;
+    color: #a77319;
+    font-size: 0;
+  }
+
+  .privacy-policy-hero__date span::before {
+    content: "";
+    width: 13px;
+    height: 13px;
+    border: 1.5px solid currentColor;
+    border-radius: 2px;
+    box-shadow: inset 0 3px 0 rgb(167 115 25 / 22%);
+  }
+
+  .privacy-policy-page__body {
+    width: min(100% - 40px, 1120px);
+    margin: 0 auto;
+    padding-block: clamp(26px, 3vw, 42px) clamp(56px, 7vw, 96px);
+  }
+
+  .privacy-policy-page__cards {
+    display: grid;
+    gap: 16px;
+  }
+
+  .privacy-policy-card {
+    display: grid;
+    grid-template-columns: 70px 1px minmax(0, 1fr);
+    gap: clamp(22px, 3vw, 46px);
+    align-items: start;
+    padding: clamp(22px, 2.7vw, 32px) clamp(22px, 3.8vw, 54px);
+    border: 1px solid #eee6dc;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 18px 42px rgb(36 28 20 / 5%);
+  }
+
+  .privacy-policy-card__number {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #f2e7d6;
+    border-radius: 50%;
+    background: #fbf6ec;
+    color: #ae7a25;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .privacy-policy-card__rule {
+    width: 1px;
+    min-height: 48px;
+    background: #d5ad62;
+  }
+
+  .privacy-policy-card__content {
+    min-width: 0;
+  }
+
+  .privacy-policy-card h2 {
+    margin: 0 0 18px;
+    color: #1c2328;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 2vw, 34px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .privacy-policy-card h2::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 1px;
+    margin-block-start: 12px;
+    background: #d6ae62;
+  }
+
+  .privacy-policy-card__description,
+  .privacy-policy-card__content--page {
+    color: #2f3438;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .privacy-policy-card__description p,
+  .privacy-policy-card__content--page p {
+    margin: 0 0 12px;
+  }
+
+  .privacy-policy-card__description p:last-child,
+  .privacy-policy-card__content--page p:last-child {
+    margin-bottom: 0;
+  }
+
+  .privacy-policy-card__description ul,
+  .privacy-policy-card__description ol,
+  .privacy-policy-card__content--page ul,
+  .privacy-policy-card__content--page ol {
+    margin: 10px 0 14px;
+    padding-inline-start: 22px;
+  }
+
+  .privacy-policy-card__description li,
+  .privacy-policy-card__content--page li {
+    margin-block: 5px;
+  }
+
+  .privacy-policy-card__description strong,
+  .privacy-policy-card__content--page strong {
+    color: #111827;
+    font-weight: 800;
+  }
+
+  .privacy-policy-card__description a,
+  .privacy-policy-card__content--page a {
+    color: #111827;
+    font-weight: 800;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
   @media screen and (max-width: 749px) {
-    .privacy-policy-banner {
-      min-height: 360px;
+    .privacy-policy-hero {
+      min-height: 300px;
     }
 
-    .privacy-policy-banner::before {
-      background: linear-gradient(
-        90deg,
-        rgba(255, 250, 243, 0.95) 0%,
-        rgba(255, 250, 243, 0.78) 58%,
-        rgba(255, 250, 243, 0.28) 100%
-      );
+    .privacy-policy-hero::after {
+      background: linear-gradient(90deg, rgb(255 253 249 / 0.96) 0%, rgb(255 253 249 / 0.76) 62%, rgb(255 253 249 / 0.2) 100%);
     }
 
-    .privacy-policy-banner__image {
+    .privacy-policy-hero__image {
       object-position: 62% center;
     }
 
-    .privacy-policy-banner__content {
-      min-height: 360px;
-      padding: 42px 22px;
+    .privacy-policy-hero__content {
+      min-height: 300px;
+      width: min(100% - 32px, 1120px);
     }
 
-    .privacy-policy-banner__eyebrow {
-      font-size: 11px;
-      letter-spacing: 2px;
+    .privacy-policy-hero__heading {
+      max-width: 330px;
+      font-size: clamp(36px, 11vw, 48px);
     }
 
-    .privacy-policy-banner__heading {
-      max-width: 320px;
-      font-size: clamp(38px, 12vw, 52px);
-    }
-
-    .privacy-policy-banner__text {
+    .privacy-policy-hero__description {
       max-width: 330px;
       font-size: 14px;
-      line-height: 1.6;
+    }
+
+    .privacy-policy-page__body {
+      width: min(100% - 24px, 1120px);
+      padding-block-start: 18px;
+    }
+
+    .privacy-policy-card {
+      grid-template-columns: 44px 1px minmax(0, 1fr);
+      gap: 14px;
+      padding: 20px 16px;
+    }
+
+    .privacy-policy-card__number {
+      width: 40px;
+      height: 40px;
+      font-size: 17px;
+    }
+
+    .privacy-policy-card h2 {
+      font-size: clamp(23px, 7vw, 30px);
+    }
+
+    .privacy-policy-card__description,
+    .privacy-policy-card__content--page {
+      font-size: 14px;
+      line-height: 1.65;
     }
   }
-</style>
+{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "Privacy policy Local",
+  "name": "Privacy policy page",
+  "blocks": [
+    {
+      "type": "policy_item",
+      "name": "Policy item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Introduction"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Add privacy policy text here.</p>"
+        }
+      ]
+    }
+  ],
   "settings": [
     {
       "type": "image_picker",
@@ -194,25 +393,25 @@
       "type": "text",
       "id": "image_alt",
       "label": "Image alt text",
-      "default": "Gemstones arranged on a soft neutral privacy policy banner"
+      "default": "Gemstone and flowers on a soft privacy policy banner"
     },
     {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Privacy Policy"
-    },
-    {
-      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "Privacy Policy"
+      "info": "Leave blank to use the page title."
     },
     {
       "type": "richtext",
-      "id": "text",
-      "label": "Text",
-      "default": "<p>Your trust matters to us. Learn how we collect, use, and protect your information.</p>"
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Privacy Policy for Raza Gems LLC - razagems.com</p>"
+    },
+    {
+      "type": "text",
+      "id": "last_updated",
+      "label": "Last updated",
+      "default": "May 29, 2025"
     }
   ],
   "presets": [
