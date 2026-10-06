@@ -64,6 +64,7 @@
             assign product_color = wishlist_product.metafields.custom.color.value | default: wishlist_product.metafields.custom.color
             assign carat_weight = wishlist_product.metafields.custom.actual_carat_weight.value
             assign certification_status = wishlist_product.metafields.custom.certification_status.value
+            assign wishlist_add_to_cart_text = 'actions.add_to_cart' | t
             assign detail_count = 0
           %}
           <li
@@ -103,55 +104,108 @@
                     {{ 'product-apparel-1' | placeholder_svg_tag: 'wishlist-card__placeholder' }}
                   {% endif %}
                 </a>
-
-                <button
-                  class="wishlist-card__remove"
-                  type="button"
-                  aria-label="{{ 'products.gemstone.remove_from_wishlist' | t: product: wishlist_product.title | escape }}"
-                  data-wishlist-remove="{{ wishlist_product.handle | escape }}"
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" />
-                  </svg>
-                </button>
-
-                {% if wishlist_product.available %}
-                  {% render 'quick-add', product: wishlist_product, section_id: wishlist_section_id %}
-                {% endif %}
               </div>
 
               <div class="wishlist-card__content">
-                <a class="wishlist-card__title" href="{{ wishlist_product.url }}">{{ wishlist_product.title }}</a>
+                <div class="wishlist-card__header">
+                  <a class="wishlist-card__title" href="{{ wishlist_product.url }}">{{ wishlist_product.title }}</a>
+                  <div class="wishlist-card__tools">
+                    <button
+                      class="wishlist-card__tool wishlist-card__tool--heart"
+                      type="button"
+                      aria-label="{{ 'products.gemstone.remove_from_wishlist' | t: product: wishlist_product.title | escape }}"
+                      data-wishlist-remove="{{ wishlist_product.handle | escape }}"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" />
+                      </svg>
+                    </button>
+                    <button
+                      class="wishlist-card__tool wishlist-card__tool--trash"
+                      type="button"
+                      aria-label="{{ 'products.gemstone.remove_from_wishlist' | t: product: wishlist_product.title | escape }}"
+                      data-wishlist-remove="{{ wishlist_product.handle | escape }}"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-2 6h10l-.7 11H7.7L7 9Zm3 2v7h1.5v-7H10Zm2.5 0v7H14v-7h-1.5Z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
 
                 <div class="wishlist-card__details">
                   {% if product_color != blank %}
                     {% assign detail_count = detail_count | plus: 1 %}
-                    <span>{{ 'products.gemstone.color' | t }}: {{ product_color }}</span>
+                    <div class="wishlist-card__detail">
+                      <span class="wishlist-card__detail-label">{{ 'products.gemstone.color' | t }}</span>
+                      <span class="wishlist-card__detail-separator">:</span>
+                      <span class="wishlist-card__detail-value">
+                        <span class="wishlist-card__color-dot" style="--wishlist-card-color: {{ product_color | escape }}"></span>
+                        {{ product_color }}
+                      </span>
+                    </div>
                   {% endif %}
                   {% if shape != blank %}
                     {% assign detail_count = detail_count | plus: 1 %}
-                    <span>{{ 'products.gemstone.shape' | t }}: {{ shape }}</span>
+                    <div class="wishlist-card__detail">
+                      <span class="wishlist-card__detail-label">{{ 'products.gemstone.shape' | t }}</span>
+                      <span class="wishlist-card__detail-separator">:</span>
+                      <span class="wishlist-card__detail-value">
+                        <span class="wishlist-card__diamond" aria-hidden="true"></span>
+                        {{ shape }}
+                      </span>
+                    </div>
                   {% endif %}
                   {% if gemstone_type != blank %}
                     {% assign detail_count = detail_count | plus: 1 %}
-                    <span>{{ 'products.gemstone.stone_type' | t }}: {{ gemstone_type }}</span>
+                    <div class="wishlist-card__detail">
+                      <span class="wishlist-card__detail-label">{{ 'products.gemstone.stone_type' | t }}</span>
+                      <span class="wishlist-card__detail-separator">:</span>
+                      <span class="wishlist-card__detail-value">
+                        <span class="wishlist-card__diamond" aria-hidden="true"></span>
+                        {{ gemstone_type }}
+                      </span>
+                    </div>
                   {% elsif gemstone_group != blank %}
                     {% assign detail_count = detail_count | plus: 1 %}
-                    <span>{{ 'products.gemstone.group' | t }}: {{ gemstone_group }}</span>
+                    <div class="wishlist-card__detail">
+                      <span class="wishlist-card__detail-label">{{ 'products.gemstone.group' | t }}</span>
+                      <span class="wishlist-card__detail-separator">:</span>
+                      <span class="wishlist-card__detail-value">
+                        <span class="wishlist-card__diamond" aria-hidden="true"></span>
+                        {{ gemstone_group }}
+                      </span>
+                    </div>
                   {% endif %}
                   {% if carat_weight != blank %}
                     {% assign detail_count = detail_count | plus: 1 %}
-                    <span>{{ 'products.gemstone.carat_weight' | t }}: {{ carat_weight }}</span>
+                    <div class="wishlist-card__detail">
+                      <span class="wishlist-card__detail-label">{{ 'products.gemstone.carat_weight' | t }}</span>
+                      <span class="wishlist-card__detail-separator">:</span>
+                      <span class="wishlist-card__detail-value">{{ carat_weight }}</span>
+                    </div>
                   {% endif %}
                   {% if detail_count == 0 and certification_status != blank %}
-                    <span>{{ certification_status }}</span>
+                    <div class="wishlist-card__detail">
+                      <span class="wishlist-card__detail-value">{{ certification_status }}</span>
+                    </div>
                   {% endif %}
                 </div>
 
-                <div class="wishlist-card__footer">
-                  <p class="wishlist-card__price">{{ selected_variant.price | money }}</p>
-                  <a class="wishlist-card__view" href="{{ wishlist_product.url }}">{{ 'products.gemstone.view_product' | t }}</a>
-                </div>
+                <p class="wishlist-card__price">{{ selected_variant.price | money }}</p>
+              </div>
+
+              <div class="wishlist-card__actions">
+                <a class="wishlist-card__view" href="{{ wishlist_product.url }}">{{ 'products.gemstone.view_product' | t }}</a>
+                {% if wishlist_product.available %}
+                  {% render 'quick-add',
+                    product: wishlist_product,
+                    section_id: wishlist_section_id,
+                    quick_add_text: wishlist_add_to_cart_text
+                  %}
+                {% else %}
+                  <button class="wishlist-card__sold-out" type="button" disabled>{{ 'products.product.sold_out' | t }}</button>
+                {% endif %}
               </div>
             </product-card>
           </li>
@@ -395,17 +449,22 @@
   .wishlist-card {
     display: grid;
     height: 100%;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(118px, 38%) minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    gap: 14px;
     overflow: hidden;
+    padding: 10px;
     border: 1px solid rgb(var(--color-border-rgb) / 0.55);
     border-radius: 8px;
     background: var(--color-background);
-    box-shadow: 0 18px 46px rgb(var(--color-foreground-rgb) / 0.07);
+    box-shadow: 0 12px 30px rgb(var(--color-foreground-rgb) / 0.08);
   }
 
   .wishlist-card__media {
     position: relative;
     overflow: hidden;
+    align-self: stretch;
+    border-radius: 8px;
     background: rgb(var(--color-foreground-rgb) / 0.04);
   }
 
@@ -417,7 +476,9 @@
   .wishlist-card__placeholder {
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 0.78;
+    height: 100%;
+    min-height: 132px;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     transition: transform 220ms ease;
   }
@@ -426,101 +487,194 @@
     transform: scale(1.025);
   }
 
-  .wishlist-card__remove {
-    position: absolute;
-    inset-block-start: 10px;
-    inset-inline-end: 10px;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: var(--color-background);
-    color: #d7283f;
-    box-shadow: 0 10px 24px rgb(var(--color-foreground-rgb) / 0.14);
-    cursor: pointer;
-  }
-
-  .wishlist-card__remove svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-  }
-
-  .wishlist-card .quick-add {
-    --button-size-md: 42px;
-    --padding-sm: 10px;
-    --padding-md: 10px;
-    --padding-inline-end: 0px;
-    --padding-block-end: 0px;
-    --border-radius: 8px;
-  }
-
-  .wishlist-card .quick-add__button {
-    box-shadow: 0 10px 24px rgb(var(--color-foreground-rgb) / 0.14);
-  }
-
   .wishlist-card__content {
     display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 12px;
+    gap: 9px;
     min-width: 0;
-    padding: 16px;
+    padding: 2px 4px 0 0;
+  }
+
+  .wishlist-card__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: start;
   }
 
   .wishlist-card__title {
     color: var(--color-foreground);
     font-family: var(--font-heading--family);
-    font-size: clamp(1.25rem, 1.8vw, 1.65rem);
+    font-size: clamp(1.2rem, 1.35vw, 1.55rem);
     font-weight: var(--font-heading--weight);
     line-height: 1.15;
     text-decoration: none;
-  }
-
-  .wishlist-card__details {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: start;
-    gap: 8px;
-    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
-    font-size: 0.88rem;
-    line-height: 1.4;
-  }
-
-  .wishlist-card__details span {
-    min-width: 0;
-    padding: 5px 9px;
-    border: 1px solid rgb(var(--color-border-rgb) / 0.45);
-    border-radius: 999px;
     overflow-wrap: anywhere;
   }
 
-  .wishlist-card__footer {
+  .wishlist-card__tools {
     display: flex;
+    gap: 8px;
+  }
+
+  .wishlist-card__tool {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #f8f1ed;
+    color: #8a4b08;
+    cursor: pointer;
+  }
+
+  .wishlist-card__tool--heart {
+    background: #fff2f0;
+    color: #e32631;
+  }
+
+  .wishlist-card__tool svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+  }
+
+  .wishlist-card__details {
+    display: grid;
+    gap: 7px;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .wishlist-card__detail {
+    display: grid;
+    grid-template-columns: 44px 8px minmax(0, 1fr);
+    gap: 8px;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding-block-start: 4px;
+    min-width: 0;
+  }
+
+  .wishlist-card__detail-label,
+  .wishlist-card__detail-separator {
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+  }
+
+  .wishlist-card__detail-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: rgb(var(--color-foreground-rgb) / 0.72);
+    overflow-wrap: anywhere;
+  }
+
+  .wishlist-card__color-dot {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--wishlist-card-color, #b87922);
+  }
+
+  .wishlist-card__diamond {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 auto;
+    border: 1.5px solid currentColor;
+    transform: rotate(45deg);
   }
 
   .wishlist-card__price {
     margin: 0;
     color: #8a4b08;
     font-family: var(--font-heading--family);
-    font-size: 1.2rem;
+    font-size: clamp(1.25rem, 1.45vw, 1.55rem);
     font-weight: 700;
     line-height: 1.2;
   }
 
+  .wishlist-card__actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+
   .wishlist-card__view {
-    flex: 0 0 auto;
-    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
-    font-size: 0.86rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    border: 1px solid #b78343;
+    border-radius: 6px;
+    background: var(--color-background);
+    color: #8a4b08;
+    font-size: 0.9rem;
     font-weight: 700;
     text-decoration: none;
+  }
+
+  .wishlist-card__actions .quick-add {
+    --button-size-md: 38px;
+    --quick-add-collapsed-width: 100%;
+    --quick-add-expanded-width: 100%;
+    --padding-sm: 12px;
+    --padding-md: 12px;
+    --padding-inline-end: 0px;
+    --padding-block-end: 0px;
+    --border-radius: 6px;
+    position: static;
+    inset: auto;
+    pointer-events: auto;
+    z-index: auto;
+    display: block;
+    min-width: 0;
+  }
+
+  .wishlist-card__actions .quick-add__product-form-component,
+  .wishlist-card__actions .quick-add__product-form-component .shopify-product-form {
+    height: 100%;
+    width: 100%;
+  }
+
+  .wishlist-card__actions button.quick-add__button,
+  .wishlist-card__sold-out {
+    position: static;
+    inset: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-inline-size: none;
+    min-height: 38px;
+    height: 38px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #bd8532, #98600f);
+    color: #ffffff;
+    box-shadow: none;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .wishlist-card__actions .quick-add__button > .add-to-cart-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .wishlist-card__actions .quick-add__button:is(:hover, :focus-visible) {
+    width: 100%;
+    padding-inline-end: 14px;
+  }
+
+  .wishlist-card__sold-out {
+    opacity: 0.6;
   }
 
   @media screen and (max-width: 989px) {
@@ -557,9 +711,19 @@
       grid-template-columns: 1fr;
     }
 
+    .wishlist-card {
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 12px;
+    }
+
     .wishlist-card__image,
     .wishlist-card__placeholder {
-      aspect-ratio: 1 / 0.72;
+      min-height: 132px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .wishlist-card__actions {
+      grid-template-columns: 1fr;
     }
   }
 {% endstylesheet %}
