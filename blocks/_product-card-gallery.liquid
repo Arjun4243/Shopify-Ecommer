@@ -1,12 +1,23 @@
 
 
 {% assign product = closest.product %}
+{% liquid
+  assign show_quick_add = false
+  if product.available
+    assign show_quick_add = true
+  endif
+  assign sale_discount_raw = product.metafields.custom.sale_discount_percentage.value | default: product.metafields.custom.sale_discount_percentage
+  assign sale_discount = sale_discount_raw | plus: 0
+  if sale_discount <= 0 and product.compare_at_price > product.price
+    assign sale_discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price
+  endif
+%}
 
 {% capture children %}
   {% unless product == blank %}
     {%- if product.available == false or product.compare_at_price > product.price -%}
       <div
-        class="product-badges product-badges--{{ settings.badge_position }}"
+        class="product-badges product-badges--top-left product-card-sale-badge"
         style="
             --badge-border-radius: {{ settings.badge_corner_radius }}px;
             --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
@@ -21,14 +32,34 @@
           {%- if product.available == false -%}
             {{ 'content.product_badge_sold_out' | t }}
           {%- elsif product.compare_at_price > product.price -%}
-            {{ 'content.product_badge_sale' | t }}
+            {% if sale_discount > 0 %}
+              {{ sale_discount | round }}% OFF
+            {% else %}
+              {{ 'content.product_badge_sale' | t }}
+            {% endif %}
           {%- endif -%}
         </div>
       </div>
     {%- endif -%}
-    {% if product.available and settings.quick_add or settings.mobile_quick_add %}
+    {% if show_quick_add %}
       {% render 'quick-add', product: product, section_id: section.id %}
     {% endif %}
+    <button
+      class="product-card-wishlist"
+      type="button"
+      aria-label="{{ 'products.gemstone.add_to_wishlist' | t | default: 'Add to wishlist' }}"
+      data-product-card-wishlist
+      data-product-handle="{{ product.handle | escape }}"
+      data-product-title="{{ product.title | escape }}"
+      data-product-url="{{ product.url }}"
+      data-product-image="{% if product.featured_media.preview_image != blank %}{{ product.featured_media.preview_image | image_url: width: 600 }}{% endif %}"
+      data-product-price="{{ product.price | money | strip_html | escape }}"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="product-card-wishlist__outline" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Zm0-2.7.1-.1c4.8-4.3 7.9-7.2 7.9-10.1C20 6.5 18.5 5 16.5 5c-1.5 0-3 .9-3.6 2.1h-1.8C10.5 5.9 9 5 7.5 5 5.5 5 4 6.5 4 8.5c0 2.9 3.1 5.8 7.9 10.1l.1.1Z" />
+        <path class="product-card-wishlist__fill" d="M12 21.4 10.6 20.1C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.6 11.6L12 21.4Z" />
+      </svg>
+    </button>
   {% endunless %}
 {% endcapture %}
 
@@ -45,6 +76,114 @@
 
 {% render 'product-card-gallery-zoom-details-styles' %}
 {% render 'product-badges-styles' %}
+
+{% javascript %}
+  const productCardWishlistStorageKey = 'raza-gems-wishlist';
+  const getProductCardWishlist = () => JSON.parse(localStorage.getItem(productCardWishlistStorageKey) || '[]');
+  const setProductCardWishlist = (wishlist) => localStorage.setItem(productCardWishlistStorageKey, JSON.stringify(wishlist));
+
+  const syncProductCardWishlistButtons = () => {
+    const wishlist = getProductCardWishlist();
+
+    document.querySelectorAll('[data-product-card-wishlist]').forEach((button) => {
+      const active = wishlist.some((item) => item.handle === button.dataset.productHandle);
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-product-card-wishlist]');
+
+    if (!button) return;
+
+    const wishlist = getProductCardWishlist();
+    const product = {
+      handle: button.dataset.productHandle,
+      title: button.dataset.productTitle,
+      url: button.dataset.productUrl,
+      image: button.dataset.productImage,
+      price: button.dataset.productPrice,
+    };
+    const existingIndex = wishlist.findIndex((item) => item.handle === product.handle);
+
+    if (existingIndex > -1) {
+      wishlist.splice(existingIndex, 1);
+    } else {
+      wishlist.unshift(product);
+    }
+
+    setProductCardWishlist(wishlist);
+    syncProductCardWishlistButtons();
+    window.dispatchEvent(new CustomEvent('raza-gems:wishlist-updated', { detail: { count: wishlist.length } }));
+  });
+
+  syncProductCardWishlistButtons();
+  window.addEventListener('raza-gems:wishlist-updated', syncProductCardWishlistButtons);
+{% endjavascript %}
+
+{% stylesheet %}
+  .product-card-sale-badge.product-badges {
+    z-index: 3;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
+    inset-inline-end: auto;
+  }
+
+  .product-card-sale-badge .product-badges__badge {
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #b40012;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    box-shadow: 0 8px 18px rgb(17 24 39 / 14%);
+  }
+
+  .product-card-wishlist {
+    position: absolute;
+    z-index: 3;
+    inset-block-start: 8px;
+    inset-inline-end: 8px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #111827;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgb(17 24 39 / 14%);
+  }
+
+  .product-card-wishlist svg {
+    width: 21px;
+    height: 21px;
+    fill: currentColor;
+  }
+
+  .product-card-wishlist__fill {
+    display: none;
+  }
+
+  .product-card-wishlist.is-active {
+    color: #c82f4a;
+  }
+
+  .product-card-wishlist.is-active .product-card-wishlist__outline {
+    display: none;
+  }
+
+  .product-card-wishlist.is-active .product-card-wishlist__fill {
+    display: block;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
