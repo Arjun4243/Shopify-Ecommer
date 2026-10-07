@@ -410,6 +410,18 @@
       "add_to_wishlist": "Add to wishlist",
       "added_to_wishlist": "Added to wishlist",
       "wishlist_empty": "Your wishlist is empty.",
+      "wishlist_title": "My Wishlist",
+      "wishlist_saved_favourites": "Your saved favourites",
+      "wishlist_intro": "Keep track of the gemstones and jewellery you love.",
+      "wishlist_count": {
+        "one": "1 item in your wishlist",
+        "other": "{{ count }} items in your wishlist"
+      },
+      "share_wishlist": "Share Wishlist",
+      "wishlist_empty_title": "Your wishlist is empty",
+      "wishlist_empty_body": "Save your favourite gemstones and jewellery to view them here.",
+      "remove_from_wishlist": "Remove {{ product }} from wishlist",
+      "view_product": "View product",
       "ask_question": "Ask a question",
       "share": "Share",
       "whatsapp_message": "Hello, I want to enquire about {{ product }}: {{ url }}",
