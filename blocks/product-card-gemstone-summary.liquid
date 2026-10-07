@@ -105,6 +105,28 @@ Renders a compact gemstone detail line for product cards.
     font-weight: 900;
     line-height: 1.3;
   }
+
+  .content-for-layout[data-template^='collection'] .product-card-gemstone-summary {
+    gap: 8px;
+    padding-inline: 8px;
+    color: #7a551d;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card-gemstone-summary span:not([aria-hidden='true']) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #f7ecd8;
+    line-height: 1.2;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card-gemstone-summary span[aria-hidden='true'] {
+    display: none;
+  }
 {% endstylesheet %}
 
 {% schema %}

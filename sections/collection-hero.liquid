@@ -1,0 +1,336 @@
+{% comment %}
+  Section contract.
+  Renders the dynamic collection hero for gemstone collection templates.
+  @example
+  <!-- Uses collection title, description, custom.banner_image, and collection image fallback. -->
+{% endcomment %}
+
+{% liquid
+  assign banner_image = collection.metafields.custom.banner_image.value
+
+  if banner_image == blank
+    assign banner_image = collection.image
+  endif
+
+  assign gemstones_url = '/pages/gemstones'
+  if pages.gemstones.url != blank
+    assign gemstones_url = pages.gemstones.url
+  endif
+%}
+
+<section class="collection-hero" aria-labelledby="collection-hero-title-{{ section.id }}">
+  <div class="collection-hero__inner">
+    <div class="collection-hero__content">
+      <nav class="collection-hero__breadcrumb" aria-label="{{ 'collection_hero.breadcrumb_label' | t }}">
+        <a href="{{ routes.root_url }}">{{ 'collection_hero.home' | t }}</a>
+        <span aria-hidden="true">
+          {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+        </span>
+        <a href="{{ gemstones_url }}">{{ 'collection_hero.gemstones' | t }}</a>
+        <span aria-hidden="true">
+          {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+        </span>
+        <span aria-current="page">{{ collection.title | escape }}</span>
+      </nav>
+
+      <h1 id="collection-hero-title-{{ section.id }}" class="collection-hero__title">
+        {{ collection.title | escape }}
+      </h1>
+
+      {% if collection.description != blank %}
+        <div class="collection-hero__description rte">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+
+      <ul class="collection-hero__trust-list" aria-label="{{ 'collection_hero.trust_points_label' | t }}">
+        <li class="collection-hero__trust-item">
+          <span class="collection-hero__trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6.2 4.5h11.6l3 4.4L12 20 3.2 8.9 6.2 4.5Zm1 2-1.4 2h12.4l-1.4-2H7.2Zm1 4L12 16l3.8-5.5H8.2Z"/>
+            </svg>
+          </span>
+          <span>{{ 'collection_hero.trust_natural' | t }}</span>
+        </li>
+        <li class="collection-hero__trust-item">
+          <span class="collection-hero__trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="m12 2 2.1 2.2 3-.5 1.3 2.8 2.8 1.3-.5 3L23 13l-2.3 2.1.5 3-2.8 1.3-1.3 2.8-3-.5L12 24l-2.1-2.3-3 .5-1.3-2.8-2.8-1.3.5-3L1 13l2.3-2.2-.5-3 2.8-1.3 1.3-2.8 3 .5L12 2Zm0 3.1-1.4 1.5-2.1-.3-.9 1.9-1.9.9.3 2.1L4.5 13 6 14.4l-.3 2.1 1.9.9.9 1.9 2.1-.3 1.4 1.5 1.4-1.5 2.1.3.9-1.9 1.9-.9-.3-2.1 1.5-1.4-1.5-1.8.3-2.1-1.9-.9-.9-1.9-2.1.3L12 5.1Zm4.2 5.8-4.8 4.8-2.7-2.8 1.4-1.4 1.3 1.3 3.4-3.4 1.4 1.5Z"/>
+            </svg>
+          </span>
+          <span>{{ 'collection_hero.trust_certified' | t }}</span>
+        </li>
+        <li class="collection-hero__trust-item">
+          <span class="collection-hero__trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M3 5h12v3h3.4L22 12.7V18h-2.1a3 3 0 0 1-5.8 0H9.9a3 3 0 0 1-5.8 0H2V7a2 2 0 0 1 1-2Zm1 2v9h.8a3 3 0 0 1 4.4 0H13V7H4Zm11 3v6h.8a3 3 0 0 1 4.2-.2v-2.4L17.4 10H15ZM7 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/>
+            </svg>
+          </span>
+          <span>{{ 'collection_hero.trust_shipping' | t }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="collection-hero__media">
+      {% if banner_image != blank %}
+        {{
+          banner_image
+          | image_url: width: 1400
+          | image_tag:
+            widths: '480, 720, 960, 1200, 1400',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: collection.title
+        }}
+      {% else %}
+        <div class="collection-hero__media-placeholder" aria-hidden="true">
+          <span>{{ collection.title | escape }}</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .collection-hero {
+    --collection-hero-accent: #a9792b;
+    --collection-hero-accent-soft: #f5ead7;
+    --collection-hero-surface: #fffaf2;
+    --collection-hero-text-muted: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 78% 10%, rgb(201 157 88 / 18%), transparent 26rem),
+      linear-gradient(100deg, #fffaf2 0%, #fbf2e5 47%, #f6e2c6 100%);
+  }
+
+  .collection-hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: stretch;
+    gap: clamp(24px, 4vw, 72px);
+    width: min(var(--page-width), calc(100% - var(--page-margin) * 2));
+    min-height: clamp(360px, 33vw, 560px);
+    margin-inline: auto;
+  }
+
+  .collection-hero__content {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding-block: clamp(44px, 7vw, 96px);
+  }
+
+  .collection-hero__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    color: var(--collection-hero-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .collection-hero__breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .collection-hero__breadcrumb a:hover {
+    color: var(--collection-hero-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .collection-hero__breadcrumb span[aria-current='page'] {
+    color: var(--collection-hero-accent);
+  }
+
+  .collection-hero__breadcrumb svg {
+    width: 12px;
+    height: 12px;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40));
+  }
+
+  .collection-hero__title {
+    max-width: 11ch;
+    margin: clamp(22px, 3vw, 34px) 0 0;
+    color: var(--color-foreground);
+    font-family: var(--font-heading--family);
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: var(--font-heading--weight);
+    line-height: 0.92;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .collection-hero__description {
+    max-width: 58ch;
+    margin-block-start: 18px;
+    color: var(--collection-hero-text-muted);
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
+    line-height: 1.55;
+  }
+
+  .collection-hero__description > :first-child {
+    margin-block-start: 0;
+  }
+
+  .collection-hero__description > :last-child {
+    margin-block-end: 0;
+  }
+
+  .collection-hero__trust-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px clamp(18px, 3vw, 42px);
+    margin: clamp(24px, 3.4vw, 38px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-hero__trust-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: #7a551d;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .collection-hero__trust-icon {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgb(169 121 43 / 45%);
+    border-radius: 50%;
+    background: rgb(255 250 242 / 62%);
+    color: var(--collection-hero-accent);
+  }
+
+  .collection-hero__trust-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .collection-hero__media {
+    position: relative;
+    min-width: 0;
+    min-height: 100%;
+    margin-inline-end: calc((100vw - min(var(--page-width), calc(100vw - var(--page-margin) * 2))) / -2);
+    overflow: hidden;
+    border-end-start-radius: 120px;
+  }
+
+  .collection-hero__media::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 1;
+    width: 28%;
+    background: linear-gradient(90deg, var(--collection-hero-surface), rgb(255 250 242 / 0));
+    pointer-events: none;
+  }
+
+  .collection-hero__media img,
+  .collection-hero__media-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: clamp(320px, 33vw, 560px);
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .collection-hero__media-placeholder {
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    background:
+      radial-gradient(circle at 65% 35%, rgb(169 121 43 / 20%), transparent 14rem),
+      linear-gradient(135deg, #f8ead4, #fffaf2);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-50));
+    font-family: var(--font-heading--family);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection-hero__inner {
+      grid-template-columns: 1fr;
+      gap: 0;
+      width: 100%;
+      min-height: 0;
+    }
+
+    .collection-hero__content {
+      width: min(var(--page-width), calc(100% - var(--page-margin) * 2));
+      margin-inline: auto;
+      padding-block: 34px 28px;
+    }
+
+    .collection-hero__title {
+      max-width: 100%;
+      font-size: clamp(2.75rem, 13vw, 5rem);
+    }
+
+    .collection-hero__media {
+      margin-inline: 0;
+      border-end-start-radius: 0;
+    }
+
+    .collection-hero__media::before {
+      inset: 0 0 auto;
+      width: 100%;
+      height: 24%;
+      background: linear-gradient(180deg, var(--collection-hero-surface), rgb(255 250 242 / 0));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-hero__content {
+      padding-block-start: 28px;
+    }
+
+    .collection-hero__trust-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .collection-hero__trust-icon {
+      width: 42px;
+      height: 42px;
+    }
+
+    .collection-hero__media img,
+    .collection-hero__media-placeholder {
+      min-height: 260px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.collection_hero",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.collection_hero"
+    }
+  ]
+}
+{% endschema %}

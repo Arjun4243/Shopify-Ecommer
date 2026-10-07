@@ -313,6 +313,15 @@
       "expired": "Platnosť uplynula"
     }
   },
+  "collection_hero": {
+    "breadcrumb_label": "Collection breadcrumb",
+    "home": "Home",
+    "gemstones": "Gemstones",
+    "trust_points_label": "Collection assurances",
+    "trust_natural": "Natural Gemstones",
+    "trust_certified": "Certified Quality",
+    "trust_shipping": "Worldwide Shipping"
+  },
   "blogs": {
     "article": {
       "comment_author_separator": "•",

@@ -92,6 +92,138 @@
   </results-list>
 </collection-component>
 
+{% stylesheet %}
+  .content-for-layout[data-template^='collection'] .collection-wrapper {
+    background:
+      linear-gradient(180deg, #fffdf8 0%, rgb(var(--color-background-rgb)) 38%),
+      var(--color-background);
+  }
+
+  .content-for-layout[data-template^='collection'] .facets-block-wrapper--horizontal {
+    border-block-end: 1px solid rgb(169 121 43 / 14%);
+    background: rgb(255 253 248 / 88%);
+    box-shadow: 0 12px 32px rgb(87 60 24 / 6%);
+  }
+
+  .content-for-layout[data-template^='collection'] .facets--horizontal {
+    --facets-form-horizontal-gap: clamp(12px, 1.6vw, 28px);
+  }
+
+  .content-for-layout[data-template^='collection'] .facets--horizontal .facets__summary,
+  .content-for-layout[data-template^='collection'] .sorting-filter__select,
+  .content-for-layout[data-template^='collection'] .products-count-wrapper {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  .content-for-layout[data-template^='collection'] .facets-toggle__button {
+    border-radius: 8px;
+    background: #f7ecd8;
+    color: #5d3d12;
+  }
+
+  .content-for-layout[data-template^='collection'] .column-picker {
+    border-radius: 8px;
+  }
+
+  .content-for-layout[data-template^='collection'] .column-options__option-input:checked ~ .column-picker {
+    background: #f7ecd8;
+    color: #7a551d;
+  }
+
+  .content-for-layout[data-template^='collection'] .main-collection-grid {
+    padding-block-start: clamp(22px, 3vw, 40px);
+  }
+
+  .content-for-layout[data-template^='collection'] .product-grid {
+    align-items: stretch;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-grid__item {
+    overflow: hidden;
+    border: 1px solid rgb(169 121 43 / 14%);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgb(87 60 24 / 7%);
+    transition: transform var(--animation-speed) var(--animation-easing),
+      box-shadow var(--animation-speed) var(--animation-easing);
+  }
+
+  .content-for-layout[data-template^='collection'] .product-grid__item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 42px rgb(87 60 24 / 11%);
+  }
+
+  .content-for-layout[data-template^='collection'] .product-grid__card.product-grid__card {
+    height: 100%;
+    padding: 8px 8px 16px;
+    gap: 12px;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card .card-gallery {
+    border-radius: 8px;
+    background: #f7f0e4;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card .card-gallery .product-media-container {
+    aspect-ratio: 16 / 9;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card .card-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card :is(h3, h4, .h4) {
+    padding-inline: 8px;
+    color: var(--color-foreground);
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.15rem, 1.4vw, 1.45rem);
+    line-height: 1.2;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card .price {
+    margin-block-start: auto;
+    padding-inline: 8px;
+    color: var(--color-foreground);
+    font-size: clamp(1rem, 1.1vw, 1.2rem);
+    font-weight: 800;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card .quick-add {
+    --quick-add-offset: 10px;
+  }
+
+  .content-for-layout[data-template^='collection'] .product-card button.quick-add__button {
+    border: 0;
+    background: #a9792b;
+    color: #ffffff;
+    box-shadow: 0 10px 22px rgb(87 60 24 / 18%);
+  }
+
+  @media screen and (min-width: 750px) {
+    .content-for-layout[data-template^='collection'] .product-card button.quick-add__button:is(:hover, :focus-visible) {
+      padding-inline-end: 14px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .content-for-layout[data-template^='collection'] .facets-toggle {
+      border-block-end: 1px solid rgb(169 121 43 / 14%);
+      background: rgb(255 253 248 / 92%);
+    }
+
+    .content-for-layout[data-template^='collection'] .main-collection-grid {
+      padding-inline: var(--page-margin);
+    }
+
+    .content-for-layout[data-template^='collection'] .product-grid__card.product-grid__card {
+      padding: 7px 7px 14px;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.collection_container",
