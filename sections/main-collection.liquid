@@ -31,66 +31,76 @@
 
 {% render 'collection-wrapper-styles' %}
 
-<div
-  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
-></div>
-{% # theme-check-disable-next-line UnknownFilter %}
-<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
-  <results-list
-    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
-    style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
-    section-id="{{ section.id }}"
-    infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
-  >
-    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
-
-    <div
-      class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+{% if section.settings.enable_gemstone_filters %}
+  {% assign collection_subtitle = collection.description | strip_html %}
+  {% render 'stone-product-listing',
+    source_collection: collection,
+    heading: collection.title,
+    subtitle: collection_subtitle,
+    section_id: section.id
+  %}
+{% else %}
+  <div
+    class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  ></div>
+  {% # theme-check-disable-next-line UnknownFilter %}
+  <collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+    <results-list
+      class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+      style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
+      section-id="{{ section.id }}"
+      infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
     >
-      {% content_for 'block',
-        type: 'filters',
-        id: 'filters',
-        results: collection,
-        results_size: collection.products_count
-      %}
+      {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
-      {% assign products_per_page = 24 %}
-
-      {% if section.settings.enable_infinite_scroll == false %}
-        {% assign products_per_page = section.settings.products_per_page %}
-      {% endif %}
-
-      {% paginate collection.products by products_per_page %}
-        {% capture children %}
-          {% for product in collection.products %}
-            <li
-              id="{{ section.id }}-{{ product.id }}"
-              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-              data-page="{{ paginate.current_page }}"
-              data-product-id="{{ product.id }}"
-              ref="cards[]"
-            >
-              {% content_for 'block',
-                type: '_product-card',
-                id: 'product-card',
-                closest.product: product,
-                product_view_context: 'collection'
-              %}
-            </li>
-          {% endfor %}
-        {% endcapture %}
-
-        {% render 'product-grid',
-          section: section,
-          children: children,
-          products: collection.products,
-          paginate: paginate,
-          enable_infinite_scroll: section.settings.enable_infinite_scroll
+      <div
+        class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+      >
+        {% content_for 'block',
+          type: 'filters',
+          id: 'filters',
+          results: collection,
+          results_size: collection.products_count
         %}
-      {% endpaginate %}
-    </div>
-  </results-list>
-</collection-component>
+
+        {% assign products_per_page = 24 %}
+
+        {% if section.settings.enable_infinite_scroll == false %}
+          {% assign products_per_page = section.settings.products_per_page %}
+        {% endif %}
+
+        {% paginate collection.products by products_per_page %}
+          {% capture children %}
+            {% for product in collection.products %}
+              <li
+                id="{{ section.id }}-{{ product.id }}"
+                class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+                data-page="{{ paginate.current_page }}"
+                data-product-id="{{ product.id }}"
+                ref="cards[]"
+              >
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'product-card',
+                  closest.product: product,
+                  product_view_context: 'collection'
+                %}
+              </li>
+            {% endfor %}
+          {% endcapture %}
+
+          {% render 'product-grid',
+            section: section,
+            children: children,
+            products: collection.products,
+            paginate: paginate,
+            enable_infinite_scroll: section.settings.enable_infinite_scroll
+          %}
+        {% endpaginate %}
+      </div>
+    </results-list>
+  </collection-component>
+{% endif %}
 
 {% stylesheet %}
   .content-for-layout[data-template^='collection'] .collection-wrapper {
@@ -292,6 +302,12 @@
       "type": "checkbox",
       "id": "enable_infinite_scroll",
       "label": "t:settings.auto_load_products",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gemstone_filters",
+      "label": "t:settings.enable_gemstone_filters",
       "default": true
     },
     {

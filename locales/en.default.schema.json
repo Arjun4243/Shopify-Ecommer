@@ -847,6 +847,7 @@
     "empty_state_collection": "Empty state collection",
     "empty_state_collection_info": "Shown before a search is entered",
     "enable_filtering": "Filters",
+    "enable_gemstone_filters": "Use gemstone filter layout",
     "enable_grid_density": "Grid layout control",
     "enable_sorting": "Sorting",
     "enable_sticky_add_to_cart": "Sticky add to cart bar",

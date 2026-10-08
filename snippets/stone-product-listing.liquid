@@ -4,12 +4,13 @@ Renders a filterable gemstone product listing for a product gemstone group.
 @param {string} heading - Page/listing heading.
 @param {string} subtitle - Listing subtitle.
 @param {string} section_id - Parent section id for quick-add.
+@param {object} [source_collection] - Collection to list products from.
 @example
 {% render 'stone-product-listing', group_handle: 'precious', heading: 'Gemstones', subtitle: 'Discover natural gemstones', section_id: section.id %}
 {% enddoc %}
 
 {% liquid
-  assign source_collection = collections.all
+  assign source_collection = source_collection | default: collections.all
   assign products_limit = 250
   assign rendered_products_count = 0
   assign quick_add_enabled = false
@@ -126,8 +127,14 @@ Renders a filterable gemstone product listing for a product gemstone group.
               {% liquid
                 assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
                 assign product_group_handle = product_group | handleize
+                assign should_render_product = false
+                if group_handle == blank
+                  assign should_render_product = true
+                elsif product_group_handle == group_handle
+                  assign should_render_product = true
+                endif
               %}
-              {% if product_group_handle == group_handle %}
+              {% if should_render_product %}
                 {% liquid
                   assign rendered_products_count = rendered_products_count | plus: 1
                   assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
