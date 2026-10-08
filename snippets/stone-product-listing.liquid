@@ -6,6 +6,8 @@ Renders a filterable gemstone product listing for a product gemstone group.
 @param {string} section_id - Parent section id for quick-add.
 @param {object} [source_collection] - Collection to list products from.
 @param {boolean} [show_type_filter] - Whether to show gemstone type filter controls.
+@param {boolean} [show_view_controls] - Whether to show grid/list view controls.
+@param {boolean} [show_listing_header] - Whether to show the listing breadcrumb, heading, and subtitle.
 @example
 {% render 'stone-product-listing', group_handle: 'precious', heading: 'Gemstones', subtitle: 'Discover natural gemstones', section_id: section.id %}
 {% enddoc %}
@@ -21,31 +23,39 @@ Renders a filterable gemstone product listing for a product gemstone group.
   unless show_type_filter == false
     assign show_type_filter = true
   endunless
+  unless show_view_controls == false
+    assign show_view_controls = true
+  endunless
+  unless show_listing_header == false
+    assign show_listing_header = true
+  endunless
 %}
 
 <section class="stone-listing" data-stone-listing data-group="{{ group_handle | escape }}">
-  <div class="stone-listing__top">
-    <nav class="stone-listing__breadcrumbs" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span aria-hidden="true">&gt;</span>
-      <span>{{ heading | escape }}</span>
-    </nav>
-    <div class="stone-listing__hero">
-      <div>
-        <h2>{{ heading | escape }}</h2>
-        {% if subtitle != blank %}
-          <p>{{ subtitle | escape }}</p>
-        {% endif %}
+  {% if show_listing_header %}
+    <div class="stone-listing__top">
+      <nav class="stone-listing__breadcrumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span aria-hidden="true">&gt;</span>
+        <span>{{ heading | escape }}</span>
+      </nav>
+      <div class="stone-listing__hero">
+        <div>
+          <h2>{{ heading | escape }}</h2>
+          {% if subtitle != blank %}
+            <p>{{ subtitle | escape }}</p>
+          {% endif %}
+        </div>
+        <label class="stone-listing__search">
+          <span class="visually-hidden">Search gemstones</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
+          </svg>
+          <input type="search" placeholder="Search gemstones..." data-stone-search>
+        </label>
       </div>
-      <label class="stone-listing__search">
-        <span class="visually-hidden">Search gemstones</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
-        </svg>
-        <input type="search" placeholder="Search gemstones..." data-stone-search>
-      </label>
     </div>
-  </div>
+  {% endif %}
 
   <div class="stone-listing__layout">
     <aside id="StoneFilters-{{ group_handle | handleize }}" class="stone-listing__filters" aria-label="Filters" data-stone-filter-drawer>
@@ -99,6 +109,17 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
     <div class="stone-listing__main">
       <div class="stone-listing__toolbar">
+        
+        {% unless show_listing_header %}
+          <label class="stone-listing__search stone-listing__search--toolbar">
+            <span class="visually-hidden">Search gemstones</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
+            </svg>
+            <input type="search" placeholder="Search gemstones..." data-stone-search>
+          </label>
+        {% endunless %}
+
         <button
           class="stone-listing__filter-toggle"
           type="button"
@@ -106,6 +127,8 @@ Renders a filterable gemstone product listing for a product gemstone group.
           aria-expanded="false"
           data-stone-filter-toggle
         >
+
+          
           {{ 'actions.show_filters' | t }}
         </button>
 
@@ -123,9 +146,11 @@ Renders a filterable gemstone product listing for a product gemstone group.
               <option value="title-asc">Name: A to Z</option>
             </select>
           </label>
-          <button type="button" class="is-active" data-view-mode="grid" aria-label="Grid view">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" /></svg>
-          </button>
+          {% if show_view_controls %}
+            <button type="button" class="is-active" data-view-mode="grid" aria-label="Grid view">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" /></svg>
+            </button>
+          {% endif %}
         </div>
       </div>
 
@@ -580,6 +605,13 @@ Renders a filterable gemstone product listing for a product gemstone group.
     width: min(100%, 430px);
   }
 
+  .stone-listing__search--toolbar {
+    flex: 1 1 280px;
+    max-width: 430px;
+    margin-inline-end: auto;
+    max-height: 10px;
+  }
+
   .stone-listing__search svg {
     width: 20px;
     height: 20px;
@@ -641,6 +673,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
   .stone-listing__toolbar {
     justify-content: space-between;
     gap: 18px;
+    margin-bottom:10px;
   }
 
   .stone-listing__filters-head h3 {
@@ -1107,6 +1140,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
     .stone-listing__tools {
       flex-wrap: wrap;
+      margin-bottom: 10px;
     }
   }
 {% endstylesheet %}
