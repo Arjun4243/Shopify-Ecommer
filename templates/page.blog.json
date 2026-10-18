@@ -18,8 +18,8 @@
         "banner_heading": "Learn Gemstones",
         "banner_description": "Find out gemstone benefits, how to use them, jewellery ideas and much more",
         "background_color": "#f3eee8",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 20,
+        "padding-block-end": 20
       }
     }
   },

@@ -76,11 +76,12 @@
           {% assign topic_metafield = article.metafields.custom.gemstone_topic %}
           {% assign topic_reference = topic_metafield.value %}
           {% assign article_topic = topic_reference.title | default: topic_reference | default: topic_metafield %}
+          {% assign searchable_text = article.title | append: ' ' | append: article.author %}
           <article
             class="blog-post-item gem-blog__card"
             data-testid="blog-post-item"
             data-topic="{{ article_topic | downcase | escape }}"
-            data-search="{{ article.title | append: ' ' | append: article.excerpt | strip_html | downcase | escape }}"
+            data-search="{{ searchable_text | downcase | escape }}"
           >
             {% if article.image %}
               <a class="gem-blog__image" href="{{ article.url }}">
@@ -106,11 +107,22 @@
                 <a href="{{ article.url }}">{{ article.title | escape }}</a>
               </h2>
               <p class="gem-blog__meta">
-                {{ article.published_at | time_tag: format: 'date' }}
-                <span aria-hidden="true">·</span> {{ article.author | escape }}
+                <span class="gem-blog__meta-item">
+                  <svg class="gem-blog__meta-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                    <rect x="3" y="4.5" width="14" height="12" rx="1.5"></rect>
+                    <path d="M6.5 2.5v4M13.5 2.5v4M3 8.5h14"></path>
+                  </svg>
+                  {{ article.published_at | time_tag: format: 'date' }}
+                </span>
+                <span class="gem-blog__meta-separator" aria-hidden="true">|</span>
+                <span class="gem-blog__meta-item">
+                  <svg class="gem-blog__meta-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                    <circle cx="10" cy="6.5" r="3"></circle>
+                    <path d="M4.5 17c.7-3 2.5-4.5 5.5-4.5s4.8 1.5 5.5 4.5"></path>
+                  </svg>
+                  {{ article.author | escape }}
+                </span>
               </p>
-              {% assign card_excerpt = article.excerpt | default: article.content %}
-              <p class="gem-blog__excerpt">{{ card_excerpt | strip_html | truncatewords: 22 }}</p>
               <a class="gem-blog__read-more" href="{{ article.url }}">
                 {{- 'blogs.gemstone.read_more' | t }}
                 <span aria-hidden="true">→</span></a
@@ -261,8 +273,9 @@
   .gem-blog__card {
     overflow: hidden;
     border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
-    border-radius: 12px;
+    border-radius: 14px;
     background: var(--color-background);
+    box-shadow: 0 0.35rem 1.2rem rgb(var(--color-foreground-rgb) / 0.06);
   }
   .gem-blog__image {
     display: block;
@@ -272,7 +285,7 @@
   .gem-blog__image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
   .gem-blog__card-body {
     padding: 1rem;
@@ -282,22 +295,46 @@
     font-family: var(--font-heading--family);
     font-size: clamp(1rem, calc(0.9rem + 0.45vw), 1.2rem);
     line-height: 1.25;
+    display: -webkit-box;
+    min-height: calc(2 * 1.25em);
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
   .gem-blog__card h2 a {
     color: var(--color-foreground);
     text-decoration: none;
   }
   .gem-blog__category,
-  .gem-blog__meta,
-  .gem-blog__excerpt {
+  .gem-blog__meta {
     margin: 0.35rem 0;
   }
   .gem-blog__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
     color: var(--color-foreground-muted);
     font-size: 0.75rem;
   }
-  .gem-blog__excerpt {
-    line-height: 1.45;
+  .gem-blog__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  .gem-blog__meta-icon {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.35;
+  }
+  .gem-blog__meta-separator {
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40));
   }
   .gem-blog__read-more {
     display: inline-flex;
