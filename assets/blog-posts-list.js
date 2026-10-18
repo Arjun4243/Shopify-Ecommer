@@ -15,12 +15,13 @@ class BlogPostsList extends PaginatedList {
     const { signal } = this.#filterController;
     const search = this.querySelector('[data-blog-search]');
     const topicButtons = this.querySelectorAll('[data-topic-filter]');
+    const selectedTopics = new Set();
     const applyFilters = () => {
       const query = search?.value.trim().toLocaleLowerCase() ?? '';
-      const topic = this.querySelector('[data-topic-filter].is-active')?.dataset.topicFilter ?? '';
       let visibleCount = 0;
       for (const card of this.querySelectorAll('[data-testid="blog-post-item"]')) {
-        const matches = (!topic || card.dataset.topic === topic) && (!query || card.dataset.search?.includes(query));
+        const topicMatches = selectedTopics.size === 0 || selectedTopics.has(card.dataset.topic);
+        const matches = topicMatches && (!query || card.dataset.search?.includes(query));
         card.hidden = !matches;
         if (matches) visibleCount += 1;
       }
@@ -32,7 +33,22 @@ class BlogPostsList extends PaginatedList {
     this.querySelector('[data-blog-search-button]')?.addEventListener('click', applyFilters, { signal });
     for (const button of topicButtons) {
       button.addEventListener('click', () => {
-        for (const sibling of topicButtons) sibling.classList.toggle('is-active', sibling === button);
+        const topic = button.dataset.topicFilter ?? '';
+        if (!topic) {
+          selectedTopics.clear();
+        } else if (selectedTopics.has(topic)) {
+          selectedTopics.delete(topic);
+        } else {
+          selectedTopics.add(topic);
+        }
+
+        for (const sibling of topicButtons) {
+          const siblingTopic = sibling.dataset.topicFilter ?? '';
+          sibling.classList.toggle(
+            'is-active',
+            siblingTopic ? selectedTopics.has(siblingTopic) : selectedTopics.size === 0,
+          );
+        }
         applyFilters();
       }, { signal });
     }

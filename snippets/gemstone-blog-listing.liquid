@@ -346,9 +346,12 @@
     justify-content: space-between;
     gap: 1rem;
     margin-bottom: 0.75rem;
+    min-width: 0;
   }
   .gem-blog__topics-heading h2 {
     margin: 0;
+    min-width: 0;
+    font-size: clamp(1.35rem, calc(1.05rem + 1.2vw), 2rem);
   }
   .gem-blog__topics-view-all {
     display: inline-flex !important;
@@ -359,16 +362,14 @@
     padding: 0.25rem !important;
     color: var(--color-primary-button-background) !important;
     font-size: 0.8rem;
+    flex: 0 0 auto;
+    max-width: 100%;
     white-space: nowrap;
   }
   .gem-blog__topic-list {
-    display: flex;
+    display: grid;
     gap: 0.65rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .gem-blog__topic-list::-webkit-scrollbar {
-    display: none;
+    overflow: visible;
   }
   .gem-blog__topic-pill {
     display: inline-flex !important;
@@ -388,13 +389,17 @@
     text-align: start;
     white-space: normal;
   }
+  .gem-blog__topic-list .gem-blog__topic-pill {
+    width: 100% !important;
+    min-width: 0;
+  }
   .gem-blog__topic-pill[data-topic-filter=""] {
     display: none !important;
   }
   .gem-blog__topic-pill.is-active {
-    border-color: var(--color-primary-button-background) !important;
-    background: var(--color-primary-button-background) !important;
-    color: var(--color-primary-button-text) !important;
+    border-color: #123d2e !important;
+    background: #123d2e !important;
+    color: #ffffff !important;
   }
   .gem-blog__topic-pill:hover,
   .gem-blog__topic-pill:focus-visible {
@@ -573,8 +578,14 @@
       margin-bottom: 0.65rem;
     }
     .gem-blog__topic-list {
+      display: flex;
       width: 100%;
       gap: 0.4rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .gem-blog__topic-list::-webkit-scrollbar {
+      display: none;
     }
     .gem-blog__topic-pill {
       min-width: 5.35rem;
@@ -584,6 +595,10 @@
       padding: 0.3rem 0.4rem !important;
       font-size: 0.62rem;
       line-height: 1.1;
+    }
+    .gem-blog__topic-list .gem-blog__topic-pill {
+      width: auto !important;
+      min-width: 5.35rem;
     }
     .gem-blog__topic-pill img {
       width: 1.65rem;
