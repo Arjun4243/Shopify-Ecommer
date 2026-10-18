@@ -69,6 +69,39 @@
           {% endunless %}
         {% endif %}
       {% endfor %}
+      {% assign promo_started = false %}
+      <div class="gem-blog__promo" data-blog-promo>
+        {% for promo_article in blog_resource.articles %}
+          {% if promo_article.image != blank %}
+            {% assign promo_topic_metafield = promo_article.metafields.custom.gemstone_topic %}
+            {% assign promo_topic_reference = promo_topic_metafield.value %}
+            {% assign promo_topic = promo_topic_reference.title | default: promo_topic_reference | default: promo_topic_metafield %}
+            <a
+              class="gem-blog__promo-slide"
+              data-blog-promo-slide
+              href="{{ promo_article.url }}"
+              aria-label="{{ promo_article.title | escape }}"
+              {% unless promo_started %}data-active{% else %}hidden{% endunless %}
+            >
+              <img
+                src="{{ promo_article.image | image_url: width: 700 }}"
+                width="{{ promo_article.image.width }}"
+                height="{{ promo_article.image.height }}"
+                loading="lazy"
+                alt="{{ promo_article.image.alt | default: promo_article.title | escape }}"
+              >
+              <span class="gem-blog__promo-overlay">
+                <span class="gem-blog__promo-kicker">Explore</span>
+                {% if promo_topic != blank %}
+                  <span class="gem-blog__promo-title">{{ promo_topic | escape }}</span>
+                {% endif %}
+                <span class="gem-blog__promo-arrow" aria-hidden="true">→</span>
+              </span>
+            </a>
+            {% assign promo_started = true %}
+          {% endif %}
+        {% endfor %}
+      </div>
     </aside>
     <section class="gem-blog__results" aria-label="Articles">
       <div ref="grid" class="blog-posts-container">
@@ -241,11 +274,13 @@
   }
   .gem-blog__layout {
     display: grid;
-    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
-    gap: 2rem;
+    grid-template-columns: minmax(0, clamp(12rem, 24vw, 18rem)) minmax(0, 1fr);
+    gap: clamp(1rem, 2.5vw, 2rem);
     align-items: start;
   }
   .gem-blog__topics {
+    width: 100%;
+    min-width: 0;
     border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
     border-radius: 12px;
     padding: 1rem;
@@ -269,6 +304,78 @@
   .gem-blog__topics button.is-active {
     color: var(--color-primary-button-background);
     font-weight: 700;
+  }
+  .gem-blog__promo {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1.15;
+    margin-top: 1.25rem;
+    border-radius: 12px;
+    isolation: isolate;
+  }
+  .gem-blog__promo-slide {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: #17251f;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  .gem-blog__promo-slide[hidden] {
+    display: none;
+  }
+  .gem-blog__promo-slide img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gem-blog__promo-slide::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgb(255 250 242 / 0.96) 0%, rgb(255 250 242 / 0.72) 48%, rgb(255 250 242 / 0.08) 100%);
+    content: '';
+  }
+  .gem-blog__promo-overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.1rem;
+  }
+  .gem-blog__promo-kicker {
+    color: #9b773f;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .gem-blog__promo-title {
+    max-width: 9rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.25rem, calc(1rem + 1vw), 1.9rem);
+    line-height: 1.05;
+  }
+  .gem-blog__promo-arrow {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    margin-top: 0.35rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #b4863f;
+    color: #fffaf2;
+    font-size: 1.2rem;
   }
   .gem-blog__card {
     overflow: hidden;

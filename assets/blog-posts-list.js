@@ -5,9 +5,11 @@ import PaginatedList from '@theme/paginated-list';
  */
 class BlogPostsList extends PaginatedList {
   #filterController;
+  #promoTimer;
 
   connectedCallback() {
     super.connectedCallback();
+    clearInterval(this.#promoTimer);
     this.#filterController?.abort();
     this.#filterController = new AbortController();
     const { signal } = this.#filterController;
@@ -35,9 +37,21 @@ class BlogPostsList extends PaginatedList {
       }, { signal });
     }
     applyFilters();
+
+    const promoSlides = [...this.querySelectorAll('[data-blog-promo-slide]')];
+    if (promoSlides.length > 1) {
+      let promoIndex = 0;
+      this.#promoTimer = window.setInterval(() => {
+        promoSlides[promoIndex].hidden = true;
+        promoIndex = (promoIndex + 1) % promoSlides.length;
+        promoSlides[promoIndex].hidden = false;
+      }, 5000);
+    }
   }
 
   disconnectedCallback() {
+    clearInterval(this.#promoTimer);
+    this.#promoTimer = undefined;
     this.#filterController?.abort();
     super.disconnectedCallback();
   }
