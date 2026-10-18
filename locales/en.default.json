@@ -143,7 +143,27 @@
     "payment_methods": "Payment methods",
     "slider_label": "Slider"
   },
+  "collection_hero": {
+    "breadcrumb_label": "Collection breadcrumb",
+    "home": "Home",
+    "gemstones": "Gemstones",
+    "trust_points_label": "Collection assurances",
+    "trust_natural": "Natural Gemstones",
+    "trust_certified": "Certified Quality",
+    "trust_shipping": "Worldwide Shipping"
+  },
   "blogs": {
+    "gemstone": {
+      "title": "Learn Gemstones",
+      "intro": "Find out gemstones benefits, how to use, jewellery ideas & much more",
+      "search_label": "Search articles",
+      "search_placeholder": "Search articles, gemstones, jewellery ideas...",
+      "search_button": "Search",
+      "topics": "Topics",
+      "all_articles": "All articles",
+      "read_more": "Read More",
+      "empty_search": "No articles match your search."
+    },
     "article": {
       "comments_heading": {
         "one": "{{ count }} comment",

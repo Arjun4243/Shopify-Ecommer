@@ -1,0 +1,353 @@
+{% comment %}
+  Section contract.
+  Renders the dynamic collection hero for gemstone collection templates.
+  @example
+  <!-- Uses collection title, description, custom.banner_image, and collection image fallback. -->
+{% endcomment %}
+
+{% liquid
+  assign banner_image = collection.metafields.custom.banner_image.value
+
+  if banner_image == blank
+    assign banner_image = collection.image
+  endif
+
+  assign gemstones_url = '/pages/gemstones'
+  if pages.gemstones.url != blank
+    assign gemstones_url = pages.gemstones.url
+  endif
+%}
+
+<section class="collection-hero" aria-labelledby="collection-hero-title-{{ section.id }}">
+  <div class="collection-hero__media">
+    {% if banner_image != blank %}
+      {{
+        banner_image
+        | image_url: width: 2200
+        | image_tag:
+          widths: '750, 1100, 1500, 1800, 2200',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: collection.title
+      }}
+    {% else %}
+      <div class="collection-hero__media-placeholder" aria-hidden="true">
+        <span>{{ collection.title | escape }}</span>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="collection-hero__inner">
+    <div class="collection-hero__content">
+      <nav class="collection-hero__breadcrumb" aria-label="{{ 'collection_hero.breadcrumb_label' | t }}">
+        <a href="{{ routes.root_url }}">{{ 'collection_hero.home' | t }}</a>
+        <span aria-hidden="true">
+          {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+        </span>
+        <a href="{{ gemstones_url }}">{{ 'collection_hero.gemstones' | t }}</a>
+        <span aria-hidden="true">
+          {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+        </span>
+        <span aria-current="page">{{ collection.title | escape }}</span>
+      </nav>
+
+      <h1 id="collection-hero-title-{{ section.id }}" class="collection-hero__title">
+        {{ collection.title | escape }}
+      </h1>
+
+      {% if collection.description != blank %}
+        <div class="collection-hero__description rte">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+
+      <ul class="collection-hero__trust-list" aria-label="{{ 'collection_hero.trust_points_label' | t }}">
+        <li class="collection-hero__trust-item">
+          <span class="collection-hero__trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6.2 4.5h11.6l3 4.4L12 20 3.2 8.9 6.2 4.5Zm1 2-1.4 2h12.4l-1.4-2H7.2Zm1 4L12 16l3.8-5.5H8.2Z"/>
+            </svg>
+          </span>
+          <span>{{ 'collection_hero.trust_natural' | t }}</span>
+        </li>
+        <li class="collection-hero__trust-item">
+          <span class="collection-hero__trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="m12 2 2.1 2.2 3-.5 1.3 2.8 2.8 1.3-.5 3L23 13l-2.3 2.1.5 3-2.8 1.3-1.3 2.8-3-.5L12 24l-2.1-2.3-3 .5-1.3-2.8-2.8-1.3.5-3L1 13l2.3-2.2-.5-3 2.8-1.3 1.3-2.8 3 .5L12 2Zm0 3.1-1.4 1.5-2.1-.3-.9 1.9-1.9.9.3 2.1L4.5 13 6 14.4l-.3 2.1 1.9.9.9 1.9 2.1-.3 1.4 1.5 1.4-1.5 2.1.3.9-1.9 1.9-.9-.3-2.1 1.5-1.4-1.5-1.8.3-2.1-1.9-.9-.9-1.9-2.1.3L12 5.1Zm4.2 5.8-4.8 4.8-2.7-2.8 1.4-1.4 1.3 1.3 3.4-3.4 1.4 1.5Z"/>
+            </svg>
+          </span>
+          <span>{{ 'collection_hero.trust_certified' | t }}</span>
+        </li>
+        <li class="collection-hero__trust-item">
+          <span class="collection-hero__trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M3 5h12v3h3.4L22 12.7V18h-2.1a3 3 0 0 1-5.8 0H9.9a3 3 0 0 1-5.8 0H2V7a2 2 0 0 1 1-2Zm1 2v9h.8a3 3 0 0 1 4.4 0H13V7H4Zm11 3v6h.8a3 3 0 0 1 4.2-.2v-2.4L17.4 10H15ZM7 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/>
+            </svg>
+          </span>
+          <span>{{ 'collection_hero.trust_shipping' | t }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .collection-hero {
+    --collection-hero-accent: #a9792b;
+    --collection-hero-text-muted: rgb(255 255 255 / 86%);
+
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #f3eadc;
+  }
+
+  .collection-hero__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    width: min(var(--page-width), calc(100% - var(--page-margin) * 2));
+    min-height: clamp(280px, 25vw, 430px);
+    margin-inline: auto;
+  }
+
+  .collection-hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min(100%, 720px);
+    min-width: 0;
+    padding-block: clamp(34px, 5vw, 72px);
+    color: #ffffff;
+  }
+
+  .collection-hero__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    color: var(--collection-hero-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .collection-hero__breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .collection-hero__breadcrumb a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .collection-hero__breadcrumb span[aria-current='page'] {
+    color: #ffffff;
+  }
+
+  .collection-hero__breadcrumb svg {
+    width: 12px;
+    height: 12px;
+    color: rgb(255 255 255 / 56%);
+  }
+
+  .collection-hero__title {
+    max-width: 14ch;
+    margin: clamp(18px, 2.6vw, 32px) 0 0;
+    color: #ffffff;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.5rem, 5.2vw, 5.4rem);
+    font-weight: var(--font-heading--weight);
+    line-height: 0.98;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+    text-shadow: 0 4px 24px rgb(0 0 0 / 24%);
+  }
+
+  .collection-hero__description {
+    max-width: 58ch;
+    margin-block-start: 18px;
+    color: var(--collection-hero-text-muted);
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
+    line-height: 1.55;
+  }
+
+  .collection-hero__description > :first-child {
+    margin-block-start: 0;
+  }
+
+  .collection-hero__description > :last-child {
+    margin-block-end: 0;
+  }
+
+  .collection-hero__trust-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px clamp(18px, 3vw, 42px);
+    margin: clamp(24px, 3.4vw, 38px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-hero__trust-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: #ffffff;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .collection-hero__trust-icon {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgb(255 255 255 / 42%);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 18%);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+  }
+
+  .collection-hero__trust-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .collection-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .collection-hero__media::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgb(0 0 0 / 54%) 0%, rgb(0 0 0 / 28%) 44%, rgb(0 0 0 / 6%) 100%),
+      linear-gradient(0deg, rgb(0 0 0 / 12%), rgb(0 0 0 / 12%));
+    pointer-events: none;
+  }
+
+  .collection-hero__media img,
+  .collection-hero__media-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .collection-hero__media-placeholder {
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    background: linear-gradient(135deg, #bfa983, #f4eadc);
+    color: rgb(255 255 255 / 72%);
+    font-family: var(--font-heading--family);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection-hero__inner {
+      min-height: clamp(280px, 42vw, 400px);
+    }
+
+    .collection-hero__content {
+      padding-block: clamp(28px, 5vw, 44px) clamp(22px, 4vw, 34px);
+    }
+
+    .collection-hero__title {
+      max-width: 100%;
+      font-size: clamp(2.5rem, 9vw, 4.75rem);
+      line-height: 1;
+    }
+    .collection-hero__media::before {
+      background:
+        linear-gradient(90deg, rgb(0 0 0 / 58%) 0%, rgb(0 0 0 / 34%) 62%, rgb(0 0 0 / 10%) 100%),
+        linear-gradient(0deg, rgb(0 0 0 / 14%), rgb(0 0 0 / 14%));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-hero__content {
+      padding-block-start: 24px;
+    }
+
+    .collection-hero__breadcrumb {
+      gap: 7px;
+      font-size: 0.78rem;
+    }
+
+    .collection-hero__title {
+      font-size: clamp(2.15rem, 11vw, 3.6rem);
+    }
+
+    .collection-hero__description {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .collection-hero__trust-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .collection-hero__trust-icon {
+      width: 42px;
+      height: 42px;
+    }
+
+    .collection-hero__inner {
+      min-height: clamp(300px, 74vw, 390px);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .collection-hero__content {
+      padding-block: 22px 20px;
+    }
+
+    .collection-hero__title {
+      font-size: clamp(1.95rem, 12vw, 3rem);
+    }
+
+    .collection-hero__trust-item {
+      font-size: 0.9rem;
+    }
+
+    .collection-hero__media::before {
+      background:
+        linear-gradient(90deg, rgb(0 0 0 / 62%) 0%, rgb(0 0 0 / 42%) 72%, rgb(0 0 0 / 14%) 100%),
+        linear-gradient(0deg, rgb(0 0 0 / 16%), rgb(0 0 0 / 16%));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.collection_hero",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.collection_hero"
+    }
+  ]
+}
+{% endschema %}

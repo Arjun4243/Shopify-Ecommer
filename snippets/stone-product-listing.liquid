@@ -4,43 +4,58 @@ Renders a filterable gemstone product listing for a product gemstone group.
 @param {string} heading - Page/listing heading.
 @param {string} subtitle - Listing subtitle.
 @param {string} section_id - Parent section id for quick-add.
+@param {object} [source_collection] - Collection to list products from.
+@param {boolean} [show_type_filter] - Whether to show gemstone type filter controls.
+@param {boolean} [show_view_controls] - Whether to show grid/list view controls.
+@param {boolean} [show_listing_header] - Whether to show the listing breadcrumb, heading, and subtitle.
 @example
 {% render 'stone-product-listing', group_handle: 'precious', heading: 'Gemstones', subtitle: 'Discover natural gemstones', section_id: section.id %}
 {% enddoc %}
 
 {% liquid
-  assign source_collection = collections.all
+  assign source_collection = source_collection | default: collections.all
   assign products_limit = 250
   assign rendered_products_count = 0
   assign quick_add_enabled = false
   if settings.quick_add or settings.mobile_quick_add
     assign quick_add_enabled = true
   endif
+  unless show_type_filter == false
+    assign show_type_filter = true
+  endunless
+  unless show_view_controls == false
+    assign show_view_controls = true
+  endunless
+  unless show_listing_header == false
+    assign show_listing_header = true
+  endunless
 %}
 
 <section class="stone-listing" data-stone-listing data-group="{{ group_handle | escape }}">
-  <div class="stone-listing__top">
-    <nav class="stone-listing__breadcrumbs" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span aria-hidden="true">&gt;</span>
-      <span>{{ heading | escape }}</span>
-    </nav>
-    <div class="stone-listing__hero">
-      <div>
-        <h2>{{ heading | escape }}</h2>
-        {% if subtitle != blank %}
-          <p>{{ subtitle | escape }}</p>
-        {% endif %}
+  {% if show_listing_header %}
+    <div class="stone-listing__top">
+      <nav class="stone-listing__breadcrumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span aria-hidden="true">&gt;</span>
+        <span>{{ heading | escape }}</span>
+      </nav>
+      <div class="stone-listing__hero">
+        <div>
+          <h2>{{ heading | escape }}</h2>
+          {% if subtitle != blank %}
+            <p>{{ subtitle | escape }}</p>
+          {% endif %}
+        </div>
+        <label class="stone-listing__search">
+          <span class="visually-hidden">Search gemstones</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
+          </svg>
+          <input type="search" placeholder="Search gemstones..." data-stone-search>
+        </label>
       </div>
-      <label class="stone-listing__search">
-        <span class="visually-hidden">Search gemstones</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
-        </svg>
-        <input type="search" placeholder="Search gemstones..." data-stone-search>
-      </label>
     </div>
-  </div>
+  {% endif %}
 
   <div class="stone-listing__layout">
     <aside id="StoneFilters-{{ group_handle | handleize }}" class="stone-listing__filters" aria-label="Filters" data-stone-filter-drawer>
@@ -52,10 +67,12 @@ Renders a filterable gemstone product listing for a product gemstone group.
         </div>
       </div>
 
-      <details class="stone-filter" open>
-        <summary>Gemstone Type</summary>
-        <div class="stone-filter__options" data-filter-options="type"></div>
-      </details>
+      {% if show_type_filter %}
+        <details class="stone-filter" open>
+          <summary>Gemstone Type</summary>
+          <div class="stone-filter__options" data-filter-options="type"></div>
+        </details>
+      {% endif %}
 
       <details class="stone-filter" open>
         <summary>Price</summary>
@@ -82,11 +99,27 @@ Renders a filterable gemstone product listing for a product gemstone group.
         <summary>Shape</summary>
         <div class="stone-filter__options" data-filter-options="shape"></div>
       </details>
+
+      <details class="stone-filter" open>
+        <summary>Color</summary>
+        <div class="stone-filter__options" data-filter-options="color"></div>
+      </details>
     </aside>
     <button class="stone-listing__scrim" type="button" aria-label="{{ 'actions.close' | t }}" data-stone-filter-close></button>
 
     <div class="stone-listing__main">
       <div class="stone-listing__toolbar">
+        
+        {% unless show_listing_header %}
+          <label class="stone-listing__search stone-listing__search--toolbar">
+            <span class="visually-hidden">Search gemstones</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.8 4a6.8 6.8 0 1 0 4.3 12.1l3.4 3.4 1.4-1.4-3.4-3.4A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z" />
+            </svg>
+            <input type="search" placeholder="Search gemstones..." data-stone-search>
+          </label>
+        {% endunless %}
+
         <button
           class="stone-listing__filter-toggle"
           type="button"
@@ -94,6 +127,8 @@ Renders a filterable gemstone product listing for a product gemstone group.
           aria-expanded="false"
           data-stone-filter-toggle
         >
+
+          
           {{ 'actions.show_filters' | t }}
         </button>
 
@@ -111,13 +146,17 @@ Renders a filterable gemstone product listing for a product gemstone group.
               <option value="title-asc">Name: A to Z</option>
             </select>
           </label>
-          <button type="button" class="is-active" data-view-mode="grid" aria-label="Grid view">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" /></svg>
-          </button>
+          {% if show_view_controls %}
+            <button type="button" class="is-active" data-view-mode="grid" aria-label="Grid view">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" /></svg>
+            </button>
+          {% endif %}
         </div>
       </div>
 
-      <div class="stone-type-rail" data-type-rail></div>
+      {% if show_type_filter %}
+        <div class="stone-type-rail" data-type-rail></div>
+      {% endif %}
 
       <div class="stone-listing__grid" data-stone-grid>
         {% if source_collection != blank and source_collection.products_count > 0 %}
@@ -126,12 +165,23 @@ Renders a filterable gemstone product listing for a product gemstone group.
               {% liquid
                 assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
                 assign product_group_handle = product_group | handleize
+                assign should_render_product = false
+                if group_handle == blank
+                  assign should_render_product = true
+                elsif product_group_handle == group_handle
+                  assign should_render_product = true
+                endif
               %}
-              {% if product_group_handle == group_handle %}
+              {% if should_render_product %}
                 {% liquid
                   assign rendered_products_count = rendered_products_count | plus: 1
                   assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
                   assign shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape
+                  assign color = product.metafields.custom.color.value | default: product.metafields.custom.color
+                  if color == blank
+                    assign color_option = product.options_with_values | where: 'name', 'Color' | first
+                    assign color = color_option.values | first
+                  endif
                   assign carat_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
                   assign card_image = ''
                   if product.featured_media.preview_image != blank
@@ -148,6 +198,8 @@ Renders a filterable gemstone product listing for a product gemstone group.
                   data-type-key="{{ gemstone_type | handleize }}"
                   data-shape="{{ shape | escape }}"
                   data-shape-key="{{ shape | handleize }}"
+                  data-color="{{ color | escape }}"
+                  data-color-key="{{ color | handleize }}"
                   data-carat="{{ carat_weight | escape }}"
                   data-image="{{ card_image }}"
                 >
@@ -208,6 +260,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
       search: '',
       types: new Set(),
       shapes: new Set(),
+      colors: new Set(),
       carats: new Set(),
       min: null,
       max: null,
@@ -280,6 +333,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
     const typeOptions = makeMap('typeKey', 'type');
     const shapeOptions = makeMap('shapeKey', 'shape');
+    const colorOptions = makeMap('colorKey', 'color');
     const caratRanges = [
       { key: '0-1', label: '0-1 Carat', min: 0, max: 1 },
       { key: '1-2', label: '1-2 Carats', min: 1, max: 2 },
@@ -311,17 +365,20 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
     renderCheckboxes('type', typeOptions, 'type');
     renderCheckboxes('shape', shapeOptions, 'shape');
+    renderCheckboxes('color', colorOptions, 'color');
     renderCheckboxes('carat', caratRanges, 'carat');
 
-    typeRail.innerHTML = [
-      `<button type="button" class="is-active" data-type-tile="">All</button>`,
-      ...typeOptions.map((option) => `
-        <button type="button" data-type-tile="${option.key}">
-          ${option.image ? `<img src="${option.image}" alt="">` : ''}
-          <span>${option.label}</span>
-        </button>
-      `),
-    ].join('');
+    if (typeRail) {
+      typeRail.innerHTML = [
+        `<button type="button" class="is-active" data-type-tile="">All</button>`,
+        ...typeOptions.map((option) => `
+          <button type="button" data-type-tile="${option.key}">
+            ${option.image ? `<img src="${option.image}" alt="">` : ''}
+            <span>${option.label}</span>
+          </button>
+        `),
+      ].join('');
+    }
 
     const clampPrices = () => {
       let max = Number(priceMaxRange?.value || maxPrice);
@@ -349,6 +406,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
         return (!state.search || title.startsWith(state.search))
           && (!state.types.size || state.types.has(item.dataset.typeKey))
           && (!state.shapes.size || state.shapes.has(item.dataset.shapeKey))
+          && (!state.colors.size || state.colors.has(item.dataset.colorKey))
           && matchesCarat(item)
           && price >= state.min
           && price <= state.max;
@@ -373,6 +431,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
       const chipValues = [
         ...typeOptions.filter((option) => state.types.has(option.key)).map((option) => option.label),
         ...shapeOptions.filter((option) => state.shapes.has(option.key)).map((option) => option.label),
+        ...colorOptions.filter((option) => state.colors.has(option.key)).map((option) => option.label),
         ...caratRanges.filter((option) => state.carats.has(option.key)).map((option) => option.label),
       ];
       chips.innerHTML = chipValues.map((label) => `<span>${label}</span>`).join('');
@@ -381,7 +440,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
     listing.addEventListener('change', (event) => {
       const checkbox = event.target.closest('[data-filter-check]');
       if (checkbox) {
-        const targetSet = checkbox.dataset.filterCheck === 'type' ? state.types : checkbox.dataset.filterCheck === 'shape' ? state.shapes : state.carats;
+        const targetSet = checkbox.dataset.filterCheck === 'type' ? state.types : checkbox.dataset.filterCheck === 'shape' ? state.shapes : checkbox.dataset.filterCheck === 'color' ? state.colors : state.carats;
         checkbox.checked ? targetSet.add(checkbox.value) : targetSet.delete(checkbox.value);
       }
       if (event.target === sort) state.sort = sort.value;
@@ -400,7 +459,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
       apply();
     });
 
-    typeRail.addEventListener('click', (event) => {
+    typeRail?.addEventListener('click', (event) => {
       const button = event.target.closest('[data-type-tile]');
       if (!button) return;
       state.types.clear();
@@ -417,6 +476,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
         state.search = '';
         state.types.clear();
         state.shapes.clear();
+        state.colors.clear();
         state.carats.clear();
         state.sort = 'featured';
         searchInputs.forEach((input) => { input.value = ''; });
@@ -545,6 +605,13 @@ Renders a filterable gemstone product listing for a product gemstone group.
     width: min(100%, 430px);
   }
 
+  .stone-listing__search--toolbar {
+    flex: 1 1 280px;
+    max-width: 430px;
+    margin-inline-end: auto;
+    max-height: 10px;
+  }
+
   .stone-listing__search svg {
     width: 20px;
     height: 20px;
@@ -606,6 +673,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
   .stone-listing__toolbar {
     justify-content: space-between;
     gap: 18px;
+    margin-bottom: 10px;
   }
 
   .stone-listing__filters-head h3 {
@@ -1072,6 +1140,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
     .stone-listing__tools {
       flex-wrap: wrap;
+      margin-bottom: 10px;
     }
   }
 {% endstylesheet %}

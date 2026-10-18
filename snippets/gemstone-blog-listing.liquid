@@ -1,0 +1,89 @@
+{% doc %}
+  Renders the gemstone blog header, metafield topic filters, and article cards.
+  @param {object} blog_resource - Blog selected for this listing.
+  @param {string} section_id - Parent section identifier.
+{% enddoc %}
+<div class="gem-blog" data-gem-blog>
+  <header class="gem-blog__hero">
+    <p class="gem-blog__eyebrow">{{ blog_resource.title | escape }}</p>
+    <h1>{{ 'blogs.gemstone.title' | t }}</h1>
+    <p>{{ 'blogs.gemstone.intro' | t }}</p>
+    <div class="gem-blog__search">
+      <label class="visually-hidden" for="blog-search-{{ section_id }}">{{ 'blogs.gemstone.search_label' | t }}</label>
+      <input id="blog-search-{{ section_id }}" type="search" data-blog-search placeholder="{{ 'blogs.gemstone.search_placeholder' | t }}">
+      <button type="button" data-blog-search-button>{{ 'blogs.gemstone.search_button' | t }}</button>
+    </div>
+  </header>
+  <div class="gem-blog__layout">
+    <aside class="gem-blog__topics" aria-label="Article topics">
+      <h2>{{ 'blogs.gemstone.topics' | t }}</h2>
+      <button type="button" class="is-active" data-topic-filter="">{{ 'blogs.gemstone.all_articles' | t }}</button>
+      {% assign seen_topics = '||' %}
+      {% for topic_article in blog_resource.articles %}
+        {% assign topic_metafield = topic_article.metafields.custom.gemstone_topic %}
+        {% assign topic_reference = topic_metafield.value %}
+        {% assign topic_label = topic_reference.title | default: topic_reference | default: topic_metafield %}
+        {% if topic_label != blank %}
+          {% assign topic_label = topic_label | strip %}
+          {% assign topic_marker = topic_label | prepend: '||' | append: '||' %}
+          {% unless seen_topics contains topic_marker %}
+            {% assign seen_topics = seen_topics | append: topic_label | append: '||' %}
+            <button type="button" data-topic-filter="{{ topic_label | downcase | escape }}">{{ topic_label | escape }}<span aria-hidden="true">›</span></button>
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+    </aside>
+    <section class="gem-blog__results" aria-label="Articles">
+      <div ref="grid" class="blog-posts-container">
+        {% for article in blog_resource.articles %}
+          {% assign topic_metafield = article.metafields.custom.gemstone_topic %}
+          {% assign topic_reference = topic_metafield.value %}
+          {% assign article_topic = topic_reference.title | default: topic_reference | default: topic_metafield %}
+          <article class="blog-post-item gem-blog__card" data-testid="blog-post-item" data-topic="{{ article_topic | downcase | escape }}" data-search="{{ article.title | append: ' ' | append: article.excerpt | strip_html | downcase | escape }}">
+            {% if article.image %}
+              <a class="gem-blog__image" href="{{ article.url }}">
+                <img src="{{ article.image | image_url: width: 900 }}" srcset="{{ article.image | image_url: width: 450 }} 450w, {{ article.image | image_url: width: 900 }} 900w" sizes="(min-width: 1100px) 26vw, (min-width: 700px) 40vw, 100vw" width="{{ article.image.width }}" height="{{ article.image.height }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} fetchpriority="high"{% endif %} alt="{{ article.image.alt | escape }}">
+              </a>
+            {% endif %}
+            <div class="gem-blog__card-body">
+              {% if article_topic != blank %}<p class="gem-blog__category">{{ article_topic | escape }}</p>{% endif %}
+              <h2><a href="{{ article.url }}">{{ article.title | escape }}</a></h2>
+              <p class="gem-blog__meta">{{ article.published_at | time_tag: format: 'date' }} <span aria-hidden="true">·</span> {{ article.author | escape }}</p>
+              {% assign card_excerpt = article.excerpt | default: article.content %}
+              <p class="gem-blog__excerpt">{{ card_excerpt | strip_html | truncatewords: 22 }}</p>
+              <a class="gem-blog__read-more" href="{{ article.url }}">{{ 'blogs.gemstone.read_more' | t }} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        {% endfor %}
+        <p class="gem-blog__empty" hidden>{{ 'blogs.gemstone.empty_search' | t }}</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+{% stylesheet %}
+  .gem-blog__hero { text-align:center; padding:1.5rem; }
+  .gem-blog__hero h1 { margin:.25rem 0; font-family:var(--font-heading--family); font-size:clamp(2rem,4vw,3.25rem); }
+  .gem-blog__hero p { margin:.25rem 0; }
+  .gem-blog__eyebrow,.gem-blog__category { color:var(--color-foreground-muted); font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+  .gem-blog__search { display:flex; gap:.5rem; max-width:48rem; margin:1.25rem auto 0; padding:.35rem; border:1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20)); border-radius:999px; }
+  .gem-blog__search input { flex:1; min-width:0; border:0; padding:.55rem .9rem; background:transparent; }
+  .gem-blog__search button,.gem-blog__read-more { border:0; border-radius:999px; padding:.65rem 1rem; background:var(--color-primary-button-background); color:var(--color-primary-button-text); text-decoration:none; cursor:pointer; }
+  .gem-blog__layout { display:grid; grid-template-columns:minmax(12rem,17rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .gem-blog__topics { border:1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20)); border-radius:12px; padding:1rem; }
+  .gem-blog__topics h2 { margin:0 0 .5rem; font-family:var(--font-heading--family); }
+  .gem-blog__topics button { display:flex; justify-content:space-between; width:100%; padding:.65rem .2rem; border:0; border-top:1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10)); background:transparent; color:var(--color-foreground); text-align:start; cursor:pointer; }
+  .gem-blog__topics button.is-active { color:var(--color-primary-button-background); font-weight:700; }
+  .gem-blog__card { overflow:hidden; border:1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10)); border-radius:12px; background:var(--color-background); }
+  .gem-blog__image { display:block; overflow:hidden; aspect-ratio:1.8; }
+  .gem-blog__image img { width:100%; height:100%; object-fit:cover; }
+  .gem-blog__card-body { padding:1rem; }
+  .gem-blog__card h2 { margin:.3rem 0; font-family:var(--font-heading--family); font-size:1.2rem; line-height:1.25; }
+  .gem-blog__card h2 a { color:var(--color-foreground); text-decoration:none; }
+  .gem-blog__category,.gem-blog__meta,.gem-blog__excerpt { margin:.35rem 0; }
+  .gem-blog__meta { color:var(--color-foreground-muted); font-size:.75rem; }
+  .gem-blog__excerpt { line-height:1.45; }
+  .gem-blog__read-more { display:inline-flex; gap:.5rem; margin-top:.4rem; padding:.45rem .8rem; font-size:.8rem; }
+  .gem-blog__empty { grid-column:1/-1; }
+  @media(max-width:700px) { .gem-blog__layout { grid-template-columns:1fr; gap:1rem; } .gem-blog__topics { display:flex; flex-wrap:wrap; gap:.35rem; } .gem-blog__topics h2 { flex-basis:100%; } .gem-blog__topics button { width:auto; border:1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20)); border-radius:999px; padding:.4rem .7rem; } .gem-blog__topics button span { display:none; } }
+{% endstylesheet %}

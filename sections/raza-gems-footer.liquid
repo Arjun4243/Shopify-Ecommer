@@ -161,6 +161,56 @@
   </div>
 </footer>
 
+<script>
+  (() => {
+    const newsletterForm = document.querySelector('.raza-footer__form');
+    if (!newsletterForm) return;
+
+    const storageKey = 'raza-newsletter-scroll-position';
+    const getPosition = () => ({
+      window: window.scrollY,
+      wrapper: document.querySelector('.page-wrapper')?.scrollTop || 0,
+    });
+
+    const savePosition = () => {
+      try {
+        sessionStorage.setItem(storageKey, JSON.stringify(getPosition()));
+      } catch (error) {
+        // Storage can be unavailable in private browsing.
+      }
+    };
+
+    newsletterForm.addEventListener('submit', savePosition, { capture: true });
+    window.addEventListener('beforeunload', savePosition);
+
+    let savedPosition;
+    try {
+      savedPosition = JSON.parse(sessionStorage.getItem(storageKey) || 'null');
+      sessionStorage.removeItem(storageKey);
+    } catch (error) {
+      savedPosition = null;
+    }
+
+    if (!savedPosition) return;
+
+    const restorePosition = () => {
+      const pageWrapper = document.querySelector('.page-wrapper');
+      if (pageWrapper) pageWrapper.scrollTop = savedPosition.wrapper;
+      window.scrollTo(0, savedPosition.window);
+    };
+
+    const previousScrollRestoration = history.scrollRestoration;
+    history.scrollRestoration = 'manual';
+    restorePosition();
+    window.setTimeout(restorePosition, 0);
+    window.setTimeout(restorePosition, 150);
+    window.setTimeout(() => {
+      restorePosition();
+      history.scrollRestoration = previousScrollRestoration;
+    }, 500);
+  })();
+</script>
+
 {% stylesheet %}
   .raza-footer {
     position: relative;
@@ -322,8 +372,10 @@
 
   .raza-footer__form {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) 150px;
+    width: 100%;
     max-width: 470px;
+    box-sizing: border-box;
     height: 56px;
     padding: 0;
     border: 1px solid rgba(255, 255, 255, 0.34);
@@ -373,16 +425,25 @@
     align-items: center;
     justify-content: center;
     align-self: stretch;
-    min-width: 176px;
+    min-width: 150px !important;
+    width: 150px !important;
+    min-height: 54px !important;
+    height: 54px !important;
+    inline-size: 150px !important;
+    block-size: 54px !important;
+    flex-shrink: 0;
     height: 100%;
-    padding: 0 28px;
+    padding: 0 22px;
     border-radius: 999px;
     background: linear-gradient(135deg, #f3d28e, #b98b45);
     color: #151009;
     cursor: pointer;
+    gap: 8px;
     line-height: 1;
-    transform: none;
+    transform: none !important;
+    transition: none;
     white-space: nowrap;
+    box-sizing: border-box;
   }
 
   .raza-footer__form button:hover,
@@ -391,6 +452,15 @@
     background: linear-gradient(135deg, #f7dca0, #c89549);
     box-shadow: none !important;
     outline: 0 !important;
+  }
+
+  .raza-footer__form button:active {
+    width: 150px !important;
+    min-width: 150px !important;
+    height: 54px !important;
+    inline-size: 150px !important;
+    block-size: 54px !important;
+    transform: none !important;
   }
 
   .raza-footer__features {
@@ -490,13 +560,35 @@
 
     .raza-footer__form {
       grid-template-columns: 1fr;
+      width: 100%;
+      max-width: none;
       height: auto;
       border-radius: 28px;
     }
 
     .raza-footer__form input,
     .raza-footer__form button {
-      min-height: 52px;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 48px;
+    }
+
+    .raza-footer__form button {
+      width: 150px !important;
+      min-width: 150px !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      inline-size: 150px !important;
+      block-size: 48px !important;
+      justify-self: end;
+    }
+
+    .raza-footer__form button:active {
+      width: 150px !important;
+      min-width: 150px !important;
+      height: 48px !important;
+      inline-size: 150px !important;
+      block-size: 48px !important;
     }
   }
 {% endstylesheet %}
