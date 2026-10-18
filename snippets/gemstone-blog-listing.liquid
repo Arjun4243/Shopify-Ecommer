@@ -161,21 +161,25 @@
   .gem-blog__banner-eyebrow {
     margin: 0 0 0.4rem;
     color: #9b773f;
-    font-size: 0.72rem;
+    font-size: clamp(0.62rem, calc(0.55rem + 0.35vw), 0.82rem);
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
   .gem-blog__banner h1 {
     margin: 0;
     font-family: var(--font-heading--family);
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(1.8rem, calc(1.25rem + 3.4vw), 4rem);
     line-height: 1.05;
+    overflow-wrap: anywhere;
   }
   .gem-blog__banner-content > p:last-child {
     max-width: 38rem;
     margin: 0.75rem auto 0;
-    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+    font-size: clamp(0.88rem, calc(0.75rem + 0.65vw), 1.2rem);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
   }
   .gem-blog__hero {
     text-align: center;
@@ -276,7 +280,7 @@
   .gem-blog__card h2 {
     margin: 0.3rem 0;
     font-family: var(--font-heading--family);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, calc(0.9rem + 0.45vw), 1.2rem);
     line-height: 1.25;
   }
   .gem-blog__card h2 a {
