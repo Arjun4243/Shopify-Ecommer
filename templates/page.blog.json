@@ -13,9 +13,13 @@
       "type": "main-blog",
       "settings": {
         "blog_source": "news",
-        "background_color": "#F3EEE8",
-        "padding-block-start": 24,
-        "padding-block-end": 48
+        "banner_image": "shopify://shop_images/Banner-blog.webp",
+        "banner_eyebrow": "LEARN GEMSTONES",
+        "banner_heading": "Learn Gemstones",
+        "banner_description": "Find out gemstone benefits, how to use them, jewellery ideas and much more",
+        "background_color": "#f3eee8",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     }
   },

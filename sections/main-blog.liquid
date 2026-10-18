@@ -28,7 +28,14 @@
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {% assign current_blog = section.settings.blog_source | default: blog %}
-    {% render 'gemstone-blog-listing', blog_resource: current_blog, section_id: section.id %}
+    {% render 'gemstone-blog-listing',
+      blog_resource: current_blog,
+      section_id: section.id,
+      banner_image: section.settings.banner_image,
+      banner_eyebrow: section.settings.banner_eyebrow,
+      banner_heading: section.settings.banner_heading,
+      banner_description: section.settings.banner_description
+    %}
   </div>
 </blog-posts-list>
 
@@ -125,6 +132,33 @@
       "type": "blog",
       "id": "blog_source",
       "label": "t:settings.blog"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:content.image"
+    },
+    {
+      "type": "text",
+      "id": "banner_eyebrow",
+      "label": "t:content.text",
+      "default": "LEARN GEMSTONES"
+    },
+    {
+      "type": "text",
+      "id": "banner_heading",
+      "label": "t:content.heading",
+      "default": "Learn Gemstones"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_description",
+      "label": "t:content.text",
+      "default": "Find out gemstone benefits, how to use them, jewellery ideas and much more"
     },
     {
       "type": "color",
