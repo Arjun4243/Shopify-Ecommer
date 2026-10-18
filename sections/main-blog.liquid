@@ -27,7 +27,7 @@
     data-testid="blog-posts"
     style="{% render 'spacing-style', settings: section.settings %}"
   >
-    {% assign current_blog = section.settings.blog_source | default: blog | default: blogs.news %}
+    {% assign current_blog = section.settings.blog_source | default: blog %}
     {% render 'gemstone-blog-listing', blog_resource: current_blog, section_id: section.id %}
   </div>
 </blog-posts-list>
