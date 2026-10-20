@@ -1,0 +1,653 @@
+{% doc %}
+  Renders the gemstone blog header, metafield topic filters, and article cards.
+
+  @param {object} blog_resource - Blog selected for this listing.
+  @param {string} section_id - Parent section identifier.
+  @param {image} [banner_image] - Optional banner image selected in the section settings.
+  @param {string} [banner_eyebrow] - Small banner label.
+  @param {string} [banner_heading] - Banner heading.
+  @param {string} [banner_description] - Banner supporting text.
+{% enddoc %}
+<div class="gem-blog" data-gem-blog>
+  {% if banner_image != blank or banner_heading != blank or banner_description != blank %}
+    <div class="gem-blog__banner">
+      {% if banner_image != blank %}
+        {{
+          banner_image
+          | image_url: width: 1800
+          | image_tag:
+            class: 'gem-blog__banner-image',
+            widths: '600, 900, 1200, 1800',
+            sizes: '100vw',
+            loading: 'eager',
+            alt: banner_heading
+        }}
+      {% endif %}
+      <div class="gem-blog__banner-content">
+        {% if banner_eyebrow != blank %}
+          <p class="gem-blog__banner-eyebrow">{{ banner_eyebrow | escape }}</p>
+        {% endif %}
+        {% if banner_heading != blank %}
+          <h1>{{ banner_heading | escape }}</h1>
+        {% endif %}
+        {% if banner_description != blank %}
+          <p>{{ banner_description | escape | newline_to_br }}</p>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <header class="gem-blog__hero">
+    <div class="gem-blog__search">
+      <svg class="gem-blog__search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="10.8" cy="10.8" r="6.8"></circle>
+        <path d="m16 16 5 5"></path>
+      </svg>
+      <label class="visually-hidden" for="blog-search-{{ section_id }}">{{ 'blogs.gemstone.search_label' | t }}</label>
+      <input
+        id="blog-search-{{ section_id }}"
+        type="search"
+        data-blog-search
+        placeholder="{{ 'blogs.gemstone.search_placeholder' | t }}"
+      >
+      <button type="button" data-blog-search-button>{{ 'blogs.gemstone.search_button' | t }}</button>
+    </div>
+  </header>
+  <div class="gem-blog__layout">
+    <aside class="gem-blog__topics" aria-label="Article topics">
+      <div class="gem-blog__topics-heading">
+        <h2>{{ 'blogs.gemstone.topics' | t }}</h2>
+        <button type="button" class="gem-blog__topics-view-all" data-topic-filter="">
+          {{ 'blogs.gemstone.all_articles' | t }} <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="gem-blog__topic-list">
+        <button type="button" class="gem-blog__topic-pill is-active" data-topic-filter="">
+          {{ 'blogs.gemstone.all_articles' | t }}
+        </button>
+        {% assign seen_topics = '||' %}
+        {% for topic_article in blog_resource.articles %}
+          {% assign topic_metafield = topic_article.metafields.custom.gemstone_topic %}
+          {% assign topic_reference = topic_metafield.value %}
+          {% assign topic_label = topic_reference.title | default: topic_reference | default: topic_metafield %}
+          {% if topic_label != blank %}
+            {% assign topic_label = topic_label | strip %}
+            {% assign topic_marker = topic_label | prepend: '||' | append: '||' %}
+            {% unless seen_topics contains topic_marker %}
+              {% assign seen_topics = seen_topics | append: topic_label | append: '||' %}
+              {% assign topic_handle = topic_label | handleize %}
+              {% assign topic_collection = collections[topic_handle] %}
+              <button type="button" class="gem-blog__topic-pill" data-topic-filter="{{ topic_label | downcase | escape }}">
+                {% if topic_collection != blank and topic_collection.image != blank %}
+                  <img src="{{ topic_collection.image | image_url: width: 80 }}" width="32" height="32" loading="lazy" alt="">
+                {% endif %}
+                <span>{{ topic_label | escape }}</span>
+              </button>
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% assign promo_started = false %}
+      <div class="gem-blog__promo" data-blog-promo>
+        {% for promo_article in blog_resource.articles %}
+          {% if promo_article.image != blank %}
+            {% assign promo_topic_metafield = promo_article.metafields.custom.gemstone_topic %}
+            {% assign promo_topic_reference = promo_topic_metafield.value %}
+            {% assign promo_topic = promo_topic_reference.title | default: promo_topic_reference | default: promo_topic_metafield %}
+            <a
+              class="gem-blog__promo-slide"
+              data-blog-promo-slide
+              href="{{ promo_article.url }}"
+              aria-label="{{ promo_article.title | escape }}"
+              {% unless promo_started %}data-active{% else %}hidden{% endunless %}
+            >
+              <img
+                src="{{ promo_article.image | image_url: width: 700 }}"
+                width="{{ promo_article.image.width }}"
+                height="{{ promo_article.image.height }}"
+                loading="lazy"
+                alt="{{ promo_article.image.alt | default: promo_article.title | escape }}"
+              >
+              <span class="gem-blog__promo-overlay">
+                <span class="gem-blog__promo-kicker">Explore</span>
+                {% if promo_topic != blank %}
+                  <span class="gem-blog__promo-title">{{ promo_topic | escape }}</span>
+                {% endif %}
+                <span class="gem-blog__promo-arrow" aria-hidden="true">→</span>
+              </span>
+            </a>
+            {% assign promo_started = true %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </aside>
+    <section class="gem-blog__results" aria-label="Articles">
+      <div ref="grid" class="blog-posts-container">
+        {% for article in blog_resource.articles %}
+          {% assign topic_metafield = article.metafields.custom.gemstone_topic %}
+          {% assign topic_reference = topic_metafield.value %}
+          {% assign article_topic = topic_reference.title | default: topic_reference | default: topic_metafield %}
+          {% assign searchable_text = article.title | append: ' ' | append: article.author %}
+          <article
+            class="blog-post-item gem-blog__card"
+            data-testid="blog-post-item"
+            data-topic="{{ article_topic | downcase | escape }}"
+            data-search="{{ searchable_text | downcase | escape }}"
+          >
+            {% if article.image %}
+              <a class="gem-blog__image" href="{{ article.url }}">
+                <img
+                  src="{{ article.image | image_url: width: 900 }}"
+                  srcset="{{ article.image | image_url: width: 450 }} 450w, {{ article.image | image_url: width: 900 }} 900w"
+                  sizes="(min-width: 1100px) 26vw, (min-width: 700px) 40vw, 100vw"
+                  width="{{ article.image.width }}"
+                  height="{{ article.image.height }}"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  {% if forloop.first %}
+                    fetchpriority="high"
+                  {% endif %}
+                  alt="{{ article.image.alt | escape }}"
+                >
+              </a>
+            {% endif %}
+            <div class="gem-blog__card-body">
+              {% if article_topic != blank %}
+                <p class="gem-blog__category">{{ article_topic | escape }}</p>
+              {% endif %}
+              <h2>
+                <a href="{{ article.url }}">{{ article.title | escape }}</a>
+              </h2>
+              <p class="gem-blog__meta">
+                <span class="gem-blog__meta-item">
+                  <svg class="gem-blog__meta-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                    <rect x="3" y="4.5" width="14" height="12" rx="1.5"></rect>
+                    <path d="M6.5 2.5v4M13.5 2.5v4M3 8.5h14"></path>
+                  </svg>
+                  {{ article.published_at | time_tag: format: 'date' }}
+                </span>
+                <span class="gem-blog__meta-separator" aria-hidden="true">|</span>
+                <span class="gem-blog__meta-item">
+                  <svg class="gem-blog__meta-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                    <circle cx="10" cy="6.5" r="3"></circle>
+                    <path d="M4.5 17c.7-3 2.5-4.5 5.5-4.5s4.8 1.5 5.5 4.5"></path>
+                  </svg>
+                  {{ article.author | escape }}
+                </span>
+              </p>
+              <a class="gem-blog__read-more" href="{{ article.url }}">
+                {{- 'blogs.gemstone.read_more' | t }}
+                <span aria-hidden="true">→</span></a
+              >
+            </div>
+          </article>
+        {% endfor %}
+        <p class="gem-blog__empty" hidden>{{ 'blogs.gemstone.empty_search' | t }}</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+{% stylesheet %}
+  .gem-blog__banner {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(11rem, 24vw, 18rem);
+    border-radius: 12px;
+    background: var(--color-background);
+    isolation: isolate;
+  }
+  .gem-blog__banner-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gem-blog__banner::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgb(255 253 249 / 0.34);
+    content: '';
+  }
+  .gem-blog__banner-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    min-height: inherit;
+    place-content: center;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    text-align: center;
+    color: #17251f;
+  }
+  .gem-blog__banner-eyebrow {
+    margin: 0 0 0.4rem;
+    color: #9b773f;
+    font-size: clamp(0.62rem, calc(0.55rem + 0.35vw), 0.82rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  .gem-blog__banner h1 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.8rem, calc(1.25rem + 3.4vw), 4rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+  .gem-blog__banner-content > p:last-child {
+    max-width: 38rem;
+    margin: 0.75rem auto 0;
+    font-size: clamp(0.88rem, calc(0.75rem + 0.65vw), 1.2rem);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  .gem-blog__hero {
+    text-align: center;
+    margin-bottom:10px
+
+  }
+  .gem-blog__hero h1 {
+    margin: 0.25rem 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+  }
+  .gem-blog__hero p {
+    margin: 0.25rem 0;
+  }
+  .gem-blog__eyebrow,
+  .gem-blog__category {
+    color: var(--color-foreground-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .gem-blog__search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 48rem;
+    margin: 1.25rem auto 0;
+    padding: 0.35rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    border-radius: 999px;
+    background: var(--color-background);
+    box-shadow: 0 0.3rem 1.2rem rgb(var(--color-foreground-rgb) / 0.08);
+  }
+  .gem-blog__search-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-inline-start: 0.6rem;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: var(--color-foreground);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+  .gem-blog__search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    padding: 0.55rem 0.9rem;
+    background: transparent;
+  }
+  .gem-blog__search button,
+  .gem-blog__read-more {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.65rem 1rem;
+    background: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .gem-blog__search button {
+    min-width: 5.5rem;
+  }
+  .gem-blog__layout {
+    display: grid;
+    grid-template-columns: minmax(0, clamp(12rem, 24vw, 18rem)) minmax(0, 1fr);
+    gap: clamp(1rem, 2.5vw, 2rem);
+    align-items: start;
+  }
+  .gem-blog__topics {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .gem-blog__topics h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading--family);
+  }
+  .gem-blog__topics button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.65rem 0.2rem;
+    border: 0;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    background: transparent;
+    color: var(--color-foreground);
+    text-align: start;
+    cursor: pointer;
+  }
+  .gem-blog__topics button.is-active {
+    color: var(--color-primary-button-background);
+    font-weight: 700;
+  }
+  .gem-blog__topics-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    min-width: 0;
+  }
+  .gem-blog__topics-heading h2 {
+    margin: 0;
+    min-width: 0;
+    font-size: clamp(1.35rem, calc(1.05rem + 1.2vw), 2rem);
+  }
+  .gem-blog__topics-view-all {
+    display: inline-flex !important;
+    width: auto !important;
+    align-items: center;
+    gap: 0.35rem;
+    border: 0 !important;
+    padding: 0.25rem !important;
+    color: var(--color-primary-button-background) !important;
+    font-size: 0.8rem;
+    flex: 0 0 auto;
+    max-width: 100%;
+    white-space: nowrap;
+  }
+  .gem-blog__topic-list {
+    display: grid;
+    gap: 0.65rem;
+    overflow: visible;
+  }
+  .gem-blog__topic-pill {
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 8rem;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-start !important;
+    gap: 0.5rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10)) !important;
+    border-radius: 0.65rem !important;
+    padding: 0.45rem 0.65rem !important;
+    background: var(--color-background);
+    color: var(--color-foreground) !important;
+    font-size: 0.78rem;
+    line-height: 1.15;
+    text-align: start;
+    white-space: normal;
+  }
+  .gem-blog__topic-list .gem-blog__topic-pill {
+    width: 100% !important;
+    min-width: 0;
+  }
+  .gem-blog__topic-pill[data-topic-filter=""] {
+    display: none !important;
+  }
+  .gem-blog__topic-pill.is-active {
+    border-color: #123d2e !important;
+    background: #123d2e !important;
+    color: #ffffff !important;
+  }
+  .gem-blog__topic-pill:hover,
+  .gem-blog__topic-pill:focus-visible {
+    border-color: #123d2e !important;
+    background: #123d2e !important;
+    color: #ffffff !important;
+  }
+  .gem-blog__topic-pill img {
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .gem-blog__promo {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1.35 / 1;
+    margin-top: 1.25rem;
+    border-radius: 12px;
+    isolation: isolate;
+  }
+  .gem-blog__promo-slide {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: #17251f;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  .gem-blog__promo-slide[hidden] {
+    display: none;
+  }
+  .gem-blog__promo-slide img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gem-blog__promo-slide::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgb(255 250 242 / 0.96) 0%, rgb(255 250 242 / 0.72) 48%, rgb(255 250 242 / 0.08) 100%);
+    content: '';
+  }
+  .gem-blog__promo-overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.1rem;
+  }
+  .gem-blog__promo-kicker {
+    color: #9b773f;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .gem-blog__promo-title {
+    max-width: 9rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.25rem, calc(1rem + 1vw), 1.9rem);
+    line-height: 1.05;
+  }
+  .gem-blog__promo-arrow {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    margin-top: 0.35rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #b4863f;
+    color: #fffaf2;
+    font-size: 1.2rem;
+  }
+  .gem-blog__card {
+    overflow: hidden;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    border-radius: 14px;
+    background: var(--color-background);
+    box-shadow: 0 0.35rem 1.2rem rgb(var(--color-foreground-rgb) / 0.06);
+  }
+  .gem-blog__image {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 1.8;
+  }
+  .gem-blog__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+  .gem-blog__card-body {
+    padding: 1rem;
+  }
+  .gem-blog__card h2 {
+    margin: 0.3rem 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1rem, calc(0.9rem + 0.45vw), 1.2rem);
+    line-height: 1.25;
+    display: -webkit-box;
+    min-height: calc(2 * 1.25em);
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .gem-blog__card h2 a {
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .gem-blog__category,
+  .gem-blog__meta {
+    margin: 0.35rem 0;
+  }
+  .gem-blog__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    color: var(--color-foreground-muted);
+    font-size: 0.75rem;
+  }
+  .gem-blog__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  .gem-blog__meta-icon {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.35;
+  }
+  .gem-blog__meta-separator {
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40));
+  }
+  .gem-blog__read-more {
+    display: inline-flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  .gem-blog__empty {
+    grid-column: 1/-1;
+  }
+  @media (max-width: 700px) {
+    .gem-blog__layout {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .gem-blog__topics {
+      display: block;
+      border: 0;
+    }
+    .gem-blog__topics h2 {
+      font-size: clamp(1.1rem, calc(0.95rem + 0.7vw), 1.5rem);
+    }
+    .gem-blog__topics-heading {
+      margin-bottom: 0.65rem;
+    }
+    .gem-blog__topic-list {
+      display: flex;
+      width: 100%;
+      gap: 0.4rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .gem-blog__topic-list::-webkit-scrollbar {
+      display: none;
+    }
+    .gem-blog__topic-pill {
+      min-width: 5.35rem;
+      max-width: 6.4rem;
+      min-height: 2.55rem;
+      gap: 0.35rem;
+      padding: 0.3rem 0.4rem !important;
+      font-size: 0.62rem;
+      line-height: 1.1;
+    }
+    .gem-blog__topic-list .gem-blog__topic-pill {
+      width: auto !important;
+      min-width: 5.35rem;
+    }
+    .gem-blog__topic-pill img {
+      width: 1.65rem;
+      height: 1.65rem;
+      flex-basis: 1.65rem;
+    }
+    .gem-blog__topic-pill span {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .gem-blog__topics-view-all {
+      font-size: 0.7rem;
+    }
+    .gem-blog__topics button {
+      width: auto;
+      border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+      border-radius: 999px;
+      padding: 0.4rem 0.7rem;
+    }
+    .gem-blog__topics button span {
+      display: none;
+    }
+    .gem-blog__search button {
+      width: 2.75rem;
+      min-width: 2.75rem;
+      height: 2.75rem;
+      padding-inline: 0;
+      font-size: 0;
+    }
+    .gem-blog__search button::after {
+      content: '→';
+      font-size: 1.15rem;
+    }
+    .gem-blog__topic-pill span {
+      display: -webkit-box !important;
+    }
+    .gem-blog__topics-view-all span {
+      display: inline !important;
+    }
+    .gem-blog__promo {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2.2 / 1;
+      margin-top: 0.5rem;
+    }
+    .gem-blog__banner {
+      border-radius: 8px;
+    }
+  }
+{% endstylesheet %}

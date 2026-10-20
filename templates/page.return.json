@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "return_exchange_policy": {
+      "type": "return-exchange-policy",
+      "settings": {
+        "fallback_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Return_exchange_banner_image.webp?v=1790160147",
+        "image_alt": "Jewellery box with gemstone for return and exchange policy",
+        "heading": "Return & Exchange\nPolicy",
+        "breadcrumb": "<p>Home / Return &amp; Exchange Policy</p>",
+        "eyebrow": "Your trust matters to us",
+        "intro": "<p>Thank you for shopping with <strong>Raza Gems LLC</strong>. We take pride in offering carefully selected gemstones and jewellery.<br>Please review our Return &amp; Exchange Policy before making a purchase.</p>",
+        "help_title": "Still Have Questions?",
+        "help_text": "<p>Our Customer Service Team is always here to help you.<br>Feel free to contact us for any return or exchange related queries.</p>",
+        "address": "Raza Gems LLC\nGold & Diamond Park, Al Quoz, Industrial Area 3, Dubai",
+        "phone": "+971 58 585 8602",
+        "email": "info@razagems.com"
+      },
+      "blocks": {
+        "exchange_policy": {
+          "type": "policy_item",
+          "settings": {
+            "icon": "exchange",
+            "list_style": "default",
+            "title": "Exchange Policy",
+            "description": "<ul><li>Exchange requests must be made within <strong>three (3) working days</strong> from the date of delivery.</li><li>Only non-customized gemstones are eligible for exchange.</li><li>Customized jewellery and customised stones (made on special order or designed as per customer request) are <strong>strictly non-returnable and non-exchangeable</strong>.</li><li>Item must be in <strong>original condition</strong>, with packaging and tags intact.</li><li>Items that show <strong>wear, alteration,</strong> or damage will not be accepted for exchange.</li><li>For stone authenticity checks, any <strong>lab testing</strong> fees must be paid by the customer.</li></ul>"
+          }
+        },
+        "refund_policy": {
+          "type": "policy_item",
+          "settings": {
+            "icon": "refund",
+            "list_style": "gold",
+            "title": "Refund Policy",
+            "description": "<ul><li>No refunds are provided for any purchase made at Raza Gems LLC.</li><li>The only exception is if the product received is <strong>damaged or has a manufacturing defect.</strong></li><li>In such cases, we will arrange an exchange of the same or similar product after verification.</li></ul>"
+          }
+        },
+        "procedure_for_exchange": {
+          "type": "policy_item",
+          "settings": {
+            "icon": "document",
+            "list_style": "numbered",
+            "title": "Procedure for Exchange",
+            "description": "<ol><li>Contact our <strong>Customer Service Team</strong> within the allowed exchange period.</li><li>Provide your <strong>original purchase receipt</strong>, order number and product details.</li><li>If the product is damaged or incorrect, share clear photographs when requested.</li><li>Return the item as per the instructions provided by our team.</li><li>Once the returned item is received and inspected, the exchange process will be completed.</li></ol>"
+          }
+        },
+        "exclusions": {
+          "type": "policy_item",
+          "settings": {
+            "icon": "ban",
+            "list_style": "default",
+            "title": "Exclusions",
+            "description": "<ul><li><strong>Customized jewellery</strong> and <strong>customised stones</strong> are not eligible for return or exchange under any condition.</li><li>Items purchased during <strong>special promotions or sales</strong> may carry different policies as per terms of that offer.</li><li>Products that are altered, resized, <strong>engraved,</strong> or <strong>damaged</strong> after delivery cannot be returned or exchanged.</li><li>Items without original packaging, certificates, or tags may not be accepted.</li></ul>"
+          }
+        },
+        "shipping_charges": {
+          "type": "policy_item",
+          "settings": {
+            "icon": "shipping",
+            "list_style": "default",
+            "title": "Shipping Charges",
+            "description": "<ul><li>Shipping and return shipping charges may apply depending on the reason for the exchange and your location.</li><li>If an exchange is required due to an incorrect or defective product, applicable shipping arrangements will be communicated by our team.</li><li>For international orders, customers may also be responsible for customs duties, taxes, or other charges unless otherwise stated.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "exchange_policy",
+        "refund_policy",
+        "procedure_for_exchange",
+        "exclusions",
+        "shipping_charges"
+      ]
+    }
+  },
+  "order": [
+    "return_exchange_policy"
+  ]
+}
