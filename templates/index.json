@@ -160,6 +160,19 @@
         "show_mobile_chevrons": true
       }
     },
+    "shop_by_colour": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "collections": [],
+        "group_value": "Color",
+        "heading": "Shop by Colour",
+        "subtitle": "Find gemstones in your favourite colour",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "view_all_link": "",
+        "marquee_duration": 35
+      }
+    },
     "home_second_banner": {
       "type": "home-second-banner",
       "settings": {
@@ -175,17 +188,6 @@
         "feature_3": "Expert Craftsmanship",
         "full_width": true,
         "border_radius": 8
-      }
-    },
-    "shop_by_colour": {
-      "type": "gemstone-collection-slider",
-      "settings": {
-        "group_value": "Color",
-        "heading": "Shop by Colour",
-        "subtitle": "Find gemstones in your favourite colour",
-        "show_view_all": false,
-        "view_all_label": "View all",
-        "marquee_duration": 35
       }
     },
     "shop_by_origin": {
@@ -210,6 +212,7 @@
         "subtitle": "",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
       }
     },
@@ -455,8 +458,8 @@
     "17898196119e1449f5",
     "hero_jVaWmY",
     "trust_benefits_home",
-    "home_second_banner",
     "shop_by_colour",
+    "home_second_banner",
     "shop_by_origin",
     "product_list_fa6P9H",
     "178981965052546672"
