@@ -1188,6 +1188,34 @@
     "bottom_row_background": "Bottom row background",
     "bottom_row_text": "Bottom row text"
   },
+  "sections": {
+    "gemstone_collection_slider": {
+      "name": "Shop by Colour",
+      "collections": "Collections to check",
+      "group_value": "Collection group metafield value",
+      "heading": "Heading",
+      "subtitle": "Description",
+      "show_view_all": "Show View all link",
+      "view_all_label": "View all link label",
+      "view_all_link": "View all link",
+      "marquee_duration": "Continuous scroll duration"
+    },
+    "home_second_banner": {
+      "name": "Custom gemstone banner",
+      "image_url": "Banner image URL",
+      "heading_line_1": "First heading line",
+      "heading_line_2": "Second heading line",
+      "description": "Supporting text",
+      "cta_label": "Button label",
+      "link": "Banner link",
+      "features_label": "Accessibility label for features",
+      "feature_1": "First feature",
+      "feature_2": "Second feature",
+      "feature_3": "Third feature",
+      "full_width": "Use full width",
+      "border_radius": "Corner radius"
+    }
+  },
   "text_defaults": {
     "accordion_heading": "Accordion heading",
     "are_purchases_final_sale": "Are any purchases final sale?",

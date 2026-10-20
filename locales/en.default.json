@@ -169,7 +169,10 @@
         "one": "{{ count }} comment",
         "other": "{{ count }} comments"
       },
-      "comment_author_separator": "•"
+      "comment_author_separator": "•",
+      "table_of_contents": "Table of Contents",
+      "related_articles": "Related Articles",
+      "load_more": "More Articles"
     },
     "comment_form": {
       "email": "Email",

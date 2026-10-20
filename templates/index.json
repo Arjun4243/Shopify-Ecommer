@@ -111,6 +111,119 @@
         "padding-block-end": 72
       }
     },
+    "trust_benefits_home": {
+      "type": "trust-benefits",
+      "blocks": {
+        "certified": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "gem",
+            "heading": "Certified Gemstones",
+            "text": "GIA, IGI, GRS & More"
+          }
+        },
+        "authentic": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "shield",
+            "heading": "100% Authentic",
+            "text": "Natural & Untreated"
+          }
+        },
+        "shipping": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "truck",
+            "heading": "Worldwide Shipping",
+            "text": "Insured & Secure"
+          }
+        },
+        "trusted": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "badge",
+            "heading": "Trusted Since 2026",
+            "text": "Dubai Based Company"
+          }
+        }
+      },
+      "block_order": [
+        "certified",
+        "authentic",
+        "shipping",
+        "trusted"
+      ],
+      "settings": {
+        "accessibility_label": "Our customer benefits",
+        "background": "#fffaf3",
+        "vertical_padding": 8,
+        "show_mobile_chevrons": true
+      }
+    },
+    "home_second_banner": {
+      "type": "home-second-banner",
+      "settings": {
+        "image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Home-second-banner.webp?v=1792404158",
+        "heading_line_1": "Custom",
+        "heading_line_2": "Gemstone Jewellery",
+        "description": "Your stone. Your design. Handcrafted by experts.",
+        "cta_label": "Create Your Own",
+        "link": "/pages/support",
+        "features_label": "Custom jewellery process",
+        "feature_1": "Choose Your Gemstone",
+        "feature_2": "Personalised Design",
+        "feature_3": "Expert Craftsmanship",
+        "full_width": true,
+        "border_radius": 8
+      }
+    },
+    "shop_by_colour": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "group_value": "Color",
+        "heading": "Shop by Colour",
+        "subtitle": "Find gemstones in your favourite colour",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
+    "shop_by_origin": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "collections": [
+          "afghanistan",
+          "africa",
+          "burma",
+          "burma-1",
+          "mozambique",
+          "russia",
+          "india",
+          "sri-lanka",
+          "zambia",
+          "thailand",
+          "italian",
+          "ethiopia"
+        ],
+        "group_value": "Country",
+        "heading": "Buy Gemstone by Origin's",
+        "subtitle": "",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
+    "shop_by_shape": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "group_value": "Shape",
+        "heading": "Shop by Shape",
+        "subtitle": "Find gemstones by shape",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -352,6 +465,11 @@
   "order": [
     "17898196119e1449f5",
     "hero_jVaWmY",
+    "trust_benefits_home",
+    "home_second_banner",
+    "shop_by_colour",
+    "shop_by_origin",
+    "shop_by_shape",
     "product_list_fa6P9H",
     "178981965052546672"
   ]

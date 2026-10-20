@@ -442,14 +442,14 @@ export class Slideshow extends Component {
 
   get previousIndex() {
     const { current, visibleSlides } = this;
-    const modifier = visibleSlides.length > 1 ? visibleSlides.length : 1;
+    const modifier = this.hasAttribute('data-step-one') ? 1 : visibleSlides.length > 1 ? visibleSlides.length : 1;
 
     return current - modifier;
   }
 
   get nextIndex() {
     const { current, visibleSlides } = this;
-    const modifier = visibleSlides.length > 1 ? visibleSlides.length : 1;
+    const modifier = this.hasAttribute('data-step-one') ? 1 : visibleSlides.length > 1 ? visibleSlides.length : 1;
 
     return current + modifier;
   }

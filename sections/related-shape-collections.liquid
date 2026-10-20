@@ -1,0 +1,176 @@
+{% comment %}
+  Section contract.
+  Displays shape-related collections in a responsive, wrapping collection grid.
+  Collections are shown when custom.collection_group is set to Shape.
+{% endcomment %}
+{% liquid
+  assign source_collections = section.settings.collections
+  if source_collections == blank
+    assign source_collections = collections
+  endif
+
+  assign shape_group_handle = section.settings.group_value | replace: '_', '-' | handleize
+  assign visible_collection_count = 0
+
+  for shape_collection in source_collections
+    assign collection_group = shape_collection.metafields.custom.collection_group.value | default: shape_collection.metafields.custom.collection_group
+    assign collection_group_handle = collection_group | replace: '_', '-' | handleize
+    if collection_group_handle == shape_group_handle and shape_collection.image != blank
+      assign visible_collection_count = visible_collection_count | plus: 1
+    endif
+  endfor
+%}
+
+{% if visible_collection_count > 0 %}
+  <section class="related-shape-collections" aria-labelledby="RelatedShapeCollectionsHeading-{{ section.id }}">
+    <div class="related-shape-collections__inner">
+      <div class="related-shape-collections__header">
+        <div>
+          <h2 id="RelatedShapeCollectionsHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+          {% if section.settings.subtitle != blank %}
+            <p>{{ section.settings.subtitle | escape }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="related-shape-collections__grid">
+        {% for shape_collection in source_collections %}
+          {% assign collection_group = shape_collection.metafields.custom.collection_group.value | default: shape_collection.metafields.custom.collection_group %}
+          {% assign collection_group_handle = collection_group | replace: '_', '-' | handleize %}
+          {% if collection_group_handle == shape_group_handle and shape_collection.image != blank %}
+            <a class="related-shape-collections__card" href="{{ shape_collection.url }}" aria-label="{{ shape_collection.title | escape }}">
+              <span class="related-shape-collections__media">
+                {{ shape_collection.image | image_url: width: 360 | image_tag: widths: '120, 180, 240, 360', sizes: '(min-width: 990px) 12vw, (min-width: 750px) 20vw, 30vw', loading: 'lazy', alt: shape_collection.image.alt | default: shape_collection.title }}
+              </span>
+              <span class="related-shape-collections__title">{{ shape_collection.title | escape }}</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% stylesheet %}
+  .related-shape-collections {
+    --related-shape-gap: clamp(8px, 1vw, 14px);
+    --related-shape-columns: 10;
+    padding-block: 20px;
+    padding-inline: max(20px, var(--util-page-margin-offset, 0px));
+    background: var(--color-background);
+  }
+  .related-shape-collections__inner {
+    max-width: var(--page-width, 1400px);
+    margin-inline: auto;
+  }
+  .related-shape-collections__header {
+    margin-block-end: 14px;
+  }
+  .related-shape-collections h2 {
+    margin: 0;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(20px, 1.8vw, 27px);
+    line-height: 1.15;
+  }
+  .related-shape-collections__header p {
+    margin: 5px 0 0;
+    color: rgb(var(--color-foreground-rgb) / 70%);
+    font-size: 13px;
+  }
+  .related-shape-collections__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--related-shape-gap);
+  }
+  .related-shape-collections__card {
+    flex: 0 0 min(90px, calc((100% - (var(--related-shape-columns) - 1) * var(--related-shape-gap)) / var(--related-shape-columns)));
+    display: grid;
+    gap: 8px;
+    max-width: 90px;
+    min-width: 0;
+    color: var(--color-foreground);
+    text-align: center;
+    text-decoration: none;
+  }
+  .related-shape-collections__media {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 78px;
+    border-radius: 8px;
+    background: #f7f2e9;
+  }
+  .related-shape-collections__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 180ms ease;
+  }
+  .related-shape-collections__card:hover .related-shape-collections__media img {
+    transform: scale(1.04);
+  }
+  .related-shape-collections__title {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+  @media screen and (max-width: 989px) {
+    .related-shape-collections {
+      --related-shape-columns: 6;
+    }
+  }
+  @media screen and (max-width: 749px) {
+    .related-shape-collections {
+      --related-shape-columns: 4;
+      padding-block: 18px;
+      padding-inline: 16px;
+    }
+    .related-shape-collections__title {
+      font-size: 10px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .related-shape-collections__media img {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.related_shape_collections.name",
+  "settings": [
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "t:sections.related_shape_collections.collections",
+      "limit": 50
+    },
+    {
+      "type": "text",
+      "id": "group_value",
+      "label": "t:sections.related_shape_collections.group_value",
+      "default": "Shape"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.related_shape_collections.heading",
+      "default": "Shop by Shape"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:sections.gemstone_collection_slider.subtitle",
+      "default": "Find gemstones by shape"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.related_shape_collections.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,6 +1,11 @@
 
 
 {% liquid
+  assign article_blog_handle = article.url | split: '/blogs/' | last | split: '/' | first
+  assign article_blog = blogs[article_blog_handle]
+  assign article_topic_metafield = article.metafields.custom.gemstone_topic
+  assign article_topic_reference = article_topic_metafield.value
+  assign article_topic = article_topic_reference.title | default: article_topic_reference | default: article_topic_metafield
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
@@ -10,23 +15,34 @@
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 <div class="section{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}">
-  <div
-    class="
-      spacing-style
-      layout-panel-flex
-      layout-panel-flex--column
-      section-content-wrapper
-      mobile-column
-    "
-    style="
-      {% render 'layout-panel-style', settings: section.settings %}
-      {% render 'spacing-style', settings: section.settings %}
-    "
-  >
-    {% content_for 'blocks' %}
+  <div class="article-layout">
+    <aside class="article-left-sidebar">
+      <nav class="article-toc" data-article-toc aria-label="{{ 'blogs.article.table_of_contents' | t }}">
+        <h2>{{ 'blogs.article.table_of_contents' | t }}</h2>
+        <ol data-article-toc-list></ol>
+      </nav>
+    </aside>
 
-    {% if blog.comments_enabled? %}
-      <div class="blog-post-comments-container">
+    <main class="article-main">
+      <div
+        class="
+          spacing-style
+          layout-panel-flex
+          layout-panel-flex--column
+          section-content-wrapper
+          mobile-column
+        "
+        data-article-content
+        style="
+          {% render 'layout-panel-style', settings: section.settings %}
+          {% render 'spacing-style', settings: section.settings %}
+        "
+      >
+        {% content_for 'blocks' %}
+      </div>
+
+      {% if blog.comments_enabled? %}
+        <div class="blog-post-comments-container">
         <h2 class="h3">{{- 'blogs.article.comments_heading' | t: count: article.comments_count -}}</h2>
 
         <div class="blog-post-comments">
@@ -51,8 +67,51 @@
         </div>
 
         {% render 'blog-comment-form', article: article, section_id: section.id %}
-      </div>
-    {% endif %}
+        </div>
+      {% endif %}
+    </main>
+
+    <aside class="article-aside">
+      <section class="article-related" data-related-articles>
+        <h2>{{ 'blogs.article.related_articles' | t }}</h2>
+        <div class="article-related__list">
+          {% for related_article in article_blog.articles %}
+            {% if related_article.id != article.id %}
+              {% assign related_topic_metafield = related_article.metafields.custom.gemstone_topic %}
+              {% assign related_topic_reference = related_topic_metafield.value %}
+              {% assign related_topic = related_topic_reference.title | default: related_topic_reference | default: related_topic_metafield %}
+              {% assign related_topic_key = related_topic | downcase | strip %}
+              {% assign article_topic_key = article_topic | downcase | strip %}
+              {% if article_topic_key == blank or related_topic_key == article_topic_key %}
+                <a class="article-related__item" data-related-item href="{{ related_article.url }}">
+                  {% if related_article.image != blank %}
+                    <img
+                      src="{{ related_article.image | image_url: width: 240 }}"
+                      srcset="{{ related_article.image | image_url: width: 120 }} 120w, {{ related_article.image | image_url: width: 240 }} 240w"
+                      sizes="5rem"
+                      width="{{ related_article.image.width }}"
+                      height="{{ related_article.image.height }}"
+                      loading="lazy"
+                      alt="{{ related_article.image.alt | default: related_article.title | escape }}"
+                    >
+                  {% endif %}
+                  {% if related_topic != blank %}
+                    <span class="article-related__category">{{ related_topic | escape }}</span>
+                  {% endif %}
+                  <span class="article-related__content">
+                    <strong>{{ related_article.title | escape | truncatewords: 8 }}</strong>
+                    <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
+                  </span>
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <button type="button" class="article-related__more" data-related-more hidden>
+          {{ 'blogs.article.load_more' | t }}
+        </button>
+      </section>
+    </aside>
   </div>
 </div>
 
@@ -60,7 +119,211 @@
   {{ article | structured_data }}
 </script>
 
+{% javascript %}
+  const buildArticleToc = (root = document) => {
+    const articleContent = root.querySelector('[data-article-content]');
+    const tocList = root.querySelector('[data-article-toc-list]');
+    if (!articleContent || !tocList) return;
+
+    tocList.replaceChildren();
+    const usedIds = new Set([...articleContent.querySelectorAll('[id]')].map((element) => element.id));
+    const headings = [...articleContent.querySelectorAll('h2, h3')];
+    headings.forEach((heading, index) => {
+      const title = heading.textContent.trim();
+      if (!title) return;
+
+      let id = heading.id;
+      if (!id) {
+        const slug = title.toLocaleLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `section-${index + 1}`;
+        id = `article-${slug}`;
+        let suffix = 2;
+        while (usedIds.has(id)) id = `article-${slug}-${suffix++}`;
+        heading.id = id;
+        usedIds.add(id);
+      }
+
+      const item = document.createElement('li');
+      item.className = `article-toc__item article-toc__item--${heading.tagName.toLowerCase()}`;
+      const link = document.createElement('a');
+      link.href = `#${encodeURIComponent(id)}`;
+      link.textContent = title;
+      item.append(link);
+      tocList.append(item);
+    });
+  };
+
+  const initializeArticleSections = (root = document) => {
+    root.querySelectorAll('[data-article-toc]').forEach((toc) => {
+      buildArticleToc(toc.closest('.shopify-section') || root);
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initializeArticleSections(), { once: true });
+  } else {
+    initializeArticleSections();
+  }
+  document.addEventListener('shopify:section:load', (event) => initializeArticleSections(event.target));
+  const relatedList = document.querySelector('.article-related__list');
+  const relatedItems = relatedList ? [...relatedList.querySelectorAll('[data-related-item]')] : [];
+  const relatedMore = document.querySelector('[data-related-more]');
+  if (relatedList && relatedItems.length) {
+    relatedItems.forEach((item, index) => {
+      item.hidden = index >= 4;
+    });
+    if (relatedItems.length > 4 && relatedMore) relatedMore.hidden = false;
+    relatedMore?.addEventListener('click', () => {
+      const hiddenItems = relatedItems.filter((item) => item.hidden).slice(0, 4);
+      hiddenItems.forEach((item) => { item.hidden = false; });
+      if (!relatedItems.some((item) => item.hidden) && relatedMore) relatedMore.hidden = true;
+    });
+  }
+{% endjavascript %}
+
 {% stylesheet %}
+  .article-layout {
+    display: grid;
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(14rem, 20rem);
+    gap: clamp(1rem, 2.5vw, 2rem);
+    align-items: start;
+    width: min(100% - 2rem, 90rem);
+    margin: 0 auto;
+  }
+  .article-toc,
+  .article-related {
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    border-radius: 0.75rem;
+    background: var(--color-background);
+  }
+  .article-left-sidebar {
+    display: grid;
+    gap: 1rem;
+    align-self: start;
+    position: sticky;
+    top: 1rem;
+  }
+  .article-toc h2,
+  .article-related h2 {
+    margin: 0;
+    padding: 1rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    font-family: var(--font-heading--family);
+    font-size: 1.1rem;
+  }
+  .article-toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .article-toc a {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .article-toc a:hover {
+    color: #123d2e;
+  }
+  .article-main h2,`n  .article-main h3 {`n    scroll-margin-block-start: 1rem;`n  }`n  .article-main {
+    min-width: 0;
+  }
+  .article-toc__item--h3 {
+    padding-inline-start: 1rem;
+    font-size: 0.9rem;
+  }
+  .article-related {
+    margin-top: 0;
+  }
+  .article-related__list {
+    display: grid;
+    gap: 0;
+    padding: 0 0.75rem;
+  }
+  .article-related__item {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 0.65rem;
+    row-gap: 0.2rem;
+    padding-block: 0.65rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .article-related__item:last-child {
+    border-bottom: 0;
+  }
+  .article-related__category {
+    grid-column: 2;
+    color: #9b773f;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .article-related__item img {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 5rem;
+    height: 4.25rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+  }
+  .article-related__item strong,
+  .article-related__item small {
+    display: block;
+  }
+  .article-related__content {
+    grid-column: 2;
+    min-width: 0;
+  }
+  .article-related__item strong {
+    font-family: var(--font-heading--family);
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+  .article-related__item small {
+    margin-top: 0.35rem;
+    color: var(--color-foreground-muted);
+    font-size: 0.7rem;
+  }
+  .article-related__more {
+    width: calc(100% - 1.5rem);
+    margin: 0 0.75rem 0.75rem;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.6rem 1rem;
+    background: #123d2e;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+    }
+    .article-aside {
+      grid-column: 1 / -1;
+    }
+    .article-related {
+      margin-top: 0;
+    }
+  }
+  @media (max-width: 650px) {
+    .article-layout {
+      display: block;
+      width: min(100% - 1rem, 40rem);
+    }
+    .article-left-sidebar {
+      position: static;
+      margin-bottom: 1rem;
+    }
+    .article-aside {
+      display: block;
+    }
+  }
   .blog-post-comments-container {
     width: 100%;
     max-width: var(--normal-content-width);
