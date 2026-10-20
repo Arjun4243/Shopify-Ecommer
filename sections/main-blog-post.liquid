@@ -1,6 +1,7 @@
 
 
 {% liquid
+  assign article_blog = article.blog
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
@@ -11,25 +12,11 @@
 ></div>
 <div class="section{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}">
   <div class="article-layout">
-    <aside class="article-topics" aria-label="{{ 'blogs.gemstone.topics' | t }}">
-      <h2>{{ 'blogs.gemstone.topics' | t }}</h2>
-      <ul>
-        {% assign article_blog = article.blog %}
-        {% assign seen_article_topics = '||' %}
-        {% for topic_article in article_blog.articles %}
-          {% assign topic_metafield = topic_article.metafields.custom.gemstone_topic %}
-          {% assign topic_reference = topic_metafield.value %}
-          {% assign topic_label = topic_reference.title | default: topic_reference | default: topic_metafield %}
-          {% if topic_label != blank %}
-            {% assign topic_label = topic_label | strip %}
-            {% assign topic_marker = topic_label | prepend: '||' | append: '||' %}
-            {% unless seen_article_topics contains topic_marker %}
-              {% assign seen_article_topics = seen_article_topics | append: topic_label | append: '||' %}
-              <li><a href="{{ article_blog.url }}">{{ topic_label | escape }} <span aria-hidden="true">›</span></a></li>
-            {% endunless %}
-          {% endif %}
-        {% endfor %}
-      </ul>
+    <aside class="article-left-sidebar">
+      <nav class="article-toc" data-article-toc aria-label="{{ 'blogs.article.table_of_contents' | t }}">
+        <h2>{{ 'blogs.article.table_of_contents' | t }}</h2>
+        <ol data-article-toc-list></ol>
+      </nav>
     </aside>
 
     <main class="article-main">
@@ -81,11 +68,6 @@
     </main>
 
     <aside class="article-aside">
-      <nav class="article-toc" data-article-toc aria-label="{{ 'blogs.article.table_of_contents' | t }}">
-        <h2>{{ 'blogs.article.table_of_contents' | t }}</h2>
-        <ol data-article-toc-list></ol>
-      </nav>
-
       <section class="article-related" data-related-articles>
         <h2>{{ 'blogs.article.related_articles' | t }}</h2>
         <div class="article-related__list">
@@ -116,24 +98,50 @@
 </script>
 
 {% javascript %}
-  const articleContent = document.querySelector('[data-article-content]');
-  const tocList = document.querySelector('[data-article-toc-list]');
-  if (articleContent && tocList) {
+  const buildArticleToc = (root = document) => {
+    const articleContent = root.querySelector('[data-article-content]');
+    const tocList = root.querySelector('[data-article-toc-list]');
+    if (!articleContent || !tocList) return;
+
+    tocList.replaceChildren();
+    const usedIds = new Set([...articleContent.querySelectorAll('[id]')].map((element) => element.id));
     const headings = [...articleContent.querySelectorAll('h2, h3')];
     headings.forEach((heading, index) => {
-      const id = heading.id || `article-heading-${index + 1}`;
-      heading.id = id;
+      const title = heading.textContent.trim();
+      if (!title) return;
+
+      let id = heading.id;
+      if (!id) {
+        const slug = title.toLocaleLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `section-${index + 1}`;
+        id = `article-${slug}`;
+        let suffix = 2;
+        while (usedIds.has(id)) id = `article-${slug}-${suffix++}`;
+        heading.id = id;
+        usedIds.add(id);
+      }
+
       const item = document.createElement('li');
       item.className = `article-toc__item article-toc__item--${heading.tagName.toLowerCase()}`;
       const link = document.createElement('a');
-      link.href = `#${id}`;
-      link.textContent = heading.textContent.trim();
+      link.href = `#${encodeURIComponent(id)}`;
+      link.textContent = title;
       item.append(link);
       tocList.append(item);
     });
-    if (!headings.length) tocList.closest('[data-article-toc]')?.remove();
-  }
+  };
 
+  const initializeArticleSections = (root = document) => {
+    root.querySelectorAll('[data-article-toc]').forEach((toc) => {
+      buildArticleToc(toc.closest('.shopify-section') || root);
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initializeArticleSections(), { once: true });
+  } else {
+    initializeArticleSections();
+  }
+  document.addEventListener('shopify:section:load', (event) => initializeArticleSections(event.target));
   const relatedList = document.querySelector('.article-related__list');
   const relatedItems = relatedList ? [...relatedList.querySelectorAll('[data-related-item]')] : [];
   const relatedMore = document.querySelector('[data-related-more]');
@@ -164,19 +172,19 @@
     width: min(100% - 2rem, 90rem);
     margin: 0 auto;
   }
-  .article-topics,
   .article-toc,
   .article-related {
     border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
     border-radius: 0.75rem;
     background: var(--color-background);
   }
-  .article-topics {
+  .article-left-sidebar {
+    display: grid;
+    gap: 1rem;
+    align-self: start;
     position: sticky;
     top: 1rem;
-    padding: 1rem;
   }
-  .article-topics h2,
   .article-toc h2,
   .article-related h2 {
     margin: 0;
@@ -185,41 +193,30 @@
     font-family: var(--font-heading--family);
     font-size: 1.1rem;
   }
-  .article-topics ul,
   .article-toc ol {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .article-topics li + li {
-    border-top: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
-  }
-  .article-topics a,
   .article-toc a {
     display: flex;
-    justify-content: space-between;
     gap: 0.5rem;
-    padding: 0.65rem 0.25rem;
+    padding: 0.65rem 1rem;
     color: var(--color-foreground);
     text-decoration: none;
   }
-  .article-topics a:hover,
   .article-toc a:hover {
     color: #123d2e;
   }
-  .article-main {
+  .article-main h2,`n  .article-main h3 {`n    scroll-margin-block-start: 1rem;`n  }`n  .article-main {
     min-width: 0;
-  }
-  .article-toc {
-    position: sticky;
-    top: 1rem;
   }
   .article-toc__item--h3 {
     padding-inline-start: 1rem;
     font-size: 0.9rem;
   }
   .article-related {
-    margin-top: 1rem;
+    margin-top: 0;
   }
   .article-related__list {
     display: grid;
@@ -270,9 +267,6 @@
     }
     .article-aside {
       grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
     }
     .article-related {
       margin-top: 0;
@@ -283,26 +277,9 @@
       display: block;
       width: min(100% - 1rem, 40rem);
     }
-    .article-topics,
-    .article-toc {
+    .article-left-sidebar {
       position: static;
       margin-bottom: 1rem;
-    }
-    .article-topics ul {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-    }
-    .article-topics li {
-      flex: 0 0 auto;
-    }
-    .article-topics li + li {
-      border-top: 0;
-    }
-    .article-topics a {
-      border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-15));
-      border-radius: 999px;
-      padding: 0.5rem 0.75rem;
     }
     .article-aside {
       display: block;
