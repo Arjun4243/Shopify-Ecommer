@@ -75,7 +75,6 @@
       <section class="article-related" data-related-articles>
         <h2>{{ 'blogs.article.related_articles' | t }}</h2>
         <div class="article-related__list">
-          {% assign related_matches = 0 %}
           {% for related_article in article_blog.articles %}
             {% if related_article.id != article.id %}
               {% assign related_topic_metafield = related_article.metafields.custom.gemstone_topic %}
@@ -84,34 +83,6 @@
               {% assign related_topic_key = related_topic | downcase | strip %}
               {% assign article_topic_key = article_topic | downcase | strip %}
               {% if article_topic_key == blank or related_topic_key == article_topic_key %}
-                <a class="article-related__item" data-related-item href="{{ related_article.url }}">
-                  {% if related_article.image != blank %}
-                    <img
-                      src="{{ related_article.image | image_url: width: 240 }}"
-                      srcset="{{ related_article.image | image_url: width: 120 }} 120w, {{ related_article.image | image_url: width: 240 }} 240w"
-                      sizes="5rem"
-                      width="{{ related_article.image.width }}"
-                      height="{{ related_article.image.height }}"
-                      loading="lazy"
-                      alt="{{ related_article.image.alt | default: related_article.title | escape }}"
-                    >
-                  {% endif %}
-                  <span class="article-related__category">{{ related_topic | escape }}</span>
-                  <span class="article-related__content">
-                    <strong>{{ related_article.title | escape | truncatewords: 8 }}</strong>
-                    <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
-                  </span>
-                </a>
-                {% assign related_matches = related_matches | plus: 1 %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-          {% if related_matches == 0 %}
-            {% for related_article in article_blog.articles %}
-              {% if related_article.id != article.id %}
-                {% assign related_topic_metafield = related_article.metafields.custom.gemstone_topic %}
-                {% assign related_topic_reference = related_topic_metafield.value %}
-                {% assign related_topic = related_topic_reference.title | default: related_topic_reference | default: related_topic_metafield %}
                 <a class="article-related__item" data-related-item href="{{ related_article.url }}">
                   {% if related_article.image != blank %}
                     <img
@@ -133,8 +104,8 @@
                   </span>
                 </a>
               {% endif %}
-            {% endfor %}
-          {% endif %}
+            {% endif %}
+          {% endfor %}
         </div>
         <button type="button" class="article-related__more" data-related-more hidden>
           {{ 'blogs.article.load_more' | t }}
