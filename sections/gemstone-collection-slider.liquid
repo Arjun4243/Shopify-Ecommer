@@ -1,8 +1,8 @@
 {% comment %}
   Section contract.
-  Continuously scrolls collections matching the configured collection_group value.
+  Continuously scrolls collections tagged with the configured custom.collection_group value.
   @example
-  Set a collection's custom.collection_group metafield to the configured group value; the collection image and title are picked automatically.
+  Set a collection's custom.collection_group metafield to the section's group value; its image and title are picked automatically.
 {% endcomment %}
 {% liquid
   assign source_collections = section.settings.collections
@@ -14,25 +14,17 @@
   for colour_collection in source_collections
     assign collection_group = colour_collection.metafields.custom.collection_group.value | default: colour_collection.metafields.custom.collection_group
     assign collection_group_handle = collection_group | replace: '_', '-' | handleize
-    assign is_target_collection = false
     if collection_group_handle == target_group_handle
-      assign is_target_collection = true
-    elsif target_group_handle == 'shape'
-      if colour_collection.handle contains 'shape' or colour_collection.handle contains 'round' or colour_collection.handle contains 'oval' or colour_collection.handle contains 'cushion' or colour_collection.handle contains 'emerald' or colour_collection.handle contains 'pear' or colour_collection.handle contains 'marquise' or colour_collection.handle contains 'princess' or colour_collection.handle contains 'asscher' or colour_collection.handle contains 'radiant' or colour_collection.handle contains 'heart' or colour_collection.handle contains 'trillion' or colour_collection.handle contains 'baguette' or colour_collection.handle contains 'octagon' or colour_collection.handle contains 'square' or colour_collection.handle contains 'hexagon'
-        assign is_target_collection = true
-      endif
-    endif
-    if is_target_collection and colour_collection.image != blank
       assign visible_collection_count = visible_collection_count | plus: 1
     endif
   endfor
 %}
 
 {% if visible_collection_count > 0 %}
-  <section class="gemstone-collection-slider" aria-labelledby="GemstoneCollectionHeading-{{ section.id }}">
+  <section class="gemstone-collection-slider" aria-labelledby="ColourCollectionHeading-{{ section.id }}">
     <div class="gemstone-collection-slider__header">
       <div class="gemstone-collection-slider__intro">
-        <h2 id="GemstoneCollectionHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        <h2 id="ColourCollectionHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
         {% if section.settings.subtitle != blank %}
           <p>{{ section.settings.subtitle | escape }}</p>
         {% endif %}
@@ -51,19 +43,15 @@
       {% for colour_collection in source_collections %}
         {% assign collection_group = colour_collection.metafields.custom.collection_group.value | default: colour_collection.metafields.custom.collection_group %}
         {% assign collection_group_handle = collection_group | replace: '_', '-' | handleize %}
-        {% assign is_target_collection = false %}
         {% if collection_group_handle == target_group_handle %}
-          {% assign is_target_collection = true %}
-        {% elsif target_group_handle == 'shape' %}
-          {% if colour_collection.handle contains 'shape' or colour_collection.handle contains 'round' or colour_collection.handle contains 'oval' or colour_collection.handle contains 'cushion' or colour_collection.handle contains 'emerald' or colour_collection.handle contains 'pear' or colour_collection.handle contains 'marquise' or colour_collection.handle contains 'princess' or colour_collection.handle contains 'asscher' or colour_collection.handle contains 'radiant' or colour_collection.handle contains 'heart' or colour_collection.handle contains 'trillion' or colour_collection.handle contains 'baguette' or colour_collection.handle contains 'octagon' or colour_collection.handle contains 'square' or colour_collection.handle contains 'hexagon' %}
-            {% assign is_target_collection = true %}
-          {% endif %}
-        {% endif %}
-        {% if is_target_collection and colour_collection.image != blank %}
           {% capture collection_card %}
             <a class="gemstone-collection-slider__card" href="{{ colour_collection.url }}" aria-label="{{ colour_collection.title | escape }}">
               <div class="gemstone-collection-slider__media">
-                {{ colour_collection.image | image_url: width: 480 | image_tag: widths: '160, 240, 320, 480', sizes: '(min-width: 750px) 10vw, 38vw', loading: 'lazy', alt: colour_collection.image.alt | default: colour_collection.title }}
+                {% if colour_collection.image != blank %}
+                  {{ colour_collection.image | image_url: width: 480 | image_tag: widths: '160, 240, 320, 480', sizes: '(min-width: 750px) 10vw, 38vw', loading: 'lazy', alt: colour_collection.image.alt | default: colour_collection.title }}
+                {% else %}
+                  {{ 'collection-1' | placeholder_svg_tag: 'gemstone-collection-slider__placeholder' }}
+                {% endif %}
               </div>
               <span class="gemstone-collection-slider__title">{{ colour_collection.title | escape }}</span>
             </a>
@@ -74,7 +62,7 @@
     {% endcapture %}
 
     <div class="gemstone-collection-slider__marquee" style="--gemstone-marquee-duration: {{ section.settings.marquee_duration }}s;">
-      <div class="gemstone-collection-slider__track{% if target_group_handle == 'color' %} gemstone-collection-slider__track--right-to-left{% endif %}">
+      <div class="gemstone-collection-slider__track{% if target_group_handle == 'color' or target_group_handle == 'shape' %} gemstone-collection-slider__track--right-to-left{% endif %}">
         <div class="gemstone-collection-slider__group">
           {{ collection_cards }}
         </div>
@@ -177,14 +165,14 @@
     border-radius: 10px;
     background: #f7f2e9;
   }
-  .gemstone-collection-slider__media img {
+  .gemstone-collection-slider__media :is(img, .gemstone-collection-slider__placeholder) {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: contain;
     transition: transform 180ms ease;
   }
-  .gemstone-collection-slider__card:hover .gemstone-collection-slider__media img {
+  .gemstone-collection-slider__card:hover .gemstone-collection-slider__media :is(img, .gemstone-collection-slider__placeholder) {
     transform: scale(1.04);
   }
   .gemstone-collection-slider__title {
@@ -221,7 +209,7 @@
     .gemstone-collection-slider__track {
       animation: none;
     }
-    .gemstone-collection-slider__media img {
+    .gemstone-collection-slider__media :is(img, .gemstone-collection-slider__placeholder) {
       transition: none;
     }
   }
