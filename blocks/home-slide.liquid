@@ -1,0 +1,104 @@
+{% comment %}
+  Settings-only block. The hero section reads these settings and renders the slide.
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Home slide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop banner image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile banner image"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading first line",
+      "default": "Discover the"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent word",
+      "default": "Beauty"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Desktop heading second line",
+      "default": "of Nature"
+    },
+    {
+      "type": "text",
+      "id": "mobile_accent_word",
+      "label": "Mobile small accent word",
+      "default": "of"
+    },
+    {
+      "type": "text",
+      "id": "mobile_heading_line_2",
+      "label": "Mobile heading last line",
+      "default": "Nature"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "Premium natural gemstones and jewellery, carefully selected for your special moments."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#08322d"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#8a5d34"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#163c36"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#073f35"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home slide"
+    }
+  ]
+}
+{% endschema %}

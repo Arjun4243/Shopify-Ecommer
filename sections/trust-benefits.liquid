@@ -1,0 +1,77 @@
+{% comment %}
+  Section contract.
+  Shows merchant-managed trust benefits beneath the homepage hero.
+  @example
+  Add four benefit blocks and choose an icon for each in the theme editor.
+{% endcomment %}
+<section class="trust-benefits" aria-label="{{ section.settings.accessibility_label | escape }}" style="--trust-benefits-background: {{ section.settings.background }}; --trust-benefits-padding: {{ section.settings.vertical_padding }}px;">
+  <div class="trust-benefits__inner">
+    {% for block in section.blocks %}
+      <article class="trust-benefits__item" {{ block.shopify_attributes }}>
+        <span class="trust-benefits__icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" focusable="false">
+            {% case block.settings.icon %}
+              {% when 'gem' %}<path d="M10 12 15 6h10l5 6-10 22L10 12Z"/><path d="M10 12h20M15 6l5 6 5-6M15 6l5 28 5-28"/>
+              {% when 'shield' %}<path d="m20 4 13 5v9c0 8-5.6 14.2-13 18-7.4-3.8-13-10-13-18V9l13-5Z"/><path d="m14 20 4 4 8-9"/>
+              {% when 'truck' %}<path d="M4 10h20v18H4zM24 16h7l5 6v6H24z"/><circle cx="12" cy="30" r="3"/><circle cx="30" cy="30" r="3"/><path d="M27 16v7h9"/>
+              {% when 'badge' %}<path d="m20 4 4 3 5-.5 2 4.5 4 3-2 5 1 5-5 2-3 4-5-2-5 2-3-4-5-2 1-5-2-5 4-3 2-4.5 5 .5 4-3Z"/><path d="m14 20 4 4 8-9"/>
+            {% endcase %}
+          </svg>
+        </span>
+        <span class="trust-benefits__copy">
+          <span class="trust-benefits__heading">{{ block.settings.heading | escape }}</span>
+          <span class="trust-benefits__text">{{ block.settings.text | escape }}</span>
+        </span>
+        {% if section.settings.show_mobile_chevrons %}<span class="trust-benefits__chevron" aria-hidden="true">›</span>{% endif %}
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .trust-benefits { padding-block: var(--trust-benefits-padding, 8px); background: var(--trust-benefits-background, #fffaf3); }
+  .trust-benefits__inner { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: var(--page-width, 1400px); margin-inline: auto; padding-inline: 20px; border: 1px solid #eee5d8; border-radius: 12px; background: #fffdfa; box-shadow: 0 4px 18px rgb(66 48 27 / 7%); }
+  .trust-benefits__item { display: flex; align-items: center; min-width: 0; gap: 12px; padding: 12px 16px; color: var(--color-foreground); }
+  .trust-benefits__item + .trust-benefits__item { border-inline-start: 1px solid #eee5d8; }
+  .trust-benefits__icon { display: grid; flex: 0 0 42px; width: 42px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: #fbf4e8; color: #b7832e; }
+  .trust-benefits__icon svg { width: 28px; height: 28px; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .trust-benefits__copy { display: grid; min-width: 0; gap: 3px; }
+  .trust-benefits__heading { font-family: var(--font-heading--family, Georgia, serif); font-size: 14px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+  .trust-benefits__text { color: rgb(var(--color-foreground-rgb) / 70%); font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; }
+  .trust-benefits__chevron { display: none; color: #c59037; font-size: 26px; line-height: 1; }
+  @media screen and (max-width: 749px) {
+    .trust-benefits { padding: 8px 12px; }
+    .trust-benefits__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+    .trust-benefits__item { gap: 9px; min-height: 72px; padding: 10px; border: 1px solid #eee7dd !important; border-radius: 12px; background: #fffdfa; box-shadow: 0 3px 12px rgb(66 48 27 / 6%); }
+    .trust-benefits__icon { flex-basis: 40px; width: 40px; }
+    .trust-benefits__icon svg { width: 26px; height: 26px; }
+    .trust-benefits__heading { font-size: 13px; }
+    .trust-benefits__text { font-size: 10px; }
+    .trust-benefits__chevron { display: block; margin-inline-start: auto; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Trust benefits",
+  "settings": [
+    { "type": "text", "id": "accessibility_label", "label": "Accessibility label", "default": "Our customer benefits" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#fffaf3" },
+    { "type": "range", "id": "vertical_padding", "label": "Vertical padding", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 8 },
+    { "type": "checkbox", "id": "show_mobile_chevrons", "label": "Show chevrons on mobile", "default": true }
+  ],
+  "blocks": [
+    { "type": "trust_benefit_card", "name": "Benefit", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [ { "value": "gem", "label": "Gemstone" }, { "value": "shield", "label": "Shield" }, { "value": "truck", "label": "Shipping" }, { "value": "badge", "label": "Quality badge" } ], "default": "gem" },
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Certified Gemstones" },
+      { "type": "text", "id": "text", "label": "Supporting text", "default": "GIA, IGI, GRS & More" }
+    ] }
+  ],
+  "presets": [ { "name": "Trust benefits", "blocks": [
+    { "type": "trust_benefit_card", "settings": { "icon": "gem", "heading": "Certified Gemstones", "text": "GIA, IGI, GRS & More" } },
+    { "type": "trust_benefit_card", "settings": { "icon": "shield", "heading": "100% Authentic", "text": "Natural & Untreated" } },
+    { "type": "trust_benefit_card", "settings": { "icon": "truck", "heading": "Worldwide Shipping", "text": "Insured & Secure" } },
+    { "type": "trust_benefit_card", "settings": { "icon": "badge", "heading": "Trusted Since 2005", "text": "Dubai Based Company" } }
+  ] } ]
+}
+{% endschema %}

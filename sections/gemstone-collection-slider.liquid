@@ -1,0 +1,268 @@
+{% comment %}
+  Section contract.
+  Continuously scrolls collections tagged with the custom collection_group value "Color".
+  @example
+  Set a collection's custom.collection_group metafield to Color; the collection image and title are picked automatically.
+{% endcomment %}
+{% liquid
+  assign source_collections = section.settings.collections
+  if source_collections == blank
+    assign source_collections = collections
+  endif
+  assign visible_collection_count = 0
+  assign target_group_handle = section.settings.group_value | replace: '_', '-' | handleize
+  for colour_collection in source_collections
+    assign collection_group = colour_collection.metafields.custom.collection_group.value | default: colour_collection.metafields.custom.collection_group
+    assign collection_group_handle = collection_group | replace: '_', '-' | handleize
+    if collection_group_handle == target_group_handle and colour_collection.image != blank
+      assign visible_collection_count = visible_collection_count | plus: 1
+    endif
+  endfor
+%}
+
+{% if visible_collection_count > 0 %}
+  <section class="gemstone-collection-slider" aria-labelledby="ColourCollectionHeading-{{ section.id }}">
+    <div class="gemstone-collection-slider__header">
+      <div class="gemstone-collection-slider__intro">
+        <h2 id="ColourCollectionHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p>{{ section.settings.subtitle | escape }}</p>
+        {% endif %}
+      </div>
+      {% if section.settings.show_view_all %}
+        <a
+          class="gemstone-collection-slider__view-all"
+          href="{{ section.settings.view_all_link | default: routes.collections_url | escape }}"
+        >
+          {{ section.settings.view_all_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% capture collection_cards %}
+      {% for colour_collection in source_collections %}
+        {% assign collection_group = colour_collection.metafields.custom.collection_group.value | default: colour_collection.metafields.custom.collection_group %}
+        {% assign collection_group_handle = collection_group | replace: '_', '-' | handleize %}
+        {% if collection_group_handle == target_group_handle and colour_collection.image != blank %}
+          {% capture collection_card %}
+            <a class="gemstone-collection-slider__card" href="{{ colour_collection.url }}" aria-label="{{ colour_collection.title | escape }}">
+              <div class="gemstone-collection-slider__media">
+                {{ colour_collection.image | image_url: width: 480 | image_tag: widths: '160, 240, 320, 480', sizes: '(min-width: 750px) 10vw, 38vw', loading: 'lazy', alt: colour_collection.image.alt | default: colour_collection.title }}
+              </div>
+              <span class="gemstone-collection-slider__title">{{ colour_collection.title | escape }}</span>
+            </a>
+          {% endcapture %}
+          <div class="gemstone-collection-slider__slide">{{ collection_card }}</div>
+        {% endif %}
+      {% endfor %}
+    {% endcapture %}
+
+    <div class="gemstone-collection-slider__marquee" style="--gemstone-marquee-duration: {{ section.settings.marquee_duration }}s;">
+      <div class="gemstone-collection-slider__track{% if target_group_handle == 'color' %} gemstone-collection-slider__track--right-to-left{% endif %}">
+        <div class="gemstone-collection-slider__group">
+          {{ collection_cards }}
+        </div>
+        <div class="gemstone-collection-slider__group" aria-hidden="true" inert>
+          {{ collection_cards }}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% stylesheet %}
+  .gemstone-collection-slider {
+    padding-block: 24px;
+    padding-inline: max(20px, var(--util-page-margin-offset, 0px));
+    background: var(--color-background);
+  }
+  .gemstone-collection-slider__header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto 16px;
+  }
+  .gemstone-collection-slider__intro {
+    min-width: 0;
+  }
+  .gemstone-collection-slider__intro h2 {
+    margin: 0;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.15;
+  }
+  .gemstone-collection-slider__intro p {
+    margin: 5px 0 0;
+    color: rgb(var(--color-foreground-rgb) / 70%);
+    font-size: 13px;
+  }
+  .gemstone-collection-slider__view-all {
+    flex: 0 0 auto;
+    color: var(--color-foreground);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .gemstone-collection-slider__view-all:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .gemstone-collection-slider__marquee {
+    max-width: var(--page-width, 1400px);
+    margin-inline: auto;
+    overflow: hidden;
+    --gemstone-marquee-gap: 10px;
+  }
+  .gemstone-collection-slider__track {
+    display: flex;
+    width: max-content;
+    gap: var(--gemstone-marquee-gap);
+    animation: gemstone-collection-marquee var(--gemstone-marquee-duration, 35s) linear infinite;
+  }
+  .gemstone-collection-slider__track--right-to-left {
+    animation-name: gemstone-collection-marquee-right-to-left;
+  }
+  .gemstone-collection-slider__group {
+    display: flex;
+    flex: 0 0 auto;
+    gap: var(--gemstone-marquee-gap);
+  }
+  .gemstone-collection-slider__marquee:hover .gemstone-collection-slider__track,
+  .gemstone-collection-slider__marquee:focus-within .gemstone-collection-slider__track {
+    animation-play-state: paused;
+  }
+  .gemstone-collection-slider__slide {
+    flex: 0 0 clamp(90px, 9vw, 132px);
+    min-width: 0;
+  }
+  @keyframes gemstone-collection-marquee {
+    from { transform: translateX(calc(-50% - (var(--gemstone-marquee-gap) / 2))); }
+    to { transform: translateX(0); }
+  }
+  @keyframes gemstone-collection-marquee-right-to-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-50% - (var(--gemstone-marquee-gap) / 2))); }
+  }
+  .gemstone-collection-slider__group:first-child {
+    padding-block: 2px 8px;
+  }
+  .gemstone-collection-slider__card {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    color: var(--color-foreground);
+    text-align: center;
+    text-decoration: none;
+  }
+  .gemstone-collection-slider__media {
+    overflow: hidden;
+    aspect-ratio: 1.15;
+    border-radius: 10px;
+    background: #f7f2e9;
+  }
+  .gemstone-collection-slider__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 180ms ease;
+  }
+  .gemstone-collection-slider__card:hover .gemstone-collection-slider__media img {
+    transform: scale(1.04);
+  }
+  .gemstone-collection-slider__title {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+  @media screen and (max-width: 749px) {
+    .gemstone-collection-slider {
+      padding-block: 20px;
+      padding-inline: 16px;
+    }
+    .gemstone-collection-slider__header {
+      margin-bottom: 14px;
+    }
+    .gemstone-collection-slider__intro p {
+      font-size: 12px;
+    }
+    .gemstone-collection-slider__marquee {
+      --gemstone-marquee-gap: 9px;
+    }
+    .gemstone-collection-slider__slide {
+      flex-basis: clamp(78px, 24vw, 105px);
+    }
+    .gemstone-collection-slider__media {
+      border-radius: 9px;
+    }
+    .gemstone-collection-slider__title {
+      font-size: 11px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gemstone-collection-slider__track {
+      animation: none;
+    }
+    .gemstone-collection-slider__media img {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.gemstone_collection_slider.name",
+  "settings": [
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "t:sections.gemstone_collection_slider.collections",
+      "limit": 50
+    },
+    {
+      "type": "text",
+      "id": "group_value",
+      "label": "t:sections.gemstone_collection_slider.group_value",
+      "default": "Color"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.gemstone_collection_slider.heading",
+      "default": "Shop by Colour"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:sections.gemstone_collection_slider.subtitle",
+      "default": "Find gemstones in your favourite colour"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "t:sections.gemstone_collection_slider.show_view_all",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "t:sections.gemstone_collection_slider.view_all_label",
+      "default": "View all"
+    },
+    { "type": "url", "id": "view_all_link", "label": "t:sections.gemstone_collection_slider.view_all_link" },
+    {
+      "type": "range",
+      "id": "marquee_duration",
+      "label": "t:sections.gemstone_collection_slider.marquee_duration",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 35
+    }
+  ],
+  "presets": [{ "name": "t:sections.gemstone_collection_slider.name" }]
+}
+{% endschema %}

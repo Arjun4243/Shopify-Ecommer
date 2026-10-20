@@ -1,0 +1,440 @@
+
+
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+<div class="section{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}">
+  <div class="article-layout">
+    <aside class="article-topics" aria-label="{{ 'blogs.gemstone.topics' | t }}">
+      <h2>{{ 'blogs.gemstone.topics' | t }}</h2>
+      <ul>
+        {% assign article_blog = article.blog %}
+        {% assign seen_article_topics = '||' %}
+        {% for topic_article in article_blog.articles %}
+          {% assign topic_metafield = topic_article.metafields.custom.gemstone_topic %}
+          {% assign topic_reference = topic_metafield.value %}
+          {% assign topic_label = topic_reference.title | default: topic_reference | default: topic_metafield %}
+          {% if topic_label != blank %}
+            {% assign topic_label = topic_label | strip %}
+            {% assign topic_marker = topic_label | prepend: '||' | append: '||' %}
+            {% unless seen_article_topics contains topic_marker %}
+              {% assign seen_article_topics = seen_article_topics | append: topic_label | append: '||' %}
+              <li><a href="{{ article_blog.url }}">{{ topic_label | escape }} <span aria-hidden="true">›</span></a></li>
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </aside>
+
+    <main class="article-main">
+      <div
+        class="
+          spacing-style
+          layout-panel-flex
+          layout-panel-flex--column
+          section-content-wrapper
+          mobile-column
+        "
+        data-article-content
+        style="
+          {% render 'layout-panel-style', settings: section.settings %}
+          {% render 'spacing-style', settings: section.settings %}
+        "
+      >
+        {% content_for 'blocks' %}
+      </div>
+
+      {% if blog.comments_enabled? %}
+        <div class="blog-post-comments-container">
+        <h2 class="h3">{{- 'blogs.article.comments_heading' | t: count: article.comments_count -}}</h2>
+
+        <div class="blog-post-comments">
+          {% paginate article.comments by 10 %}
+            {% for comment in article.comments %}
+              <div class="blog-post-comment">
+                {{ comment.content }}
+                <div class="blog-post-comment__author">
+                  <span class="blog-post-comment__author-name">{{- comment.author -}}</span>
+                  <span>{{- 'blogs.article.comment_author_separator' | t -}}</span>
+                  <span class="blog-post-comment__date">
+                    {{- comment.created_at | time_tag: format: 'date' -}}
+                  </span>
+                </div>
+              </div>
+            {% endfor %}
+
+            <div class="blog-post-comments-pagination">
+              {{- paginate | default_pagination -}}
+            </div>
+          {% endpaginate %}
+        </div>
+
+        {% render 'blog-comment-form', article: article, section_id: section.id %}
+        </div>
+      {% endif %}
+    </main>
+
+    <aside class="article-aside">
+      <nav class="article-toc" data-article-toc aria-label="{{ 'blogs.article.table_of_contents' | t }}">
+        <h2>{{ 'blogs.article.table_of_contents' | t }}</h2>
+        <ol data-article-toc-list></ol>
+      </nav>
+
+      <section class="article-related" data-related-articles>
+        <h2>{{ 'blogs.article.related_articles' | t }}</h2>
+        <div class="article-related__list">
+          {% for related_article in article_blog.articles %}
+            {% if related_article.id != article.id %}
+              <a class="article-related__item" data-related-item href="{{ related_article.url }}">
+                {% if related_article.image %}
+                  <img src="{{ related_article.image | image_url: width: 220 }}" width="92" height="68" loading="lazy" alt="{{ related_article.image.alt | default: related_article.title | escape }}">
+                {% endif %}
+                <span>
+                  <strong>{{ related_article.title | truncatewords: 8 }}</strong>
+                  <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
+                </span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <button type="button" class="article-related__more" data-related-more hidden>
+          {{ 'blogs.article.load_more' | t }}
+        </button>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {{ article | structured_data }}
+</script>
+
+{% javascript %}
+  const articleContent = document.querySelector('[data-article-content]');
+  const tocList = document.querySelector('[data-article-toc-list]');
+  if (articleContent && tocList) {
+    const headings = [...articleContent.querySelectorAll('h2, h3')];
+    headings.forEach((heading, index) => {
+      const id = heading.id || `article-heading-${index + 1}`;
+      heading.id = id;
+      const item = document.createElement('li');
+      item.className = `article-toc__item article-toc__item--${heading.tagName.toLowerCase()}`;
+      const link = document.createElement('a');
+      link.href = `#${id}`;
+      link.textContent = heading.textContent.trim();
+      item.append(link);
+      tocList.append(item);
+    });
+    if (!headings.length) tocList.closest('[data-article-toc]')?.remove();
+  }
+
+  const relatedList = document.querySelector('.article-related__list');
+  const relatedItems = relatedList ? [...relatedList.querySelectorAll('[data-related-item]')] : [];
+  const relatedMore = document.querySelector('[data-related-more]');
+  if (relatedList && relatedItems.length) {
+    for (let index = relatedItems.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [relatedItems[index], relatedItems[randomIndex]] = [relatedItems[randomIndex], relatedItems[index]];
+    }
+    relatedItems.forEach((item, index) => {
+      relatedList.append(item);
+      item.hidden = index >= 4;
+    });
+    if (relatedItems.length > 4 && relatedMore) relatedMore.hidden = false;
+    relatedMore?.addEventListener('click', () => {
+      const hiddenItems = relatedItems.filter((item) => item.hidden).slice(0, 4);
+      hiddenItems.forEach((item) => { item.hidden = false; });
+      if (!relatedItems.some((item) => item.hidden) && relatedMore) relatedMore.hidden = true;
+    });
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+  .article-layout {
+    display: grid;
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(14rem, 20rem);
+    gap: clamp(1rem, 2.5vw, 2rem);
+    align-items: start;
+    width: min(100% - 2rem, 90rem);
+    margin: 0 auto;
+  }
+  .article-topics,
+  .article-toc,
+  .article-related {
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    border-radius: 0.75rem;
+    background: var(--color-background);
+  }
+  .article-topics {
+    position: sticky;
+    top: 1rem;
+    padding: 1rem;
+  }
+  .article-topics h2,
+  .article-toc h2,
+  .article-related h2 {
+    margin: 0;
+    padding: 1rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    font-family: var(--font-heading--family);
+    font-size: 1.1rem;
+  }
+  .article-topics ul,
+  .article-toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .article-topics li + li {
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+  }
+  .article-topics a,
+  .article-toc a {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.65rem 0.25rem;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .article-topics a:hover,
+  .article-toc a:hover {
+    color: #123d2e;
+  }
+  .article-main {
+    min-width: 0;
+  }
+  .article-toc {
+    position: sticky;
+    top: 1rem;
+  }
+  .article-toc__item--h3 {
+    padding-inline-start: 1rem;
+    font-size: 0.9rem;
+  }
+  .article-related {
+    margin-top: 1rem;
+  }
+  .article-related__list {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  .article-related__item {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 0.65rem;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .article-related__item img {
+    width: 5rem;
+    height: 4.25rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+  }
+  .article-related__item strong,
+  .article-related__item small {
+    display: block;
+  }
+  .article-related__item strong {
+    font-family: var(--font-heading--family);
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+  .article-related__item small {
+    margin-top: 0.35rem;
+    color: var(--color-foreground-muted);
+    font-size: 0.7rem;
+  }
+  .article-related__more {
+    width: calc(100% - 1.5rem);
+    margin: 0 0.75rem 0.75rem;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.6rem 1rem;
+    background: #123d2e;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+    }
+    .article-aside {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .article-related {
+      margin-top: 0;
+    }
+  }
+  @media (max-width: 650px) {
+    .article-layout {
+      display: block;
+      width: min(100% - 1rem, 40rem);
+    }
+    .article-topics,
+    .article-toc {
+      position: static;
+      margin-bottom: 1rem;
+    }
+    .article-topics ul {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+    }
+    .article-topics li {
+      flex: 0 0 auto;
+    }
+    .article-topics li + li {
+      border-top: 0;
+    }
+    .article-topics a {
+      border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-15));
+      border-radius: 999px;
+      padding: 0.5rem 0.75rem;
+    }
+    .article-aside {
+      display: block;
+    }
+  }
+  .blog-post-comments-container {
+    width: 100%;
+    max-width: var(--normal-content-width);
+    margin: 0 auto;
+  }
+
+  .blog-post-comments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-3xl);
+  }
+
+  .blog-post-comment__author {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2xs);
+    margin-top: var(--margin-md);
+    font-size: var(--font-size--body-sm);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
+
+  .blog-post-comments-pagination {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-2xs);
+  }
+
+  .blog-post-comments-pagination,
+  .blog-post-comments-pagination a {
+    color: var(--color-foreground);
+  }
+
+  .blog-post-comments-pagination .current {
+    color: var(--color-foreground);
+  }
+
+  .blog-post-comments-pagination .current,
+  .blog-post-comments-pagination a {
+    display: block;
+    padding: var(--padding-2xs) var(--padding-xs);
+  }
+
+  .blog-post-comments-pagination .current,
+  .blog-post-comments-pagination a:hover {
+    border-bottom: 1px solid var(--color-foreground);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.blog_post",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_blog-post-title"
+    },
+    {
+      "type": "_blog-post-info-text"
+    },
+    {
+      "type": "_blog-post-featured-image"
+    },
+    {
+      "type": "_blog-post-content"
+    }
+  ],
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_direction",
+      "label": "t:settings.direction",
+      "options": [
+        {
+          "value": "column",
+          "label": "t:options.vertical"
+        }
+      ],
+      "default": "column",
+      "visible_if": "{{ section.settings.gap < 0 }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": []
+}
+{% endschema %}

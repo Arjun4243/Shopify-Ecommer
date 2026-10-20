@@ -1,0 +1,69 @@
+{% liquid
+  assign link_handle = link.title | handleize
+  assign item_icon = block_settings.mobile_drawer_default_icon
+  assign item_background = block_settings.mobile_drawer_default_background
+  assign item_image = blank
+  assign fallback_image = ''
+
+  case link_handle
+    when 'home'
+      assign item_icon = block_settings.mobile_drawer_home_icon
+      assign item_background = block_settings.mobile_drawer_home_background
+    when 'gemstones', 'gemstone'
+      assign item_icon = block_settings.mobile_drawer_gemstones_icon
+      assign item_background = block_settings.mobile_drawer_gemstones_background
+      assign item_image = block_settings.mobile_drawer_gemstones_image
+      assign fallback_image = 'mobile-drawer-gemstones.webp'
+    when 'precious'
+      assign item_icon = block_settings.mobile_drawer_precious_icon
+      assign item_background = block_settings.mobile_drawer_precious_background
+      assign item_image = block_settings.mobile_drawer_precious_image
+      assign fallback_image = 'mobile-drawer-precious.webp'
+    when 'semi precious', 'semi-precious', 'semi precious stones'
+      assign item_icon = block_settings.mobile_drawer_semi_precious_icon
+      assign item_background = block_settings.mobile_drawer_semi_precious_background
+      assign item_image = block_settings.mobile_drawer_semi_precious_image
+      assign fallback_image = 'mobile-drawer-semi-precious.webp'
+    when 'jewellery', 'jewelry'
+      assign item_icon = block_settings.mobile_drawer_jewellery_icon
+      assign item_background = block_settings.mobile_drawer_jewellery_background
+      assign item_image = block_settings.mobile_drawer_jewellery_image
+      assign fallback_image = 'mobile-drawer-jewellery.webp'
+    when 'sale'
+      assign item_icon = block_settings.mobile_drawer_sale_icon
+      assign item_background = block_settings.mobile_drawer_sale_background
+    when 'more'
+      assign item_icon = block_settings.mobile_drawer_more_icon
+      assign item_background = block_settings.mobile_drawer_plain_background
+    when 'support'
+      assign item_icon = block_settings.mobile_drawer_support_icon
+      assign item_background = block_settings.mobile_drawer_plain_background
+  endcase
+%}
+
+<span
+  class="gemora-mobile-drawer-card gemora-mobile-drawer-card--{{ link_handle }}"
+  style="
+    --gemora-mobile-card-background: {{ item_background }};
+    {% if item_image != blank %}
+      --gemora-mobile-card-image: url('{{ item_image | image_url: width: 220 }}');
+    {% elsif fallback_image != blank %}
+      --gemora-mobile-card-image: url('{{ fallback_image | asset_url }}');
+    {% endif %}
+  "
+>
+  <span class="gemora-mobile-drawer-card__content">
+    {% if item_icon != blank %}
+      <span class="gemora-mobile-drawer-card__icon" aria-hidden="true">
+        <i class="bi {{ item_icon }}"></i>
+      </span>
+    {% endif %}
+    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+  </span>
+
+  {% if action_icon != blank %}
+    <span class="gemora-mobile-drawer-card__action" aria-hidden="true">
+      <i class="bi {{ action_icon }}"></i>
+    </span>
+  {% endif %}
+</span>
