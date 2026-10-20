@@ -1,7 +1,11 @@
 
 
 {% liquid
-  assign article_blog = article.blog
+  assign article_blog_handle = article.url | split: '/blogs/' | last | split: '/' | first
+  assign article_blog = blogs[article_blog_handle]
+  assign article_topic_metafield = article.metafields.custom.gemstone_topic
+  assign article_topic_reference = article_topic_metafield.value
+  assign article_topic = article_topic_reference.title | default: article_topic_reference | default: article_topic_metafield
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
@@ -71,19 +75,66 @@
       <section class="article-related" data-related-articles>
         <h2>{{ 'blogs.article.related_articles' | t }}</h2>
         <div class="article-related__list">
+          {% assign related_matches = 0 %}
           {% for related_article in article_blog.articles %}
             {% if related_article.id != article.id %}
-              <a class="article-related__item" data-related-item href="{{ related_article.url }}">
-                {% if related_article.image %}
-                  <img src="{{ related_article.image | image_url: width: 220 }}" width="92" height="68" loading="lazy" alt="{{ related_article.image.alt | default: related_article.title | escape }}">
-                {% endif %}
-                <span>
-                  <strong>{{ related_article.title | truncatewords: 8 }}</strong>
-                  <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
-                </span>
-              </a>
+              {% assign related_topic_metafield = related_article.metafields.custom.gemstone_topic %}
+              {% assign related_topic_reference = related_topic_metafield.value %}
+              {% assign related_topic = related_topic_reference.title | default: related_topic_reference | default: related_topic_metafield %}
+              {% assign related_topic_key = related_topic | downcase | strip %}
+              {% assign article_topic_key = article_topic | downcase | strip %}
+              {% if article_topic_key == blank or related_topic_key == article_topic_key %}
+                <a class="article-related__item" data-related-item href="{{ related_article.url }}">
+                  {% if related_article.image != blank %}
+                    <img
+                      src="{{ related_article.image | image_url: width: 240 }}"
+                      srcset="{{ related_article.image | image_url: width: 120 }} 120w, {{ related_article.image | image_url: width: 240 }} 240w"
+                      sizes="5rem"
+                      width="{{ related_article.image.width }}"
+                      height="{{ related_article.image.height }}"
+                      loading="lazy"
+                      alt="{{ related_article.image.alt | default: related_article.title | escape }}"
+                    >
+                  {% endif %}
+                  <span class="article-related__category">{{ related_topic | escape }}</span>
+                  <span class="article-related__content">
+                    <strong>{{ related_article.title | escape | truncatewords: 8 }}</strong>
+                    <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
+                  </span>
+                </a>
+                {% assign related_matches = related_matches | plus: 1 %}
+              {% endif %}
             {% endif %}
           {% endfor %}
+          {% if related_matches == 0 %}
+            {% for related_article in article_blog.articles %}
+              {% if related_article.id != article.id %}
+                {% assign related_topic_metafield = related_article.metafields.custom.gemstone_topic %}
+                {% assign related_topic_reference = related_topic_metafield.value %}
+                {% assign related_topic = related_topic_reference.title | default: related_topic_reference | default: related_topic_metafield %}
+                <a class="article-related__item" data-related-item href="{{ related_article.url }}">
+                  {% if related_article.image != blank %}
+                    <img
+                      src="{{ related_article.image | image_url: width: 240 }}"
+                      srcset="{{ related_article.image | image_url: width: 120 }} 120w, {{ related_article.image | image_url: width: 240 }} 240w"
+                      sizes="5rem"
+                      width="{{ related_article.image.width }}"
+                      height="{{ related_article.image.height }}"
+                      loading="lazy"
+                      alt="{{ related_article.image.alt | default: related_article.title | escape }}"
+                    >
+                  {% endif %}
+                  {% if related_topic != blank %}
+                    <span class="article-related__category">{{ related_topic | escape }}</span>
+                  {% endif %}
+                  <span class="article-related__content">
+                    <strong>{{ related_article.title | escape | truncatewords: 8 }}</strong>
+                    <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
+                  </span>
+                </a>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
         </div>
         <button type="button" class="article-related__more" data-related-more hidden>
           {{ 'blogs.article.load_more' | t }}
@@ -146,12 +197,7 @@
   const relatedItems = relatedList ? [...relatedList.querySelectorAll('[data-related-item]')] : [];
   const relatedMore = document.querySelector('[data-related-more]');
   if (relatedList && relatedItems.length) {
-    for (let index = relatedItems.length - 1; index > 0; index -= 1) {
-      const randomIndex = Math.floor(Math.random() * (index + 1));
-      [relatedItems[index], relatedItems[randomIndex]] = [relatedItems[randomIndex], relatedItems[index]];
-    }
     relatedItems.forEach((item, index) => {
-      relatedList.append(item);
       item.hidden = index >= 4;
     });
     if (relatedItems.length > 4 && relatedMore) relatedMore.hidden = false;
@@ -220,17 +266,35 @@
   }
   .article-related__list {
     display: grid;
-    gap: 0.75rem;
-    padding: 0.75rem;
+    gap: 0;
+    padding: 0 0.75rem;
   }
   .article-related__item {
     display: grid;
     grid-template-columns: 5rem minmax(0, 1fr);
-    gap: 0.65rem;
+    grid-template-rows: auto 1fr;
+    column-gap: 0.65rem;
+    row-gap: 0.2rem;
+    padding-block: 0.65rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
     color: var(--color-foreground);
     text-decoration: none;
   }
+  .article-related__item:last-child {
+    border-bottom: 0;
+  }
+  .article-related__category {
+    grid-column: 2;
+    color: #9b773f;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
   .article-related__item img {
+    grid-column: 1;
+    grid-row: 1 / span 2;
     width: 5rem;
     height: 4.25rem;
     border-radius: 0.5rem;
@@ -239,6 +303,10 @@
   .article-related__item strong,
   .article-related__item small {
     display: block;
+  }
+  .article-related__content {
+    grid-column: 2;
+    min-width: 0;
   }
   .article-related__item strong {
     font-family: var(--font-heading--family);
