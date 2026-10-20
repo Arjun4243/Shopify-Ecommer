@@ -224,6 +224,17 @@
         "marquee_duration": 35
       }
     },
+    "shop_by_certification": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "group_value": "certificate",
+        "heading": "Shop by Certification",
+        "subtitle": "Browse gemstones by certification",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -470,6 +481,7 @@
     "shop_by_colour",
     "shop_by_origin",
     "shop_by_shape",
+    "shop_by_certification",
     "product_list_fa6P9H",
     "178981965052546672"
   ]

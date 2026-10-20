@@ -61,16 +61,22 @@
       {% endfor %}
     {% endcapture %}
 
-    <div class="gemstone-collection-slider__marquee" style="--gemstone-marquee-duration: {{ section.settings.marquee_duration }}s;">
-      <div class="gemstone-collection-slider__track{% if target_group_handle == 'color' or target_group_handle == 'shape' %} gemstone-collection-slider__track--right-to-left{% endif %}">
-        <div class="gemstone-collection-slider__group">
-          {{ collection_cards }}
-        </div>
-        <div class="gemstone-collection-slider__group" aria-hidden="true" inert>
-          {{ collection_cards }}
+    {% if target_group_handle == 'certificate' %}
+      <div class="gemstone-collection-slider__static-grid">
+        {{ collection_cards }}
+      </div>
+    {% else %}
+      <div class="gemstone-collection-slider__marquee" style="--gemstone-marquee-duration: {{ section.settings.marquee_duration }}s;">
+        <div class="gemstone-collection-slider__track{% if target_group_handle == 'color' or target_group_handle == 'shape' %} gemstone-collection-slider__track--right-to-left{% endif %}">
+          <div class="gemstone-collection-slider__group">
+            {{ collection_cards }}
+          </div>
+          <div class="gemstone-collection-slider__group" aria-hidden="true" inert>
+            {{ collection_cards }}
+          </div>
         </div>
       </div>
-    </div>
+    {% endif %}
   </section>
 {% endif %}
 
@@ -131,6 +137,16 @@
     display: flex;
     flex: 0 0 auto;
     gap: var(--gemstone-marquee-gap);
+  }
+  .gemstone-collection-slider__static-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 108px), 1fr));
+    gap: clamp(10px, 1.4vw, 18px);
+    max-width: var(--page-width, 1400px);
+    margin-inline: auto;
+  }
+  .gemstone-collection-slider__static-grid .gemstone-collection-slider__slide {
+    width: 100%;
   }
   .gemstone-collection-slider__marquee:hover .gemstone-collection-slider__track,
   .gemstone-collection-slider__marquee:focus-within .gemstone-collection-slider__track {
