@@ -213,6 +213,14 @@
         "marquee_duration": 35
       }
     },
+    "shop_by_shape": {
+      "type": "related-shape-collections",
+      "settings": {
+        "group_value": "Shape",
+        "heading": "Shop by Shape",
+        "subtitle": "Find gemstones by shape"
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -458,6 +466,7 @@
     "home_second_banner",
     "shop_by_colour",
     "shop_by_origin",
+    "shop_by_shape",
     "product_list_fa6P9H",
     "178981965052546672"
   ]
