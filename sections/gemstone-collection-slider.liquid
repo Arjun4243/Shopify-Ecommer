@@ -14,7 +14,15 @@
   for colour_collection in source_collections
     assign collection_group = colour_collection.metafields.custom.collection_group.value | default: colour_collection.metafields.custom.collection_group
     assign collection_group_handle = collection_group | replace: '_', '-' | handleize
-    if collection_group_handle == target_group_handle and colour_collection.image != blank
+    assign is_target_collection = false
+    if collection_group_handle == target_group_handle
+      assign is_target_collection = true
+    elsif target_group_handle == 'shape'
+      if colour_collection.handle contains 'shape' or colour_collection.handle contains 'round' or colour_collection.handle contains 'oval' or colour_collection.handle contains 'cushion' or colour_collection.handle contains 'emerald' or colour_collection.handle contains 'pear' or colour_collection.handle contains 'marquise' or colour_collection.handle contains 'princess' or colour_collection.handle contains 'asscher' or colour_collection.handle contains 'radiant' or colour_collection.handle contains 'heart' or colour_collection.handle contains 'trillion' or colour_collection.handle contains 'baguette' or colour_collection.handle contains 'octagon' or colour_collection.handle contains 'square' or colour_collection.handle contains 'hexagon'
+        assign is_target_collection = true
+      endif
+    endif
+    if is_target_collection and colour_collection.image != blank
       assign visible_collection_count = visible_collection_count | plus: 1
     endif
   endfor
@@ -43,7 +51,15 @@
       {% for colour_collection in source_collections %}
         {% assign collection_group = colour_collection.metafields.custom.collection_group.value | default: colour_collection.metafields.custom.collection_group %}
         {% assign collection_group_handle = collection_group | replace: '_', '-' | handleize %}
-        {% if collection_group_handle == target_group_handle and colour_collection.image != blank %}
+        {% assign is_target_collection = false %}
+        {% if collection_group_handle == target_group_handle %}
+          {% assign is_target_collection = true %}
+        {% elsif target_group_handle == 'shape' %}
+          {% if colour_collection.handle contains 'shape' or colour_collection.handle contains 'round' or colour_collection.handle contains 'oval' or colour_collection.handle contains 'cushion' or colour_collection.handle contains 'emerald' or colour_collection.handle contains 'pear' or colour_collection.handle contains 'marquise' or colour_collection.handle contains 'princess' or colour_collection.handle contains 'asscher' or colour_collection.handle contains 'radiant' or colour_collection.handle contains 'heart' or colour_collection.handle contains 'trillion' or colour_collection.handle contains 'baguette' or colour_collection.handle contains 'octagon' or colour_collection.handle contains 'square' or colour_collection.handle contains 'hexagon' %}
+            {% assign is_target_collection = true %}
+          {% endif %}
+        {% endif %}
+        {% if is_target_collection and colour_collection.image != blank %}
           {% capture collection_card %}
             <a class="gemstone-collection-slider__card" href="{{ colour_collection.url }}" aria-label="{{ colour_collection.title | escape }}">
               <div class="gemstone-collection-slider__media">
