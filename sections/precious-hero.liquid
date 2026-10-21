@@ -1,0 +1,64 @@
+{{ 'precious-page.css' | asset_url | stylesheet_tag }}
+
+<section class="precious-page">
+  <div class="precious-page__inner">
+    <section class="precious-page__hero" aria-label="{{ section.settings.aria_label | escape }}">
+      <img
+        src="{{ section.settings.image_url }}"
+        alt="{{ section.settings.image_alt | escape }}"
+        width="1600"
+        height="450"
+        loading="eager"
+      >
+      <div class="precious-page__hero-content">
+        <p>{{ section.settings.eyebrow }}</p>
+        <h1>{{ section.settings.heading }}</h1>
+        <span>{{ section.settings.subheading }}</span>
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+        {% endif %}
+        <div class="precious-page__hero-features">
+          {% for block in section.blocks %}
+            <small {{ block.shopify_attributes }}>{{ block.settings.text }}</small>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Precious hero",
+  "settings": [
+    { "type": "text", "id": "aria_label", "label": "Accessibility label", "default": "Precious gemstone hero" },
+    { "type": "text", "id": "image_url", "label": "Background image URL", "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/precious-page-top.webp?v=1789212925" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Natural and certified gemstones for a brighter tomorrow" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Natural & Certified" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Precious Stones<br>for Sale" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Rare. Authentic. Timeless." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Collection" },
+    { "type": "text", "id": "button_link", "label": "Button link", "default": "#precious-type-here" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "textarea", "id": "text", "label": "Text", "default": "100% Natural<br>Gemstones" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Precious hero",
+      "blocks": [
+        { "type": "feature", "settings": { "text": "100% Natural<br>Gemstones" } },
+        { "type": "feature", "settings": { "text": "Certified<br>Quality" } },
+        { "type": "feature", "settings": { "text": "Worldwide<br>Shipping" } },
+        { "type": "feature", "settings": { "text": "Expert<br>Support" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,576 @@
+
+
+{% liquid
+  assign article_blog_handle = article.url | split: '/blogs/' | last | split: '/' | first
+  assign article_blog = blogs[article_blog_handle]
+  assign article_topic_metafield = article.metafields.custom.gemstone_topic
+  assign article_topic_reference = article_topic_metafield.value
+  assign article_topic = article_topic_reference.title | default: article_topic_reference | default: article_topic_metafield
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+<div class="section{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}">
+  <div class="article-layout">
+    <aside class="article-left-sidebar">
+      <nav class="article-toc" data-article-toc aria-label="{{ 'blogs.article.table_of_contents' | t }}">
+        <h2>{{ 'blogs.article.table_of_contents' | t }}</h2>
+        <ol data-article-toc-list></ol>
+      </nav>
+    </aside>
+
+    <main class="article-main">
+      <div
+        class="
+          spacing-style
+          layout-panel-flex
+          layout-panel-flex--column
+          section-content-wrapper
+          mobile-column
+        "
+        data-article-content
+        style="
+          {% render 'layout-panel-style', settings: section.settings %}
+          {% render 'spacing-style', settings: section.settings %}
+        "
+      >
+        {% content_for 'blocks' %}
+      </div>
+
+      {% if blog.comments_enabled? %}
+        <div class="blog-post-comments-container">
+        <h2 class="h3">{{- 'blogs.article.comments_heading' | t: count: article.comments_count -}}</h2>
+
+        <div class="blog-post-comments">
+          {% paginate article.comments by 10 %}
+            {% for comment in article.comments %}
+              <div class="blog-post-comment">
+                {{ comment.content }}
+                <div class="blog-post-comment__author">
+                  <span class="blog-post-comment__author-name">{{- comment.author -}}</span>
+                  <span>{{- 'blogs.article.comment_author_separator' | t -}}</span>
+                  <span class="blog-post-comment__date">
+                    {{- comment.created_at | time_tag: format: 'date' -}}
+                  </span>
+                </div>
+              </div>
+            {% endfor %}
+
+            <div class="blog-post-comments-pagination">
+              {{- paginate | default_pagination -}}
+            </div>
+          {% endpaginate %}
+        </div>
+
+        {% render 'blog-comment-form', article: article, section_id: section.id %}
+        </div>
+      {% endif %}
+    </main>
+
+    <aside class="article-aside">
+      <section class="article-related" data-related-articles>
+        <h2>{{ 'blogs.article.related_articles' | t }}</h2>
+        <div class="article-related__list">
+          {% for related_article in article_blog.articles %}
+            {% if related_article.id != article.id %}
+              {% assign related_topic_metafield = related_article.metafields.custom.gemstone_topic %}
+              {% assign related_topic_reference = related_topic_metafield.value %}
+              {% assign related_topic = related_topic_reference.title | default: related_topic_reference | default: related_topic_metafield %}
+              {% assign related_topic_key = related_topic | downcase | strip %}
+              {% assign article_topic_key = article_topic | downcase | strip %}
+              {% if article_topic_key == blank or related_topic_key == article_topic_key %}
+                <a class="article-related__item" data-related-item href="{{ related_article.url }}">
+                  {% if related_article.image != blank %}
+                    <img
+                      src="{{ related_article.image | image_url: width: 240 }}"
+                      srcset="{{ related_article.image | image_url: width: 120 }} 120w, {{ related_article.image | image_url: width: 240 }} 240w"
+                      sizes="5rem"
+                      width="{{ related_article.image.width }}"
+                      height="{{ related_article.image.height }}"
+                      loading="lazy"
+                      alt="{{ related_article.image.alt | default: related_article.title | escape }}"
+                    >
+                  {% endif %}
+                  {% if related_topic != blank %}
+                    <span class="article-related__category">{{ related_topic | escape }}</span>
+                  {% endif %}
+                  <span class="article-related__content">
+                    <strong>{{ related_article.title | escape | truncatewords: 8 }}</strong>
+                    <small>{{ related_article.published_at | time_tag: format: 'date' }}</small>
+                  </span>
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <button type="button" class="article-related__more" data-related-more hidden>
+          {{ 'blogs.article.load_more' | t }}
+        </button>
+      </section>
+      {% assign related_promo_image = section.settings.related_promo_image | default: article.image %}
+      {% if related_promo_image != blank %}
+        <a
+          class="article-related-promo"
+          href="{{ section.settings.related_promo_link | default: routes.root_url }}"
+          data-randomize="{% if section.settings.related_promo_image == blank %}true{% else %}false{% endif %}"
+        >
+          <img
+            src="{{ related_promo_image | image_url: width: 700 }}"
+            srcset="{{ related_promo_image | image_url: width: 350 }} 350w, {{ related_promo_image | image_url: width: 700 }} 700w"
+            sizes="(min-width: 901px) 20rem, 100vw"
+            width="{{ related_promo_image.width }}"
+            height="{{ related_promo_image.height }}"
+            loading="lazy"
+            alt=""
+          >
+            {% for promo_article in article_blog.articles %}
+              {% if promo_article.id != article.id and promo_article.image != blank %}
+                <span
+                  data-related-promo-option
+                  data-src="{{ promo_article.image | image_url: width: 700 }}"
+                  data-srcset="{{ promo_article.image | image_url: width: 350 }} 350w, {{ promo_article.image | image_url: width: 700 }} 700w"
+                  data-width="{{ promo_article.image.width }}"
+                  data-height="{{ promo_article.image.height }}"
+                  data-alt="{{ promo_article.image.alt | default: promo_article.title | escape }}"
+                  data-url="{{ promo_article.url }}"
+                  hidden
+                ></span>
+              {% endif %}
+            {% endfor %}
+          <span class="article-related-promo__overlay">
+            <span class="article-related-promo__eyebrow">{{ 'blogs.article.promo_eyebrow' | t }}</span>
+            <span class="article-related-promo__title">{{ 'blogs.article.promo_title' | t }}</span>
+            <span class="article-related-promo__button">
+              {{ 'blogs.article.promo_button' | t }} <span aria-hidden="true">→</span>
+            </span>
+          </span>
+        </a>
+      {% endif %}
+    </aside>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {{ article | structured_data }}
+</script>
+
+{% javascript %}
+  const buildArticleToc = (root = document) => {
+    const articleContent = root.querySelector('[data-article-content]');
+    const tocList = root.querySelector('[data-article-toc-list]');
+    if (!articleContent || !tocList) return;
+
+    tocList.replaceChildren();
+    const usedIds = new Set([...articleContent.querySelectorAll('[id]')].map((element) => element.id));
+    const headings = [...articleContent.querySelectorAll('h2, h3')];
+    headings.forEach((heading, index) => {
+      const title = heading.textContent.trim();
+      if (!title) return;
+
+      let id = heading.id;
+      if (!id) {
+        const slug = title.toLocaleLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `section-${index + 1}`;
+        id = `article-${slug}`;
+        let suffix = 2;
+        while (usedIds.has(id)) id = `article-${slug}-${suffix++}`;
+        heading.id = id;
+        usedIds.add(id);
+      }
+
+      const item = document.createElement('li');
+      item.className = `article-toc__item article-toc__item--${heading.tagName.toLowerCase()}`;
+      const link = document.createElement('a');
+      link.href = `#${encodeURIComponent(id)}`;
+      link.textContent = title;
+      item.append(link);
+      tocList.append(item);
+    });
+  };
+
+  const initializeArticleSections = (root = document) => {
+    root.querySelectorAll('[data-article-toc]').forEach((toc) => {
+      buildArticleToc(toc.closest('.shopify-section') || root);
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initializeArticleSections(), { once: true });
+  } else {
+    initializeArticleSections();
+  }
+  document.addEventListener('shopify:section:load', (event) => initializeArticleSections(event.target));
+  const relatedList = document.querySelector('.article-related__list');
+  const relatedItems = relatedList ? [...relatedList.querySelectorAll('[data-related-item]')] : [];
+  const relatedMore = document.querySelector('[data-related-more]');
+  if (relatedList && relatedItems.length) {
+    relatedItems.forEach((item, index) => {
+      item.hidden = index >= 4;
+    });
+    if (relatedItems.length > 4 && relatedMore) relatedMore.hidden = false;
+    relatedMore?.addEventListener('click', () => {
+      const hiddenItems = relatedItems.filter((item) => item.hidden).slice(0, 4);
+      hiddenItems.forEach((item) => { item.hidden = false; });
+      if (!relatedItems.some((item) => item.hidden) && relatedMore) relatedMore.hidden = true;
+    });
+  }
+  const relatedPromo = document.querySelector('.article-related-promo');
+  const relatedPromoImage = relatedPromo?.querySelector('img');
+  const relatedPromoOptions = relatedPromo ? [...relatedPromo.querySelectorAll('[data-related-promo-option]')] : [];
+  if (relatedPromo?.dataset.randomize === 'true' && relatedPromoImage && relatedPromoOptions.length) {
+    const option = relatedPromoOptions[Math.floor(Math.random() * relatedPromoOptions.length)];
+    relatedPromoImage.src = option.dataset.src;
+    relatedPromoImage.srcset = option.dataset.srcset;
+    relatedPromoImage.width = option.dataset.width;
+    relatedPromoImage.height = option.dataset.height;
+    relatedPromoImage.alt = option.dataset.alt || '';
+    relatedPromo.href = option.dataset.url || relatedPromo.href;
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+  .article-layout {
+    display: grid;
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(14rem, 20rem);
+    gap: clamp(1rem, 2.5vw, 2rem);
+    align-items: start;
+    width: min(100% - 2rem, 90rem);
+    margin: 0 auto;
+  }
+  .article-toc,
+  .article-related {
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    border-radius: 0.75rem;
+    background: var(--color-background);
+  }
+  .article-left-sidebar {
+    display: grid;
+    gap: 1rem;
+    align-self: start;
+    position: sticky;
+    top: 1rem;
+  }
+  .article-toc h2,
+  .article-related h2 {
+    margin: 0;
+    padding: 1rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    font-family: var(--font-heading--family);
+    font-size: 1.1rem;
+  }
+  .article-toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .article-toc a {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .article-toc a:hover {
+    color: #123d2e;
+  }
+  .article-main h2,`n  .article-main h3 {`n    scroll-margin-block-start: 1rem;`n  }`n  .article-main {
+    min-width: 0;
+  }
+  .article-toc__item--h3 {
+    padding-inline-start: 1rem;
+    font-size: 0.9rem;
+  }
+  .article-related {
+    margin-top: 0;
+  }
+  .article-related__list {
+    display: grid;
+    gap: 0;
+    padding: 0 0.75rem;
+  }
+  .article-related__item {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 0.65rem;
+    row-gap: 0.2rem;
+    padding-block: 0.65rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .article-related__item:last-child {
+    border-bottom: 0;
+  }
+  .article-related__category {
+    grid-column: 2;
+    color: #9b773f;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .article-related__item img {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 5rem;
+    height: 4.25rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+  }
+  .article-related__item strong,
+  .article-related__item small {
+    display: block;
+  }
+  .article-related__content {
+    grid-column: 2;
+    min-width: 0;
+  }
+  .article-related__item strong {
+    font-family: var(--font-heading--family);
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+  .article-related__item small {
+    margin-top: 0.35rem;
+    color: var(--color-foreground-muted);
+    font-size: 0.7rem;
+  }
+  .article-related__more {
+    width: calc(100% - 1.5rem);
+    margin: 0 0.75rem 0.75rem;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.6rem 1rem;
+    background: #123d2e;
+    color: #fff;
+    cursor: pointer;
+  }
+  .article-related-promo {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-top: 0.75rem;
+    border-radius: 0.5rem;
+    aspect-ratio: 1.75 / 1;
+    color: #17251f;
+    text-decoration: none;
+    isolation: isolate;
+  }
+  .article-related-promo::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgb(255 250 242 / 0.96) 0%, rgb(255 250 242 / 0.72) 48%, rgb(255 250 242 / 0.08) 100%);
+    content: '';
+  }
+  .article-related-promo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .article-related-promo__overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.7rem;
+  }
+  .article-related-promo__eyebrow {
+    color: #9b773f;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .article-related-promo__title {
+    max-width: 9rem;
+    font-family: var(--font-heading--family);
+    font-size: 0.9rem;
+    line-height: 1.08;
+  }
+  .article-related-promo__button {
+    display: inline-flex;
+    gap: 0.35rem;
+    margin-top: 0.15rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.55rem;
+    background: #b4863f;
+    color: #fffaf2;
+    font-size: 0.56rem;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+    }
+    .article-aside {
+      grid-column: 1 / -1;
+    }
+    .article-related {
+      margin-top: 0;
+    }
+  }
+  @media (max-width: 650px) {
+    .article-layout {
+      display: block;
+      width: min(100% - 1rem, 40rem);
+    }
+    .article-left-sidebar {
+      position: static;
+      margin-bottom: 1rem;
+    }
+    .article-aside {
+      display: block;
+    }
+  }
+  .blog-post-comments-container {
+    width: 100%;
+    max-width: var(--normal-content-width);
+    margin: 0 auto;
+  }
+
+  .blog-post-comments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-3xl);
+  }
+
+  .blog-post-comment__author {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2xs);
+    margin-top: var(--margin-md);
+    font-size: var(--font-size--body-sm);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
+
+  .blog-post-comments-pagination {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-2xs);
+  }
+
+  .blog-post-comments-pagination,
+  .blog-post-comments-pagination a {
+    color: var(--color-foreground);
+  }
+
+  .blog-post-comments-pagination .current {
+    color: var(--color-foreground);
+  }
+
+  .blog-post-comments-pagination .current,
+  .blog-post-comments-pagination a {
+    display: block;
+    padding: var(--padding-2xs) var(--padding-xs);
+  }
+
+  .blog-post-comments-pagination .current,
+  .blog-post-comments-pagination a:hover {
+    border-bottom: 1px solid var(--color-foreground);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.blog_post",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_blog-post-title"
+    },
+    {
+      "type": "_blog-post-info-text"
+    },
+    {
+      "type": "_blog-post-featured-image"
+    },
+    {
+      "type": "_blog-post-content"
+    }
+  ],
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_direction",
+      "label": "t:settings.direction",
+      "options": [
+        {
+          "value": "column",
+          "label": "t:options.vertical"
+        }
+      ],
+      "default": "column",
+      "visible_if": "{{ section.settings.gap < 0 }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "image_picker",
+      "id": "related_promo_image",
+      "label": "t:content.image"
+    },
+    {
+      "type": "url",
+      "id": "related_promo_link",
+      "label": "t:content.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": []
+}
+{% endschema %}

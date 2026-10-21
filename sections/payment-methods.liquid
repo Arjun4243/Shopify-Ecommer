@@ -1,0 +1,717 @@
+<section class="payment-methods section-{{ section.id }}" aria-labelledby="payment-methods-title-{{ section.id }}">
+  {% if section.settings.banner_image != blank %}
+    <div class="payment-methods__banner">
+      {{
+        section.settings.banner_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'payment-methods__banner-image',
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2400',
+          alt: section.settings.banner_heading
+      }}
+      <div class="payment-methods__banner-content">
+        {% if section.settings.banner_heading != blank %}
+          <h1 class="payment-methods__banner-title">{{ section.settings.banner_heading }}</h1>
+        {% endif %}
+
+        {% if section.settings.breadcrumb_text != blank %}
+          <div class="payment-methods__breadcrumb" aria-label="Breadcrumb">
+            <span>{{ section.settings.breadcrumb_home }}</span>
+            <span aria-hidden="true">/</span>
+            <span>{{ section.settings.breadcrumb_text }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="payment-methods__wrap">
+    <div class="payment-methods__header">
+      <div class="payment-methods__copy">
+        {% if section.settings.heading != blank %}
+          <h2 id="payment-methods-title-{{ section.id }}" class="payment-methods__heading">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="payment-methods__intro">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.badge_title != blank or section.settings.badge_text != blank %}
+        <div class="payment-methods__badge">
+          <span class="payment-methods__badge-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 2.7 4.9 5.8v5.6c0 4.7 3 8.9 7.1 10 4.1-1.1 7.1-5.3 7.1-10V5.8L12 2.7Zm3.8 7.5-4.6 4.6-2.5-2.5 1.2-1.2 1.3 1.3 3.4-3.4 1.2 1.2Z" />
+            </svg>
+          </span>
+          <span>
+            {% if section.settings.badge_title != blank %}
+              <strong>{{ section.settings.badge_title }}</strong>
+            {% endif %}
+            {% if section.settings.badge_text != blank %}
+              <small>{{ section.settings.badge_text }}</small>
+            {% endif %}
+          </span>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="payment-methods__list">
+        {% for block in section.blocks %}
+          <article class="payment-method" style="--accent: {{ block.settings.accent_color }};" {{ block.shopify_attributes }}>
+            <div class="payment-method__icon" aria-hidden="true">
+              {% if block.settings.icon != blank %}
+                {% liquid
+                  assign icon_alt = block.settings.icon_alt
+                  if icon_alt == blank
+                    assign icon_alt = block.settings.title
+                  endif
+                %}
+                {{
+                  block.settings.icon
+                  | image_url: width: 180
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '72, 120, 180',
+                    alt: icon_alt
+                }}
+              {% elsif block.settings.icon_text != blank %}
+                <span>{{ block.settings.icon_text }}</span>
+              {% endif %}
+            </div>
+
+            <div class="payment-method__content">
+              {% if block.settings.title != blank %}
+                <h3 class="payment-method__title">{{ block.settings.title }}</h3>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <div class="payment-method__description">
+                  {{ block.settings.description }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="payment-method__media">
+              {% if block.settings.banner_image != blank %}
+                {{
+                  block.settings.banner_image
+                  | image_url: width: 760
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '280, 420, 620, 760',
+                    alt: block.settings.title
+                }}
+              {% elsif block.settings.banner_text != blank %}
+                <span>{{ block.settings.banner_text }}</span>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.footer_note != blank %}
+      <div class="payment-methods__note">
+        <span aria-hidden="true">i</span>
+        <div>{{ section.settings.footer_note }}</div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% style %}
+  .section-{{ section.id }} {
+    --payment-bg: {{ section.settings.background_color }};
+    --payment-text: {{ section.settings.text_color }};
+    --payment-muted: {{ section.settings.muted_color }};
+    --payment-gold: {{ section.settings.accent_color }};
+    background: var(--payment-bg);
+    color: var(--payment-text);
+  }
+{% endstyle %}
+
+<style>
+  .payment-methods {
+    overflow: hidden;
+  }
+
+  .payment-methods__banner {
+    position: relative;
+    min-height: clamp(190px, 18vw, 300px);
+    display: grid;
+    place-items: center;
+    background: #f6efe6;
+  }
+
+  .payment-methods__banner-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .payment-methods__banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 250, 244, 0.42);
+  }
+
+  .payment-methods__banner-content {
+    position: relative;
+    z-index: 1;
+    padding: 38px 20px;
+    text-align: center;
+  }
+
+  .payment-methods__banner-title {
+    margin: 0;
+    color: #162033;
+    font-family: Jost, sans-serif;
+    font-size: clamp(36px, 4.4vw, 64px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.7);
+  }
+
+  .payment-methods__breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 22px;
+    color: #3b3b3b;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .payment-methods__breadcrumb span:first-child {
+    color: var(--payment-gold);
+  }
+
+  .payment-methods__wrap {
+    width: min(100%, 1240px);
+    margin: 0 auto;
+    padding: clamp(28px, 3.8vw, 50px) 20px clamp(38px, 5vw, 70px);
+  }
+
+  .payment-methods__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 28px;
+    margin-bottom: 22px;
+  }
+
+  .payment-methods__heading {
+    margin: 0 0 12px;
+    color: var(--payment-text);
+    font-family: Jost, sans-serif;
+    font-size: clamp(28px, 2.6vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .payment-methods__intro {
+    max-width: 920px;
+    color: var(--payment-muted);
+    font-size: clamp(13px, 1vw, 15px);
+    line-height: 1.7;
+  }
+
+  .payment-methods__intro p,
+  .payment-method__description p,
+  .payment-methods__note p {
+    margin: 0;
+  }
+
+  .payment-methods__badge {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    min-width: 235px;
+    padding: 18px 20px;
+    color: #19202e;
+    background: #fbf5ec;
+    border: 1px solid rgba(202, 162, 61, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 14px 34px rgba(79, 57, 28, 0.08);
+  }
+
+  .payment-methods__badge-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    color: #c99a32;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  .payment-methods__badge-icon svg {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+  }
+
+  .payment-methods__badge strong,
+  .payment-methods__badge small {
+    display: block;
+  }
+
+  .payment-methods__badge strong {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .payment-methods__badge small {
+    margin-top: 4px;
+    color: var(--payment-muted);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .payment-methods__list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .payment-method {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) minmax(250px, 310px);
+    align-items: center;
+    gap: 20px;
+    min-height: 102px;
+    padding: 10px 58px 10px 14px;
+    background: #fff;
+    border: 1px solid #eee8dd;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(33, 28, 20, 0.035);
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .payment-method:hover {
+    transform: translateY(-2px);
+    border-color: rgba(202, 162, 61, 0.48);
+    box-shadow: 0 15px 32px rgba(33, 28, 20, 0.08);
+  }
+
+  .payment-method__icon {
+    display: grid;
+    place-items: center;
+    width: 74px;
+    height: 74px;
+    background: color-mix(in srgb, var(--accent) 14%, #ffffff);
+    border-radius: 50%;
+  }
+
+  .payment-method__icon img {
+    display: block;
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+  }
+
+  .payment-method__icon span {
+    color: color-mix(in srgb, var(--accent) 75%, #162033);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .payment-method__title {
+    margin: 0 0 6px;
+    color: #1d2430;
+    font-family: Jost, sans-serif;
+    font-size: clamp(18px, 1.45vw, 23px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .payment-method__description {
+    max-width: 610px;
+    color: var(--payment-muted);
+    font-size: clamp(12px, 0.9vw, 14px);
+    font-weight: 500;
+    line-height: 1.45;
+  }
+
+  .payment-method__media {
+    display: grid;
+    place-items: center;
+    min-height: 78px;
+    overflow: hidden;
+    color: color-mix(in srgb, var(--accent) 80%, #162033);
+    background: color-mix(in srgb, var(--accent) 11%, #ffffff);
+    border-radius: 9px;
+  }
+
+  .payment-method__media img {
+    display: block;
+    width: 100%;
+    height: 78px;
+    object-fit: cover;
+  }
+
+  .payment-method__media span {
+    padding: 8px 14px;
+    font-size: clamp(24px, 3vw, 42px);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .payment-methods__note {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+    padding: 15px 18px;
+    color: #5f5546;
+    background: #fff9ed;
+    border: 1px solid #efe0c2;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .payment-methods__note span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    background: var(--payment-gold);
+    border-radius: 50%;
+    font-family: Jost, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 990px) {
+    .payment-methods__header {
+      grid-template-columns: 1fr;
+    }
+
+    .payment-methods__badge {
+      width: fit-content;
+    }
+
+    .payment-method {
+      grid-template-columns: 70px minmax(0, 1fr);
+      padding-right: 18px;
+    }
+
+    .payment-method__media {
+      grid-column: 2 / -1;
+      width: 100%;
+      min-height: 76px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .payment-methods__wrap {
+      padding-inline: 14px;
+    }
+
+    .payment-methods__banner {
+      min-height: 180px;
+    }
+
+    .payment-methods__breadcrumb {
+      margin-top: 14px;
+      font-size: 11px;
+    }
+
+    .payment-methods__badge {
+      grid-template-columns: 36px minmax(0, 1fr);
+      width: 100%;
+      min-width: 0;
+      padding: 14px;
+      border-radius: 12px;
+    }
+
+    .payment-methods__badge-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .payment-method {
+      grid-template-columns: 50px minmax(0, 1fr);
+      gap: 10px;
+      padding: 13px;
+      border-radius: 9px;
+    }
+
+    .payment-method__icon {
+      grid-column: 1;
+      grid-row: 1;
+      width: 44px;
+      height: 44px;
+    }
+
+    .payment-method__icon img {
+      width: 34px;
+      height: 34px;
+    }
+
+    .payment-method__icon span {
+      font-size: 14px;
+    }
+
+    .payment-method__content {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .payment-method__media {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      min-height: 68px;
+    }
+
+    .payment-method__media img {
+      height: 68px;
+    }
+
+    .payment-methods__note {
+      grid-template-columns: 26px minmax(0, 1fr);
+      padding: 13px;
+      font-size: 12px;
+    }
+
+    .payment-methods__note span {
+      width: 26px;
+      height: 26px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Payment Methods",
+  "tag": "section",
+  "class": "payment-methods-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Top banner image"
+    },
+    {
+      "type": "text",
+      "id": "banner_heading",
+      "label": "Banner heading",
+      "default": "Payment Methods"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_home",
+      "label": "Breadcrumb home text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_text",
+      "label": "Breadcrumb current text",
+      "default": "Payment Methods"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Payment Methods at Raza Gems LLC"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>At Raza Gems LLC, we strive to make your gemstone and jewelry purchasing experience as smooth and secure as possible. To accommodate a wide range of preferences, we offer multiple convenient and reliable payment options:</p>"
+    },
+    {
+      "type": "text",
+      "id": "badge_title",
+      "label": "Secure badge title",
+      "default": "100% Secure Payments"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Secure badge text",
+      "default": "Your transactions are safe with us"
+    },
+    {
+      "type": "richtext",
+      "id": "footer_note",
+      "label": "Footer note",
+      "default": "<p>At Raza Gems LLC, your security, flexibility, and peace of mind are central to our service. If you have any questions or require assistance with choosing the best payment method for your purchase, our dedicated support team is always here to help.</p>"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#fffdf9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#111827"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#626775"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#caa23d"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "payment_method",
+      "name": "Payment method",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Left circle image"
+        },
+        {
+          "type": "text",
+          "id": "icon_alt",
+          "label": "Left circle image alt text"
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Icon text fallback",
+          "default": "BT"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Bank Transfer"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>You can make payments directly to our bank account. For complete banking details, please contact our customer support team.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Right banner image"
+        },
+        {
+          "type": "text",
+          "id": "banner_text",
+          "label": "Right banner text fallback",
+          "default": "Bank"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Item accent color",
+          "default": "#caa23d"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Payment Methods",
+      "blocks": [
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "BT",
+            "title": "Bank Transfer",
+            "description": "<p>You can make payments directly to our bank account. This method is ideal for high-value transactions and corporate purchases.</p>",
+            "banner_text": "Bank",
+            "accent_color": "#caa23d"
+          }
+        },
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "P",
+            "title": "PayPal",
+            "description": "<p>Enjoy the convenience and security of PayPal, a globally trusted online payment platform.</p>",
+            "banner_text": "PayPal",
+            "accent_color": "#20a7ff"
+          }
+        },
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "S",
+            "title": "Stripe",
+            "description": "<p>We accept payments through Stripe, offering a fast, secure, and user-friendly checkout experience.</p>",
+            "banner_text": "stripe",
+            "accent_color": "#635bff"
+          }
+        },
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "CC",
+            "title": "Debit & Credit Cards",
+            "description": "<p>We welcome payments via all major credit and debit cards, including Visa, MasterCard, and American Express.</p>",
+            "banner_text": "VISA MC AMEX",
+            "accent_color": "#ef798a"
+          }
+        },
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "B",
+            "title": "Cryptocurrency",
+            "description": "<p>Embrace the future of finance with select cryptocurrency payments for a fast, borderless, and secure payment experience.</p>",
+            "banner_text": "BTC ETH USDT",
+            "accent_color": "#25b889"
+          }
+        },
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "T",
+            "title": "Tabby Pay Installments",
+            "description": "<p>Buy now and pay later with Tabby Pay. Split your purchase into easy, interest-free installments.</p>",
+            "banner_text": "tabby",
+            "accent_color": "#40d9bd"
+          }
+        },
+        {
+          "type": "payment_method",
+          "settings": {
+            "icon_text": "COD",
+            "title": "Cash on Delivery (COD)",
+            "description": "<p>We offer Cash on Delivery for select orders, providing added convenience for local customers.</p>",
+            "banner_text": "COD",
+            "accent_color": "#78c6ee"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
