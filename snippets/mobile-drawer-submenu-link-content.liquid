@@ -1,0 +1,140 @@
+{% liquid
+  assign link_handle = link.title | handleize
+  assign normalized_title = link_handle | replace: '-', ' '
+  assign parent_handle = parent_title | handleize | replace: '-', ' '
+  assign icon_file = ''
+  assign fallback_icon = block_settings.mobile_drawer_submenu_default_icon | default: 'bi-gem'
+  assign item_background = block_settings.mobile_drawer_submenu_default_background | default: '#fffaf5'
+  assign use_image_icons = true
+  if block_settings.mobile_drawer_submenu_use_image_icons == false
+    assign use_image_icons = false
+  endif
+
+  case parent_handle
+    when 'precious'
+      assign item_background = block_settings.mobile_drawer_submenu_precious_background | default: '#e9f6f2'
+    when 'semi precious', 'semi-precious'
+      assign item_background = block_settings.mobile_drawer_submenu_semi_precious_background | default: '#f1ecfb'
+    when 'jewellery', 'jewelry'
+      assign item_background = block_settings.mobile_drawer_submenu_jewellery_background | default: '#fbf0e4'
+  endcase
+
+  case normalized_title
+    when 'ring', 'rings'
+      assign icon_file = 'mega-menu-jewellery-ring.webp'
+      assign fallback_icon = 'bi-gem'
+    when 'earring', 'earrings'
+      assign icon_file = 'mega-menu-jewellery-earring.webp'
+      assign fallback_icon = 'bi-gem'
+    when 'pendant', 'pendants', 'pandent', 'pandents'
+      assign icon_file = 'mega-menu-jewellery-pendant.webp'
+      assign fallback_icon = 'bi-gem'
+    when 'contact', 'contact us'
+      assign fallback_icon = 'bi-envelope'
+    when 'blog', 'blogs'
+      assign fallback_icon = 'bi-journal-text'
+    when 'faq', 'faqs', 'frequently asked questions'
+      assign fallback_icon = 'bi-question-circle'
+    when 'about', 'about us'
+      assign fallback_icon = 'bi-info-circle'
+    when 'our branches', 'our boutiques', 'branches', 'boutiques'
+      assign fallback_icon = 'bi-geo-alt'
+    when 'payment methods', 'payment method', 'payments'
+      assign fallback_icon = 'bi-credit-card'
+    when 'return exchange', 'return and exchange', 'returns exchanges', 'return & exchange'
+      assign fallback_icon = 'bi-arrow-left-right'
+    when 'careers', 'career'
+      assign fallback_icon = 'bi-briefcase'
+    when 'terms condition', 'terms conditions', 'terms and condition', 'terms and conditions'
+      assign fallback_icon = 'bi-file-earmark-text'
+    when 'privacy policy', 'privacy'
+      assign fallback_icon = 'bi-shield-lock'
+    when 'amethyst'
+      assign icon_file = 'mega-menu-semi-precious-amethyst.webp'
+    when 'ametrine'
+      assign icon_file = 'mega-menu-semi-precious-ametrine.webp'
+    when 'black agate'
+      assign icon_file = 'mega-menu-semi-precious-black-agate.webp'
+    when 'carnelian'
+      assign icon_file = 'mega-menu-semi-precious-carnelian.webp'
+    when 'citrine'
+      assign icon_file = 'mega-menu-semi-precious-citrine.webp'
+    when 'garnet'
+      assign icon_file = 'mega-menu-semi-precious-garnet.png'
+    when 'green onex', 'green onyx'
+      assign icon_file = 'mega-menu-semi-precious-green-onex.webp'
+    when 'howlite'
+      assign icon_file = 'mega-menu-semi-precious-howlite.webp'
+    when 'labradorite'
+      assign icon_file = 'mega-menu-semi-precious-labradorite.webp'
+    when 'lapis lazuli'
+      assign icon_file = 'mega-menu-semi-precious-lapis-lazuli.webp'
+    when 'lemon topaz'
+      assign icon_file = 'mega-menu-semi-precious-lemon-topaz.webp'
+    when 'moonstone'
+      assign icon_file = 'mega-menu-semi-precious-moonstone.webp'
+    when 'peridot'
+      assign icon_file = 'mega-menu-semi-precious-peridot.webp'
+    when 'rose quartz'
+      assign icon_file = 'mega-menu-semi-precious-rose-quartz.webp'
+    when 'smoky quartz', 'smokey quartz'
+      assign icon_file = 'mega-menu-semi-precious-smoky-quartz.webp'
+    when 'topaz'
+      assign icon_file = 'mega-menu-semi-precious-topaz.webp'
+    when 'turquoise'
+      assign icon_file = 'mega-menu-semi-precious-turquoise.webp'
+    when 'aquamarine'
+      assign icon_file = 'mega-menu-precious-aquamarine.webp'
+    when 'blue sapphire'
+      assign icon_file = 'mega-menu-precious-blue-sapphire.webp'
+    when 'coral'
+      assign icon_file = 'mega-menu-precious-coral.webp'
+    when 'diamond'
+      assign icon_file = 'mega-menu-precious-diamond.webp'
+    when 'emerald'
+      assign icon_file = 'mega-menu-precious-emerald.webp'
+    when 'gomed', 'gomed stone', 'gomedh', 'hessonite', 'hessonite garnet'
+      assign icon_file = 'mega-menu-precious-gomed.webp'
+    when 'kunzite'
+      assign icon_file = 'mega-menu-precious-kunzite.webp'
+    when 'morganite'
+      assign icon_file = 'mega-menu-precious-morganite.webp'
+    when 'opal'
+      assign icon_file = 'mega-menu-precious-opal.webp'
+    when 'pearl', 'pearls'
+      assign icon_file = 'mega-menu-precious-pearl.webp'
+    when 'pink sapphire'
+      assign icon_file = 'mega-menu-precious-pink-sapphire.webp'
+    when 'ruby'
+      assign icon_file = 'mega-menu-precious-ruby.webp'
+    when 'sphene'
+      assign icon_file = 'mega-menu-precious-sphene.webp'
+    when 'spinel'
+      assign icon_file = 'mega-menu-precious-spinel.webp'
+    when 'tanzanite'
+      assign icon_file = 'mega-menu-precious-tanzanite.webp'
+    when 'white sapphire'
+      assign icon_file = 'mega-menu-precious-white-sapphire.webp'
+    when 'yellow sapphire'
+      assign icon_file = 'mega-menu-precious-yellow-sapphire.webp'
+  endcase
+%}
+
+<span
+  class="gemora-mobile-submenu-card"
+  style="--gemora-mobile-submenu-background: {{ item_background }};"
+>
+  <span class="gemora-mobile-submenu-card__icon" aria-hidden="true">
+    {% if use_image_icons and icon_file != blank %}
+      <img src="{{ icon_file | asset_url }}" alt="" loading="lazy" width="36" height="36">
+    {% else %}
+      <i class="bi {{ fallback_icon }}"></i>
+    {% endif %}
+  </span>
+  <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+  {% if action_icon != blank %}
+    <span class="gemora-mobile-submenu-card__action" aria-hidden="true">
+      <i class="bi {{ action_icon }}"></i>
+    </span>
+  {% endif %}
+</span>

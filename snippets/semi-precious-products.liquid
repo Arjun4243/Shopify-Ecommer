@@ -1,0 +1,13 @@
+{% doc %}
+Renders the filterable product grid for the semi precious page.
+@param {string} section_id - The parent section id.
+@example
+{% render 'semi-precious-products', section_id: section.id %}
+{% enddoc %}
+
+{% render 'stone-product-listing',
+  group_handle: 'semi-precious',
+  heading: 'Semi-Precious Gemstones',
+  subtitle: 'Discover natural, certified semi-precious gemstones for astrology, jewelry and collection.',
+  section_id: section_id
+%}

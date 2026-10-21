@@ -1,0 +1,195 @@
+
+
+<script
+  src="{{ 'blog-posts-list.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<blog-posts-list section-id="{{ section.id }}">
+  <div
+    class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  ></div>
+  <div
+    class="
+      section
+      {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
+      blog-posts
+      spacing-style
+      size-style
+    "
+    data-testid="blog-posts"
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    {% assign current_blog = section.settings.blog_source | default: blog %}
+    {% render 'gemstone-blog-listing',
+      blog_resource: current_blog,
+      section_id: section.id,
+      banner_image: section.settings.banner_image,
+      banner_eyebrow: section.settings.banner_eyebrow,
+      banner_heading: section.settings.banner_heading,
+      banner_description: section.settings.banner_description
+    %}
+  </div>
+</blog-posts-list>
+
+{% stylesheet %}
+  /**
+   * Blog posts page layout
+   */
+  .blog-posts {
+    --page-content-width: var(--narrow-page-width);
+    --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
+    --columns-gap: 36px;
+    --rows-gap: 36px;
+  }
+
+  .blog-posts-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    width: 100%;
+    column-gap: var(--columns-gap);
+    row-gap: var(--rows-gap);
+  }
+
+  /**
+   * Blog post item grid positioning and scaling.
+   * Layout is calculated in Liquid based on total article count.
+   * Mobile overrides are applied per-item in inline styles for proper specificity.
+   */
+  .blog-post-item {
+    grid-column: span var(--col-span);
+    background-color: var(--color-background);
+  }
+
+  .gem-blog .blog-posts-container { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .gem-blog .blog-post-item { grid-column: auto; min-width: 0; }
+
+  /**
+   * When there's no image, the blog post item has a border.
+   */
+  .blog-post-item {
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    
+  }
+
+  .blog-post-item:has(.blog-post-card__image-container) {
+    border: none;
+    padding: 0;
+  }
+
+  @media (max-width: 800px) { .gem-blog .blog-posts-container { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 700px) { .gem-blog__layout { grid-template-columns:1fr; } .gem-blog__topics { display:flex; flex-wrap:wrap; gap:.4rem; } .gem-blog__topics h2 { width:100%; } .gem-blog__topics button { width:auto; border:1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20)); border-radius:999px; padding:.4rem .7rem; } .gem-blog .blog-posts-container { grid-template-columns:1fr; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.blog_posts",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "text"
+    },
+    {
+      "type": "icon"
+    },
+    {
+      "type": "image"
+    },
+    {
+      "type": "button"
+    },
+    {
+      "type": "video"
+    },
+    {
+      "type": "group"
+    },
+    {
+      "type": "spacer"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog_source",
+      "label": "t:settings.blog"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:content.image"
+    },
+    {
+      "type": "text",
+      "id": "banner_eyebrow",
+      "label": "t:content.text",
+      "default": "LEARN GEMSTONES"
+    },
+    {
+      "type": "text",
+      "id": "banner_heading",
+      "label": "t:content.heading",
+      "default": "Learn Gemstones"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_description",
+      "label": "t:content.text",
+      "default": "Find out gemstone benefits, how to use them, jewellery ideas and much more"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

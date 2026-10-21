@@ -1,0 +1,294 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "17898196119e1449f5": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "hero_jVaWmY": {
+      "type": "hero",
+      "blocks": {
+        "home_slide_default": {
+          "type": "home-slide",
+          "settings": {
+            "heading_line_1": "Discover the",
+            "heading_accent": "Beauty",
+            "heading_line_2": "of Nature",
+            "mobile_accent_word": "of",
+            "mobile_heading_line_2": "Nature",
+            "text": "Premium natural gemstones and jewellery, carefully selected for your special moments.",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/all",
+            "heading_color": "#08322d",
+            "accent_color": "#8a5d34",
+            "text_color": "#163c36",
+            "button_background": "#073f35",
+            "button_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "home_slide_default"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "use_home_slideshow": true,
+        "home_slideshow_autoplay_speed": 5,
+        "home_slideshow_heading_line_1": "Discover the",
+        "home_slideshow_heading_accent": "Beauty",
+        "home_slideshow_heading_line_2": "of Nature",
+        "home_slideshow_text": "Premium natural gemstones and jewellery, carefully selected for your special moments.",
+        "home_slideshow_button_label": "Shop Now",
+        "home_slideshow_button_link": "shopify://collections/all",
+        "home_slideshow_heading_color": "#08322d",
+        "home_slideshow_accent_color": "#8a5d34",
+        "home_slideshow_text_color": "#163c36",
+        "home_slideshow_button_background": "#073f35",
+        "home_slideshow_button_color": "#ffffff",
+        "media_type_1": "image",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "space-between",
+        "vertical_alignment": "flex-end",
+        "align_baseline": true,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 24,
+        "section_width": "page-width",
+        "section_height": "medium",
+        "section_height_custom": 50,
+        "background_color": "rgba(0,0,0,0)",
+        "toggle_overlay": false,
+        "overlay_color": "#12121266",
+        "overlay_style": "solid",
+        "gradient_direction": "to bottom",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 100,
+        "padding-block-end": 72
+      }
+    },
+    "trust_benefits_home": {
+      "type": "trust-benefits",
+      "blocks": {
+        "certified": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "gem",
+            "heading": "Certified Gemstones",
+            "text": "GIA, IGI, GRS & More"
+          }
+        },
+        "authentic": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "shield",
+            "heading": "100% Authentic",
+            "text": "Natural & Untreated"
+          }
+        },
+        "shipping": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "truck",
+            "heading": "Worldwide Shipping",
+            "text": "Insured & Secure"
+          }
+        },
+        "trusted": {
+          "type": "trust_benefit_card",
+          "settings": {
+            "icon": "badge",
+            "heading": "Trusted Since 2026",
+            "text": "Dubai Based Company"
+          }
+        }
+      },
+      "block_order": [
+        "certified",
+        "authentic",
+        "shipping",
+        "trusted"
+      ],
+      "settings": {
+        "accessibility_label": "Our customer benefits",
+        "background": "#fffaf3",
+        "vertical_padding": 8,
+        "show_mobile_chevrons": true
+      }
+    },
+    "home_second_banner": {
+      "type": "home-second-banner",
+      "settings": {
+        "image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/Home-second-banner.webp?v=1792404158",
+        "heading_line_1": "Custom",
+        "heading_line_2": "Gemstone Jewellery",
+        "description": "Your stone. Your design. Handcrafted by experts.",
+        "cta_label": "Create Your Own",
+        "link": "/pages/support",
+        "features_label": "Custom jewellery process",
+        "feature_1": "Choose Your Gemstone",
+        "feature_2": "Personalised Design",
+        "feature_3": "Expert Craftsmanship",
+        "full_width": true,
+        "border_radius": 8
+      }
+    },
+    "shop_by_colour": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "group_value": "Color",
+        "heading": "Shop by Colour",
+        "subtitle": "Find gemstones in your favourite colour",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
+    "shop_by_origin": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "collections": [
+          "afghanistan",
+          "africa",
+          "burma",
+          "burma-1",
+          "mozambique",
+          "russia",
+          "india",
+          "sri-lanka",
+          "zambia",
+          "thailand",
+          "italian",
+          "ethiopia"
+        ],
+        "group_value": "Country",
+        "heading": "Buy Gemstone by Origin's",
+        "subtitle": "",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
+    "shop_by_shape": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "group_value": "Shape",
+        "heading": "Shop by Shape",
+        "subtitle": "Find gemstones by shape",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
+    "shop_by_certification": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "group_value": "certificate",
+        "heading": "Shop by Certification",
+        "subtitle": "Browse gemstones by certification",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "marquee_duration": 35
+      }
+    },
+    "178981965052546672": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "gemstone_editorial_home": {
+      "type": "gemstone-editorial-home",
+      "settings": {
+        "hero_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/ethical-gemstones-origins-hero.png?v=1792507847",
+        "hero_cta_link": "/collections",
+        "blog": "news",
+        "article_count": 3,
+        "certification_group": "certificate",
+        "about_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp?v=1790332980",
+        "about_cta_link": "/pages/about"
+      }
+    }
+  },
+  "order": [
+    "17898196119e1449f5",
+    "hero_jVaWmY",
+    "trust_benefits_home",
+    "home_second_banner",
+    "shop_by_colour",
+    "shop_by_origin",
+    "shop_by_shape",
+    "shop_by_certification",
+    "gemstone_editorial_home",
+    "178981965052546672"
+  ]
+}

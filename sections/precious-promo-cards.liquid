@@ -1,0 +1,52 @@
+{{ 'precious-page.css' | asset_url | stylesheet_tag }}
+
+<section class="precious-page">
+  <div class="precious-page__inner">
+    <section class="precious-promo-grid" aria-label="{{ section.settings.aria_label | escape }}">
+      {% for block in section.blocks %}
+        <a class="precious-promo-card precious-promo-card--{{ block.settings.color_style }}" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+          <img src="{{ block.settings.image_url }}" alt="{{ block.settings.image_alt | escape }}" width="514" height="189" loading="lazy">
+          <span>
+            <strong>{{ block.settings.heading }}</strong>
+            <small>{{ block.settings.subheading }}</small>
+            <em>{{ block.settings.button_label }}</em>
+          </span>
+        </a>
+      {% endfor %}
+    </section>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Precious promo cards",
+  "settings": [
+    { "type": "text", "id": "aria_label", "label": "Accessibility label", "default": "Gemstone collections" }
+  ],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Promo card",
+      "settings": [
+        { "type": "select", "id": "color_style", "label": "Color style", "options": [{ "value": "red", "label": "Red" }, { "value": "green", "label": "Green" }, { "value": "gold", "label": "Gold" }], "default": "red" },
+        { "type": "text", "id": "image_url", "label": "Image URL", "default": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gemstone-1.webp?v=1789185890" },
+        { "type": "text", "id": "image_alt", "label": "Image alt text" },
+        { "type": "textarea", "id": "heading", "label": "Heading", "default": "Precious<br>Gemstones" },
+        { "type": "text", "id": "subheading", "label": "Subheading", "default": "Rare. Exquisite. Timeless." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Now ->" },
+        { "type": "text", "id": "link", "label": "Link", "default": "/collections/precious" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Precious promo cards",
+      "blocks": [
+        { "type": "promo" },
+        { "type": "promo", "settings": { "color_style": "green", "image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gemstone-2.webp?v=1789185890", "heading": "Semi-Precious<br>Gemstones", "subheading": "Colorful. Versatile. Unique.", "link": "/collections/semi-precious" } },
+        { "type": "promo", "settings": { "color_style": "gold", "image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/gamstone-3.webp?v=1789202521", "heading": "Custom Jewellery", "subheading": "Turn your vision into reality.", "button_label": "Craft Now ->", "link": "/collections/jewellery" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

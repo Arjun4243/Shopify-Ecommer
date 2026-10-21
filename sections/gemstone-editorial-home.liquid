@@ -1,0 +1,333 @@
+{% liquid
+  assign origin_group = 'country'
+  assign certification_group = section.settings.certification_group | handleize
+  assign article_limit = section.settings.article_count | default: 3
+  assign page_blog = section.settings.blog
+  assign newsletter_form_id = 'GemEditorialNewsletterForm-' | append: section.id
+%}
+
+<div class="gem-editorial" data-gem-editorial>
+  <section class="gem-editorial__hero" aria-labelledby="GemEditorialHero-{{ section.id }}">
+    {% if section.settings.hero_image_url != blank %}
+      <img
+        class="gem-editorial__hero-image"
+        src="{{ section.settings.hero_image_url | escape }}"
+        width="2048"
+        height="683"
+        alt="{{ section.settings.hero_image_alt | escape }}"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+    <div class="gem-editorial__hero-shade"></div>
+    <div class="gem-editorial__hero-content">
+      <p class="gem-editorial__eyebrow">{{ section.settings.hero_eyebrow | escape }}</p>
+      <h1 id="GemEditorialHero-{{ section.id }}">{{ section.settings.hero_heading | escape }}</h1>
+      <p class="gem-editorial__hero-copy">{{ section.settings.hero_description | escape }}</p>
+    </div>
+    <nav class="gem-editorial__origins" aria-label="{{ 'sections.gemstone_editorial_home.origins_label' | t }}">
+      {% assign origin_count = 0 %}
+      {% for origin_collection in collections %}
+        {% assign origin_value = origin_collection.metafields.custom.collection_group.value | default: origin_collection.metafields.custom.collection_group %}
+        {% assign origin_value_handle = origin_value | handleize %}
+        {% if origin_value_handle == origin_group and origin_count < 5 %}
+          <a class="gem-editorial__origin" href="{{ origin_collection.url }}">
+            {% if origin_collection.image != blank %}
+              {{ origin_collection.image | image_url: width: 96 | image_tag: widths: '48, 72, 96', sizes: '40px', loading: 'lazy', alt: '' }}
+            {% endif %}
+            <span>{{ origin_collection.title | escape }}</span>
+          </a>
+          {% assign origin_count = origin_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </nav>
+  </section>
+
+  {% if page_blog != blank and page_blog.articles_count > 0 %}
+    <section class="gem-editorial__articles" aria-labelledby="GemEditorialArticles-{{ section.id }}">
+      <div class="gem-editorial__section-heading">
+        <div>
+          <p class="gem-editorial__eyebrow gem-editorial__eyebrow--gold">{{ section.settings.articles_eyebrow | escape }}</p>
+          <h2 id="GemEditorialArticles-{{ section.id }}">{{ section.settings.articles_heading | escape }}</h2>
+          {% if section.settings.articles_description != blank %}
+            <p>{{ section.settings.articles_description | escape }}</p>
+          {% endif %}
+        </div>
+        <a class="gem-editorial__text-link" href="{{ page_blog.url }}">
+          {{ section.settings.articles_link_label | escape }} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <gemstone-article-feed class="gem-editorial__article-grid" data-gem-article-feed data-visible-count="{{ article_limit }}">
+        {% for article in page_blog.articles limit: 12 %}
+          <article class="gem-editorial__article-card" data-gem-article-card{% if forloop.index > article_limit %} hidden{% endif %}>
+            <a class="gem-editorial__article-image" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+              {% if article.image != blank %}
+                {{ article.image | image_url: width: 760 | image_tag: widths: '320, 480, 640, 760', sizes: '(min-width: 1000px) 31vw, (min-width: 650px) 45vw, 100vw', loading: 'lazy', alt: article.image.alt | default: article.title }}
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'gem-editorial__article-placeholder' }}
+              {% endif %}
+            </a>
+            <div class="gem-editorial__article-body">
+              {% if article.tags.first != blank %}
+                <p class="gem-editorial__article-kicker">{{ article.tags.first | escape }}</p>
+              {% endif %}
+              <h3><a href="{{ article.url }}">{{ article.title | escape }}</a></h3>
+              {% if article.excerpt != blank %}
+                <p class="gem-editorial__article-excerpt">{{ article.excerpt | strip_html | escape }}</p>
+              {% endif %}
+              <p class="gem-editorial__article-meta">
+                <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%b %d, %Y' }}</time>
+                {% if article.author != blank %}<span aria-hidden="true">·</span><span>{{ article.author | escape }}</span>{% endif %}
+              </p>
+              <a class="gem-editorial__read-link" href="{{ article.url }}">{{ section.settings.read_article_label | escape }} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        {% endfor %}
+      </gemstone-article-feed>
+    </section>
+  {% endif %}
+
+  <section class="gem-editorial__certifications" aria-labelledby="GemEditorialCertifications-{{ section.id }}">
+    <div class="gem-editorial__certification-copy">
+      <h2 id="GemEditorialCertifications-{{ section.id }}">{{ section.settings.certification_heading | escape }}</h2>
+      <p>{{ section.settings.certification_description | escape }}</p>
+    </div>
+    <div class="gem-editorial__certification-list">
+      {% for certification_collection in collections %}
+        {% assign certification_value = certification_collection.metafields.custom.collection_group.value | default: certification_collection.metafields.custom.collection_group %}
+        {% assign certification_value_handle = certification_value | handleize %}
+        {% if certification_value_handle == certification_group %}
+          <a class="gem-editorial__certification" href="{{ certification_collection.url }}" aria-label="{{ certification_collection.title | escape }}">
+            {% if certification_collection.image != blank %}
+              {{ certification_collection.image | image_url: width: 240 | image_tag: widths: '120, 180, 240', sizes: '(min-width: 900px) 10vw, 22vw', loading: 'lazy', alt: certification_collection.title }}
+            {% else %}
+              <span>{{ certification_collection.title | escape }}</span>
+            {% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="gem-editorial__benefits" aria-labelledby="GemEditorialBenefits-{{ section.id }}">
+    <div class="gem-editorial__benefits-heading">
+      <p class="gem-editorial__eyebrow gem-editorial__eyebrow--gold">{{ section.settings.benefits_eyebrow | escape }}</p>
+      <h2 id="GemEditorialBenefits-{{ section.id }}">{{ section.settings.benefits_heading | escape }}</h2>
+    </div>
+    <div class="gem-editorial__benefit-grid">
+      <div class="gem-editorial__benefit"><span class="gem-editorial__benefit-icon" aria-hidden="true">◇</span><h3>{{ section.settings.benefit_1_title | escape }}</h3><p>{{ section.settings.benefit_1_text | escape }}</p></div>
+      <div class="gem-editorial__benefit"><span class="gem-editorial__benefit-icon" aria-hidden="true">♢</span><h3>{{ section.settings.benefit_2_title | escape }}</h3><p>{{ section.settings.benefit_2_text | escape }}</p></div>
+      <div class="gem-editorial__benefit"><span class="gem-editorial__benefit-icon" aria-hidden="true">⇢</span><h3>{{ section.settings.benefit_3_title | escape }}</h3><p>{{ section.settings.benefit_3_text | escape }}</p></div>
+      <div class="gem-editorial__benefit"><span class="gem-editorial__benefit-icon" aria-hidden="true">✧</span><h3>{{ section.settings.benefit_4_title | escape }}</h3><p>{{ section.settings.benefit_4_text | escape }}</p></div>
+      <div class="gem-editorial__benefit"><span class="gem-editorial__benefit-icon" aria-hidden="true">♕</span><h3>{{ section.settings.benefit_5_title | escape }}</h3><p>{{ section.settings.benefit_5_text | escape }}</p></div>
+    </div>
+  </section>
+
+  <section class="gem-editorial__about" aria-labelledby="GemEditorialAbout-{{ section.id }}">
+    {% if section.settings.about_image_url != blank %}
+      <img class="gem-editorial__about-image" src="{{ section.settings.about_image_url | escape }}" width="2048" height="768" loading="lazy" alt="{{ section.settings.about_image_alt | escape }}">
+    {% endif %}
+    <div class="gem-editorial__about-copy">
+      <p class="gem-editorial__eyebrow gem-editorial__eyebrow--gold">{{ section.settings.about_eyebrow | escape }}</p>
+      <h2 id="GemEditorialAbout-{{ section.id }}">{{ section.settings.about_heading | escape }}</h2>
+      <p>{{ section.settings.about_description | escape }}</p>
+      {% if section.settings.about_cta_label != blank and section.settings.about_cta_link != blank %}
+        <a class="gem-editorial__button gem-editorial__button--green" href="{{ section.settings.about_cta_link }}">{{ section.settings.about_cta_label | escape }} <span aria-hidden="true">→</span></a>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="gem-editorial__newsletter" aria-labelledby="GemEditorialNewsletter-{{ section.id }}">
+    <div>
+      <p class="gem-editorial__eyebrow gem-editorial__eyebrow--gold">{{ section.settings.newsletter_eyebrow | escape }}</p>
+      <h2 id="GemEditorialNewsletter-{{ section.id }}">{{ section.settings.newsletter_heading | escape }}</h2>
+      <p>{{ section.settings.newsletter_description | escape }}</p>
+    </div>
+    {% form 'customer', id: newsletter_form_id, class: 'gem-editorial__newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label class="visually-hidden" for="GemEditorialNewsletterEmail-{{ section.id }}">{{ 'sections.gemstone_editorial_home.email_label' | t }}</label>
+      <input id="GemEditorialNewsletterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email | escape }}" autocomplete="email" placeholder="{{ 'sections.gemstone_editorial_home.email_placeholder' | t }}" required>
+      <button class="gem-editorial__button" type="submit">{{ section.settings.newsletter_button | escape }}</button>
+      {% if form.posted_successfully? %}<p class="gem-editorial__form-message" role="status">{{ 'sections.gemstone_editorial_home.newsletter_success' | t }}</p>{% endif %}
+      {% if form.errors %}<p class="gem-editorial__form-message" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>{% endif %}
+    {% endform %}
+  </section>
+</div>
+
+{% stylesheet %}
+  .gem-editorial {
+    --gem-editorial-green: #052d22;
+    --gem-editorial-green-deep: #03251d;
+    --gem-editorial-gold: #c99a4b;
+    --gem-editorial-ink: #18332a;
+    --gem-editorial-paper: #fcfaf6;
+    --gem-editorial-gutter: clamp(16px, 4.8vw, 76px);
+    color: var(--gem-editorial-ink);
+    background: var(--gem-editorial-paper);
+  }
+  .gem-editorial :is(h1, h2, h3, p) { margin-block: 0; }
+  .gem-editorial__hero {
+    position: relative;
+    display: flex;
+    min-height: clamp(220px, 28vw, 360px);
+    align-items: center;
+    overflow: hidden;
+    padding: clamp(28px, 5vw, 68px) var(--gem-editorial-gutter);
+    background: var(--gem-editorial-green-deep);
+    color: #fffaf2;
+    isolation: isolate;
+  }
+  .gem-editorial__hero-image, .gem-editorial__hero-shade { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; }
+  .gem-editorial__hero-image { object-fit: cover; object-position: center 54%; }
+  .gem-editorial__hero-shade { background: linear-gradient(90deg, rgb(2 35 27 / 94%) 0%, rgb(2 35 27 / 74%) 38%, rgb(2 35 27 / 8%) 100%); }
+  .gem-editorial__hero-content { width: min(100%, 560px); }
+  .gem-editorial__eyebrow { color: rgb(255 250 242 / 78%); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; line-height: 1.4; text-transform: uppercase; }
+  .gem-editorial__eyebrow--gold { color: #9a7435; }
+  .gem-editorial__hero h1 { max-width: 15ch; margin-block: 0.55rem 0.7rem; font-family: var(--font-heading--family, Georgia, serif); font-size: clamp(1.8rem, 3.4vw, 3rem); font-weight: 500; line-height: 1.08; text-wrap: balance; }
+  .gem-editorial__hero-copy { max-width: 52ch; color: rgb(255 250 242 / 84%); font-size: clamp(0.82rem, 1.05vw, 0.95rem); line-height: 1.5; }
+  .gem-editorial__button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 1rem; border: 1px solid var(--gem-editorial-gold); border-radius: 99px; padding: 0.55rem 1rem; background: var(--gem-editorial-gold); color: #fff; font-size: 0.78rem; font-weight: 700; line-height: 1.15; text-decoration: none; transition: background-color 160ms ease, color 160ms ease; }
+  .gem-editorial__button:hover, .gem-editorial__button:focus-visible { background: transparent; color: #fff; }
+  .gem-editorial__origins { position: absolute; right: var(--gem-editorial-gutter); bottom: clamp(18px, 2.5vw, 32px); display: flex; max-width: 48%; flex-wrap: wrap; justify-content: flex-end; gap: 0.5rem; }
+  .gem-editorial__origin { display: inline-flex; align-items: center; gap: 0.45rem; border: 1px solid rgb(255 255 255 / 35%); border-radius: 99px; padding: 0.24rem 0.7rem 0.24rem 0.25rem; background: rgb(0 0 0 / 24%); color: #fff; font-size: 0.68rem; line-height: 1; text-decoration: none; backdrop-filter: blur(6px); }
+  .gem-editorial__origin img { width: 1.65rem; height: 1.65rem; border-radius: 50%; object-fit: cover; }
+  .gem-editorial__articles, .gem-editorial__benefits { padding: clamp(26px, 3vw, 42px) var(--gem-editorial-gutter); }
+  .gem-editorial__section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1.25rem; margin: 0 auto 1rem; max-width: 1400px; }
+  .gem-editorial__section-heading h2, .gem-editorial__benefits-heading h2, .gem-editorial__about-copy h2, .gem-editorial__certification-copy h2, .gem-editorial__newsletter h2 { margin-top: 0.2rem; font-family: var(--font-heading--family, Georgia, serif); font-size: clamp(1.3rem, 2.3vw, 2rem); font-weight: 600; line-height: 1.12; }
+  .gem-editorial__section-heading > div > p:last-child { margin-top: 0.3rem; color: #686c64; font-size: 0.78rem; line-height: 1.45; }
+  .gem-editorial__text-link { flex: 0 0 auto; color: #9a7435; font-size: 0.68rem; text-decoration: none; }
+  .gem-editorial__text-link:hover, .gem-editorial__read-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .gem-editorial__article-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); max-width: 1400px; margin-inline: auto; }
+  .gem-editorial__article-card { display: grid; grid-template-columns: minmax(150px, 0.38fr) minmax(0, 0.62fr); min-width: 0; overflow: hidden; border: 1px solid rgb(28 48 39 / 9%); border-radius: 9px; background: #fff; box-shadow: 0 8px 24px rgb(40 35 25 / 6%); }
+  .gem-editorial__article-image { display: block; height: 100%; min-height: 140px; overflow: hidden; aspect-ratio: auto; background: #f0ece3; }
+  .gem-editorial__article-image img, .gem-editorial__article-placeholder { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .gem-editorial__article-body { display: grid; min-width: 0; min-height: 140px; align-content: center; gap: 0.35rem; padding: clamp(10px, 1vw, 14px); }
+  .gem-editorial__article-kicker { color: #9a7435; font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+  .gem-editorial__article-card h3 { display: -webkit-box; min-width: 0; margin-top: 0.1rem; overflow: hidden; font-family: var(--font-heading--family, Georgia, serif); font-size: clamp(0.95rem, 1.2vw, 1.15rem); line-height: 1.3; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .gem-editorial__article-card h3 a { color: var(--gem-editorial-ink); text-decoration: none; }
+  .gem-editorial__article-excerpt { display: -webkit-box; overflow: hidden; color: #686c64; font-size: 0.68rem; line-height: 1.4; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  .gem-editorial__article-meta { display: flex; min-width: 0; flex-wrap: nowrap; gap: 0.3rem; margin-top: 0 !important; overflow: hidden; color: #777a72; font-size: 0.62rem; line-height: 1.4; white-space: nowrap; }
+  .gem-editorial__article-meta > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gem-editorial__read-link { justify-self: start; max-width: 100%; margin-top: 0; overflow: hidden; border-radius: 99px; padding: 0.42rem 0.75rem; background: var(--gem-editorial-green); color: #fff; font-size: 0.68rem; line-height: 1.3; text-overflow: ellipsis; text-decoration: none; white-space: nowrap; }
+  .gem-editorial__certifications { display: grid; grid-template-columns: minmax(180px, 0.85fr) 2fr; align-items: center; gap: clamp(18px, 4vw, 58px); padding: 1.3rem var(--gem-editorial-gutter); background: var(--gem-editorial-green); color: #fffaf2; }
+  .gem-editorial__certification-copy h2 { font-size: clamp(1.15rem, 1.8vw, 1.6rem); }
+  .gem-editorial__certification-copy p { margin-top: 0.35rem; color: rgb(255 250 242 / 78%); font-size: 0.68rem; line-height: 1.45; }
+  .gem-editorial__certification-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); align-items: center; gap: clamp(8px, 1vw, 16px); }
+  .gem-editorial__certification { display: grid; min-width: 0; min-height: 42px; place-items: center; color: #fff; text-decoration: none; }
+  .gem-editorial__certification img { display: block; width: 100%; max-width: 110px; height: clamp(24px, 3vw, 40px); object-fit: contain; }
+  .gem-editorial__certification span { font-size: 0.7rem; font-weight: 700; }
+  .gem-editorial__benefits-heading { margin-bottom: 1rem; text-align: center; }
+  .gem-editorial__benefit-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(10px, 1.8vw, 26px); max-width: 1320px; margin-inline: auto; }
+  .gem-editorial__benefit { display: grid; grid-template-columns: auto 1fr; align-content: start; column-gap: 0.55rem; row-gap: 0.12rem; min-width: 0; }
+  .gem-editorial__benefit-icon { grid-row: span 2; color: var(--gem-editorial-gold); font-size: 1.5rem; line-height: 1; }
+  .gem-editorial__benefit h3 { align-self: end; font-size: 0.68rem; font-weight: 700; line-height: 1.25; }
+  .gem-editorial__benefit p { color: #76776f; font-size: 0.58rem; line-height: 1.35; }
+  .gem-editorial__about { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); min-height: 250px; background: #f4eee4; }
+  .gem-editorial__about-image { width: 100%; height: 100%; min-height: 250px; object-fit: cover; }
+  .gem-editorial__about-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: clamp(22px, 4vw, 54px); }
+  .gem-editorial__about-copy > p:not(.gem-editorial__eyebrow) { max-width: 60ch; margin-top: 0.55rem; color: #64665f; font-size: 0.78rem; line-height: 1.55; }
+  .gem-editorial__button--green { background: var(--gem-editorial-green); border-color: var(--gem-editorial-green); }
+  .gem-editorial__newsletter { display: grid; grid-template-columns: 1fr minmax(260px, 0.9fr); align-items: center; gap: clamp(18px, 4vw, 48px); padding: clamp(22px, 3vw, 38px) var(--gem-editorial-gutter); background: #fff; }
+  .gem-editorial__newsletter > div > p:last-child { margin-top: 0.35rem; color: #77786f; font-size: 0.72rem; }
+  .gem-editorial__newsletter-form { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.6rem; }
+  .gem-editorial__newsletter-form input[type='email'] { width: 100%; min-width: 0; min-height: 42px; border: 1px solid #e3ddd2; border-radius: 99px; padding-inline: 1rem; background: #fff; color: var(--gem-editorial-ink); font: inherit; font-size: 0.72rem; }
+  .gem-editorial__newsletter-form .gem-editorial__button { margin: 0; cursor: pointer; }
+  .gem-editorial__form-message { grid-column: 1 / -1; color: var(--gem-editorial-green); font-size: 0.72rem; }
+  .gem-editorial :is(a, button, input):focus-visible { outline: 2px solid var(--gem-editorial-gold); outline-offset: 3px; }
+  @media (max-width: 800px) {
+    .gem-editorial__hero { min-height: 320px; align-items: flex-start; }
+    .gem-editorial__hero-shade { background: linear-gradient(90deg, rgb(2 35 27 / 93%), rgb(2 35 27 / 30%)); }
+    .gem-editorial__origins { right: var(--gem-editorial-gutter); bottom: 14px; left: var(--gem-editorial-gutter); max-width: none; justify-content: flex-start; }
+    .gem-editorial__article-card { grid-template-columns: minmax(140px, 0.38fr) minmax(0, 0.62fr); }
+    .gem-editorial__article-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gem-editorial__certifications { grid-template-columns: 1fr; gap: 1rem; }
+    .gem-editorial__certification-list { grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); }
+    .gem-editorial__benefit-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 1rem; }
+  }
+  @media (max-width: 560px) {
+    .gem-editorial__hero { min-height: 330px; padding-bottom: 92px; }
+    .gem-editorial__hero-image { object-position: 62% center; }
+    .gem-editorial__hero h1 { max-width: 15ch; font-size: clamp(1.65rem, 7vw, 2.25rem); line-height: 1.1; }
+    .gem-editorial__origin { gap: 0.3rem; padding-right: 0.5rem; font-size: 0.58rem; }
+    .gem-editorial__origin img { width: 1.4rem; height: 1.4rem; }
+    .gem-editorial__section-heading { align-items: start; }
+    .gem-editorial__section-heading h2 { max-width: 13ch; }
+    .gem-editorial__text-link { margin-top: 1rem; white-space: nowrap; }
+    .gem-editorial__article-grid { grid-template-columns: 1fr; }
+    .gem-editorial__article-card { grid-template-columns: minmax(105px, 0.38fr) minmax(0, 0.62fr); }
+    .gem-editorial__article-image { min-height: 120px; }
+    .gem-editorial__article-body { min-width: 0; min-height: 0; align-content: center; gap: 0.3rem; padding: clamp(0.5rem, 2.2vw, 0.75rem); }
+    .gem-editorial__article-card h3 { font-size: clamp(0.82rem, 3.8vw, 0.98rem); }
+    .gem-editorial__article-card h3 { display: block; text-overflow: ellipsis; white-space: nowrap; }
+    .gem-editorial__article-excerpt { display: block; text-overflow: ellipsis; white-space: nowrap; }
+    .gem-editorial__article-meta { margin-top: 0 !important; }
+    .gem-editorial__benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gem-editorial__about { grid-template-columns: 1fr; }
+    .gem-editorial__about-image { min-height: 190px; max-height: 230px; }
+    .gem-editorial__newsletter { grid-template-columns: 1fr; }
+    .gem-editorial__newsletter-form { grid-template-columns: 1fr; }
+    .gem-editorial__newsletter-form .gem-editorial__button { justify-self: start; }
+  }
+  @media (max-width: 380px) {
+    .gem-editorial__hero h1 { font-size: clamp(1.55rem, 7vw, 1.85rem); }
+    .gem-editorial__section-heading { display: grid; gap: 0.6rem; }
+    .gem-editorial__section-heading h2 { max-width: none; }
+    .gem-editorial__text-link { justify-self: start; margin-top: 0; }
+    .gem-editorial__article-card { grid-template-columns: minmax(88px, 0.36fr) minmax(0, 0.64fr); }
+    .gem-editorial__article-image { min-height: 96px; }
+    .gem-editorial__article-body { gap: 0.2rem; padding: 0.65rem; }
+    .gem-editorial__article-card h3 { font-size: 0.9rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gem-editorial__button { transition: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.gemstone_editorial_home.name",
+  "settings": [
+    { "type": "url", "id": "hero_image_url", "label": "t:sections.gemstone_editorial_home.hero_image_url" },
+    { "type": "text", "id": "hero_image_alt", "label": "t:sections.gemstone_editorial_home.hero_image_alt", "default": "Colorful gemstones on a warm stone display" },
+    { "type": "text", "id": "hero_eyebrow", "label": "t:sections.gemstone_editorial_home.hero_eyebrow", "default": "Raza Gems · Dubai" },
+    { "type": "text", "id": "hero_heading", "label": "t:sections.gemstone_editorial_home.hero_heading", "default": "Ethically sourced gemstones from the world’s best origins" },
+    { "type": "textarea", "id": "hero_description", "label": "t:sections.gemstone_editorial_home.hero_description", "default": "Discover natural gemstones from Sri Lanka, Burma, Zambia, Mozambique and beyond." },
+    { "type": "text", "id": "hero_cta_label", "label": "t:sections.gemstone_editorial_home.hero_cta_label", "default": "Explore by Origin" },
+    { "type": "url", "id": "hero_cta_link", "label": "t:sections.gemstone_editorial_home.hero_cta_link" },
+    { "type": "blog", "id": "blog", "label": "t:sections.gemstone_editorial_home.blog" },
+    { "type": "range", "id": "article_count", "label": "t:sections.gemstone_editorial_home.article_count", "min": 2, "max": 6, "step": 1, "default": 3 },
+    { "type": "text", "id": "articles_eyebrow", "label": "t:sections.gemstone_editorial_home.articles_eyebrow", "default": "Stories & guides" },
+    { "type": "text", "id": "articles_heading", "label": "t:sections.gemstone_editorial_home.articles_heading", "default": "Learn Gemstones" },
+    { "type": "textarea", "id": "articles_description", "label": "t:sections.gemstone_editorial_home.articles_description", "default": "Find out about gemstone benefits, how to use them, jewellery ideas and much more." },
+    { "type": "text", "id": "articles_link_label", "label": "t:sections.gemstone_editorial_home.articles_link_label", "default": "View All Articles" },
+    { "type": "text", "id": "read_article_label", "label": "t:sections.gemstone_editorial_home.read_article_label", "default": "Read More" },
+    { "type": "text", "id": "certification_group", "label": "t:sections.gemstone_editorial_home.certification_group", "default": "certificate" },
+    { "type": "text", "id": "certification_heading", "label": "t:sections.gemstone_editorial_home.certification_heading", "default": "Our Certifications" },
+    { "type": "textarea", "id": "certification_description", "label": "t:sections.gemstone_editorial_home.certification_description", "default": "All our gemstones come with trusted international lab certificates." },
+    { "type": "text", "id": "benefits_eyebrow", "label": "t:sections.gemstone_editorial_home.benefits_eyebrow", "default": "The Raza Gems promise" },
+    { "type": "text", "id": "benefits_heading", "label": "t:sections.gemstone_editorial_home.benefits_heading", "default": "Why Choose Raza Gems" },
+    { "type": "text", "id": "benefit_1_title", "label": "t:sections.gemstone_editorial_home.benefit_1_title", "default": "Certified & Natural" },
+    { "type": "text", "id": "benefit_1_text", "label": "t:sections.gemstone_editorial_home.benefit_1_text", "default": "Lab tested gemstones" },
+    { "type": "text", "id": "benefit_2_title", "label": "t:sections.gemstone_editorial_home.benefit_2_title", "default": "Authenticity Guaranteed" },
+    { "type": "text", "id": "benefit_2_text", "label": "t:sections.gemstone_editorial_home.benefit_2_text", "default": "100% genuine stones" },
+    { "type": "text", "id": "benefit_3_title", "label": "t:sections.gemstone_editorial_home.benefit_3_title", "default": "Worldwide Shipping" },
+    { "type": "text", "id": "benefit_3_text", "label": "t:sections.gemstone_editorial_home.benefit_3_text", "default": "Secure & insured" },
+    { "type": "text", "id": "benefit_4_title", "label": "t:sections.gemstone_editorial_home.benefit_4_title", "default": "Expert Guidance" },
+    { "type": "text", "id": "benefit_4_text", "label": "t:sections.gemstone_editorial_home.benefit_4_text", "default": "Personalised support" },
+    { "type": "text", "id": "benefit_5_title", "label": "t:sections.gemstone_editorial_home.benefit_5_title", "default": "Dubai Based" },
+    { "type": "text", "id": "benefit_5_text", "label": "t:sections.gemstone_editorial_home.benefit_5_text", "default": "Since 2005" },
+    { "type": "url", "id": "about_image_url", "label": "t:sections.gemstone_editorial_home.about_image_url" },
+    { "type": "text", "id": "about_image_alt", "label": "t:sections.gemstone_editorial_home.about_image_alt", "default": "Raza Gems gemstone collection" },
+    { "type": "text", "id": "about_eyebrow", "label": "t:sections.gemstone_editorial_home.about_eyebrow", "default": "Our story" },
+    { "type": "text", "id": "about_heading", "label": "t:sections.gemstone_editorial_home.about_heading", "default": "About Raza Gems" },
+    { "type": "textarea", "id": "about_description", "label": "t:sections.gemstone_editorial_home.about_description", "default": "Based in Dubai, Raza Gems is a trusted name in natural gemstones and custom jewellery. With years of experience, a passion for authenticity and a commitment to quality, we bring you the finest gemstones from around the world." },
+    { "type": "text", "id": "about_cta_label", "label": "t:sections.gemstone_editorial_home.about_cta_label", "default": "Our Story" },
+    { "type": "url", "id": "about_cta_link", "label": "t:sections.gemstone_editorial_home.about_cta_link" },
+    { "type": "text", "id": "newsletter_eyebrow", "label": "t:sections.gemstone_editorial_home.newsletter_eyebrow", "default": "Stay in touch" },
+    { "type": "text", "id": "newsletter_heading", "label": "t:sections.gemstone_editorial_home.newsletter_heading", "default": "Join Our Gemstone Community" },
+    { "type": "textarea", "id": "newsletter_description", "label": "t:sections.gemstone_editorial_home.newsletter_description", "default": "Get the latest updates, gemstone guides and exclusive offers." },
+    { "type": "text", "id": "newsletter_button", "label": "t:sections.gemstone_editorial_home.newsletter_button", "default": "Subscribe" }
+  ],
+  "presets": [{ "name": "t:sections.gemstone_editorial_home.name" }]
+}
+{% endschema %}

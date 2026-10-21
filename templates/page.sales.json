@@ -1,0 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "sales_page": {
+      "type": "sales",
+      "settings": {
+        "banner_image": "shopify://shop_images/sales-banner.webp",
+        "banner_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/First-banner.webp?v=1789185890",
+        "banner_image_alt": "Ruby gemstone jewellery sale banner",
+        "top_text": "Limited time only",
+        "heading": "Special Offers",
+        "subheading": "Luxury, now at exceptional value. Explore limited-time savings across gemstones and fine jewellery.",
+        "discount_text": "50%\nOff",
+        "products_limit": 250
+      }
+    }
+  },
+  "order": [
+    "sales_page"
+  ]
+}

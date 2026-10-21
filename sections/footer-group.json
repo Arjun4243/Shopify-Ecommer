@@ -1,0 +1,88 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "t:names.footer",
+  "sections": {
+    "raza_gems_footer": {
+      "type": "raza-gems-footer",
+      "name": "Raza Gems custom footer",
+      "blocks": {
+        "logo_image": { "type": "logo_image", "settings": {} },
+        "contact_hours": { "type": "contact_item", "settings": { "icon": "clock", "text": "Visit our store 10:00 AM to 8:00 PM", "link": "" } },
+        "contact_help": { "type": "contact_item", "settings": { "icon": "headset", "text": "Call our Helpline Number or Write us at email for order related queries", "link": "" } },
+        "contact_address": { "type": "contact_item", "settings": { "icon": "pin", "text": "Gold & Diamond Park, Al Quoz, Industrial Area 3 - Dubai", "link": "" } },
+        "contact_phone": { "type": "contact_item", "settings": { "icon": "phone", "text": "+971585858602", "link": "" } },
+        "contact_email": { "type": "contact_item", "settings": { "icon": "email", "text": "info@razagems.com", "link": "" } },
+        "social_instagram": { "type": "social_link", "settings": { "icon": "instagram", "label": "Instagram", "url": "https://www.instagram.com/" } },
+        "social_facebook": { "type": "social_link", "settings": { "icon": "facebook", "label": "Facebook", "url": "https://www.facebook.com/" } },
+        "social_pinterest": { "type": "social_link", "settings": { "icon": "pinterest", "label": "Pinterest", "url": "https://www.pinterest.com/" } },
+        "social_youtube": { "type": "social_link", "settings": { "icon": "youtube", "label": "YouTube", "url": "https://www.youtube.com/" } },
+        "social_tiktok": { "type": "social_link", "settings": { "icon": "tiktok", "label": "TikTok", "url": "https://www.tiktok.com/" } },
+        "orders_contact": { "type": "orders_link", "settings": { "label": "Contact", "link": "" } },
+        "orders_blog": { "type": "orders_link", "settings": { "label": "Blog", "link": "" } },
+        "orders_faq": { "type": "orders_link", "settings": { "label": "FAQ", "link": "" } },
+        "orders_payment": { "type": "orders_link", "settings": { "label": "Payment Method", "link": "" } },
+        "orders_return": { "type": "orders_link", "settings": { "label": "Return and Exchange", "link": "" } },
+        "company_about": { "type": "company_link", "settings": { "label": "About", "link": "" } },
+        "company_branch": { "type": "company_link", "settings": { "label": "Our Branch", "link": "" } },
+        "company_careers": { "type": "company_link", "settings": { "label": "Careers", "link": "" } },
+        "company_terms": { "type": "company_link", "settings": { "label": "Terms & Condition", "link": "" } },
+        "company_privacy": { "type": "company_link", "settings": { "label": "Privacy Policy", "link": "" } },
+        "feature_natural": { "type": "feature", "settings": { "icon": "*", "label": "Natural Gemstones" } },
+        "feature_certified": { "type": "feature", "settings": { "icon": "*", "label": "Certified Quality" } },
+        "feature_shipping": { "type": "feature", "settings": { "icon": "*", "label": "Worldwide Shipping" } },
+        "feature_trusted": { "type": "feature", "settings": { "icon": "*", "label": "Trusted by Thousands" } }
+      },
+      "block_order": [
+        "logo_image",
+        "contact_hours",
+        "contact_help",
+        "contact_address",
+        "contact_phone",
+        "contact_email",
+        "social_instagram",
+        "social_facebook",
+        "social_pinterest",
+        "social_youtube",
+        "social_tiktok",
+        "orders_contact",
+        "orders_blog",
+        "orders_faq",
+        "orders_payment",
+        "orders_return",
+        "company_about",
+        "company_branch",
+        "company_careers",
+        "company_terms",
+        "company_privacy",
+        "feature_natural",
+        "feature_certified",
+        "feature_shipping",
+        "feature_trusted"
+      ],
+      "settings": {
+        "background_color": "#031611",
+        "accent_color": "#d8b16a",
+        "text_color": "#ffffff",
+        "support_heading": "Customer Support",
+        "orders_heading": "Orders & Help",
+        "company_heading": "About Company",
+        "newsletter_heading": "Sign Up to Newsletter",
+        "newsletter_text": "Be the first to know about new collections, exclusive offers and jewellery updates.",
+        "email_placeholder": "Enter your email address...",
+        "button_label": "Subscribe",
+        "country_text": "India (AED)",
+        "copyright_text": "Copyright 2026 Raza Gems LLC. All Rights Reserved. Developed by AZi Solutions."
+      }
+    }
+  },
+  "order": ["raza_gems_footer"]
+}
