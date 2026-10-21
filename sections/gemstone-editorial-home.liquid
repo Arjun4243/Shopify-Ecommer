@@ -198,10 +198,10 @@
   .gem-editorial__text-link { flex: 0 0 auto; color: #9a7435; font-size: 0.68rem; text-decoration: none; }
   .gem-editorial__text-link:hover, .gem-editorial__read-link:hover { text-decoration: underline; text-underline-offset: 3px; }
   .gem-editorial__article-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); max-width: 1400px; margin-inline: auto; }
-  .gem-editorial__article-card { display: grid; grid-template-columns: minmax(150px, 0.38fr) minmax(0, 0.62fr); min-width: 0; overflow: hidden; border: 1px solid rgb(28 48 39 / 9%); border-radius: 9px; background: #fff; box-shadow: 0 8px 24px rgb(40 35 25 / 6%); }
-  .gem-editorial__article-image { display: block; height: 100%; min-height: 140px; overflow: hidden; aspect-ratio: auto; background: #f0ece3; }
+  .gem-editorial__article-card { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; min-width: 0; overflow: hidden; border: 1px solid rgb(28 48 39 / 9%); border-radius: 9px; background: #fff; box-shadow: 0 8px 24px rgb(40 35 25 / 6%); }
+  .gem-editorial__article-image { display: block; height: auto; min-height: 0; overflow: hidden; aspect-ratio: 16 / 10; background: #f0ece3; }
   .gem-editorial__article-image img, .gem-editorial__article-placeholder { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-  .gem-editorial__article-body { display: grid; min-width: 0; min-height: 140px; align-content: center; gap: 0.35rem; padding: clamp(10px, 1vw, 14px); }
+  .gem-editorial__article-body { display: grid; min-width: 0; min-height: 140px; align-content: start; gap: 0.35rem; padding: clamp(10px, 1vw, 14px); }
   .gem-editorial__article-kicker { color: #9a7435; font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
   .gem-editorial__article-card h3 { display: -webkit-box; min-width: 0; margin-top: 0.1rem; overflow: hidden; font-family: var(--font-heading--family, Georgia, serif); font-size: clamp(0.95rem, 1.2vw, 1.15rem); line-height: 1.3; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .gem-editorial__article-card h3 a { color: var(--gem-editorial-ink); text-decoration: none; }
@@ -238,7 +238,8 @@
     .gem-editorial__hero { min-height: 320px; align-items: flex-start; }
     .gem-editorial__hero-shade { background: linear-gradient(90deg, rgb(2 35 27 / 93%), rgb(2 35 27 / 30%)); }
     .gem-editorial__origins { right: var(--gem-editorial-gutter); bottom: 14px; left: var(--gem-editorial-gutter); max-width: none; justify-content: flex-start; }
-    .gem-editorial__article-card { grid-template-columns: minmax(140px, 0.38fr) minmax(0, 0.62fr); }
+    .gem-editorial__article-card { grid-template-columns: minmax(140px, 0.38fr) minmax(0, 0.62fr); grid-template-rows: 1fr; }
+    .gem-editorial__article-image { height: 100%; min-height: 140px; aspect-ratio: auto; }
     .gem-editorial__article-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .gem-editorial__certifications { grid-template-columns: 1fr; gap: 1rem; }
     .gem-editorial__certification-list { grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); }
