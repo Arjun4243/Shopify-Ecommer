@@ -175,7 +175,10 @@
       "load_more": "More Articles",
       "promo_eyebrow": "Explore Our",
       "promo_title": "Gemstone Collection",
-      "promo_button": "Shop Gemstones"
+      "promo_button": "Shop Gemstones",
+      "toc_promo_eyebrow": "Explore",
+      "toc_promo_title": "Rare Gemstones",
+      "toc_promo_button": "View All"
     },
     "comment_form": {
       "email": "Email",

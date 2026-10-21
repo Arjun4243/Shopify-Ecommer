@@ -6,6 +6,10 @@
   assign article_topic_metafield = article.metafields.custom.gemstone_topic
   assign article_topic_reference = article_topic_metafield.value
   assign article_topic = article_topic_reference.title | default: article_topic_reference | default: article_topic_metafield
+  assign gemstones_url = '/pages/gemstones'
+  if pages.gemstones.url != blank
+    assign gemstones_url = pages.gemstones.url
+  endif
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
@@ -21,6 +25,41 @@
         <h2>{{ 'blogs.article.table_of_contents' | t }}</h2>
         <ol data-article-toc-list></ol>
       </nav>
+      {% assign toc_promo_image = section.settings.related_promo_image | default: article.image %}
+      {% if toc_promo_image != blank %}
+        <a class="article-toc-promo" href="{{ gemstones_url }}" data-randomize="true">
+          <img
+            src="{{ toc_promo_image | image_url: width: 700 }}"
+            srcset="{{ toc_promo_image | image_url: width: 350 }} 350w, {{ toc_promo_image | image_url: width: 700 }} 700w"
+            sizes="(min-width: 901px) 16rem, 100vw"
+            width="{{ toc_promo_image.width }}"
+            height="{{ toc_promo_image.height }}"
+            loading="lazy"
+            alt=""
+          >
+          {% for promo_article in article_blog.articles %}
+            {% if promo_article.id != article.id and promo_article.image != blank %}
+              <span
+                data-related-promo-option
+                data-src="{{ promo_article.image | image_url: width: 700 }}"
+                data-srcset="{{ promo_article.image | image_url: width: 350 }} 350w, {{ promo_article.image | image_url: width: 700 }} 700w"
+                data-width="{{ promo_article.image.width }}"
+                data-height="{{ promo_article.image.height }}"
+                data-alt="{{ promo_article.image.alt | default: promo_article.title | escape }}"
+                data-url="{{ gemstones_url }}"
+                hidden
+              ></span>
+            {% endif %}
+          {% endfor %}
+          <span class="article-related-promo__overlay">
+            <span class="article-related-promo__eyebrow">{{ 'blogs.article.toc_promo_eyebrow' | t }}</span>
+            <span class="article-related-promo__title">{{ 'blogs.article.toc_promo_title' | t }}</span>
+            <span class="article-related-promo__button">
+              {{ 'blogs.article.toc_promo_button' | t }} <span aria-hidden="true">→</span>
+            </span>
+          </span>
+        </a>
+      {% endif %}
     </aside>
 
     <main class="article-main">
@@ -127,20 +166,20 @@
             loading="lazy"
             alt=""
           >
-            {% for promo_article in article_blog.articles %}
-              {% if promo_article.id != article.id and promo_article.image != blank %}
-                <span
-                  data-related-promo-option
-                  data-src="{{ promo_article.image | image_url: width: 700 }}"
-                  data-srcset="{{ promo_article.image | image_url: width: 350 }} 350w, {{ promo_article.image | image_url: width: 700 }} 700w"
-                  data-width="{{ promo_article.image.width }}"
-                  data-height="{{ promo_article.image.height }}"
-                  data-alt="{{ promo_article.image.alt | default: promo_article.title | escape }}"
-                  data-url="{{ promo_article.url }}"
-                  hidden
-                ></span>
-              {% endif %}
-            {% endfor %}
+          {% for promo_article in article_blog.articles %}
+            {% if promo_article.id != article.id and promo_article.image != blank %}
+              <span
+                data-related-promo-option
+                data-src="{{ promo_article.image | image_url: width: 700 }}"
+                data-srcset="{{ promo_article.image | image_url: width: 350 }} 350w, {{ promo_article.image | image_url: width: 700 }} 700w"
+                data-width="{{ promo_article.image.width }}"
+                data-height="{{ promo_article.image.height }}"
+                data-alt="{{ promo_article.image.alt | default: promo_article.title | escape }}"
+                data-url="{{ promo_article.url }}"
+                hidden
+              ></span>
+            {% endif %}
+          {% endfor %}
           <span class="article-related-promo__overlay">
             <span class="article-related-promo__eyebrow">{{ 'blogs.article.promo_eyebrow' | t }}</span>
             <span class="article-related-promo__title">{{ 'blogs.article.promo_title' | t }}</span>
@@ -228,6 +267,18 @@
     relatedPromoImage.height = option.dataset.height;
     relatedPromoImage.alt = option.dataset.alt || '';
     relatedPromo.href = option.dataset.url || relatedPromo.href;
+  }
+  const tocPromo = document.querySelector('.article-toc-promo');
+  const tocPromoImage = tocPromo?.querySelector('img');
+  const tocPromoOptions = tocPromo ? [...tocPromo.querySelectorAll('[data-related-promo-option]')] : [];
+  if (tocPromo && tocPromoImage && tocPromoOptions.length) {
+    const option = tocPromoOptions[Math.floor(Math.random() * tocPromoOptions.length)];
+    tocPromoImage.src = option.dataset.src;
+    tocPromoImage.srcset = option.dataset.srcset;
+    tocPromoImage.width = option.dataset.width;
+    tocPromoImage.height = option.dataset.height;
+    tocPromoImage.alt = option.dataset.alt || '';
+    tocPromo.href = option.dataset.url || tocPromo.href;
   }
 {% endjavascript %}
 
@@ -350,32 +401,33 @@
     color: #fff;
     cursor: pointer;
   }
-  .article-related-promo {
+  :is(.article-related-promo, .article-toc-promo) {
     position: relative;
     display: block;
     overflow: hidden;
     margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
     border-radius: 0.5rem;
     aspect-ratio: 1.75 / 1;
     color: #17251f;
     text-decoration: none;
     isolation: isolate;
   }
-  .article-related-promo::after {
+  :is(.article-related-promo, .article-toc-promo)::after {
     position: absolute;
     inset: 0;
     z-index: 1;
     background: linear-gradient(90deg, rgb(255 250 242 / 0.96) 0%, rgb(255 250 242 / 0.72) 48%, rgb(255 250 242 / 0.08) 100%);
     content: '';
   }
-  .article-related-promo img {
+  :is(.article-related-promo, .article-toc-promo) img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  .article-related-promo__overlay {
+  :is(.article-related-promo, .article-toc-promo) .article-related-promo__overlay {
     position: relative;
     z-index: 2;
     display: flex;
@@ -386,20 +438,20 @@
     gap: 0.2rem;
     padding: 0.7rem;
   }
-  .article-related-promo__eyebrow {
+  :is(.article-related-promo, .article-toc-promo) .article-related-promo__eyebrow {
     color: #9b773f;
     font-size: 0.52rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
-  .article-related-promo__title {
+  :is(.article-related-promo, .article-toc-promo) .article-related-promo__title {
     max-width: 9rem;
     font-family: var(--font-heading--family);
     font-size: 0.9rem;
     line-height: 1.08;
   }
-  .article-related-promo__button {
+  :is(.article-related-promo, .article-toc-promo) .article-related-promo__button {
     display: inline-flex;
     gap: 0.35rem;
     margin-top: 0.15rem;
@@ -408,6 +460,24 @@
     background: #b4863f;
     color: #fffaf2;
     font-size: 0.56rem;
+  }
+  .article-toc-promo::after {
+    background: linear-gradient(90deg, rgb(9 57 42 / 0.98) 0%, rgb(9 57 42 / 0.72) 52%, rgb(9 57 42 / 0.08) 100%);
+  }
+  .article-toc-promo .article-related-promo__overlay {
+    color: #fffaf2;
+  }
+  .article-toc-promo .article-related-promo__eyebrow {
+    color: #f2c16f;
+    font-size: 0.48rem;
+  }
+  .article-toc-promo .article-related-promo__title {
+    max-width: 6rem;
+    font-size: 1.05rem;
+  }
+  .article-toc-promo .article-related-promo__button {
+    background: #b4863f;
+    color: #fffaf2;
   }
 
   @media (max-width: 900px) {
@@ -422,6 +492,10 @@
     }
   }
   @media (max-width: 650px) {
+    .article-toc,
+    .article-toc-promo {
+      display: none;
+    }
     .article-layout {
       display: block;
       width: min(100% - 1rem, 40rem);
@@ -432,12 +506,14 @@
     }
     .article-aside {
       display: block;
+      margin-block-start: 1rem;
     }
   }
   .blog-post-comments-container {
     width: 100%;
     max-width: var(--normal-content-width);
     margin: 0 auto;
+    margin-block-end: 2rem;
   }
 
   .blog-post-comments {
