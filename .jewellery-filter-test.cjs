@@ -1,0 +1,23 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+class Element { constructor(dataset={}) { this.dataset=dataset; this.events={}; this.classes=new Set(); this.classList={toggle:(c,on)=>on?this.classes.add(c):this.classes.delete(c),remove:c=>this.classes.delete(c),contains:c=>this.classes.has(c)}; } addEventListener(n,f){this.events[n]=f;} setAttribute(){} }
+const price=new Element(); price.value='100'; price.max='100';
+const output=new Element(); const clear=new Element(); const sort=new Element(); sort.value='featured';
+const color=Object.assign(new Element(),{value:'red',checked:false});
+const shape=Object.assign(new Element(),{value:'round',checked:false});
+const cards=[{price:'80',color:'red',shape:'round',title:'B'},{price:'20',color:'blue',shape:'oval',title:'A'},{price:'40',color:'red',shape:'oval',title:'C'}].map(d=>new Element(d));
+const grid=new Element(); grid.order=[]; grid.appendChild=c=>grid.order.push(c);
+const single={'[data-price-filter]':price,'[data-price-output]':output,'[data-clear-filters]':clear,'[data-sort-products]':sort,'[data-products-grid]':grid};
+const multiple={'[data-color-filter]':[color],'[data-shape-filter]':[shape],'[data-product-card]':cards};
+const page=new Element({currency:'INR'}); page.querySelector=s=>single[s]||null; page.querySelectorAll=s=>multiple[s]||[];
+const document={readyState:'complete',querySelectorAll:()=>[page],addEventListener(){},documentElement:new Element()};
+vm.runInNewContext(fs.readFileSync('sections/jewellery-listing-page.liquid','utf8').split('{% javascript %}')[1].split('{% endjavascript %}')[0],{document,window:{matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener(){}},localStorage:{getItem:()=>null},HTMLElement:Element,Intl});
+const visible=()=>cards.filter(c=>!c.classes.has('is-hidden')).map(c=>c.dataset.title);
+assert.deepEqual(visible(),['B','A','C']);
+color.checked=true;color.events.change();assert.deepEqual(visible(),['B','C']);
+shape.checked=true;shape.events.change();assert.deepEqual(visible(),['B']);
+price.value='50';price.events.input();assert.deepEqual(visible(),[]);
+clear.events.click();assert.deepEqual(visible(),['B','A','C']);assert.equal(price.value,'100');
+sort.value='price-ascending';sort.events.change();assert.deepEqual(grid.order.map(c=>c.dataset.title),['A','C','B']);
+console.log('PASS: asset loading, color, shape, combined filters, price, empty results, clear all, sorting');
