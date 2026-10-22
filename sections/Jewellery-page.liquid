@@ -134,10 +134,6 @@
               assign product_group_handle = product_group | replace: '_', '-' | handleize
               assign product_matches_group = false
               assign product_color = product.metafields.custom.color.value | strip | downcase
-              if product_color == blank
-                assign product_color_option = product.options_with_values | where: 'name', 'Color' | first
-                assign product_color = product_color_option.values | first | strip | downcase
-              endif
             %}
 
             {% if product_group_handle == target_group_handle %}
@@ -170,10 +166,6 @@
                     assign count_group_handle = count_group | replace: '_', '-' | handleize
                     assign count_product_matches_group = false
                     assign count_color = count_product.metafields.custom.color.value | strip | downcase
-                    if count_color == blank
-                      assign count_color_option = count_product.options_with_values | where: 'name', 'Color' | first
-                      assign count_color = count_color_option.values | first | strip | downcase
-                    endif
                   %}
 
                   {% if count_group_handle == target_group_handle %}
@@ -198,9 +190,8 @@
                 {% endfor %}
 
                 <label>
-                  <input type="checkbox" value="{{ product_color | handleize }}" data-color-filter>
-                  <span>{{ product_color | replace: '_', ' ' | capitalize }}</span>
-                  <span class="jewellery-filter-count" data-filter-count hidden>({{ color_count }})</span>
+                  <input type="checkbox" value="{{ product_color | escape }}" data-color-filter>
+                  {{ product_color | replace: '_', ' ' | capitalize }} ({{ color_count }})
                 </label>
               {% endunless %}
             {% endif %}
@@ -224,10 +215,6 @@
               assign product_group_handle = product_group | replace: '_', '-' | handleize
               assign product_matches_group = false
               assign product_shape = product.metafields.custom.shape.value | strip | downcase
-              if product_shape == blank
-                assign product_shape_option = product.options_with_values | where: 'name', 'Shape' | first
-                assign product_shape = product_shape_option.values | first | strip | downcase
-              endif
             %}
 
             {% if product_group_handle == target_group_handle %}
@@ -260,10 +247,6 @@
                     assign count_group_handle = count_group | replace: '_', '-' | handleize
                     assign count_product_matches_group = false
                     assign count_shape = count_product.metafields.custom.shape.value | strip | downcase
-                    if count_shape == blank
-                      assign count_shape_option = count_product.options_with_values | where: 'name', 'Shape' | first
-                      assign count_shape = count_shape_option.values | first | strip | downcase
-                    endif
                   %}
 
                   {% if count_group_handle == target_group_handle %}
@@ -288,9 +271,8 @@
                 {% endfor %}
 
                 <label>
-                  <input type="checkbox" value="{{ product_shape | handleize }}" data-shape-filter>
-                  <span>{{ product_shape | replace: '_', ' ' | capitalize }}</span>
-                  <span class="jewellery-filter-count" data-filter-count hidden>({{ shape_count }})</span>
+                  <input type="checkbox" value="{{ product_shape | escape }}" data-shape-filter>
+                  {{ product_shape | replace: '_', ' ' | capitalize }} ({{ shape_count }})
                 </label>
               {% endunless %}
             {% endif %}
@@ -366,7 +348,7 @@
             {{ 'actions.show_filters' | t }}
           </button>
 
-          <p data-filter-result-count role="status" aria-live="polite">
+          <p>
             {% if matching_products_count > 0 %}
               Showing {{ matching_products_count }} products
             {% else %}
@@ -393,8 +375,8 @@
               assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
               assign product_group_handle = product_group | replace: '_', '-' | handleize
               assign product_matches_group = false
-              assign product_color = product.metafields.custom.color.value | strip | downcase
-              assign product_shape = product.metafields.custom.shape.value | strip | downcase
+              assign product_color = product.metafields.custom.color.value | downcase
+              assign product_shape = product.metafields.custom.shape.value | downcase
               assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
               assign carat_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
               assign certification_status = product.metafields.custom.certification_status.value | default: product.metafields.custom.certification_status
@@ -426,7 +408,7 @@
                 data-product-id="{{ product.id }}"
                 data-product-card
                 data-title="{{ product.title | escape }}"
-                data-price="{{ product.price_min | divided_by: 100.0 }}"
+                data-price="{{ selected_variant.price | divided_by: 100.0 }}"
                 data-color="{{ product_color }}"
                 data-shape="{{ product_shape }}"
                 style="
@@ -1192,7 +1174,227 @@
 
 {% endstylesheet %}
 
-<script src="{{ 'jewellery-page.js' | asset_url }}" type="module" fetchpriority="low"></script>
+{% javascript %}
+  const initJewelleryPage = (page) => {
+    if (page.dataset.jewelleryPageInitialized === 'true') return;
+
+    page.dataset.jewelleryPageInitialized = 'true';
+
+    const priceFilter = page.querySelector('[data-price-filter]');
+    const priceOutput = page.querySelector('[data-price-output]');
+    const colorFilters = page.querySelectorAll('[data-color-filter]');
+    const shapeFilters = page.querySelectorAll('[data-shape-filter]');
+    const clearButton = page.querySelector('[data-clear-filters]');
+    const sortSelect = page.querySelector('[data-sort-products]');
+    const productsGrid = page.querySelector('[data-products-grid]');
+    const cards = Array.from(page.querySelectorAll('[data-product-card]'));
+    const filterDrawer = page.querySelector('[data-filter-drawer]');
+    const filterToggle = page.querySelector('[data-filter-toggle]');
+    const filterCloseButtons = page.querySelectorAll('[data-filter-close]');
+    const wishlistStorageKey = 'raza-gems-wishlist';
+    const wishlistButtons = page.querySelectorAll('[data-jewellery-wishlist]');
+    const mobileMedia = window.matchMedia('(max-width: 749px)');
+    let filterToggleReturn = null;
+
+    const getWishlist = () => JSON.parse(localStorage.getItem(wishlistStorageKey) || '[]');
+    const setWishlist = (wishlist) => localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlist));
+
+    const closeFilterDrawer = () => {
+      page.classList.remove('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'false');
+
+      if (filterDrawer) {
+        filterDrawer.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+      }
+
+      document.documentElement.classList.remove('jewellery-filter-drawer-open');
+
+      if (filterToggleReturn instanceof HTMLElement) {
+        filterToggleReturn.focus();
+      }
+    };
+
+    const openFilterDrawer = () => {
+      if (!mobileMedia.matches) return;
+
+      filterToggleReturn = document.activeElement;
+      page.classList.add('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'true');
+      filterDrawer?.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('jewellery-filter-drawer-open');
+      filterDrawer?.querySelector('[data-filter-close]')?.focus();
+    };
+
+    const syncWishlistButtons = () => {
+      const wishlist = getWishlist();
+
+      wishlistButtons.forEach((button) => {
+        const active = wishlist.some((item) => item.handle === button.dataset.productHandle);
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+        button.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');
+      });
+    };
+
+    const selectedValues = (inputs) => {
+      return Array.from(inputs)
+        .filter((input) => input.checked)
+        .map((input) => input.value);
+    };
+
+    const applyFilters = () => {
+      if (!priceFilter) return;
+
+      const maxPrice = Number(priceFilter.value);
+      const colors = selectedValues(colorFilters);
+      const shapes = selectedValues(shapeFilters);
+
+      if (priceOutput) {
+        priceOutput.textContent = new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency: page.dataset.currency
+        }).format(maxPrice);
+      }
+
+      cards.forEach((card) => {
+        const price = Number(card.dataset.price);
+        const color = card.dataset.color;
+        const shape = card.dataset.shape;
+        const priceMatches = price <= maxPrice;
+        const colorMatches = colors.length === 0 || colors.includes(color);
+        const shapeMatches = shapes.length === 0 || shapes.includes(shape);
+
+        card.classList.toggle('is-hidden', !(priceMatches && colorMatches && shapeMatches));
+      });
+    };
+
+    const sortProducts = () => {
+      const sortedCards = [...cards];
+
+      sortedCards.sort((firstCard, secondCard) => {
+        if (sortSelect.value === 'title-ascending') {
+          return firstCard.dataset.title.localeCompare(secondCard.dataset.title);
+        }
+
+        if (sortSelect.value === 'price-ascending') {
+          return Number(firstCard.dataset.price) - Number(secondCard.dataset.price);
+        }
+
+        if (sortSelect.value === 'price-descending') {
+          return Number(secondCard.dataset.price) - Number(firstCard.dataset.price);
+        }
+
+        return cards.indexOf(firstCard) - cards.indexOf(secondCard);
+      });
+
+      sortedCards.forEach((card) => productsGrid.appendChild(card));
+    };
+
+    priceFilter?.addEventListener('input', applyFilters);
+    colorFilters.forEach((input) => input.addEventListener('change', applyFilters));
+    shapeFilters.forEach((input) => input.addEventListener('change', applyFilters));
+    sortSelect?.addEventListener('change', sortProducts);
+    filterToggle?.addEventListener('click', openFilterDrawer);
+    filterCloseButtons.forEach((button) => button.addEventListener('click', closeFilterDrawer));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && page.classList.contains('is-filter-drawer-open')) {
+        closeFilterDrawer();
+      }
+    });
+
+    mobileMedia.addEventListener('change', () => {
+      if (mobileMedia.matches) {
+        filterDrawer?.setAttribute('aria-hidden', page.classList.contains('is-filter-drawer-open') ? 'false' : 'true');
+      } else {
+        closeFilterDrawer();
+        filterDrawer?.setAttribute('aria-hidden', 'false');
+      }
+    });
+
+    if (filterDrawer) {
+      filterDrawer.setAttribute('aria-hidden', mobileMedia.matches ? 'true' : 'false');
+    }
+
+    wishlistButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const product = {
+          handle: button.dataset.productHandle,
+          title: button.dataset.productTitle,
+          url: button.dataset.productUrl,
+        image: button.dataset.productImage,
+        price: button.dataset.productPrice,
+        variantId: button.dataset.productVariantId,
+        color: button.dataset.productColor,
+        shape: button.dataset.productShape,
+        type: button.dataset.productGemstoneType,
+        gemstoneType: button.dataset.productGemstoneType,
+        productType: button.dataset.productType,
+      };
+
+        if (!product.handle) return;
+
+        const wishlist = getWishlist();
+        const existingIndex = wishlist.findIndex((item) => item.handle === product.handle);
+        const isSaved = existingIndex === -1;
+
+        if (existingIndex >= 0) {
+          wishlist.splice(existingIndex, 1);
+        } else {
+          wishlist.unshift(product);
+        }
+
+        setWishlist(wishlist);
+        syncWishlistButtons();
+        window.dispatchEvent(
+          new CustomEvent('raza-gems:wishlist-updated', {
+            detail: {
+              count: wishlist.length,
+              saved: isSaved,
+              handle: product.handle,
+            },
+          })
+        );
+      });
+    });
+
+    clearButton?.addEventListener('click', () => {
+      priceFilter.value = priceFilter.max;
+      colorFilters.forEach((input) => {
+        input.checked = false;
+      });
+      shapeFilters.forEach((input) => {
+        input.checked = false;
+      });
+      applyFilters();
+    });
+
+    if (priceFilter) {
+      applyFilters();
+    }
+
+    syncWishlistButtons();
+    window.addEventListener('raza-gems:wishlist-updated', syncWishlistButtons);
+  };
+
+  const initJewelleryPages = (root = document) => {
+    if (root.matches?.('[data-jewellery-page]')) {
+      initJewelleryPage(root);
+    }
+
+    root.querySelectorAll('[data-jewellery-page]').forEach(initJewelleryPage);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initJewelleryPages(), { once: true });
+  } else {
+    initJewelleryPages();
+  }
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initJewelleryPages(event.target);
+  });
+{% endjavascript %}
 
 {% schema %}
 {
