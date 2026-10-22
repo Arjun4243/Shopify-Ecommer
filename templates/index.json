@@ -160,6 +160,19 @@
         "show_mobile_chevrons": true
       }
     },
+    "shop_by_colour": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "collections": [],
+        "group_value": "Color",
+        "heading": "Shop by Colour",
+        "subtitle": "Find gemstones in your favourite colour",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "view_all_link": "",
+        "marquee_duration": 35
+      }
+    },
     "home_second_banner": {
       "type": "home-second-banner",
       "settings": {
@@ -175,17 +188,6 @@
         "feature_3": "Expert Craftsmanship",
         "full_width": true,
         "border_radius": 8
-      }
-    },
-    "shop_by_colour": {
-      "type": "gemstone-collection-slider",
-      "settings": {
-        "group_value": "Color",
-        "heading": "Shop by Colour",
-        "subtitle": "Find gemstones in your favourite colour",
-        "show_view_all": false,
-        "view_all_label": "View all",
-        "marquee_duration": 35
       }
     },
     "shop_by_origin": {
@@ -210,29 +212,79 @@
         "subtitle": "",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
       }
     },
     "shop_by_shape": {
       "type": "gemstone-collection-slider",
       "settings": {
+        "collections": [],
         "group_value": "Shape",
         "heading": "Shop by Shape",
         "subtitle": "Find gemstones by shape",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
       }
     },
     "shop_by_certification": {
       "type": "gemstone-collection-slider",
       "settings": {
+        "collections": [],
         "group_value": "certificate",
         "heading": "Shop by Certification",
         "subtitle": "Browse gemstones by certification",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
+      }
+    },
+    "gemstone_editorial_home": {
+      "type": "gemstone-editorial-home",
+      "settings": {
+        "hero_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/ethical-gemstones-origins-hero.png?v=1792507847",
+        "hero_image_alt": "Colorful gemstones on a warm stone display",
+        "hero_eyebrow": "Raza Gems · Dubai",
+        "hero_heading": "Ethically sourced gemstones from the world’s best origins",
+        "hero_description": "Discover natural gemstones from Sri Lanka, Burma, Zambia, Mozambique and beyond.",
+        "hero_cta_label": "Explore by Origin",
+        "hero_cta_link": "/collections",
+        "blog": "news",
+        "article_count": 3,
+        "articles_eyebrow": "Stories & guides",
+        "articles_heading": "Learn Gemstones",
+        "articles_description": "Find out about gemstone benefits, how to use them, jewellery ideas and much more.",
+        "articles_link_label": "View All Articles",
+        "read_article_label": "Read More",
+        "certification_group": "certificate",
+        "certification_heading": "Our Certifications",
+        "certification_description": "All our gemstones come with trusted international lab certificates.",
+        "benefits_eyebrow": "The Raza Gems promise",
+        "benefits_heading": "Why Choose Raza Gems",
+        "benefit_1_title": "Certified & Natural",
+        "benefit_1_text": "Lab tested gemstones",
+        "benefit_2_title": "Authenticity Guaranteed",
+        "benefit_2_text": "100% genuine stones",
+        "benefit_3_title": "Worldwide Shipping",
+        "benefit_3_text": "Secure & insured",
+        "benefit_4_title": "Expert Guidance",
+        "benefit_4_text": "Personalised support",
+        "benefit_5_title": "Dubai Based",
+        "benefit_5_text": "Since 2005",
+        "about_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp?v=1790332980",
+        "about_image_alt": "Raza Gems gemstone collection",
+        "about_eyebrow": "Our story",
+        "about_heading": "About Raza Gems",
+        "about_description": "Based in Dubai, Raza Gems is a trusted name in natural gemstones and custom jewellery. With years of experience, a passion for authenticity and a commitment to quality, we bring you the finest gemstones from around the world.",
+        "about_cta_label": "Our Story",
+        "about_cta_link": "/pages/about",
+        "newsletter_eyebrow": "Stay in touch",
+        "newsletter_heading": "Join Our Gemstone Community",
+        "newsletter_description": "Get the latest updates, gemstone guides and exclusive offers.",
+        "newsletter_button": "Subscribe"
       }
     },
     "178981965052546672": {
@@ -265,26 +317,14 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
-    },
-    "gemstone_editorial_home": {
-      "type": "gemstone-editorial-home",
-      "settings": {
-        "hero_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/ethical-gemstones-origins-hero.png?v=1792507847",
-        "hero_cta_link": "/collections",
-        "blog": "news",
-        "article_count": 3,
-        "certification_group": "certificate",
-        "about_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp?v=1790332980",
-        "about_cta_link": "/pages/about"
-      }
     }
   },
   "order": [
     "17898196119e1449f5",
     "hero_jVaWmY",
     "trust_benefits_home",
-    "home_second_banner",
     "shop_by_colour",
+    "home_second_banner",
     "shop_by_origin",
     "shop_by_shape",
     "shop_by_certification",
