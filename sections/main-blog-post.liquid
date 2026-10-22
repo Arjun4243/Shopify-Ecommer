@@ -297,12 +297,14 @@
     border-radius: 0.75rem;
     background: var(--color-background);
   }
-  .article-left-sidebar {
+  .article-left-sidebar,
+  .article-aside {
     display: grid;
     gap: 1rem;
     align-self: start;
     position: sticky;
-    top: 1rem;
+    top: 6rem;
+    z-index: 2;
   }
   .article-toc h2,
   .article-related h2 {
@@ -334,6 +336,7 @@
   .article-main {
     min-width: 0;
   }
+
   .article-toc__item--h3 {
     padding-inline-start: 1rem;
     font-size: 0.9rem;
@@ -489,6 +492,7 @@
       grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
     }
     .article-aside {
+      position: static;
       grid-column: 1 / -1;
     }
     .article-related {
