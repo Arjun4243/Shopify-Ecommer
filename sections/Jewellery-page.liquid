@@ -134,6 +134,10 @@
               assign product_group_handle = product_group | replace: '_', '-' | handleize
               assign product_matches_group = false
               assign product_color = product.metafields.custom.color.value | strip | downcase
+              if product_color == blank
+                assign product_color_option = product.options_with_values | where: 'name', 'Color' | first
+                assign product_color = product_color_option.values | first | strip | downcase
+              endif
             %}
 
             {% if product_group_handle == target_group_handle %}
@@ -166,6 +170,10 @@
                     assign count_group_handle = count_group | replace: '_', '-' | handleize
                     assign count_product_matches_group = false
                     assign count_color = count_product.metafields.custom.color.value | strip | downcase
+                    if count_color == blank
+                      assign count_color_option = count_product.options_with_values | where: 'name', 'Color' | first
+                      assign count_color = count_color_option.values | first | strip | downcase
+                    endif
                   %}
 
                   {% if count_group_handle == target_group_handle %}
@@ -190,8 +198,9 @@
                 {% endfor %}
 
                 <label>
-                  <input type="checkbox" value="{{ product_color | escape }}" data-color-filter>
-                  {{ product_color | replace: '_', ' ' | capitalize }} ({{ color_count }})
+                  <input type="checkbox" value="{{ product_color | handleize }}" data-color-filter>
+                  <span>{{ product_color | replace: '_', ' ' | capitalize }}</span>
+                  <span class="jewellery-filter-count" data-filter-count hidden>({{ color_count }})</span>
                 </label>
               {% endunless %}
             {% endif %}
@@ -215,6 +224,10 @@
               assign product_group_handle = product_group | replace: '_', '-' | handleize
               assign product_matches_group = false
               assign product_shape = product.metafields.custom.shape.value | strip | downcase
+              if product_shape == blank
+                assign product_shape_option = product.options_with_values | where: 'name', 'Shape' | first
+                assign product_shape = product_shape_option.values | first | strip | downcase
+              endif
             %}
 
             {% if product_group_handle == target_group_handle %}
@@ -247,6 +260,10 @@
                     assign count_group_handle = count_group | replace: '_', '-' | handleize
                     assign count_product_matches_group = false
                     assign count_shape = count_product.metafields.custom.shape.value | strip | downcase
+                    if count_shape == blank
+                      assign count_shape_option = count_product.options_with_values | where: 'name', 'Shape' | first
+                      assign count_shape = count_shape_option.values | first | strip | downcase
+                    endif
                   %}
 
                   {% if count_group_handle == target_group_handle %}
@@ -271,8 +288,9 @@
                 {% endfor %}
 
                 <label>
-                  <input type="checkbox" value="{{ product_shape | escape }}" data-shape-filter>
-                  {{ product_shape | replace: '_', ' ' | capitalize }} ({{ shape_count }})
+                  <input type="checkbox" value="{{ product_shape | handleize }}" data-shape-filter>
+                  <span>{{ product_shape | replace: '_', ' ' | capitalize }}</span>
+                  <span class="jewellery-filter-count" data-filter-count hidden>({{ shape_count }})</span>
                 </label>
               {% endunless %}
             {% endif %}
@@ -375,8 +393,16 @@
               assign product_group = product.metafields.custom.gemstone_group.value | default: product.metafields.custom.gemstone_group
               assign product_group_handle = product_group | replace: '_', '-' | handleize
               assign product_matches_group = false
-              assign product_color = product.metafields.custom.color.value | downcase
-              assign product_shape = product.metafields.custom.shape.value | downcase
+              assign product_color = product.metafields.custom.color.value | default: product.metafields.custom.color | strip | downcase
+              assign product_shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape | strip | downcase
+              if product_color == blank
+                assign product_color_option = product.options_with_values | where: 'name', 'Color' | first
+                assign product_color = product_color_option.values | first | strip | downcase
+              endif
+              if product_shape == blank
+                assign product_shape_option = product.options_with_values | where: 'name', 'Shape' | first
+                assign product_shape = product_shape_option.values | first | strip | downcase
+              endif
               assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
               assign carat_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
               assign certification_status = product.metafields.custom.certification_status.value | default: product.metafields.custom.certification_status
@@ -409,8 +435,10 @@
                 data-product-card
                 data-title="{{ product.title | escape }}"
                 data-price="{{ selected_variant.price | divided_by: 100.0 }}"
-                data-color="{{ product_color }}"
-                data-shape="{{ product_shape }}"
+                data-color="{{ product_color | escape }}"
+                data-color-key="{{ product_color | handleize }}"
+                data-shape="{{ product_shape | escape }}"
+                data-shape-key="{{ product_shape | handleize }}"
                 style="
                   --quick-add-display: flex;
                   --quick-add-mobile-display: {% if settings.mobile_quick_add %}flex{% else %}none{% endif %};
@@ -1174,7 +1202,7 @@
 
 {% endstylesheet %}
 
-{% javascript %}
+<script type="module">
   const initJewelleryPage = (page) => {
     if (page.dataset.jewelleryPageInitialized === 'true') return;
 
@@ -1236,10 +1264,19 @@
       });
     };
 
+    const filterKey = (value) => String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
     const selectedValues = (inputs) => {
       return Array.from(inputs)
         .filter((input) => input.checked)
-        .map((input) => input.value);
+        .map((input) => filterKey(input.value));
+    };
+
+    const syncFilterCounts = () => {
+      page.querySelectorAll('[data-color-filter], [data-shape-filter]').forEach((input) => {
+        const count = input.parentElement?.querySelector('[data-filter-count]');
+        if (count) count.hidden = !input.checked;
+      });
     };
 
     const applyFilters = () => {
@@ -1258,14 +1295,19 @@
 
       cards.forEach((card) => {
         const price = Number(card.dataset.price);
-        const color = card.dataset.color;
-        const shape = card.dataset.shape;
+        const color = card.dataset.colorKey || filterKey(card.dataset.color);
+        const shape = card.dataset.shapeKey || filterKey(card.dataset.shape);
         const priceMatches = price <= maxPrice;
         const colorMatches = colors.length === 0 || colors.includes(color);
         const shapeMatches = shapes.length === 0 || shapes.includes(shape);
 
-        card.classList.toggle('is-hidden', !(priceMatches && colorMatches && shapeMatches));
+        const matchesFilters = priceMatches && colorMatches && shapeMatches;
+        card.classList.toggle('is-hidden', !matchesFilters);
+        card.hidden = !matchesFilters;
+        card.style.display = matchesFilters ? '' : 'none';
       });
+
+      syncFilterCounts();
     };
 
     const sortProducts = () => {
@@ -1293,6 +1335,11 @@
     priceFilter?.addEventListener('input', applyFilters);
     colorFilters.forEach((input) => input.addEventListener('change', applyFilters));
     shapeFilters.forEach((input) => input.addEventListener('change', applyFilters));
+    page.addEventListener('change', (event) => {
+      if (event.target instanceof HTMLInputElement && (event.target.matches('[data-color-filter]') || event.target.matches('[data-shape-filter]'))) {
+        applyFilters();
+      }
+    });
     sortSelect?.addEventListener('change', sortProducts);
     filterToggle?.addEventListener('click', openFilterDrawer);
     filterCloseButtons.forEach((button) => button.addEventListener('click', closeFilterDrawer));
@@ -1394,7 +1441,7 @@
   document.addEventListener('shopify:section:load', (event) => {
     initJewelleryPages(event.target);
   });
-{% endjavascript %}
+</script>
 
 {% schema %}
 {
