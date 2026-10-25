@@ -101,7 +101,7 @@
         <summary>Discount</summary>
         <div class="sales-filter__options" data-sales-options="discount"></div>
       </details>
-      <details class="sales-filter">
+      <details class="sales-filter" open>
         <summary>Price</summary>
         <div class="sales-price-range" data-sales-price-range>
           <label class="sales-price-range__label" for="SalesPriceRange-{{ section.id }}">
@@ -114,15 +114,15 @@
           </div>
         </div>
       </details>
-      <details class="sales-filter">
+      <details class="sales-filter" open>
         <summary>Gemstone Type</summary>
         <div class="sales-filter__options" data-sales-options="gemstoneType"></div>
       </details>
-      <details class="sales-filter">
+      <details class="sales-filter" open>
         <summary>Shape</summary>
         <div class="sales-filter__options" data-sales-options="shape"></div>
       </details>
-      <details class="sales-filter">
+      <details class="sales-filter" open>
         <summary>Color</summary>
         <div class="sales-filter__options" data-sales-options="color"></div>
       </details>
@@ -247,6 +247,12 @@
       const filterCloseButtons = page.querySelectorAll('[data-sales-filter-close]');
       const mobileMedia = window.matchMedia('(max-width: 900px)');
       let filterToggleReturn = null;
+
+      // Keep every Sales filter expanded on initial render, including after a refresh
+      // where the browser may restore a previously collapsed details state.
+      page.querySelectorAll('.sales-filter').forEach((filter) => {
+        filter.open = true;
+      });
 
       const state = {
         productType: new Set(),
