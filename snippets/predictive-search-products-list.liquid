@@ -36,7 +36,7 @@
         </button>
       </h4>
       <ul
-        class="predictive-search-results__list predictive-search-results__wrapper-products list-unstyled"
+        class="predictive-search-results__list predictive-search-results__wrapper-products predictive-search-results__wrapper-products--recent list-unstyled"
       >
         {% liquid
           assign limit = limit | default: 8
@@ -57,7 +57,7 @@
                 resource_type: 'product',
                 resource: product,
                 image_width: 500,
-                image_hover: true,
+                image_hover: false,
                 image_aspect_ratio: '4 / 5',
                 product_view_context: 'search'
               %}
@@ -73,7 +73,7 @@
                 resource_type: 'product',
                 resource: product,
                 image_width: 500,
-                image_hover: true,
+                image_hover: false,
                 image_aspect_ratio: '4 / 5',
                 product_view_context: 'search'
               %}
@@ -87,7 +87,7 @@
       {{ title }}
     </h4>
     <ul
-      class="predictive-search-results__list predictive-search-results__wrapper-products list-unstyled"
+      class="predictive-search-results__list predictive-search-results__wrapper-products predictive-search-results__wrapper-products--results list-unstyled"
     >
       {% liquid
         assign limit = limit | default: 8
@@ -101,7 +101,7 @@
             resource_type: 'product',
             resource: product,
             image_width: 500,
-            image_hover: true,
+            image_hover: false,
             image_aspect_ratio: '4 / 5',
             product_view_context: 'search'
           %}

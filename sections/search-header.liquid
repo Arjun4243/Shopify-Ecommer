@@ -17,7 +17,7 @@
       <div class="gem-search-hero__copy">
         <nav aria-label="{{ 'gemstone_search.breadcrumb' | t }}"><a href="{{ routes.root_url }}">{{ 'gemstone_search.home' | t }}</a><span aria-hidden="true">›</span><span>{{ 'content.search' | t }}</span></nav>
         <h1>{{ 'gemstone_search.heading' | t }} {% if search.terms != blank %}<span>“{{ search.terms | escape }}”</span>{% endif %}</h1>
-        <p>{{ 'gemstone_search.summary' | t: count: search.results_count, terms: search.terms | escape }}</p>
+        <p>{{ 'gemstone_search.result_count' | t: count: search.results_count }}</p>
       </div>
       <div class="gem-search-hero__form">
         {% content_for 'block', id: 'search', type: '_search-input' %}
@@ -33,7 +33,7 @@
   .gem-search-hero__copy { min-width: 0; }
   .gem-search-hero nav { display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; margin-block-end: 12px; }
   .gem-search-hero nav a { color: inherit; text-decoration: none; }
-  .gem-search-hero h1 { margin: 0 0 10px; font-family: var(--font-heading--family); font-size: clamp(28px, 3vw, 44px); line-height: 1.1; overflow-wrap: anywhere; }
+  .gem-search-hero h1 { min-width: 0; max-width: 100%; margin: 0 0 10px; font-family: var(--font-heading--family); font-size: clamp(28px, 3vw, 44px); line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .gem-search-hero h1 span { color: var(--search-accent); }
   .gem-search-hero p { margin: 0; }
   .gem-search-hero__form { min-width: 0; }

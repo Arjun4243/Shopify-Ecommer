@@ -13,6 +13,7 @@
     "home": "Home",
     "heading": "Search results for",
     "summary": "Showing {{ count }} results related to “{{ terms }}”",
+    "result_count": "Showing {{ count }} results",
     "count": "{{ count }} products found",
     "filters": "Filter results",
     "availability": "Availability",
