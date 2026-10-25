@@ -98,7 +98,7 @@
         <h2>{{ section.settings.filters_heading }}</h2>
         <div class="jewellery-filters__header-actions">
           <button type="button" data-clear-filters>{{ section.settings.clear_filters_text }}</button>
-          <button class="jewellery-filters__close" type="button" aria-label="{{ 'actions.close' | t }}" data-filter-close>X</button>
+          <button class="jewellery-filters__close" type="button" aria-label="{{ 'actions.close' | t }}" data-filter-close onclick="const page = this.closest('[data-jewellery-page]'); page.classList.remove('is-filter-drawer-open'); page.querySelector('[data-filter-toggle]').setAttribute('aria-expanded', 'false'); page.querySelector('[data-filter-drawer]').setAttribute('aria-hidden', 'true');" onpointerdown="const page = this.closest('[data-jewellery-page]'); page.classList.remove('is-filter-drawer-open'); page.querySelector('[data-filter-toggle]').setAttribute('aria-expanded', 'false'); page.querySelector('[data-filter-drawer]').setAttribute('aria-hidden', 'true');">X</button>
         </div>
       </div>
 
@@ -284,7 +284,7 @@
         {% endunless %}
       </div>
     </aside>
-    <button class="jewellery-filters__scrim" type="button" aria-label="{{ 'actions.close' | t }}" data-filter-close></button>
+    <button class="jewellery-filters__scrim" type="button" aria-label="{{ 'actions.close' | t }}" data-filter-close onclick="const page = this.closest('[data-jewellery-page]'); page.classList.remove('is-filter-drawer-open'); page.querySelector('[data-filter-toggle]').setAttribute('aria-expanded', 'false'); page.querySelector('[data-filter-drawer]').setAttribute('aria-hidden', 'true');" onpointerdown="const page = this.closest('[data-jewellery-page]'); page.classList.remove('is-filter-drawer-open'); page.querySelector('[data-filter-toggle]').setAttribute('aria-expanded', 'false'); page.querySelector('[data-filter-drawer]').setAttribute('aria-hidden', 'true');"></button>
 
     <main class="jewellery-main">
       <section class="shop-by-collection">
@@ -344,6 +344,8 @@
             aria-controls="JewelleryFilters-{{ section.id }}"
             aria-expanded="false"
             data-filter-toggle
+            onclick="const page = this.closest('[data-jewellery-page]'); page.classList.add('is-filter-drawer-open'); this.setAttribute('aria-expanded', 'true'); page.querySelector('[data-filter-drawer]').setAttribute('aria-hidden', 'false');"
+            onpointerdown="const page = this.closest('[data-jewellery-page]'); page.classList.add('is-filter-drawer-open'); this.setAttribute('aria-expanded', 'true'); page.querySelector('[data-filter-drawer]').setAttribute('aria-hidden', 'false');"
           >
             {{ 'actions.show_filters' | t }}
           </button>
@@ -970,9 +972,73 @@
     }
 
     .jewellery-filters {
-      position: static;
-      max-block-size: none;
-      overflow-y: visible;
+      position: fixed;
+      z-index: 60;
+      inset-block: 0;
+      inset-inline-start: 0;
+      block-size: 100dvh;
+      max-block-size: 100dvh;
+      width: min(86vw, 360px);
+      max-width: 100%;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      border-radius: 0;
+      transform: translateX(-100%);
+      transition: transform 220ms ease;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    [dir='rtl'] .jewellery-filters {
+      transform: translateX(100%);
+    }
+
+    .jewellery-page.is-filter-drawer-open .jewellery-filters {
+      transform: translateX(0) !important;
+      visibility: visible;
+    }
+
+    .jewellery-filter-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border: 1px solid #e5e0d8;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #14243b;
+      padding-inline: 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgb(17 24 39 / 8%);
+    }
+
+    .jewellery-filters__close {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: #111827;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .jewellery-filters__scrim {
+      position: fixed;
+      z-index: 50;
+      inset: 0;
+      display: block;
+      border: 0;
+      background: rgb(17 24 39 / 44%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .jewellery-page.is-filter-drawer-open .jewellery-filters__scrim {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .jewellery-products__grid {
@@ -1039,7 +1105,8 @@
     }
 
     .jewellery-page.is-filter-drawer-open .jewellery-filters {
-      transform: translateX(0);
+      transform: translateX(0) !important;
+      visibility: visible;
     }
 
     .jewellery-filters__close {
@@ -1166,8 +1233,6 @@
   const initJewelleryPage = (page) => {
     if (page.dataset.jewelleryPageInitialized === 'true') return;
 
-    page.dataset.jewelleryPageInitialized = 'true';
-
     const priceFilter = page.querySelector('[data-price-filter]');
     const priceOutput = page.querySelector('[data-price-output]');
     const colorFilters = page.querySelectorAll('[data-color-filter]');
@@ -1181,8 +1246,12 @@
     const filterCloseButtons = page.querySelectorAll('[data-filter-close]');
     const wishlistStorageKey = 'raza-gems-wishlist';
     const wishlistButtons = page.querySelectorAll('[data-jewellery-wishlist]');
-    const mobileMedia = window.matchMedia('(max-width: 749px)');
+    const mobileMedia = window.matchMedia('(max-width: 1100px)');
     let filterToggleReturn = null;
+
+    if (!filterToggle || !filterDrawer) return;
+
+    page.dataset.jewelleryPageInitialized = 'true';
 
     const getWishlist = () => JSON.parse(localStorage.getItem(wishlistStorageKey) || '[]');
     const setWishlist = (wishlist) => localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlist));
@@ -1203,8 +1272,6 @@
     };
 
     const openFilterDrawer = () => {
-      if (!mobileMedia.matches) return;
-
       filterToggleReturn = document.activeElement;
       page.classList.add('is-filter-drawer-open');
       filterToggle?.setAttribute('aria-expanded', 'true');
@@ -1285,7 +1352,7 @@
     colorFilters.forEach((input) => input.addEventListener('change', applyFilters));
     shapeFilters.forEach((input) => input.addEventListener('change', applyFilters));
     sortSelect?.addEventListener('change', sortProducts);
-    filterToggle?.addEventListener('click', openFilterDrawer);
+    filterToggle?.addEventListener('click', openFilterDrawer, { capture: true });
     filterCloseButtons.forEach((button) => button.addEventListener('click', closeFilterDrawer));
 
     document.addEventListener('keydown', (event) => {
