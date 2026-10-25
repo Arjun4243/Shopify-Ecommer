@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 0.82 ct Cabochon Rock Crystal Quartz
+
+certificate_number: DEMO-GEM-041
+certification_laboratory: GRA
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Zambia
+dimensions: 6.81 x 5.11 x 3.17 mm
+carat_range: 0-1 Carat
+actual_carat_weight: 0.82
+color: White / Colorless
+cut: Cabochon
+shape: Cabochon
+gemstone_type: Rock Crystal Quartz
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

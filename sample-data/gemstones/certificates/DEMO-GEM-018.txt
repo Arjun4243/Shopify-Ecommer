@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 1.49 ct Heart Amethyst
+
+certificate_number: DEMO-GEM-018
+certification_laboratory: Lotus
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Thailand
+dimensions: 7.43 x 7.43 x 4.61 mm
+carat_range: 1-2 Carats
+actual_carat_weight: 1.49
+color: Purple
+cut: Brilliant Cut
+shape: Heart
+gemstone_type: Amethyst
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

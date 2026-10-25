@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 0.74 ct Emerald Black Spinel
+
+certificate_number: DEMO-GEM-009
+certification_laboratory: GRA
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Sri Lanka
+dimensions: 6.71 x 5.03 x 3.12 mm
+carat_range: 0-1 Carat
+actual_carat_weight: 0.74
+color: Black
+cut: Step Cut
+shape: Emerald
+gemstone_type: Black Spinel
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

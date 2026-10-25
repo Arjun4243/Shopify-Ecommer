@@ -1,0 +1,297 @@
+{
+  "status": "LOCAL_ENTRIES_NOT_CREATED_IN_SHOPIFY",
+  "definition": {
+    "displayName": "Gemstone Topic",
+    "expectedType": "gemstone_topic",
+    "expectedTitleField": "title",
+    "requiresStoreSchemaVerification": true
+  },
+  "articleMetafield": {
+    "namespace": "custom",
+    "key": "gemstone_topic",
+    "type": "metaobject_reference"
+  },
+  "topicCount": 20,
+  "entries": [
+    {
+      "handle": "ruby",
+      "title": "Ruby",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Ruby"
+        }
+      ],
+      "articleHandles": [
+        "ruby-buying-guide-comparing-red-color-cut-and-disclosure"
+      ],
+      "suggestedImageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "handle": "sapphire",
+      "title": "Sapphire",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Sapphire"
+        }
+      ],
+      "articleHandles": [
+        "sapphire-beyond-blue-a-guide-to-choosing-your-color"
+      ],
+      "suggestedImageLocalPath": "assets/demo-round-blue-003.jpg"
+    },
+    {
+      "handle": "emerald",
+      "title": "Emerald",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Emerald"
+        }
+      ],
+      "articleHandles": [
+        "emerald-shopping-looking-beyond-a-beautiful-green-photograph"
+      ],
+      "suggestedImageLocalPath": "assets/demo-round-green-004.jpg"
+    },
+    {
+      "handle": "amethyst",
+      "title": "Amethyst",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Amethyst"
+        }
+      ],
+      "articleHandles": [
+        "amethyst-planning-a-jewellery-design-around-purple"
+      ],
+      "suggestedImageLocalPath": "assets/demo-oval-purple-007.jpg"
+    },
+    {
+      "handle": "citrine",
+      "title": "Citrine",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Citrine"
+        }
+      ],
+      "articleHandles": [
+        "citrine-building-a-warm-yellow-gemstone-shortlist"
+      ],
+      "suggestedImageLocalPath": "assets/demo-oval-yellow-005.jpg"
+    },
+    {
+      "handle": "garnet",
+      "title": "Garnet",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Garnet"
+        }
+      ],
+      "articleHandles": [
+        "garnet-is-a-family-asking-better-questions-about-your-stone"
+      ],
+      "suggestedImageLocalPath": "assets/demo-oval-orange-006.jpg"
+    },
+    {
+      "handle": "spinel",
+      "title": "Spinel",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Spinel"
+        }
+      ],
+      "articleHandles": [
+        "spinel-keeping-identity-separate-from-color"
+      ],
+      "suggestedImageLocalPath": "assets/demo-emerald-black-009.jpg"
+    },
+    {
+      "handle": "tourmaline",
+      "title": "Tourmaline",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Tourmaline"
+        }
+      ],
+      "articleHandles": [
+        "bi-color-tourmaline-designing-around-more-than-one-color"
+      ],
+      "suggestedImageLocalPath": "assets/demo-emerald-multi-color-011.jpg"
+    },
+    {
+      "handle": "quartz",
+      "title": "Quartz",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Quartz"
+        }
+      ],
+      "articleHandles": [
+        "quartz-jewellery-comparing-purple-yellow-and-colorless-designs"
+      ],
+      "suggestedImageLocalPath": "assets/demo-oval-white-colorless-008.jpg"
+    },
+    {
+      "handle": "gemstone-shapes",
+      "title": "Gemstone Shapes",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Shapes"
+        }
+      ],
+      "articleHandles": [
+        "gemstone-shapes-explained-outline-and-faceting-are-different-choices"
+      ],
+      "suggestedImageLocalPath": "assets/demo-asscher-blue-025.jpg"
+    },
+    {
+      "handle": "gemstone-color",
+      "title": "Gemstone Color",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Color"
+        }
+      ],
+      "articleHandles": [
+        "gemstone-color-describing-what-you-see-more-clearly"
+      ],
+      "suggestedImageLocalPath": "assets/demo-cushion-green-037.jpg"
+    },
+    {
+      "handle": "carat-weight",
+      "title": "Carat Weight",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Carat Weight"
+        }
+      ],
+      "articleHandles": [
+        "carat-weight-and-gemstone-size-read-both-before-you-choose"
+      ],
+      "suggestedImageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "handle": "gemstone-origins",
+      "title": "Gemstone Origins",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Origins"
+        }
+      ],
+      "articleHandles": [
+        "gemstone-origins-what-a-country-name-can-and-cannot-tell-you"
+      ],
+      "suggestedImageLocalPath": "assets/demo-pear-blue-014.jpg"
+    },
+    {
+      "handle": "laboratory-reports",
+      "title": "Laboratory Reports",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Laboratory Reports"
+        }
+      ],
+      "articleHandles": [
+        "how-to-read-a-colored-gemstone-laboratory-report"
+      ],
+      "suggestedImageLocalPath": "assets/demo-emerald-red-012.jpg"
+    },
+    {
+      "handle": "gemstone-treatments",
+      "title": "Gemstone Treatments",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Treatments"
+        }
+      ],
+      "articleHandles": [
+        "gemstone-treatments-questions-worth-asking-before-you-buy"
+      ],
+      "suggestedImageLocalPath": "assets/demo-cushion-yellow-038.jpg"
+    },
+    {
+      "handle": "gemstone-identity",
+      "title": "Gemstone Identity",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Identity"
+        }
+      ],
+      "articleHandles": [
+        "natural-laboratory-grown-and-imitation-gems-clearer-buying-language"
+      ],
+      "suggestedImageLocalPath": "assets/demo-round-pink-002.jpg"
+    },
+    {
+      "handle": "gemstone-care",
+      "title": "Gemstone Care",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Care"
+        }
+      ],
+      "articleHandles": [
+        "a-simple-gemstone-care-record-for-your-jewellery"
+      ],
+      "suggestedImageLocalPath": "assets/demo-cabochon-white-colorless-041.jpg"
+    },
+    {
+      "handle": "gemstone-jewellery",
+      "title": "Gemstone Jewellery",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Jewellery"
+        }
+      ],
+      "articleHandles": [
+        "choosing-a-gemstone-for-a-ring-pendant-or-earrings"
+      ],
+      "suggestedImageLocalPath": "assets/demo-heart-purple-018.jpg"
+    },
+    {
+      "handle": "gemstone-buying",
+      "title": "Gemstone Buying",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Buying"
+        }
+      ],
+      "articleHandles": [
+        "your-first-loose-gemstone-a-practical-shortlisting-method"
+      ],
+      "suggestedImageLocalPath": "assets/demo-princess-white-colorless-030.jpg"
+    },
+    {
+      "handle": "gemstone-photography",
+      "title": "Gemstone Photography",
+      "fields": [
+        {
+          "key": "title",
+          "value": "Gemstone Photography"
+        }
+      ],
+      "articleHandles": [
+        "gemstone-photographs-what-to-request-before-choosing-online"
+      ],
+      "suggestedImageLocalPath": "assets/demo-marquise-multi-color-033.jpg"
+    }
+  ]
+}

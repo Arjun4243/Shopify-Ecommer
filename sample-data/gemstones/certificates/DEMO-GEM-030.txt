@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 5.71 ct Princess Rock Crystal Quartz
+
+certificate_number: DEMO-GEM-030
+certification_laboratory: GRS
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Zambia
+dimensions: 9.36 x 9.36 x 5.80 mm
+carat_range: 5-6 Carats
+actual_carat_weight: 5.71
+color: White / Colorless
+cut: Brilliant Cut
+shape: Princess
+gemstone_type: Rock Crystal Quartz
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

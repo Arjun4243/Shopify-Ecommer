@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 2.37 ct Emerald Bi-Color Tourmaline
+
+certificate_number: DEMO-GEM-011
+certification_laboratory: IGI
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Russia
+dimensions: 8.00 x 6.00 x 3.72 mm
+carat_range: 2-3 Carats
+actual_carat_weight: 2.37
+color: Multi-Color
+cut: Step Cut
+shape: Emerald
+gemstone_type: Bi-Color Tourmaline
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

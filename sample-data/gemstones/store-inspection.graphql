@@ -1,0 +1,18 @@
+query GemstoneCatalogInspection {
+  shop { id name myshopifyDomain }
+  collections(first: 100) {
+    nodes {
+      id
+      title
+      handle
+      ruleSet { appliedDisjunctively rules { column relation condition } }
+      group: metafield(namespace: "custom", key: "collection_group") { value type }
+    }
+    pageInfo { hasNextPage endCursor }
+  }
+  metafieldDefinitions(first: 100, ownerType: PRODUCT, namespace: "custom") {
+    nodes { id key type { name } validations { name value } }
+    pageInfo { hasNextPage endCursor }
+  }
+  products(first: 1) { nodes { id title } }
+}

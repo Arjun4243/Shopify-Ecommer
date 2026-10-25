@@ -1,0 +1,1677 @@
+{
+  "shop": {
+    "id": "gid://shopify/Shop/100363534631",
+    "name": "My Store",
+    "myshopifyDomain": "4ps5b6-hv.myshopify.com"
+  },
+  "collections": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Collection/522946117927",
+        "title": "Ruby",
+        "handle": "ruby",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "ruby"
+            }
+          ]
+        },
+        "group": {
+          "value": "precious",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/523664359719",
+        "title": "Emerald",
+        "handle": "emerald",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Emerald"
+            }
+          ]
+        },
+        "group": {
+          "value": "precious",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/523664490791",
+        "title": "Blue Sapphire",
+        "handle": "blue-sapphire",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "blue sapphire"
+            }
+          ]
+        },
+        "group": {
+          "value": "precious",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/523664523559",
+        "title": "Yellow Sapphire",
+        "handle": "yellow-sapphire",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "yellow sapphire"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664556327",
+        "title": "Pink Sapphire",
+        "handle": "pink-sapphire",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "pink sapphire"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664589095",
+        "title": "White Sapphire",
+        "handle": "white-sapphire",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "white sapphire"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664621863",
+        "title": "Gomed",
+        "handle": "gomed",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "gomed"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664654631",
+        "title": "Opal",
+        "handle": "opal",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "opal"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664687399",
+        "title": "Tanzanite",
+        "handle": "tanzanite",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "tanzanite"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664720167",
+        "title": "Kunzite",
+        "handle": "kunzite",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "kunzite"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664752935",
+        "title": "Spinel",
+        "handle": "spinel",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "spinel"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664785703",
+        "title": "Diamond",
+        "handle": "diamond",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "diamond"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664818471",
+        "title": "Morganite",
+        "handle": "morganite",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "morganite"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664884007",
+        "title": "Pearl",
+        "handle": "pearl",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "pearl"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664916775",
+        "title": "Sphene",
+        "handle": "sphene",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "sphene"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664949543",
+        "title": "Coral",
+        "handle": "coral",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "coral"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523664982311",
+        "title": "Aquamarine",
+        "handle": "aquamarine",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "aquamarine"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665441063",
+        "title": "Amethyst",
+        "handle": "amethyst",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Amethyst"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665539367",
+        "title": "Garnet",
+        "handle": "garnet",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Garnet"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665572135",
+        "title": "Topaz",
+        "handle": "topaz",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Topaz"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665604903",
+        "title": "Citrine",
+        "handle": "citrine",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Citrine"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665637671",
+        "title": "Moonstone",
+        "handle": "moonstone",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Moonstone"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665670439",
+        "title": "Turquoise",
+        "handle": "turquoise",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Turquoise"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665834279",
+        "title": "Labradorite",
+        "handle": "labradorite",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Labradorite"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665899815",
+        "title": "Lapis Lazuli",
+        "handle": "lapis-lazuli",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Lapis Lazuli"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665932583",
+        "title": "Lapis Lazuli",
+        "handle": "lapis-lazuli-1",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Lapis Lazuli"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665965351",
+        "title": "Black Agate",
+        "handle": "black-agate",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Black Agate"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523665998119",
+        "title": "Carnelian",
+        "handle": "carnelian",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Carnelian"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666030887",
+        "title": "Howlite",
+        "handle": "howlite",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Howlite"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666063655",
+        "title": "Rose Quartz",
+        "handle": "rose-quartz",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Rose Quartz"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666129191",
+        "title": "Ametrine",
+        "handle": "ametrine",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Ametrine"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666161959",
+        "title": "Smoky Quartz",
+        "handle": "smoky-quartz",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Smoky Quartz"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666194727",
+        "title": "Lemon Topaz",
+        "handle": "lemon-topaz",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Lemon Topaz"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666325799",
+        "title": "Green Onex",
+        "handle": "green-onex",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Green Onex"
+            }
+          ]
+        },
+        "group": null
+      },
+      {
+        "id": "gid://shopify/Collection/523666358567",
+        "title": "Peridot",
+        "handle": "peridot",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Peridot"
+            }
+          ]
+        },
+        "group": {
+          "value": "semi-precious",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/523666391335",
+        "title": "Ring",
+        "handle": "ring",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Ring"
+            }
+          ]
+        },
+        "group": {
+          "value": "jewellery",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/523666456871",
+        "title": "Earring",
+        "handle": "earring",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Earring"
+            }
+          ]
+        },
+        "group": {
+          "value": "jewellery",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/523666522407",
+        "title": "Pendant",
+        "handle": "pendant",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Pendant"
+            }
+          ]
+        },
+        "group": {
+          "value": "jewellery",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524890276135",
+        "title": "Red",
+        "handle": "red",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Red"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524890439975",
+        "title": "Green",
+        "handle": "green",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Green"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524890702119",
+        "title": "Blue",
+        "handle": "blue",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Blue"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524891193639",
+        "title": "Pink",
+        "handle": "pink",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Pink"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524891226407",
+        "title": "Yellow",
+        "handle": "yellow",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Yellow"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524891717927",
+        "title": "Orange",
+        "handle": "orange",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Orange"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524891848999",
+        "title": "Purple",
+        "handle": "purple",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Purple"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524891914535",
+        "title": "Brown",
+        "handle": "brown",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Brown"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524892471591",
+        "title": "Grey",
+        "handle": "grey",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Grey"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524892504359",
+        "title": "White",
+        "handle": "white",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "White"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524892537127",
+        "title": "Black",
+        "handle": "black",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Black"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524892602663",
+        "title": "Colorless",
+        "handle": "colorless",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Colorless"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524892668199",
+        "title": "Bi",
+        "handle": "bi",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "BI"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524892766503",
+        "title": "Multi",
+        "handle": "multi",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Multi"
+            }
+          ]
+        },
+        "group": {
+          "value": "color",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895060263",
+        "title": "Afghanistan",
+        "handle": "afghanistan",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Afghanistan"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895158567",
+        "title": "Africa",
+        "handle": "africa",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Africa"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895289639",
+        "title": "Burma",
+        "handle": "burma-1",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Burma"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895387943",
+        "title": "Mozambique",
+        "handle": "mozambique",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Mozambique"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895715623",
+        "title": "Russia",
+        "handle": "russia",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Russia"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895846695",
+        "title": "India",
+        "handle": "india",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "India"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524895944999",
+        "title": "Sri Lanka",
+        "handle": "sri-lanka",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Sri Lanka"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524896010535",
+        "title": "Zambia",
+        "handle": "zambia",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Zambia"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524896043303",
+        "title": "Thailand",
+        "handle": "thailand",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Thailand"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524896108839",
+        "title": "Italian",
+        "handle": "italian",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Italian"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524896239911",
+        "title": "Ethiopia",
+        "handle": "ethiopia",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Ethiopia"
+            }
+          ]
+        },
+        "group": {
+          "value": "country",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978356519",
+        "title": "Round",
+        "handle": "round",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Round"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978389287",
+        "title": "Oval",
+        "handle": "oval",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Oval"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978422055",
+        "title": "Emerald",
+        "handle": "emerald-1",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Emerald"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978454823",
+        "title": "Pear",
+        "handle": "pear",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Pear"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978520359",
+        "title": "Heart",
+        "handle": "heart",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Heart"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978585895",
+        "title": "Trilliant",
+        "handle": "trilliant",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Trilliant"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978618663",
+        "title": "Asscher",
+        "handle": "asscher",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Asscher"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978684199",
+        "title": "Princess",
+        "handle": "princess",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Princess"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978913575",
+        "title": "Marquise",
+        "handle": "marquise",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Marquise"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524978946343",
+        "title": "Cushion",
+        "handle": "cushion",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Cushion"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979044647",
+        "title": "Cabochon",
+        "handle": "cabochon",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Cabochon"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979110183",
+        "title": "Baguette",
+        "handle": "baguette",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Baguette"
+            }
+          ]
+        },
+        "group": {
+          "value": "shape",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979339559",
+        "title": "AIG",
+        "handle": "aig",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "AIG"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979405095",
+        "title": "GGTL",
+        "handle": "ggtl",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "GGTL"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979503399",
+        "title": "GIA",
+        "handle": "gia",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "GIA"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979568935",
+        "title": "GRS",
+        "handle": "grs",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "GRS"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979634471",
+        "title": "IDL",
+        "handle": "idl",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "IDL"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979765543",
+        "title": "Lotus",
+        "handle": "lotus",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "Lotus"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979831079",
+        "title": "IGI",
+        "handle": "igi",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "IGI"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      },
+      {
+        "id": "gid://shopify/Collection/524979863847",
+        "title": "GRA",
+        "handle": "gra",
+        "ruleSet": {
+          "appliedDisjunctively": false,
+          "rules": [
+            {
+              "column": "TAG",
+              "relation": "EQUALS",
+              "condition": "GRA"
+            }
+          ]
+        },
+        "group": {
+          "value": "certificate",
+          "type": "single_line_text_field"
+        }
+      }
+    ],
+    "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": "eyJsYXN0X2lkIjo1MjQ5Nzk4NjM4NDcsImxhc3RfdmFsdWUiOiI1MjQ5Nzk4NjM4NDcifQ=="
+    }
+  },
+  "metafieldDefinitions": {
+    "nodes": [
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956051751",
+        "key": "gemstone_group",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Precious\",\"Semi-Precious\",\"Jewellery\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956084519",
+        "key": "gemstone_type",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Ruby\",\"Emerald\",\"Blue Sapphire\",\"Yellow Sapphire\",\"Pink Sapphire\",\"White Sapphire\",\"Gomed\",\"Opal\",\"Tanzanite\",\"Kunzite\",\"Spinel\",\"Diamond\",\"Morganite\",\"Pearl\",\"Sphene\",\"Coral\",\"Aquamarine\",\"Amethyst\",\"Garnet\",\"Topaz\",\"Citrine\",\"Moonstone\",\"Turquoise\",\"Labradorite\",\"Lapis Lazuli\",\"Black Agate\",\"Carnelian\",\"Howlite\",\"Rose Quartz\",\"Ametrine\",\"Smoky Quartz\",\"Lemon Topaz\",\"Green Onex\",\"Peridot\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956117287",
+        "key": "shape",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Round\",\"Oval\",\"Emerald\",\"Pear\",\"Heart\",\"Trilliant\",\"Asscher\",\"Princess\",\"Marquise\",\"Cushion\",\"Cabochon\",\"Baguette\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956150055",
+        "key": "cut",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Brilliant Cut\",\"Cabochon Cut\",\"Step Cut\",\"Mixed Cut\",\"Rose Cut\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956182823",
+        "key": "color",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Red\",\"Pink\",\"Blue\",\"Green\",\"Yellow\",\"Orange\",\"Purple\",\"White / Colorless\",\"Black\",\"Brown\",\"Multi-Color\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956215591",
+        "key": "actual_carat_weight",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": []
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956248359",
+        "key": "carat_range",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"0-1 Carat\",\"1-2 Carats\",\"2-3 Carats\",\"3-4 Carats\",\"4-5 Carats\",\"5-6 Carats\",\"6-10 Carats\",\"10+ Carats\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956281127",
+        "key": "dimensions",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": []
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956313895",
+        "key": "country_of_origin",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Mozambique\",\"Burma\",\"Africa\",\"Afghanistan\",\"Ethiopia\",\"Italian\",\"Thailand\",\"Zambia\",\"Sri Lanka\",\"India\",\"Russia\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956346663",
+        "key": "treatment",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Untreated\",\"Heated\",\"Irradiated\",\"Oil Treated\",\"Filled\",\"Other\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956379431",
+        "key": "certification_status",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"Certified\",\"Not Certified\",\"Available on Request\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956412199",
+        "key": "certification_laboratory",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": [
+          {
+            "name": "choices",
+            "value": "[\"GRA\",\"Lotus\",\"IGI\",\"AIG\",\"IDL\",\"GRS\",\"GIA\",\"GGTL\"]"
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956444967",
+        "key": "certificate_number",
+        "type": {
+          "name": "single_line_text_field"
+        },
+        "validations": []
+      },
+      {
+        "id": "gid://shopify/MetafieldDefinition/264956477735",
+        "key": "certificate_file",
+        "type": {
+          "name": "file_reference"
+        },
+        "validations": []
+      }
+    ],
+    "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": "eyJsYXN0X2lkIjoyNjQ5NTY0Nzc3MzUsImxhc3RfdmFsdWUiOiIyNjQ5NTY0Nzc3MzUifQ=="
+    }
+  },
+  "products": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Product/10451964133671",
+        "title": "Ruby"
+      }
+    ]
+  }
+}

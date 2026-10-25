@@ -10,8 +10,16 @@
 {
   "sections": {
     "gemstone_landing": {
-      "type": "gemstone-landing",
-      "settings": {}
+      "type": "gemstone-editorial-home",
+      "settings": {
+        "hero_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/ethical-gemstones-origins-hero.png?v=1792507847",
+        "hero_cta_link": "/collections",
+        "blog": "news",
+        "article_count": 3,
+        "certification_group": "certificate",
+        "about_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp?v=1790332980",
+        "about_cta_link": "/pages/about"
+      }
     }
   },
   "order": [

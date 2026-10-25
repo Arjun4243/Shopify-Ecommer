@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 4.63 ct Cushion Emerald
+
+certificate_number: DEMO-GEM-037
+certification_laboratory: IDL
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Afghanistan
+dimensions: 9.00 x 9.00 x 5.58 mm
+carat_range: 4-5 Carats
+actual_carat_weight: 4.63
+color: Green
+cut: Brilliant Cut
+shape: Cushion
+gemstone_type: Emerald
+gemstone_group: Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 2.39 ct Heart Rock Crystal Quartz
+
+certificate_number: DEMO-GEM-019
+certification_laboratory: IGI
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Zambia
+dimensions: 8.01 x 8.01 x 4.97 mm
+carat_range: 2-3 Carats
+actual_carat_weight: 2.39
+color: White / Colorless
+cut: Brilliant Cut
+shape: Heart
+gemstone_type: Rock Crystal Quartz
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

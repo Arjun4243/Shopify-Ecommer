@@ -1,0 +1,62 @@
+{
+  "Country": {
+    "Mozambique": 5,
+    "Burma": 5,
+    "Africa": 5,
+    "Afghanistan": 5,
+    "Ethiopia": 4,
+    "Italian": 4,
+    "Thailand": 4,
+    "Zambia": 4,
+    "Sri Lanka": 4,
+    "India": 4,
+    "Russia": 4
+  },
+  "certificate": {
+    "GRA": 6,
+    "Lotus": 6,
+    "IGI": 6,
+    "AIG": 6,
+    "IDL": 6,
+    "GRS": 6,
+    "GIA": 6,
+    "GGTL": 6
+  },
+  "Carat": {
+    "0-1 Carat": 6,
+    "1-2 Carats": 6,
+    "2-3 Carats": 6,
+    "3-4 Carats": 6,
+    "4-5 Carats": 6,
+    "5-6 Carats": 6,
+    "6-10 Carats": 6,
+    "10+ Carats": 6
+  },
+  "Color": {
+    "Red": 5,
+    "Pink": 5,
+    "Blue": 5,
+    "Green": 5,
+    "Yellow": 4,
+    "Orange": 4,
+    "Purple": 4,
+    "White / Colorless": 4,
+    "Black": 4,
+    "Brown": 4,
+    "Multi-Color": 4
+  },
+  "Shape": {
+    "Round": 4,
+    "Oval": 4,
+    "Emerald": 4,
+    "Pear": 4,
+    "Heart": 4,
+    "Trilliant": 4,
+    "Asscher": 4,
+    "Princess": 4,
+    "Marquise": 4,
+    "Cushion": 4,
+    "Cabochon": 4,
+    "Baguette": 4
+  }
+}

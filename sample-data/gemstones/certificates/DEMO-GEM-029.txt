@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 4.61 ct Princess Amethyst
+
+certificate_number: DEMO-GEM-029
+certification_laboratory: IDL
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Thailand
+dimensions: 8.99 x 8.99 x 5.57 mm
+carat_range: 4-5 Carats
+actual_carat_weight: 4.61
+color: Purple
+cut: Brilliant Cut
+shape: Princess
+gemstone_type: Amethyst
+gemstone_group: Semi Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

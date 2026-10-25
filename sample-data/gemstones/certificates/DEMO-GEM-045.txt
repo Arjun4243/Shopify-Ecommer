@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 4.65 ct Baguette Ruby
+
+certificate_number: DEMO-GEM-045
+certification_laboratory: IDL
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Mozambique
+dimensions: 9.01 x 5.59 x 3.47 mm
+carat_range: 4-5 Carats
+actual_carat_weight: 4.65
+color: Red
+cut: Step Cut
+shape: Baguette
+gemstone_type: Ruby
+gemstone_group: Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

@@ -1,0 +1,18 @@
+SAMPLE DATA SHEET - NOT A LABORATORY CERTIFICATE
+
+[Sample] 5.67 ct Pear Blue Sapphire
+
+certificate_number: DEMO-GEM-014
+certification_laboratory: GRS
+certification_status: Demo - not certified
+treatment: Unknown / not tested
+country_of_origin: Africa
+dimensions: 9.35 x 7.01 x 4.35 mm
+carat_range: 5-6 Carats
+actual_carat_weight: 5.67
+color: Blue
+cut: Brilliant Cut
+shape: Pear
+gemstone_type: Blue Sapphire
+gemstone_group: Precious
+disclosures: Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.

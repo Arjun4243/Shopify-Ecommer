@@ -181,7 +181,6 @@
     };
 
     newsletterForm.addEventListener('submit', savePosition, { capture: true });
-    window.addEventListener('beforeunload', savePosition);
 
     let savedPosition;
     try {
@@ -559,36 +558,34 @@
     }
 
     .raza-footer__form {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr) 150px;
       width: 100%;
       max-width: none;
-      height: auto;
-      border-radius: 28px;
+      height: 56px;
+      border-radius: 999px;
     }
 
     .raza-footer__form input,
     .raza-footer__form button {
       width: 100%;
       box-sizing: border-box;
-      min-height: 48px;
     }
 
     .raza-footer__form button {
       width: 150px !important;
       min-width: 150px !important;
-      height: 48px !important;
-      min-height: 48px !important;
+      height: 54px !important;
+      min-height: 54px !important;
       inline-size: 150px !important;
-      block-size: 48px !important;
-      justify-self: end;
+      block-size: 54px !important;
     }
 
     .raza-footer__form button:active {
       width: 150px !important;
       min-width: 150px !important;
-      height: 48px !important;
+      height: 54px !important;
       inline-size: 150px !important;
-      block-size: 48px !important;
+      block-size: 54px !important;
     }
   }
 {% endstylesheet %}

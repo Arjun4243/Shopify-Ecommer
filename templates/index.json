@@ -160,6 +160,19 @@
         "show_mobile_chevrons": true
       }
     },
+    "shop_by_colour": {
+      "type": "gemstone-collection-slider",
+      "settings": {
+        "collections": [],
+        "group_value": "Color",
+        "heading": "Shop by Colour",
+        "subtitle": "Find gemstones in your favourite colour",
+        "show_view_all": false,
+        "view_all_label": "View all",
+        "view_all_link": "",
+        "marquee_duration": 35
+      }
+    },
     "home_second_banner": {
       "type": "home-second-banner",
       "settings": {
@@ -175,17 +188,6 @@
         "feature_3": "Expert Craftsmanship",
         "full_width": true,
         "border_radius": 8
-      }
-    },
-    "shop_by_colour": {
-      "type": "gemstone-collection-slider",
-      "settings": {
-        "group_value": "Color",
-        "heading": "Shop by Colour",
-        "subtitle": "Find gemstones in your favourite colour",
-        "show_view_all": false,
-        "view_all_label": "View all",
-        "marquee_duration": 35
       }
     },
     "shop_by_origin": {
@@ -210,235 +212,79 @@
         "subtitle": "",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
       }
     },
     "shop_by_shape": {
       "type": "gemstone-collection-slider",
       "settings": {
+        "collections": [],
         "group_value": "Shape",
         "heading": "Shop by Shape",
         "subtitle": "Find gemstones by shape",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
       }
     },
     "shop_by_certification": {
       "type": "gemstone-collection-slider",
       "settings": {
+        "collections": [],
         "group_value": "certificate",
         "heading": "Shop by Certification",
         "subtitle": "Browse gemstones by certification",
         "show_view_all": false,
         "view_all_label": "View all",
+        "view_all_link": "",
         "marquee_duration": 35
       }
     },
-    "product_list_fa6P9H": {
-      "type": "product-list",
-      "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
-            "background_color": "",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "custom_button_background": "{{ settings.color_palette.foreground }}",
-                "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
-                "link_text_color": "",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 4,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "square",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_card_gemstone_summary_home": {
-              "type": "product-card-gemstone-summary",
-              "name": "Gemstone summary",
-              "settings": {},
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "product_card_gemstone_summary_home",
-            "price_JQzVV4"
-          ]
-        }
-      },
-      "name": "t:names.product_list",
+    "gemstone_editorial_home": {
+      "type": "gemstone-editorial-home",
       "settings": {
-        "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 6,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 24,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "hero_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/ethical-gemstones-origins-hero.png?v=1792507847",
+        "hero_image_alt": "Colorful gemstones on a warm stone display",
+        "hero_eyebrow": "Raza Gems · Dubai",
+        "hero_heading": "Ethically sourced gemstones from the world’s best origins",
+        "hero_description": "Discover natural gemstones from Sri Lanka, Burma, Zambia, Mozambique and beyond.",
+        "hero_cta_label": "Explore by Origin",
+        "hero_cta_link": "/collections",
+        "blog": "news",
+        "article_count": 3,
+        "articles_eyebrow": "Stories & guides",
+        "articles_heading": "Learn Gemstones",
+        "articles_description": "Find out about gemstone benefits, how to use them, jewellery ideas and much more.",
+        "articles_link_label": "View All Articles",
+        "read_article_label": "Read More",
+        "certification_group": "certificate",
+        "certification_heading": "Our Certifications",
+        "certification_description": "All our gemstones come with trusted international lab certificates.",
+        "benefits_eyebrow": "The Raza Gems promise",
+        "benefits_heading": "Why Choose Raza Gems",
+        "benefit_1_title": "Certified & Natural",
+        "benefit_1_text": "Lab tested gemstones",
+        "benefit_2_title": "Authenticity Guaranteed",
+        "benefit_2_text": "100% genuine stones",
+        "benefit_3_title": "Worldwide Shipping",
+        "benefit_3_text": "Secure & insured",
+        "benefit_4_title": "Expert Guidance",
+        "benefit_4_text": "Personalised support",
+        "benefit_5_title": "Dubai Based",
+        "benefit_5_text": "Since 2005",
+        "about_image_url": "https://cdn.shopify.com/s/files/1/1003/6353/4631/files/About-banner.webp?v=1790332980",
+        "about_image_alt": "Raza Gems gemstone collection",
+        "about_eyebrow": "Our story",
+        "about_heading": "About Raza Gems",
+        "about_description": "Based in Dubai, Raza Gems is a trusted name in natural gemstones and custom jewellery. With years of experience, a passion for authenticity and a commitment to quality, we bring you the finest gemstones from around the world.",
+        "about_cta_label": "Our Story",
+        "about_cta_link": "/pages/about",
+        "newsletter_eyebrow": "Stay in touch",
+        "newsletter_heading": "Join Our Gemstone Community",
+        "newsletter_description": "Get the latest updates, gemstone guides and exclusive offers.",
+        "newsletter_button": "Subscribe"
       }
     },
     "178981965052546672": {
@@ -477,12 +323,12 @@
     "17898196119e1449f5",
     "hero_jVaWmY",
     "trust_benefits_home",
-    "home_second_banner",
     "shop_by_colour",
+    "home_second_banner",
     "shop_by_origin",
     "shop_by_shape",
     "shop_by_certification",
-    "product_list_fa6P9H",
+    "gemstone_editorial_home",
     "178981965052546672"
   ]
 }

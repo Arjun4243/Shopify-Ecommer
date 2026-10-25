@@ -1,0 +1,2831 @@
+{
+  "notice": "FICTIONAL DRAFT CATALOG. All product measurements, provenance and prices are demo values.",
+  "metafieldNamespace": "custom",
+  "metafieldTypes": {
+    "certificate_file": "file_reference",
+    "certificate_number": "single_line_text_field",
+    "certification_laboratory": "single_line_text_field",
+    "certification_status": "single_line_text_field",
+    "treatment": "single_line_text_field",
+    "country_of_origin": "single_line_text_field",
+    "dimensions": "single_line_text_field",
+    "carat_range": "single_line_text_field",
+    "actual_carat_weight": "number_decimal",
+    "color": "single_line_text_field",
+    "cut": "single_line_text_field",
+    "shape": "single_line_text_field",
+    "gemstone_type": "single_line_text_field",
+    "gemstone_group": "single_line_text_field",
+    "disclosures": "multi_line_text_field"
+  },
+  "products": [
+    {
+      "handle": "demo-round-red-001",
+      "title": "[Sample] 0.72 ct Round Ruby",
+      "descriptionHtml": "<p>A red ruby design concept with a round silhouette and brilliant cut finish. This 0.72 ct sample illustrates the 0-1 Carat category.</p><p>Use this draft to preview product photography, specifications and filters for Mozambique origin and the GRA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-001",
+      "price": "86.40",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:mozambique",
+        "certificate:gra",
+        "carat:0-1-carat",
+        "color:red",
+        "shape:round"
+      ],
+      "image": {
+        "localPath": "assets/demo-round-red-001.jpg",
+        "alt": "AI-generated sample round red ruby",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose round brilliant-cut red ruby gemstone, face-up centered, occupying 65% of the frame, on a clean warm off-white background with a subtle contact shadow. Precisely circular outer silhouette, realistic ruby red body color, crisp believable triangular facets and natural small internal inclusions. Soft studio lighting, sharp gem detail. No jewellery, no hands, no text, no watermark, no logos. This is illustrative sample catalog imagery, not a photograph of a verified stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-001.txt",
+        "certificate_number": "DEMO-GEM-001",
+        "certification_laboratory": "GRA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Mozambique",
+        "dimensions": "6.69 x 6.69 x 4.15 mm",
+        "carat_range": "0-1 Carat",
+        "actual_carat_weight": "0.72",
+        "color": "Red",
+        "cut": "Brilliant Cut",
+        "shape": "Round",
+        "gemstone_type": "Ruby",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-round-pink-002",
+      "title": "[Sample] 1.45 ct Round Pink Sapphire",
+      "descriptionHtml": "<p>A pink pink sapphire design concept with a round silhouette and brilliant cut finish. This 1.45 ct sample illustrates the 1-2 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Burma origin and the Lotus laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-002",
+      "price": "210.25",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:burma",
+        "certificate:lotus",
+        "carat:1-2-carats",
+        "color:pink",
+        "shape:round"
+      ],
+      "image": {
+        "localPath": "assets/demo-round-pink-002.jpg",
+        "alt": "AI-generated sample round pink pink sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose pink pink sapphire gemstone with a round shape: perfect circular silhouette and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-002.txt",
+        "certificate_number": "DEMO-GEM-002",
+        "certification_laboratory": "Lotus",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Burma",
+        "dimensions": "7.40 x 7.40 x 4.59 mm",
+        "carat_range": "1-2 Carats",
+        "actual_carat_weight": "1.45",
+        "color": "Pink",
+        "cut": "Brilliant Cut",
+        "shape": "Round",
+        "gemstone_type": "Pink Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-round-blue-003",
+      "title": "[Sample] 2.35 ct Round Blue Sapphire",
+      "descriptionHtml": "<p>A blue blue sapphire design concept with a round silhouette and brilliant cut finish. This 2.35 ct sample illustrates the 2-3 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Africa origin and the IGI laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-003",
+      "price": "399.50",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:africa",
+        "certificate:igi",
+        "carat:2-3-carats",
+        "color:blue",
+        "shape:round"
+      ],
+      "image": {
+        "localPath": "assets/demo-round-blue-003.jpg",
+        "alt": "AI-generated sample round blue blue sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose blue blue sapphire gemstone with a round shape: perfect circular silhouette and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-003.txt",
+        "certificate_number": "DEMO-GEM-003",
+        "certification_laboratory": "IGI",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Africa",
+        "dimensions": "7.99 x 7.99 x 4.95 mm",
+        "carat_range": "2-3 Carats",
+        "actual_carat_weight": "2.35",
+        "color": "Blue",
+        "cut": "Brilliant Cut",
+        "shape": "Round",
+        "gemstone_type": "Blue Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-round-green-004",
+      "title": "[Sample] 3.40 ct Round Emerald",
+      "descriptionHtml": "<p>A green emerald design concept with a round silhouette and brilliant cut finish. This 3.40 ct sample illustrates the 3-4 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Afghanistan origin and the AIG laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-004",
+      "price": "663.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:afghanistan",
+        "certificate:aig",
+        "carat:3-4-carats",
+        "color:green",
+        "shape:round"
+      ],
+      "image": {
+        "localPath": "assets/demo-round-green-004.jpg",
+        "alt": "AI-generated sample round green emerald",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose green emerald gemstone with a round shape: perfect circular silhouette and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-004.txt",
+        "certificate_number": "DEMO-GEM-004",
+        "certification_laboratory": "AIG",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Afghanistan",
+        "dimensions": "8.51 x 8.51 x 5.28 mm",
+        "carat_range": "3-4 Carats",
+        "actual_carat_weight": "3.40",
+        "color": "Green",
+        "cut": "Brilliant Cut",
+        "shape": "Round",
+        "gemstone_type": "Emerald",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-oval-yellow-005",
+      "title": "[Sample] 4.55 ct Oval Citrine",
+      "descriptionHtml": "<p>A yellow citrine design concept with a oval silhouette and brilliant cut finish. This 4.55 ct sample illustrates the 4-5 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Ethiopia origin and the IDL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-005",
+      "price": "1001.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:ethiopia",
+        "certificate:idl",
+        "carat:4-5-carats",
+        "color:yellow",
+        "shape:oval"
+      ],
+      "image": {
+        "localPath": "assets/demo-oval-yellow-005.jpg",
+        "alt": "AI-generated sample oval yellow citrine",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose yellow citrine gemstone with a oval shape: elongated elliptical silhouette with rounded ends and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-005.txt",
+        "certificate_number": "DEMO-GEM-005",
+        "certification_laboratory": "IDL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Ethiopia",
+        "dimensions": "8.97 x 6.73 x 4.17 mm",
+        "carat_range": "4-5 Carats",
+        "actual_carat_weight": "4.55",
+        "color": "Yellow",
+        "cut": "Brilliant Cut",
+        "shape": "Oval",
+        "gemstone_type": "Citrine",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-oval-orange-006",
+      "title": "[Sample] 5.65 ct Oval Spessartine Garnet",
+      "descriptionHtml": "<p>A orange spessartine garnet design concept with a oval silhouette and brilliant cut finish. This 5.65 ct sample illustrates the 5-6 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Italian origin and the GRS laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-006",
+      "price": "1384.25",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:italian",
+        "certificate:grs",
+        "carat:5-6-carats",
+        "color:orange",
+        "shape:oval"
+      ],
+      "image": {
+        "localPath": "assets/demo-oval-orange-006.jpg",
+        "alt": "AI-generated sample oval orange spessartine garnet",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose orange spessartine garnet gemstone with a oval shape: elongated elliptical silhouette with rounded ends and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-006.txt",
+        "certificate_number": "DEMO-GEM-006",
+        "certification_laboratory": "GRS",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Italian",
+        "dimensions": "9.34 x 7.00 x 4.34 mm",
+        "carat_range": "5-6 Carats",
+        "actual_carat_weight": "5.65",
+        "color": "Orange",
+        "cut": "Brilliant Cut",
+        "shape": "Oval",
+        "gemstone_type": "Spessartine Garnet",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-oval-purple-007",
+      "title": "[Sample] 8.20 ct Oval Amethyst",
+      "descriptionHtml": "<p>A purple amethyst design concept with a oval silhouette and brilliant cut finish. This 8.20 ct sample illustrates the 6-10 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Thailand origin and the GIA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-007",
+      "price": "2214.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:thailand",
+        "certificate:gia",
+        "carat:6-10-carats",
+        "color:purple",
+        "shape:oval"
+      ],
+      "image": {
+        "localPath": "assets/demo-oval-purple-007.jpg",
+        "alt": "AI-generated sample oval purple amethyst",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose purple amethyst gemstone with a oval shape: elongated elliptical silhouette with rounded ends and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-007.txt",
+        "certificate_number": "DEMO-GEM-007",
+        "certification_laboratory": "GIA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Thailand",
+        "dimensions": "10.05 x 7.54 x 4.67 mm",
+        "carat_range": "6-10 Carats",
+        "actual_carat_weight": "8.20",
+        "color": "Purple",
+        "cut": "Brilliant Cut",
+        "shape": "Oval",
+        "gemstone_type": "Amethyst",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-oval-white-colorless-008",
+      "title": "[Sample] 12.40 ct Oval Rock Crystal Quartz",
+      "descriptionHtml": "<p>A white / colorless rock crystal quartz design concept with a oval silhouette and brilliant cut finish. This 12.40 ct sample illustrates the 10+ Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Zambia origin and the GGTL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-008",
+      "price": "3658.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:zambia",
+        "certificate:ggtl",
+        "carat:10-carats",
+        "color:white-colorless",
+        "shape:oval"
+      ],
+      "image": {
+        "localPath": "assets/demo-oval-white-colorless-008.jpg",
+        "alt": "AI-generated sample oval white / colorless rock crystal quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose white / colorless rock crystal quartz gemstone with a oval shape: elongated elliptical silhouette with rounded ends and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-008.txt",
+        "certificate_number": "DEMO-GEM-008",
+        "certification_laboratory": "GGTL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Zambia",
+        "dimensions": "10.94 x 8.21 x 5.09 mm",
+        "carat_range": "10+ Carats",
+        "actual_carat_weight": "12.40",
+        "color": "White / Colorless",
+        "cut": "Brilliant Cut",
+        "shape": "Oval",
+        "gemstone_type": "Rock Crystal Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-emerald-black-009",
+      "title": "[Sample] 0.74 ct Emerald Black Spinel",
+      "descriptionHtml": "<p>A black black spinel design concept with a emerald silhouette and step cut finish. This 0.74 ct sample illustrates the 0-1 Carat category.</p><p>Use this draft to preview product photography, specifications and filters for Sri Lanka origin and the GRA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-009",
+      "price": "236.80",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:sri-lanka",
+        "certificate:gra",
+        "carat:0-1-carat",
+        "color:black",
+        "shape:emerald"
+      ],
+      "image": {
+        "localPath": "assets/demo-emerald-black-009.jpg",
+        "alt": "AI-generated sample emerald black black spinel",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose black black spinel gemstone with a emerald shape: rectangular step-cut outline with four clipped corners and parallel steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-009.txt",
+        "certificate_number": "DEMO-GEM-009",
+        "certification_laboratory": "GRA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Sri Lanka",
+        "dimensions": "6.71 x 5.03 x 3.12 mm",
+        "carat_range": "0-1 Carat",
+        "actual_carat_weight": "0.74",
+        "color": "Black",
+        "cut": "Step Cut",
+        "shape": "Emerald",
+        "gemstone_type": "Black Spinel",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-emerald-brown-010",
+      "title": "[Sample] 1.47 ct Emerald Smoky Quartz",
+      "descriptionHtml": "<p>A brown smoky quartz design concept with a emerald silhouette and step cut finish. This 1.47 ct sample illustrates the 1-2 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for India origin and the Lotus laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-010",
+      "price": "507.15",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:india",
+        "certificate:lotus",
+        "carat:1-2-carats",
+        "color:brown",
+        "shape:emerald"
+      ],
+      "image": {
+        "localPath": "assets/demo-emerald-brown-010.jpg",
+        "alt": "AI-generated sample emerald brown smoky quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose brown smoky quartz gemstone with a emerald shape: rectangular step-cut outline with four clipped corners and parallel steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-010.txt",
+        "certificate_number": "DEMO-GEM-010",
+        "certification_laboratory": "Lotus",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "India",
+        "dimensions": "7.41 x 5.56 x 3.45 mm",
+        "carat_range": "1-2 Carats",
+        "actual_carat_weight": "1.47",
+        "color": "Brown",
+        "cut": "Step Cut",
+        "shape": "Emerald",
+        "gemstone_type": "Smoky Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-emerald-multi-color-011",
+      "title": "[Sample] 2.37 ct Emerald Bi-Color Tourmaline",
+      "descriptionHtml": "<p>A multi-color bi-color tourmaline design concept with a emerald silhouette and step cut finish. This 2.37 ct sample illustrates the 2-3 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Russia origin and the IGI laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-011",
+      "price": "876.90",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:russia",
+        "certificate:igi",
+        "carat:2-3-carats",
+        "color:multi-color",
+        "shape:emerald"
+      ],
+      "image": {
+        "localPath": "assets/demo-emerald-multi-color-011.jpg",
+        "alt": "AI-generated sample emerald multi-color bi-color tourmaline",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose multi-color bi-color tourmaline gemstone with a emerald shape: rectangular step-cut outline with four clipped corners and parallel steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-011.txt",
+        "certificate_number": "DEMO-GEM-011",
+        "certification_laboratory": "IGI",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Russia",
+        "dimensions": "8.00 x 6.00 x 3.72 mm",
+        "carat_range": "2-3 Carats",
+        "actual_carat_weight": "2.37",
+        "color": "Multi-Color",
+        "cut": "Step Cut",
+        "shape": "Emerald",
+        "gemstone_type": "Bi-Color Tourmaline",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-emerald-red-012",
+      "title": "[Sample] 3.42 ct Emerald Ruby",
+      "descriptionHtml": "<p>A red ruby design concept with a emerald silhouette and step cut finish. This 3.42 ct sample illustrates the 3-4 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Mozambique origin and the AIG laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-012",
+      "price": "410.40",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:mozambique",
+        "certificate:aig",
+        "carat:3-4-carats",
+        "color:red",
+        "shape:emerald"
+      ],
+      "image": {
+        "localPath": "assets/demo-emerald-red-012.jpg",
+        "alt": "AI-generated sample emerald red ruby",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose red ruby gemstone with a emerald shape: rectangular step-cut outline with four clipped corners and parallel steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-012.txt",
+        "certificate_number": "DEMO-GEM-012",
+        "certification_laboratory": "AIG",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Mozambique",
+        "dimensions": "8.52 x 6.39 x 3.96 mm",
+        "carat_range": "3-4 Carats",
+        "actual_carat_weight": "3.42",
+        "color": "Red",
+        "cut": "Step Cut",
+        "shape": "Emerald",
+        "gemstone_type": "Ruby",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-pear-pink-013",
+      "title": "[Sample] 4.57 ct Pear Pink Sapphire",
+      "descriptionHtml": "<p>A pink pink sapphire design concept with a pear silhouette and brilliant cut finish. This 4.57 ct sample illustrates the 4-5 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Burma origin and the IDL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-013",
+      "price": "662.65",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:burma",
+        "certificate:idl",
+        "carat:4-5-carats",
+        "color:pink",
+        "shape:pear"
+      ],
+      "image": {
+        "localPath": "assets/demo-pear-pink-013.jpg",
+        "alt": "AI-generated sample pear pink pink sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose pink pink sapphire gemstone with a pear shape: teardrop outline with one sharp point and a rounded opposite end. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-013.txt",
+        "certificate_number": "DEMO-GEM-013",
+        "certification_laboratory": "IDL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Burma",
+        "dimensions": "8.98 x 6.74 x 4.18 mm",
+        "carat_range": "4-5 Carats",
+        "actual_carat_weight": "4.57",
+        "color": "Pink",
+        "cut": "Brilliant Cut",
+        "shape": "Pear",
+        "gemstone_type": "Pink Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-pear-blue-014",
+      "title": "[Sample] 5.67 ct Pear Blue Sapphire",
+      "descriptionHtml": "<p>A blue blue sapphire design concept with a pear silhouette and brilliant cut finish. This 5.67 ct sample illustrates the 5-6 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Africa origin and the GRS laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-014",
+      "price": "963.90",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:africa",
+        "certificate:grs",
+        "carat:5-6-carats",
+        "color:blue",
+        "shape:pear"
+      ],
+      "image": {
+        "localPath": "assets/demo-pear-blue-014.jpg",
+        "alt": "AI-generated sample pear blue blue sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose blue blue sapphire gemstone with a pear shape: teardrop outline with one sharp point and a rounded opposite end. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-014.txt",
+        "certificate_number": "DEMO-GEM-014",
+        "certification_laboratory": "GRS",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Africa",
+        "dimensions": "9.35 x 7.01 x 4.35 mm",
+        "carat_range": "5-6 Carats",
+        "actual_carat_weight": "5.67",
+        "color": "Blue",
+        "cut": "Brilliant Cut",
+        "shape": "Pear",
+        "gemstone_type": "Blue Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-pear-green-015",
+      "title": "[Sample] 8.22 ct Pear Emerald",
+      "descriptionHtml": "<p>A green emerald design concept with a pear silhouette and brilliant cut finish. This 8.22 ct sample illustrates the 6-10 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Afghanistan origin and the GIA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-015",
+      "price": "1602.90",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:afghanistan",
+        "certificate:gia",
+        "carat:6-10-carats",
+        "color:green",
+        "shape:pear"
+      ],
+      "image": {
+        "localPath": "assets/demo-pear-green-015.jpg",
+        "alt": "AI-generated sample pear green emerald",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose green emerald gemstone with a pear shape: teardrop outline with one sharp point and a rounded opposite end. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-015.txt",
+        "certificate_number": "DEMO-GEM-015",
+        "certification_laboratory": "GIA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Afghanistan",
+        "dimensions": "10.05 x 7.54 x 4.67 mm",
+        "carat_range": "6-10 Carats",
+        "actual_carat_weight": "8.22",
+        "color": "Green",
+        "cut": "Brilliant Cut",
+        "shape": "Pear",
+        "gemstone_type": "Emerald",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-pear-yellow-016",
+      "title": "[Sample] 12.42 ct Pear Citrine",
+      "descriptionHtml": "<p>A yellow citrine design concept with a pear silhouette and brilliant cut finish. This 12.42 ct sample illustrates the 10+ Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Ethiopia origin and the GGTL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-016",
+      "price": "2732.40",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:ethiopia",
+        "certificate:ggtl",
+        "carat:10-carats",
+        "color:yellow",
+        "shape:pear"
+      ],
+      "image": {
+        "localPath": "assets/demo-pear-yellow-016.jpg",
+        "alt": "AI-generated sample pear yellow citrine",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose yellow citrine gemstone with a pear shape: teardrop outline with one sharp point and a rounded opposite end. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-016.txt",
+        "certificate_number": "DEMO-GEM-016",
+        "certification_laboratory": "GGTL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Ethiopia",
+        "dimensions": "10.95 x 8.21 x 5.09 mm",
+        "carat_range": "10+ Carats",
+        "actual_carat_weight": "12.42",
+        "color": "Yellow",
+        "cut": "Brilliant Cut",
+        "shape": "Pear",
+        "gemstone_type": "Citrine",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-heart-orange-017",
+      "title": "[Sample] 0.76 ct Heart Spessartine Garnet",
+      "descriptionHtml": "<p>A orange spessartine garnet design concept with a heart silhouette and brilliant cut finish. This 0.76 ct sample illustrates the 0-1 Carat category.</p><p>Use this draft to preview product photography, specifications and filters for Italian origin and the GRA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-017",
+      "price": "186.20",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:italian",
+        "certificate:gra",
+        "carat:0-1-carat",
+        "color:orange",
+        "shape:heart"
+      ],
+      "image": {
+        "localPath": "assets/demo-heart-orange-017.jpg",
+        "alt": "AI-generated sample heart orange spessartine garnet",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose orange spessartine garnet gemstone with a heart shape: clear symmetrical heart outline, two rounded lobes, a distinct central cleft and bottom point. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-017.txt",
+        "certificate_number": "DEMO-GEM-017",
+        "certification_laboratory": "GRA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Italian",
+        "dimensions": "6.74 x 6.74 x 4.18 mm",
+        "carat_range": "0-1 Carat",
+        "actual_carat_weight": "0.76",
+        "color": "Orange",
+        "cut": "Brilliant Cut",
+        "shape": "Heart",
+        "gemstone_type": "Spessartine Garnet",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-heart-purple-018",
+      "title": "[Sample] 1.49 ct Heart Amethyst",
+      "descriptionHtml": "<p>A purple amethyst design concept with a heart silhouette and brilliant cut finish. This 1.49 ct sample illustrates the 1-2 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Thailand origin and the Lotus laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-018",
+      "price": "402.30",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:thailand",
+        "certificate:lotus",
+        "carat:1-2-carats",
+        "color:purple",
+        "shape:heart"
+      ],
+      "image": {
+        "localPath": "assets/demo-heart-purple-018.jpg",
+        "alt": "AI-generated sample heart purple amethyst",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose purple amethyst gemstone with a heart shape: clear symmetrical heart outline, two rounded lobes, a distinct central cleft and bottom point. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-018.txt",
+        "certificate_number": "DEMO-GEM-018",
+        "certification_laboratory": "Lotus",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Thailand",
+        "dimensions": "7.43 x 7.43 x 4.61 mm",
+        "carat_range": "1-2 Carats",
+        "actual_carat_weight": "1.49",
+        "color": "Purple",
+        "cut": "Brilliant Cut",
+        "shape": "Heart",
+        "gemstone_type": "Amethyst",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-heart-white-colorless-019",
+      "title": "[Sample] 2.39 ct Heart Rock Crystal Quartz",
+      "descriptionHtml": "<p>A white / colorless rock crystal quartz design concept with a heart silhouette and brilliant cut finish. This 2.39 ct sample illustrates the 2-3 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Zambia origin and the IGI laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-019",
+      "price": "705.05",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:zambia",
+        "certificate:igi",
+        "carat:2-3-carats",
+        "color:white-colorless",
+        "shape:heart"
+      ],
+      "image": {
+        "localPath": "assets/demo-heart-white-colorless-019.jpg",
+        "alt": "AI-generated sample heart white / colorless rock crystal quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose white / colorless rock crystal quartz gemstone with a heart shape: clear symmetrical heart outline, two rounded lobes, a distinct central cleft and bottom point. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-019.txt",
+        "certificate_number": "DEMO-GEM-019",
+        "certification_laboratory": "IGI",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Zambia",
+        "dimensions": "8.01 x 8.01 x 4.97 mm",
+        "carat_range": "2-3 Carats",
+        "actual_carat_weight": "2.39",
+        "color": "White / Colorless",
+        "cut": "Brilliant Cut",
+        "shape": "Heart",
+        "gemstone_type": "Rock Crystal Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-heart-black-020",
+      "title": "[Sample] 3.44 ct Heart Black Spinel",
+      "descriptionHtml": "<p>A black black spinel design concept with a heart silhouette and brilliant cut finish. This 3.44 ct sample illustrates the 3-4 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Sri Lanka origin and the AIG laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-020",
+      "price": "1100.80",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:sri-lanka",
+        "certificate:aig",
+        "carat:3-4-carats",
+        "color:black",
+        "shape:heart"
+      ],
+      "image": {
+        "localPath": "assets/demo-heart-black-020.jpg",
+        "alt": "AI-generated sample heart black black spinel",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose black black spinel gemstone with a heart shape: clear symmetrical heart outline, two rounded lobes, a distinct central cleft and bottom point. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-020.txt",
+        "certificate_number": "DEMO-GEM-020",
+        "certification_laboratory": "AIG",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Sri Lanka",
+        "dimensions": "8.53 x 8.53 x 5.29 mm",
+        "carat_range": "3-4 Carats",
+        "actual_carat_weight": "3.44",
+        "color": "Black",
+        "cut": "Brilliant Cut",
+        "shape": "Heart",
+        "gemstone_type": "Black Spinel",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-trilliant-brown-021",
+      "title": "[Sample] 4.59 ct Trilliant Smoky Quartz",
+      "descriptionHtml": "<p>A brown smoky quartz design concept with a trilliant silhouette and brilliant cut finish. This 4.59 ct sample illustrates the 4-5 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for India origin and the IDL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-021",
+      "price": "1583.55",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:india",
+        "certificate:idl",
+        "carat:4-5-carats",
+        "color:brown",
+        "shape:trilliant"
+      ],
+      "image": {
+        "localPath": "assets/demo-trilliant-brown-021.jpg",
+        "alt": "AI-generated sample trilliant brown smoky quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose brown smoky quartz gemstone with a trilliant shape: triangular outline with three equal sides and three gently rounded corners. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-021.txt",
+        "certificate_number": "DEMO-GEM-021",
+        "certification_laboratory": "IDL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "India",
+        "dimensions": "8.99 x 8.99 x 5.57 mm",
+        "carat_range": "4-5 Carats",
+        "actual_carat_weight": "4.59",
+        "color": "Brown",
+        "cut": "Brilliant Cut",
+        "shape": "Trilliant",
+        "gemstone_type": "Smoky Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-trilliant-multi-color-022",
+      "title": "[Sample] 5.69 ct Trilliant Bi-Color Tourmaline",
+      "descriptionHtml": "<p>A multi-color bi-color tourmaline design concept with a trilliant silhouette and brilliant cut finish. This 5.69 ct sample illustrates the 5-6 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Russia origin and the GRS laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-022",
+      "price": "2105.30",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:russia",
+        "certificate:grs",
+        "carat:5-6-carats",
+        "color:multi-color",
+        "shape:trilliant"
+      ],
+      "image": {
+        "localPath": "assets/demo-trilliant-multi-color-022.jpg",
+        "alt": "AI-generated sample trilliant multi-color bi-color tourmaline",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose multi-color bi-color tourmaline gemstone with a trilliant shape: triangular outline with three equal sides and three gently rounded corners. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-022.txt",
+        "certificate_number": "DEMO-GEM-022",
+        "certification_laboratory": "GRS",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Russia",
+        "dimensions": "9.36 x 9.36 x 5.80 mm",
+        "carat_range": "5-6 Carats",
+        "actual_carat_weight": "5.69",
+        "color": "Multi-Color",
+        "cut": "Brilliant Cut",
+        "shape": "Trilliant",
+        "gemstone_type": "Bi-Color Tourmaline",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-trilliant-red-023",
+      "title": "[Sample] 8.24 ct Trilliant Ruby",
+      "descriptionHtml": "<p>A red ruby design concept with a trilliant silhouette and brilliant cut finish. This 8.24 ct sample illustrates the 6-10 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Mozambique origin and the GIA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-023",
+      "price": "988.80",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:mozambique",
+        "certificate:gia",
+        "carat:6-10-carats",
+        "color:red",
+        "shape:trilliant"
+      ],
+      "image": {
+        "localPath": "assets/demo-trilliant-red-023.jpg",
+        "alt": "AI-generated sample trilliant red ruby",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose red ruby gemstone with a trilliant shape: triangular outline with three equal sides and three gently rounded corners. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-023.txt",
+        "certificate_number": "DEMO-GEM-023",
+        "certification_laboratory": "GIA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Mozambique",
+        "dimensions": "10.06 x 10.06 x 6.24 mm",
+        "carat_range": "6-10 Carats",
+        "actual_carat_weight": "8.24",
+        "color": "Red",
+        "cut": "Brilliant Cut",
+        "shape": "Trilliant",
+        "gemstone_type": "Ruby",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-trilliant-pink-024",
+      "title": "[Sample] 12.44 ct Trilliant Pink Sapphire",
+      "descriptionHtml": "<p>A pink pink sapphire design concept with a trilliant silhouette and brilliant cut finish. This 12.44 ct sample illustrates the 10+ Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Burma origin and the GGTL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-024",
+      "price": "1803.80",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:burma",
+        "certificate:ggtl",
+        "carat:10-carats",
+        "color:pink",
+        "shape:trilliant"
+      ],
+      "image": {
+        "localPath": "assets/demo-trilliant-pink-024.jpg",
+        "alt": "AI-generated sample trilliant pink pink sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose pink pink sapphire gemstone with a trilliant shape: triangular outline with three equal sides and three gently rounded corners. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-024.txt",
+        "certificate_number": "DEMO-GEM-024",
+        "certification_laboratory": "GGTL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Burma",
+        "dimensions": "10.95 x 10.95 x 6.79 mm",
+        "carat_range": "10+ Carats",
+        "actual_carat_weight": "12.44",
+        "color": "Pink",
+        "cut": "Brilliant Cut",
+        "shape": "Trilliant",
+        "gemstone_type": "Pink Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-asscher-blue-025",
+      "title": "[Sample] 0.78 ct Asscher Blue Sapphire",
+      "descriptionHtml": "<p>A blue blue sapphire design concept with a asscher silhouette and step cut finish. This 0.78 ct sample illustrates the 0-1 Carat category.</p><p>Use this draft to preview product photography, specifications and filters for Africa origin and the GRA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-025",
+      "price": "132.60",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:africa",
+        "certificate:gra",
+        "carat:0-1-carat",
+        "color:blue",
+        "shape:asscher"
+      ],
+      "image": {
+        "localPath": "assets/demo-asscher-blue-025.jpg",
+        "alt": "AI-generated sample asscher blue blue sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose blue blue sapphire gemstone with a asscher shape: square step-cut outline with deeply clipped corners and concentric square steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-025.txt",
+        "certificate_number": "DEMO-GEM-025",
+        "certification_laboratory": "GRA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Africa",
+        "dimensions": "6.76 x 6.76 x 4.19 mm",
+        "carat_range": "0-1 Carat",
+        "actual_carat_weight": "0.78",
+        "color": "Blue",
+        "cut": "Step Cut",
+        "shape": "Asscher",
+        "gemstone_type": "Blue Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-asscher-green-026",
+      "title": "[Sample] 1.51 ct Asscher Emerald",
+      "descriptionHtml": "<p>A green emerald design concept with a asscher silhouette and step cut finish. This 1.51 ct sample illustrates the 1-2 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Afghanistan origin and the Lotus laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-026",
+      "price": "294.45",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:afghanistan",
+        "certificate:lotus",
+        "carat:1-2-carats",
+        "color:green",
+        "shape:asscher"
+      ],
+      "image": {
+        "localPath": "assets/demo-asscher-green-026.jpg",
+        "alt": "AI-generated sample asscher green emerald",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose green emerald gemstone with a asscher shape: square step-cut outline with deeply clipped corners and concentric square steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-026.txt",
+        "certificate_number": "DEMO-GEM-026",
+        "certification_laboratory": "Lotus",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Afghanistan",
+        "dimensions": "7.44 x 7.44 x 4.61 mm",
+        "carat_range": "1-2 Carats",
+        "actual_carat_weight": "1.51",
+        "color": "Green",
+        "cut": "Step Cut",
+        "shape": "Asscher",
+        "gemstone_type": "Emerald",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-asscher-yellow-027",
+      "title": "[Sample] 2.41 ct Asscher Citrine",
+      "descriptionHtml": "<p>A yellow citrine design concept with a asscher silhouette and step cut finish. This 2.41 ct sample illustrates the 2-3 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Ethiopia origin and the IGI laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-027",
+      "price": "530.20",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:ethiopia",
+        "certificate:igi",
+        "carat:2-3-carats",
+        "color:yellow",
+        "shape:asscher"
+      ],
+      "image": {
+        "localPath": "assets/demo-asscher-yellow-027.jpg",
+        "alt": "AI-generated sample asscher yellow citrine",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose yellow citrine gemstone with a asscher shape: square step-cut outline with deeply clipped corners and concentric square steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-027.txt",
+        "certificate_number": "DEMO-GEM-027",
+        "certification_laboratory": "IGI",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Ethiopia",
+        "dimensions": "8.02 x 8.02 x 4.97 mm",
+        "carat_range": "2-3 Carats",
+        "actual_carat_weight": "2.41",
+        "color": "Yellow",
+        "cut": "Step Cut",
+        "shape": "Asscher",
+        "gemstone_type": "Citrine",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-asscher-orange-028",
+      "title": "[Sample] 3.46 ct Asscher Spessartine Garnet",
+      "descriptionHtml": "<p>A orange spessartine garnet design concept with a asscher silhouette and step cut finish. This 3.46 ct sample illustrates the 3-4 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Italian origin and the AIG laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-028",
+      "price": "847.70",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:italian",
+        "certificate:aig",
+        "carat:3-4-carats",
+        "color:orange",
+        "shape:asscher"
+      ],
+      "image": {
+        "localPath": "assets/demo-asscher-orange-028.jpg",
+        "alt": "AI-generated sample asscher orange spessartine garnet",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose orange spessartine garnet gemstone with a asscher shape: square step-cut outline with deeply clipped corners and concentric square steps. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-028.txt",
+        "certificate_number": "DEMO-GEM-028",
+        "certification_laboratory": "AIG",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Italian",
+        "dimensions": "8.54 x 8.54 x 5.29 mm",
+        "carat_range": "3-4 Carats",
+        "actual_carat_weight": "3.46",
+        "color": "Orange",
+        "cut": "Step Cut",
+        "shape": "Asscher",
+        "gemstone_type": "Spessartine Garnet",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-princess-purple-029",
+      "title": "[Sample] 4.61 ct Princess Amethyst",
+      "descriptionHtml": "<p>A purple amethyst design concept with a princess silhouette and brilliant cut finish. This 4.61 ct sample illustrates the 4-5 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Thailand origin and the IDL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-029",
+      "price": "1244.70",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:thailand",
+        "certificate:idl",
+        "carat:4-5-carats",
+        "color:purple",
+        "shape:princess"
+      ],
+      "image": {
+        "localPath": "assets/demo-princess-purple-029.jpg",
+        "alt": "AI-generated sample princess purple amethyst",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose purple amethyst gemstone with a princess shape: square outline with four sharp corners and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-029.txt",
+        "certificate_number": "DEMO-GEM-029",
+        "certification_laboratory": "IDL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Thailand",
+        "dimensions": "8.99 x 8.99 x 5.57 mm",
+        "carat_range": "4-5 Carats",
+        "actual_carat_weight": "4.61",
+        "color": "Purple",
+        "cut": "Brilliant Cut",
+        "shape": "Princess",
+        "gemstone_type": "Amethyst",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-princess-white-colorless-030",
+      "title": "[Sample] 5.71 ct Princess Rock Crystal Quartz",
+      "descriptionHtml": "<p>A white / colorless rock crystal quartz design concept with a princess silhouette and brilliant cut finish. This 5.71 ct sample illustrates the 5-6 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Zambia origin and the GRS laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-030",
+      "price": "1684.45",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:zambia",
+        "certificate:grs",
+        "carat:5-6-carats",
+        "color:white-colorless",
+        "shape:princess"
+      ],
+      "image": {
+        "localPath": "assets/demo-princess-white-colorless-030.jpg",
+        "alt": "AI-generated sample princess white / colorless rock crystal quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose white / colorless rock crystal quartz gemstone with a princess shape: square outline with four sharp corners and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-030.txt",
+        "certificate_number": "DEMO-GEM-030",
+        "certification_laboratory": "GRS",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Zambia",
+        "dimensions": "9.36 x 9.36 x 5.80 mm",
+        "carat_range": "5-6 Carats",
+        "actual_carat_weight": "5.71",
+        "color": "White / Colorless",
+        "cut": "Brilliant Cut",
+        "shape": "Princess",
+        "gemstone_type": "Rock Crystal Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-princess-black-031",
+      "title": "[Sample] 8.26 ct Princess Black Spinel",
+      "descriptionHtml": "<p>A black black spinel design concept with a princess silhouette and brilliant cut finish. This 8.26 ct sample illustrates the 6-10 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Sri Lanka origin and the GIA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-031",
+      "price": "2643.20",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:sri-lanka",
+        "certificate:gia",
+        "carat:6-10-carats",
+        "color:black",
+        "shape:princess"
+      ],
+      "image": {
+        "localPath": "assets/demo-princess-black-031.jpg",
+        "alt": "AI-generated sample princess black black spinel",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose black black spinel gemstone with a princess shape: square outline with four sharp corners and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-031.txt",
+        "certificate_number": "DEMO-GEM-031",
+        "certification_laboratory": "GIA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Sri Lanka",
+        "dimensions": "10.06 x 10.06 x 6.24 mm",
+        "carat_range": "6-10 Carats",
+        "actual_carat_weight": "8.26",
+        "color": "Black",
+        "cut": "Brilliant Cut",
+        "shape": "Princess",
+        "gemstone_type": "Black Spinel",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-princess-brown-032",
+      "title": "[Sample] 12.46 ct Princess Smoky Quartz",
+      "descriptionHtml": "<p>A brown smoky quartz design concept with a princess silhouette and brilliant cut finish. This 12.46 ct sample illustrates the 10+ Carats category.</p><p>Use this draft to preview product photography, specifications and filters for India origin and the GGTL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-032",
+      "price": "4298.70",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:india",
+        "certificate:ggtl",
+        "carat:10-carats",
+        "color:brown",
+        "shape:princess"
+      ],
+      "image": {
+        "localPath": "assets/demo-princess-brown-032.jpg",
+        "alt": "AI-generated sample princess brown smoky quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose brown smoky quartz gemstone with a princess shape: square outline with four sharp corners and brilliant triangular facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-032.txt",
+        "certificate_number": "DEMO-GEM-032",
+        "certification_laboratory": "GGTL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "India",
+        "dimensions": "10.95 x 10.95 x 6.79 mm",
+        "carat_range": "10+ Carats",
+        "actual_carat_weight": "12.46",
+        "color": "Brown",
+        "cut": "Brilliant Cut",
+        "shape": "Princess",
+        "gemstone_type": "Smoky Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-marquise-multi-color-033",
+      "title": "[Sample] 0.80 ct Marquise Bi-Color Tourmaline",
+      "descriptionHtml": "<p>A multi-color bi-color tourmaline design concept with a marquise silhouette and brilliant cut finish. This 0.80 ct sample illustrates the 0-1 Carat category.</p><p>Use this draft to preview product photography, specifications and filters for Russia origin and the GRA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-033",
+      "price": "296.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:russia",
+        "certificate:gra",
+        "carat:0-1-carat",
+        "color:multi-color",
+        "shape:marquise"
+      ],
+      "image": {
+        "localPath": "assets/demo-marquise-multi-color-033.jpg",
+        "alt": "AI-generated sample marquise multi-color bi-color tourmaline",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose multi-color bi-color tourmaline gemstone with a marquise shape: elongated boat-shaped outline, two sharp tips and curved sides. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-033.txt",
+        "certificate_number": "DEMO-GEM-033",
+        "certification_laboratory": "GRA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Russia",
+        "dimensions": "6.78 x 4.20 x 2.60 mm",
+        "carat_range": "0-1 Carat",
+        "actual_carat_weight": "0.80",
+        "color": "Multi-Color",
+        "cut": "Brilliant Cut",
+        "shape": "Marquise",
+        "gemstone_type": "Bi-Color Tourmaline",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-marquise-red-034",
+      "title": "[Sample] 1.53 ct Marquise Ruby",
+      "descriptionHtml": "<p>A red ruby design concept with a marquise silhouette and brilliant cut finish. This 1.53 ct sample illustrates the 1-2 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Mozambique origin and the Lotus laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-034",
+      "price": "183.60",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:mozambique",
+        "certificate:lotus",
+        "carat:1-2-carats",
+        "color:red",
+        "shape:marquise"
+      ],
+      "image": {
+        "localPath": "assets/demo-marquise-red-034.jpg",
+        "alt": "AI-generated sample marquise red ruby",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose red ruby gemstone with a marquise shape: elongated boat-shaped outline, two sharp tips and curved sides. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-034.txt",
+        "certificate_number": "DEMO-GEM-034",
+        "certification_laboratory": "Lotus",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Mozambique",
+        "dimensions": "7.46 x 4.63 x 2.87 mm",
+        "carat_range": "1-2 Carats",
+        "actual_carat_weight": "1.53",
+        "color": "Red",
+        "cut": "Brilliant Cut",
+        "shape": "Marquise",
+        "gemstone_type": "Ruby",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-marquise-pink-035",
+      "title": "[Sample] 2.43 ct Marquise Pink Sapphire",
+      "descriptionHtml": "<p>A pink pink sapphire design concept with a marquise silhouette and brilliant cut finish. This 2.43 ct sample illustrates the 2-3 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Burma origin and the IGI laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-035",
+      "price": "352.35",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:burma",
+        "certificate:igi",
+        "carat:2-3-carats",
+        "color:pink",
+        "shape:marquise"
+      ],
+      "image": {
+        "localPath": "assets/demo-marquise-pink-035.jpg",
+        "alt": "AI-generated sample marquise pink pink sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose pink pink sapphire gemstone with a marquise shape: elongated boat-shaped outline, two sharp tips and curved sides. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-035.txt",
+        "certificate_number": "DEMO-GEM-035",
+        "certification_laboratory": "IGI",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Burma",
+        "dimensions": "8.03 x 4.98 x 3.09 mm",
+        "carat_range": "2-3 Carats",
+        "actual_carat_weight": "2.43",
+        "color": "Pink",
+        "cut": "Brilliant Cut",
+        "shape": "Marquise",
+        "gemstone_type": "Pink Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-marquise-blue-036",
+      "title": "[Sample] 3.48 ct Marquise Blue Sapphire",
+      "descriptionHtml": "<p>A blue blue sapphire design concept with a marquise silhouette and brilliant cut finish. This 3.48 ct sample illustrates the 3-4 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Africa origin and the AIG laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-036",
+      "price": "591.60",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:africa",
+        "certificate:aig",
+        "carat:3-4-carats",
+        "color:blue",
+        "shape:marquise"
+      ],
+      "image": {
+        "localPath": "assets/demo-marquise-blue-036.jpg",
+        "alt": "AI-generated sample marquise blue blue sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose blue blue sapphire gemstone with a marquise shape: elongated boat-shaped outline, two sharp tips and curved sides. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-036.txt",
+        "certificate_number": "DEMO-GEM-036",
+        "certification_laboratory": "AIG",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Africa",
+        "dimensions": "8.55 x 5.30 x 3.29 mm",
+        "carat_range": "3-4 Carats",
+        "actual_carat_weight": "3.48",
+        "color": "Blue",
+        "cut": "Brilliant Cut",
+        "shape": "Marquise",
+        "gemstone_type": "Blue Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cushion-green-037",
+      "title": "[Sample] 4.63 ct Cushion Emerald",
+      "descriptionHtml": "<p>A green emerald design concept with a cushion silhouette and brilliant cut finish. This 4.63 ct sample illustrates the 4-5 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Afghanistan origin and the IDL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-037",
+      "price": "902.85",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:afghanistan",
+        "certificate:idl",
+        "carat:4-5-carats",
+        "color:green",
+        "shape:cushion"
+      ],
+      "image": {
+        "localPath": "assets/demo-cushion-green-037.jpg",
+        "alt": "AI-generated sample cushion green emerald",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose green emerald gemstone with a cushion shape: rounded square cushion outline with soft corners and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-037.txt",
+        "certificate_number": "DEMO-GEM-037",
+        "certification_laboratory": "IDL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Afghanistan",
+        "dimensions": "9.00 x 9.00 x 5.58 mm",
+        "carat_range": "4-5 Carats",
+        "actual_carat_weight": "4.63",
+        "color": "Green",
+        "cut": "Brilliant Cut",
+        "shape": "Cushion",
+        "gemstone_type": "Emerald",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cushion-yellow-038",
+      "title": "[Sample] 5.73 ct Cushion Citrine",
+      "descriptionHtml": "<p>A yellow citrine design concept with a cushion silhouette and brilliant cut finish. This 5.73 ct sample illustrates the 5-6 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Ethiopia origin and the GRS laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-038",
+      "price": "1260.60",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:ethiopia",
+        "certificate:grs",
+        "carat:5-6-carats",
+        "color:yellow",
+        "shape:cushion"
+      ],
+      "image": {
+        "localPath": "assets/demo-cushion-yellow-038.jpg",
+        "alt": "AI-generated sample cushion yellow citrine",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose yellow citrine gemstone with a cushion shape: rounded square cushion outline with soft corners and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-038.txt",
+        "certificate_number": "DEMO-GEM-038",
+        "certification_laboratory": "GRS",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Ethiopia",
+        "dimensions": "9.37 x 9.37 x 5.81 mm",
+        "carat_range": "5-6 Carats",
+        "actual_carat_weight": "5.73",
+        "color": "Yellow",
+        "cut": "Brilliant Cut",
+        "shape": "Cushion",
+        "gemstone_type": "Citrine",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cushion-orange-039",
+      "title": "[Sample] 8.28 ct Cushion Spessartine Garnet",
+      "descriptionHtml": "<p>A orange spessartine garnet design concept with a cushion silhouette and brilliant cut finish. This 8.28 ct sample illustrates the 6-10 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Italian origin and the GIA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-039",
+      "price": "2028.60",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:italian",
+        "certificate:gia",
+        "carat:6-10-carats",
+        "color:orange",
+        "shape:cushion"
+      ],
+      "image": {
+        "localPath": "assets/demo-cushion-orange-039.jpg",
+        "alt": "AI-generated sample cushion orange spessartine garnet",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose orange spessartine garnet gemstone with a cushion shape: rounded square cushion outline with soft corners and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-039.txt",
+        "certificate_number": "DEMO-GEM-039",
+        "certification_laboratory": "GIA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Italian",
+        "dimensions": "10.07 x 10.07 x 6.24 mm",
+        "carat_range": "6-10 Carats",
+        "actual_carat_weight": "8.28",
+        "color": "Orange",
+        "cut": "Brilliant Cut",
+        "shape": "Cushion",
+        "gemstone_type": "Spessartine Garnet",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cushion-purple-040",
+      "title": "[Sample] 12.48 ct Cushion Amethyst",
+      "descriptionHtml": "<p>A purple amethyst design concept with a cushion silhouette and brilliant cut finish. This 12.48 ct sample illustrates the 10+ Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Thailand origin and the GGTL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-040",
+      "price": "3369.60",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:thailand",
+        "certificate:ggtl",
+        "carat:10-carats",
+        "color:purple",
+        "shape:cushion"
+      ],
+      "image": {
+        "localPath": "assets/demo-cushion-purple-040.jpg",
+        "alt": "AI-generated sample cushion purple amethyst",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose purple amethyst gemstone with a cushion shape: rounded square cushion outline with soft corners and brilliant facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-040.txt",
+        "certificate_number": "DEMO-GEM-040",
+        "certification_laboratory": "GGTL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Thailand",
+        "dimensions": "10.96 x 10.96 x 6.80 mm",
+        "carat_range": "10+ Carats",
+        "actual_carat_weight": "12.48",
+        "color": "Purple",
+        "cut": "Brilliant Cut",
+        "shape": "Cushion",
+        "gemstone_type": "Amethyst",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cabochon-white-colorless-041",
+      "title": "[Sample] 0.82 ct Cabochon Rock Crystal Quartz",
+      "descriptionHtml": "<p>A white / colorless rock crystal quartz design concept with a cabochon silhouette and cabochon finish. This 0.82 ct sample illustrates the 0-1 Carat category.</p><p>Use this draft to preview product photography, specifications and filters for Zambia origin and the GRA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-041",
+      "price": "241.90",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:zambia",
+        "certificate:gra",
+        "carat:0-1-carat",
+        "color:white-colorless",
+        "shape:cabochon"
+      ],
+      "image": {
+        "localPath": "assets/demo-cabochon-white-colorless-041.jpg",
+        "alt": "AI-generated sample cabochon white / colorless rock crystal quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose white / colorless rock crystal quartz gemstone with a cabochon shape: smooth polished oval dome, glossy curved surface, absolutely no facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-041.txt",
+        "certificate_number": "DEMO-GEM-041",
+        "certification_laboratory": "GRA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Zambia",
+        "dimensions": "6.81 x 5.11 x 3.17 mm",
+        "carat_range": "0-1 Carat",
+        "actual_carat_weight": "0.82",
+        "color": "White / Colorless",
+        "cut": "Cabochon",
+        "shape": "Cabochon",
+        "gemstone_type": "Rock Crystal Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cabochon-black-042",
+      "title": "[Sample] 1.55 ct Cabochon Black Spinel",
+      "descriptionHtml": "<p>A black black spinel design concept with a cabochon silhouette and cabochon finish. This 1.55 ct sample illustrates the 1-2 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Sri Lanka origin and the Lotus laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-042",
+      "price": "496.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:sri-lanka",
+        "certificate:lotus",
+        "carat:1-2-carats",
+        "color:black",
+        "shape:cabochon"
+      ],
+      "image": {
+        "localPath": "assets/demo-cabochon-black-042.jpg",
+        "alt": "AI-generated sample cabochon black black spinel",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose black black spinel gemstone with a cabochon shape: smooth polished oval dome, glossy curved surface, absolutely no facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-042.txt",
+        "certificate_number": "DEMO-GEM-042",
+        "certification_laboratory": "Lotus",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Sri Lanka",
+        "dimensions": "7.47 x 5.60 x 3.47 mm",
+        "carat_range": "1-2 Carats",
+        "actual_carat_weight": "1.55",
+        "color": "Black",
+        "cut": "Cabochon",
+        "shape": "Cabochon",
+        "gemstone_type": "Black Spinel",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. Lotus is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cabochon-brown-043",
+      "title": "[Sample] 2.45 ct Cabochon Smoky Quartz",
+      "descriptionHtml": "<p>A brown smoky quartz design concept with a cabochon silhouette and cabochon finish. This 2.45 ct sample illustrates the 2-3 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for India origin and the IGI laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-043",
+      "price": "845.25",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:india",
+        "certificate:igi",
+        "carat:2-3-carats",
+        "color:brown",
+        "shape:cabochon"
+      ],
+      "image": {
+        "localPath": "assets/demo-cabochon-brown-043.jpg",
+        "alt": "AI-generated sample cabochon brown smoky quartz",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose brown smoky quartz gemstone with a cabochon shape: smooth polished oval dome, glossy curved surface, absolutely no facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-043.txt",
+        "certificate_number": "DEMO-GEM-043",
+        "certification_laboratory": "IGI",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "India",
+        "dimensions": "8.04 x 6.03 x 3.74 mm",
+        "carat_range": "2-3 Carats",
+        "actual_carat_weight": "2.45",
+        "color": "Brown",
+        "cut": "Cabochon",
+        "shape": "Cabochon",
+        "gemstone_type": "Smoky Quartz",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IGI is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-cabochon-multi-color-044",
+      "title": "[Sample] 3.50 ct Cabochon Bi-Color Tourmaline",
+      "descriptionHtml": "<p>A multi-color bi-color tourmaline design concept with a cabochon silhouette and cabochon finish. This 3.50 ct sample illustrates the 3-4 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Russia origin and the AIG laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-044",
+      "price": "1295.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:russia",
+        "certificate:aig",
+        "carat:3-4-carats",
+        "color:multi-color",
+        "shape:cabochon"
+      ],
+      "image": {
+        "localPath": "assets/demo-cabochon-multi-color-044.jpg",
+        "alt": "AI-generated sample cabochon multi-color bi-color tourmaline",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose multi-color bi-color tourmaline gemstone with a cabochon shape: smooth polished oval dome, glossy curved surface, absolutely no facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-044.txt",
+        "certificate_number": "DEMO-GEM-044",
+        "certification_laboratory": "AIG",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Russia",
+        "dimensions": "8.55 x 6.41 x 3.97 mm",
+        "carat_range": "3-4 Carats",
+        "actual_carat_weight": "3.50",
+        "color": "Multi-Color",
+        "cut": "Cabochon",
+        "shape": "Cabochon",
+        "gemstone_type": "Bi-Color Tourmaline",
+        "gemstone_group": "Semi Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. AIG is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-baguette-red-045",
+      "title": "[Sample] 4.65 ct Baguette Ruby",
+      "descriptionHtml": "<p>A red ruby design concept with a baguette silhouette and step cut finish. This 4.65 ct sample illustrates the 4-5 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Mozambique origin and the IDL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-045",
+      "price": "558.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:mozambique",
+        "certificate:idl",
+        "carat:4-5-carats",
+        "color:red",
+        "shape:baguette"
+      ],
+      "image": {
+        "localPath": "assets/demo-baguette-red-045.jpg",
+        "alt": "AI-generated sample baguette red ruby",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose red ruby gemstone with a baguette shape: long narrow rectangular outline, straight corners and parallel step-cut facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-045.txt",
+        "certificate_number": "DEMO-GEM-045",
+        "certification_laboratory": "IDL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Mozambique",
+        "dimensions": "9.01 x 5.59 x 3.47 mm",
+        "carat_range": "4-5 Carats",
+        "actual_carat_weight": "4.65",
+        "color": "Red",
+        "cut": "Step Cut",
+        "shape": "Baguette",
+        "gemstone_type": "Ruby",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. IDL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-baguette-pink-046",
+      "title": "[Sample] 5.75 ct Baguette Pink Sapphire",
+      "descriptionHtml": "<p>A pink pink sapphire design concept with a baguette silhouette and step cut finish. This 5.75 ct sample illustrates the 5-6 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Burma origin and the GRS laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-046",
+      "price": "833.75",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:burma",
+        "certificate:grs",
+        "carat:5-6-carats",
+        "color:pink",
+        "shape:baguette"
+      ],
+      "image": {
+        "localPath": "assets/demo-baguette-pink-046.jpg",
+        "alt": "AI-generated sample baguette pink pink sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose pink pink sapphire gemstone with a baguette shape: long narrow rectangular outline, straight corners and parallel step-cut facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-046.txt",
+        "certificate_number": "DEMO-GEM-046",
+        "certification_laboratory": "GRS",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Burma",
+        "dimensions": "9.37 x 5.81 x 3.60 mm",
+        "carat_range": "5-6 Carats",
+        "actual_carat_weight": "5.75",
+        "color": "Pink",
+        "cut": "Step Cut",
+        "shape": "Baguette",
+        "gemstone_type": "Pink Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GRS is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-baguette-blue-047",
+      "title": "[Sample] 8.30 ct Baguette Blue Sapphire",
+      "descriptionHtml": "<p>A blue blue sapphire design concept with a baguette silhouette and step cut finish. This 8.30 ct sample illustrates the 6-10 Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Africa origin and the GIA laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-047",
+      "price": "1411.00",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:africa",
+        "certificate:gia",
+        "carat:6-10-carats",
+        "color:blue",
+        "shape:baguette"
+      ],
+      "image": {
+        "localPath": "assets/demo-baguette-blue-047.jpg",
+        "alt": "AI-generated sample baguette blue blue sapphire",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose blue blue sapphire gemstone with a baguette shape: long narrow rectangular outline, straight corners and parallel step-cut facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-047.txt",
+        "certificate_number": "DEMO-GEM-047",
+        "certification_laboratory": "GIA",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Africa",
+        "dimensions": "10.07 x 6.24 x 3.87 mm",
+        "carat_range": "6-10 Carats",
+        "actual_carat_weight": "8.30",
+        "color": "Blue",
+        "cut": "Step Cut",
+        "shape": "Baguette",
+        "gemstone_type": "Blue Sapphire",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GIA is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    },
+    {
+      "handle": "demo-baguette-green-048",
+      "title": "[Sample] 12.50 ct Baguette Emerald",
+      "descriptionHtml": "<p>A green emerald design concept with a baguette silhouette and step cut finish. This 12.50 ct sample illustrates the 10+ Carats category.</p><p>Use this draft to preview product photography, specifications and filters for Afghanistan origin and the GGTL laboratory category.</p><p><strong>Sample only:</strong> Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report.</p>",
+      "vendor": "Raza Gems - Sample Catalog",
+      "productType": "Loose Gemstone",
+      "status": "DRAFT",
+      "sku": "DEMO-GEM-048",
+      "price": "2437.50",
+      "price_note": "Illustrative amount in store currency, not an appraisal.",
+      "tags": [
+        "demo-gemstones",
+        "sample-not-for-sale",
+        "origin:afghanistan",
+        "certificate:ggtl",
+        "carat:10-carats",
+        "color:green",
+        "shape:baguette"
+      ],
+      "image": {
+        "localPath": "assets/demo-baguette-green-048.jpg",
+        "alt": "AI-generated sample baguette green emerald",
+        "prompt": "Use case: product-mockup. Create one square ecommerce catalog photograph of a single loose green emerald gemstone with a baguette shape: long narrow rectangular outline, straight corners and parallel step-cut facets. Face-up centered view, gemstone occupies 65% of the image. Clean warm off-white background, subtle contact shadow, soft studio lighting, crisp realistic material detail, restrained reflections. For multi-color tourmaline show visible pink and green zones in the same stone. For white/colorless quartz show a transparent colorless stone. No jewellery, hands, props, text, watermark, logos or additional stones. Illustrative sample catalog imagery, not a verified real stone."
+      },
+      "metafields": {
+        "certificate_file": "certificates/DEMO-GEM-048.txt",
+        "certificate_number": "DEMO-GEM-048",
+        "certification_laboratory": "GGTL",
+        "certification_status": "Demo - not certified",
+        "treatment": "Unknown / not tested",
+        "country_of_origin": "Afghanistan",
+        "dimensions": "10.96 x 6.80 x 4.22 mm",
+        "carat_range": "10+ Carats",
+        "actual_carat_weight": "12.50",
+        "color": "Green",
+        "cut": "Step Cut",
+        "shape": "Baguette",
+        "gemstone_type": "Emerald",
+        "gemstone_group": "Precious",
+        "disclosures": "Fictional sample product for catalog testing; not for sale. Image is AI-generated. Origin, dimensions, weight and price are invented demo values. GGTL is a category assignment only: no laboratory has examined or certified this sample. Treatment and natural/synthetic identity are unverified. The attached file is a sample data sheet, not a laboratory report."
+      }
+    }
+  ],
+  "collections": [
+    {
+      "title": "Mozambique",
+      "handle": "demo-country-mozambique",
+      "descriptionHtml": "<p>Sample Mozambique gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-round-red-001",
+        "demo-emerald-red-012",
+        "demo-trilliant-red-023",
+        "demo-marquise-red-034",
+        "demo-baguette-red-045"
+      ],
+      "imageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "title": "Burma",
+      "handle": "demo-country-burma",
+      "descriptionHtml": "<p>Sample Burma gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-round-pink-002",
+        "demo-pear-pink-013",
+        "demo-trilliant-pink-024",
+        "demo-marquise-pink-035",
+        "demo-baguette-pink-046"
+      ],
+      "imageLocalPath": "assets/demo-round-pink-002.jpg"
+    },
+    {
+      "title": "Africa",
+      "handle": "demo-country-africa",
+      "descriptionHtml": "<p>Sample Africa gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-round-blue-003",
+        "demo-pear-blue-014",
+        "demo-asscher-blue-025",
+        "demo-marquise-blue-036",
+        "demo-baguette-blue-047"
+      ],
+      "imageLocalPath": "assets/demo-round-blue-003.jpg"
+    },
+    {
+      "title": "Afghanistan",
+      "handle": "demo-country-afghanistan",
+      "descriptionHtml": "<p>Sample Afghanistan gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-round-green-004",
+        "demo-pear-green-015",
+        "demo-asscher-green-026",
+        "demo-cushion-green-037",
+        "demo-baguette-green-048"
+      ],
+      "imageLocalPath": "assets/demo-round-green-004.jpg"
+    },
+    {
+      "title": "Ethiopia",
+      "handle": "demo-country-ethiopia",
+      "descriptionHtml": "<p>Sample Ethiopia gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-oval-yellow-005",
+        "demo-pear-yellow-016",
+        "demo-asscher-yellow-027",
+        "demo-cushion-yellow-038"
+      ],
+      "imageLocalPath": "assets/demo-oval-yellow-005.jpg"
+    },
+    {
+      "title": "Italian",
+      "handle": "demo-country-italian",
+      "descriptionHtml": "<p>Sample Italian gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-oval-orange-006",
+        "demo-heart-orange-017",
+        "demo-asscher-orange-028",
+        "demo-cushion-orange-039"
+      ],
+      "imageLocalPath": "assets/demo-oval-orange-006.jpg"
+    },
+    {
+      "title": "Thailand",
+      "handle": "demo-country-thailand",
+      "descriptionHtml": "<p>Sample Thailand gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-oval-purple-007",
+        "demo-heart-purple-018",
+        "demo-princess-purple-029",
+        "demo-cushion-purple-040"
+      ],
+      "imageLocalPath": "assets/demo-oval-purple-007.jpg"
+    },
+    {
+      "title": "Zambia",
+      "handle": "demo-country-zambia",
+      "descriptionHtml": "<p>Sample Zambia gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-oval-white-colorless-008",
+        "demo-heart-white-colorless-019",
+        "demo-princess-white-colorless-030",
+        "demo-cabochon-white-colorless-041"
+      ],
+      "imageLocalPath": "assets/demo-oval-white-colorless-008.jpg"
+    },
+    {
+      "title": "Sri Lanka",
+      "handle": "demo-country-sri-lanka",
+      "descriptionHtml": "<p>Sample Sri Lanka gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-emerald-black-009",
+        "demo-heart-black-020",
+        "demo-princess-black-031",
+        "demo-cabochon-black-042"
+      ],
+      "imageLocalPath": "assets/demo-emerald-black-009.jpg"
+    },
+    {
+      "title": "India",
+      "handle": "demo-country-india",
+      "descriptionHtml": "<p>Sample India gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-emerald-brown-010",
+        "demo-trilliant-brown-021",
+        "demo-princess-brown-032",
+        "demo-cabochon-brown-043"
+      ],
+      "imageLocalPath": "assets/demo-emerald-brown-010.jpg"
+    },
+    {
+      "title": "Russia",
+      "handle": "demo-country-russia",
+      "descriptionHtml": "<p>Sample Russia gemstone collection for previewing the country category.</p>",
+      "metafields": {
+        "collection_group": "Country"
+      },
+      "productHandles": [
+        "demo-emerald-multi-color-011",
+        "demo-trilliant-multi-color-022",
+        "demo-marquise-multi-color-033",
+        "demo-cabochon-multi-color-044"
+      ],
+      "imageLocalPath": "assets/demo-emerald-multi-color-011.jpg"
+    },
+    {
+      "title": "GRA",
+      "handle": "demo-certificate-gra",
+      "descriptionHtml": "<p>Sample GRA gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-round-red-001",
+        "demo-emerald-black-009",
+        "demo-heart-orange-017",
+        "demo-asscher-blue-025",
+        "demo-marquise-multi-color-033",
+        "demo-cabochon-white-colorless-041"
+      ],
+      "imageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "title": "Lotus",
+      "handle": "demo-certificate-lotus",
+      "descriptionHtml": "<p>Sample Lotus gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-round-pink-002",
+        "demo-emerald-brown-010",
+        "demo-heart-purple-018",
+        "demo-asscher-green-026",
+        "demo-marquise-red-034",
+        "demo-cabochon-black-042"
+      ],
+      "imageLocalPath": "assets/demo-round-pink-002.jpg"
+    },
+    {
+      "title": "IGI",
+      "handle": "demo-certificate-igi",
+      "descriptionHtml": "<p>Sample IGI gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-round-blue-003",
+        "demo-emerald-multi-color-011",
+        "demo-heart-white-colorless-019",
+        "demo-asscher-yellow-027",
+        "demo-marquise-pink-035",
+        "demo-cabochon-brown-043"
+      ],
+      "imageLocalPath": "assets/demo-round-blue-003.jpg"
+    },
+    {
+      "title": "AIG",
+      "handle": "demo-certificate-aig",
+      "descriptionHtml": "<p>Sample AIG gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-round-green-004",
+        "demo-emerald-red-012",
+        "demo-heart-black-020",
+        "demo-asscher-orange-028",
+        "demo-marquise-blue-036",
+        "demo-cabochon-multi-color-044"
+      ],
+      "imageLocalPath": "assets/demo-round-green-004.jpg"
+    },
+    {
+      "title": "IDL",
+      "handle": "demo-certificate-idl",
+      "descriptionHtml": "<p>Sample IDL gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-oval-yellow-005",
+        "demo-pear-pink-013",
+        "demo-trilliant-brown-021",
+        "demo-princess-purple-029",
+        "demo-cushion-green-037",
+        "demo-baguette-red-045"
+      ],
+      "imageLocalPath": "assets/demo-oval-yellow-005.jpg"
+    },
+    {
+      "title": "GRS",
+      "handle": "demo-certificate-grs",
+      "descriptionHtml": "<p>Sample GRS gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-oval-orange-006",
+        "demo-pear-blue-014",
+        "demo-trilliant-multi-color-022",
+        "demo-princess-white-colorless-030",
+        "demo-cushion-yellow-038",
+        "demo-baguette-pink-046"
+      ],
+      "imageLocalPath": "assets/demo-oval-orange-006.jpg"
+    },
+    {
+      "title": "GIA",
+      "handle": "demo-certificate-gia",
+      "descriptionHtml": "<p>Sample GIA gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-oval-purple-007",
+        "demo-pear-green-015",
+        "demo-trilliant-red-023",
+        "demo-princess-black-031",
+        "demo-cushion-orange-039",
+        "demo-baguette-blue-047"
+      ],
+      "imageLocalPath": "assets/demo-oval-purple-007.jpg"
+    },
+    {
+      "title": "GGTL",
+      "handle": "demo-certificate-ggtl",
+      "descriptionHtml": "<p>Sample GGTL gemstone collection for previewing the certificate category.</p>",
+      "metafields": {
+        "collection_group": "certificate"
+      },
+      "productHandles": [
+        "demo-oval-white-colorless-008",
+        "demo-pear-yellow-016",
+        "demo-trilliant-pink-024",
+        "demo-princess-brown-032",
+        "demo-cushion-purple-040",
+        "demo-baguette-green-048"
+      ],
+      "imageLocalPath": "assets/demo-oval-white-colorless-008.jpg"
+    },
+    {
+      "title": "0-1 Carat",
+      "handle": "demo-carat-0-1-carat",
+      "descriptionHtml": "<p>Sample 0-1 Carat gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-round-red-001",
+        "demo-emerald-black-009",
+        "demo-heart-orange-017",
+        "demo-asscher-blue-025",
+        "demo-marquise-multi-color-033",
+        "demo-cabochon-white-colorless-041"
+      ],
+      "imageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "title": "1-2 Carats",
+      "handle": "demo-carat-1-2-carats",
+      "descriptionHtml": "<p>Sample 1-2 Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-round-pink-002",
+        "demo-emerald-brown-010",
+        "demo-heart-purple-018",
+        "demo-asscher-green-026",
+        "demo-marquise-red-034",
+        "demo-cabochon-black-042"
+      ],
+      "imageLocalPath": "assets/demo-round-pink-002.jpg"
+    },
+    {
+      "title": "2-3 Carats",
+      "handle": "demo-carat-2-3-carats",
+      "descriptionHtml": "<p>Sample 2-3 Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-round-blue-003",
+        "demo-emerald-multi-color-011",
+        "demo-heart-white-colorless-019",
+        "demo-asscher-yellow-027",
+        "demo-marquise-pink-035",
+        "demo-cabochon-brown-043"
+      ],
+      "imageLocalPath": "assets/demo-round-blue-003.jpg"
+    },
+    {
+      "title": "3-4 Carats",
+      "handle": "demo-carat-3-4-carats",
+      "descriptionHtml": "<p>Sample 3-4 Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-round-green-004",
+        "demo-emerald-red-012",
+        "demo-heart-black-020",
+        "demo-asscher-orange-028",
+        "demo-marquise-blue-036",
+        "demo-cabochon-multi-color-044"
+      ],
+      "imageLocalPath": "assets/demo-round-green-004.jpg"
+    },
+    {
+      "title": "4-5 Carats",
+      "handle": "demo-carat-4-5-carats",
+      "descriptionHtml": "<p>Sample 4-5 Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-oval-yellow-005",
+        "demo-pear-pink-013",
+        "demo-trilliant-brown-021",
+        "demo-princess-purple-029",
+        "demo-cushion-green-037",
+        "demo-baguette-red-045"
+      ],
+      "imageLocalPath": "assets/demo-oval-yellow-005.jpg"
+    },
+    {
+      "title": "5-6 Carats",
+      "handle": "demo-carat-5-6-carats",
+      "descriptionHtml": "<p>Sample 5-6 Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-oval-orange-006",
+        "demo-pear-blue-014",
+        "demo-trilliant-multi-color-022",
+        "demo-princess-white-colorless-030",
+        "demo-cushion-yellow-038",
+        "demo-baguette-pink-046"
+      ],
+      "imageLocalPath": "assets/demo-oval-orange-006.jpg"
+    },
+    {
+      "title": "6-10 Carats",
+      "handle": "demo-carat-6-10-carats",
+      "descriptionHtml": "<p>Sample 6-10 Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-oval-purple-007",
+        "demo-pear-green-015",
+        "demo-trilliant-red-023",
+        "demo-princess-black-031",
+        "demo-cushion-orange-039",
+        "demo-baguette-blue-047"
+      ],
+      "imageLocalPath": "assets/demo-oval-purple-007.jpg"
+    },
+    {
+      "title": "10+ Carats",
+      "handle": "demo-carat-10-carats",
+      "descriptionHtml": "<p>Sample 10+ Carats gemstone collection for previewing the carat category.</p>",
+      "metafields": {
+        "collection_group": "Carat"
+      },
+      "productHandles": [
+        "demo-oval-white-colorless-008",
+        "demo-pear-yellow-016",
+        "demo-trilliant-pink-024",
+        "demo-princess-brown-032",
+        "demo-cushion-purple-040",
+        "demo-baguette-green-048"
+      ],
+      "imageLocalPath": "assets/demo-oval-white-colorless-008.jpg"
+    },
+    {
+      "title": "Red",
+      "handle": "demo-color-red",
+      "descriptionHtml": "<p>Sample Red gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-round-red-001",
+        "demo-emerald-red-012",
+        "demo-trilliant-red-023",
+        "demo-marquise-red-034",
+        "demo-baguette-red-045"
+      ],
+      "imageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "title": "Pink",
+      "handle": "demo-color-pink",
+      "descriptionHtml": "<p>Sample Pink gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-round-pink-002",
+        "demo-pear-pink-013",
+        "demo-trilliant-pink-024",
+        "demo-marquise-pink-035",
+        "demo-baguette-pink-046"
+      ],
+      "imageLocalPath": "assets/demo-round-pink-002.jpg"
+    },
+    {
+      "title": "Blue",
+      "handle": "demo-color-blue",
+      "descriptionHtml": "<p>Sample Blue gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-round-blue-003",
+        "demo-pear-blue-014",
+        "demo-asscher-blue-025",
+        "demo-marquise-blue-036",
+        "demo-baguette-blue-047"
+      ],
+      "imageLocalPath": "assets/demo-round-blue-003.jpg"
+    },
+    {
+      "title": "Green",
+      "handle": "demo-color-green",
+      "descriptionHtml": "<p>Sample Green gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-round-green-004",
+        "demo-pear-green-015",
+        "demo-asscher-green-026",
+        "demo-cushion-green-037",
+        "demo-baguette-green-048"
+      ],
+      "imageLocalPath": "assets/demo-round-green-004.jpg"
+    },
+    {
+      "title": "Yellow",
+      "handle": "demo-color-yellow",
+      "descriptionHtml": "<p>Sample Yellow gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-oval-yellow-005",
+        "demo-pear-yellow-016",
+        "demo-asscher-yellow-027",
+        "demo-cushion-yellow-038"
+      ],
+      "imageLocalPath": "assets/demo-oval-yellow-005.jpg"
+    },
+    {
+      "title": "Orange",
+      "handle": "demo-color-orange",
+      "descriptionHtml": "<p>Sample Orange gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-oval-orange-006",
+        "demo-heart-orange-017",
+        "demo-asscher-orange-028",
+        "demo-cushion-orange-039"
+      ],
+      "imageLocalPath": "assets/demo-oval-orange-006.jpg"
+    },
+    {
+      "title": "Purple",
+      "handle": "demo-color-purple",
+      "descriptionHtml": "<p>Sample Purple gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-oval-purple-007",
+        "demo-heart-purple-018",
+        "demo-princess-purple-029",
+        "demo-cushion-purple-040"
+      ],
+      "imageLocalPath": "assets/demo-oval-purple-007.jpg"
+    },
+    {
+      "title": "White / Colorless",
+      "handle": "demo-color-white-colorless",
+      "descriptionHtml": "<p>Sample White / Colorless gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-oval-white-colorless-008",
+        "demo-heart-white-colorless-019",
+        "demo-princess-white-colorless-030",
+        "demo-cabochon-white-colorless-041"
+      ],
+      "imageLocalPath": "assets/demo-oval-white-colorless-008.jpg"
+    },
+    {
+      "title": "Black",
+      "handle": "demo-color-black",
+      "descriptionHtml": "<p>Sample Black gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-emerald-black-009",
+        "demo-heart-black-020",
+        "demo-princess-black-031",
+        "demo-cabochon-black-042"
+      ],
+      "imageLocalPath": "assets/demo-emerald-black-009.jpg"
+    },
+    {
+      "title": "Brown",
+      "handle": "demo-color-brown",
+      "descriptionHtml": "<p>Sample Brown gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-emerald-brown-010",
+        "demo-trilliant-brown-021",
+        "demo-princess-brown-032",
+        "demo-cabochon-brown-043"
+      ],
+      "imageLocalPath": "assets/demo-emerald-brown-010.jpg"
+    },
+    {
+      "title": "Multi-Color",
+      "handle": "demo-color-multi-color",
+      "descriptionHtml": "<p>Sample Multi-Color gemstone collection for previewing the color category.</p>",
+      "metafields": {
+        "collection_group": "Color"
+      },
+      "productHandles": [
+        "demo-emerald-multi-color-011",
+        "demo-trilliant-multi-color-022",
+        "demo-marquise-multi-color-033",
+        "demo-cabochon-multi-color-044"
+      ],
+      "imageLocalPath": "assets/demo-emerald-multi-color-011.jpg"
+    },
+    {
+      "title": "Round",
+      "handle": "demo-shape-round",
+      "descriptionHtml": "<p>Sample Round gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-round-red-001",
+        "demo-round-pink-002",
+        "demo-round-blue-003",
+        "demo-round-green-004"
+      ],
+      "imageLocalPath": "assets/demo-round-red-001.jpg"
+    },
+    {
+      "title": "Oval",
+      "handle": "demo-shape-oval",
+      "descriptionHtml": "<p>Sample Oval gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-oval-yellow-005",
+        "demo-oval-orange-006",
+        "demo-oval-purple-007",
+        "demo-oval-white-colorless-008"
+      ],
+      "imageLocalPath": "assets/demo-oval-yellow-005.jpg"
+    },
+    {
+      "title": "Emerald",
+      "handle": "demo-shape-emerald",
+      "descriptionHtml": "<p>Sample Emerald gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-emerald-black-009",
+        "demo-emerald-brown-010",
+        "demo-emerald-multi-color-011",
+        "demo-emerald-red-012"
+      ],
+      "imageLocalPath": "assets/demo-emerald-black-009.jpg"
+    },
+    {
+      "title": "Pear",
+      "handle": "demo-shape-pear",
+      "descriptionHtml": "<p>Sample Pear gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-pear-pink-013",
+        "demo-pear-blue-014",
+        "demo-pear-green-015",
+        "demo-pear-yellow-016"
+      ],
+      "imageLocalPath": "assets/demo-pear-pink-013.jpg"
+    },
+    {
+      "title": "Heart",
+      "handle": "demo-shape-heart",
+      "descriptionHtml": "<p>Sample Heart gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-heart-orange-017",
+        "demo-heart-purple-018",
+        "demo-heart-white-colorless-019",
+        "demo-heart-black-020"
+      ],
+      "imageLocalPath": "assets/demo-heart-orange-017.jpg"
+    },
+    {
+      "title": "Trilliant",
+      "handle": "demo-shape-trilliant",
+      "descriptionHtml": "<p>Sample Trilliant gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-trilliant-brown-021",
+        "demo-trilliant-multi-color-022",
+        "demo-trilliant-red-023",
+        "demo-trilliant-pink-024"
+      ],
+      "imageLocalPath": "assets/demo-trilliant-brown-021.jpg"
+    },
+    {
+      "title": "Asscher",
+      "handle": "demo-shape-asscher",
+      "descriptionHtml": "<p>Sample Asscher gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-asscher-blue-025",
+        "demo-asscher-green-026",
+        "demo-asscher-yellow-027",
+        "demo-asscher-orange-028"
+      ],
+      "imageLocalPath": "assets/demo-asscher-blue-025.jpg"
+    },
+    {
+      "title": "Princess",
+      "handle": "demo-shape-princess",
+      "descriptionHtml": "<p>Sample Princess gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-princess-purple-029",
+        "demo-princess-white-colorless-030",
+        "demo-princess-black-031",
+        "demo-princess-brown-032"
+      ],
+      "imageLocalPath": "assets/demo-princess-purple-029.jpg"
+    },
+    {
+      "title": "Marquise",
+      "handle": "demo-shape-marquise",
+      "descriptionHtml": "<p>Sample Marquise gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-marquise-multi-color-033",
+        "demo-marquise-red-034",
+        "demo-marquise-pink-035",
+        "demo-marquise-blue-036"
+      ],
+      "imageLocalPath": "assets/demo-marquise-multi-color-033.jpg"
+    },
+    {
+      "title": "Cushion",
+      "handle": "demo-shape-cushion",
+      "descriptionHtml": "<p>Sample Cushion gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-cushion-green-037",
+        "demo-cushion-yellow-038",
+        "demo-cushion-orange-039",
+        "demo-cushion-purple-040"
+      ],
+      "imageLocalPath": "assets/demo-cushion-green-037.jpg"
+    },
+    {
+      "title": "Cabochon",
+      "handle": "demo-shape-cabochon",
+      "descriptionHtml": "<p>Sample Cabochon gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-cabochon-white-colorless-041",
+        "demo-cabochon-black-042",
+        "demo-cabochon-brown-043",
+        "demo-cabochon-multi-color-044"
+      ],
+      "imageLocalPath": "assets/demo-cabochon-white-colorless-041.jpg"
+    },
+    {
+      "title": "Baguette",
+      "handle": "demo-shape-baguette",
+      "descriptionHtml": "<p>Sample Baguette gemstone collection for previewing the shape category.</p>",
+      "metafields": {
+        "collection_group": "Shape"
+      },
+      "productHandles": [
+        "demo-baguette-red-045",
+        "demo-baguette-pink-046",
+        "demo-baguette-blue-047",
+        "demo-baguette-green-048"
+      ],
+      "imageLocalPath": "assets/demo-baguette-red-045.jpg"
+    }
+  ]
+}
