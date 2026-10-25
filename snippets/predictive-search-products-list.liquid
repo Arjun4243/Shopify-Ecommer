@@ -93,18 +93,42 @@
         assign limit = limit | default: 8
       %}
       {% for product in products limit: limit %}
+        {% liquid
+          assign product_shape = product.metafields.custom.shape.value | default: product.metafields.custom.shape
+          assign product_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
+          assign certification_status = product.metafields.custom.certification_status.value | default: product.metafields.custom.certification_status
+          assign compare_at_price = product.compare_at_price
+          assign current_price = product.price
+          assign discount_percentage = 0
+          if compare_at_price > current_price and compare_at_price > 0
+            assign discount_percentage = compare_at_price | minus: current_price | times: 100 | divided_by: compare_at_price
+          endif
+        %}
         <li
           class="predictive-search-results__card predictive-search-results__card--product"
           ref="resultsItems[]"
         >
-          {% render 'resource-card',
-            resource_type: 'product',
-            resource: product,
-            image_width: 500,
-            image_hover: false,
-            image_aspect_ratio: '4 / 5',
-            product_view_context: 'search'
-          %}
+          <a class="predictive-search-results__product-link" href="{{ product.url }}">
+            <span class="predictive-search-results__product-media">
+              {% if product.featured_media.preview_image != blank %}
+                {{ product.featured_media.preview_image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120, 180, 240', sizes: '72px', alt: product.title }}
+              {% endif %}
+            </span>
+            <span class="predictive-search-results__product-info">
+              <strong>{{ product.title }}</strong>
+              <span class="predictive-search-results__product-meta">
+                {% if product_shape != blank %}<span>{{ product_shape | escape }}</span>{% endif %}
+                {% if product_weight != blank %}<span>{{ product_weight | escape }}</span>{% endif %}
+                {% if certification_status != blank %}<span>{{ certification_status | escape }}</span>{% endif %}
+              </span>
+            </span>
+            <span class="predictive-search-results__product-pricing">
+              <span class="predictive-search-results__product-price">{{ product.price | money }}</span>
+              {% if compare_at_price > current_price %}<s>{{ compare_at_price | money }}</s>{% endif %}
+              {% if discount_percentage > 0 %}<em class="predictive-search-results__discount">{{ discount_percentage }}% OFF</em>{% endif %}
+            </span>
+            <span class="predictive-search-results__product-arrow" aria-hidden="true">›</span>
+          </a>
         </li>
       {% endfor %}
     </ul>
