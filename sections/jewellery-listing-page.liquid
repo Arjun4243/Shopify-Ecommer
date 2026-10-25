@@ -272,7 +272,7 @@
 
                 <label>
                   <input type="checkbox" value="{{ product_shape | escape }}" data-shape-filter>
-                  {{ product_shape | replace: '_', ' ' | capitalize }} ({{ shape_count }})
+                  {{ product_shape | replace: '_', ' ' | capitalize | escape }} ({{ shape_count }})
                 </label>
               {% endunless %}
             {% endif %}
@@ -367,7 +367,7 @@
           </div>
         </div>
 
-        <div class="jewellery-products__grid" data-products-grid>
+        <div class="jewellery-products__grid responsive-product-grid" data-products-grid>
           {% assign rendered_products_count = 0 %}
 
           {% for product in source_collection.products %}
@@ -379,7 +379,6 @@
               assign product_shape = product.metafields.custom.shape.value | downcase
               assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.metafields.custom.gemstone_type
               assign carat_weight = product.metafields.custom.actual_carat_weight.value | default: product.metafields.custom.actual_carat_weight
-              assign certification_status = product.metafields.custom.certification_status.value | default: product.metafields.custom.certification_status
               assign selected_variant = product.selected_or_first_available_variant
               assign detail_count = 0
             %}
@@ -464,20 +463,15 @@
 
                 <div class="jewellery-product-card__content">
                   <h3>
-                    <a href="{{ product.url }}">{{ product.title }}</a>
+                    <a href="{{ product.url }}">{{ product.title | escape }}</a>
                   </h3>
 
-                  {% if gemstone_type != blank or product_shape != blank or product_color != blank or carat_weight != blank or certification_status != blank %}
+                  {% if product_shape != blank or product_color != blank or carat_weight != blank %}
                     <p class="jewellery-product-card__details">
-                      {% if gemstone_type != blank %}
-                        {% assign detail_count = detail_count | plus: 1 %}
-                        <span>{{ gemstone_type }}</span>
-                      {% endif %}
-
                       {% if product_shape != blank %}
                         {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
                         {% assign detail_count = detail_count | plus: 1 %}
-                        <span>{{ product_shape | replace: '_', ' ' | capitalize }}</span>
+                        <span>{{ product_shape | replace: '_', ' ' | capitalize | escape }}</span>
                       {% endif %}
 
                       {% if product_color != blank %}
@@ -494,12 +488,7 @@
                         {% endunless %}
                         {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
                         {% assign detail_count = detail_count | plus: 1 %}
-                        <span>{{ carat_text }}</span>
-                      {% endif %}
-
-                      {% if certification_status != blank %}
-                        {% if detail_count > 0 %}<span aria-hidden="true">|</span>{% endif %}
-                        <span>{{ certification_status }}</span>
+                        <span>{{ carat_text | escape }}</span>
                       {% endif %}
                     </p>
                   {% endif %}
@@ -524,6 +513,8 @@
   </div>
   {% endpaginate %}
 </div>
+
+{% render 'resource-list-styles' %}
 
 {% stylesheet %}
   .jewellery-page {
@@ -782,7 +773,6 @@
 
   .jewellery-products__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 174px);
     gap: 28px 26px;
     justify-content: start;
     width: 100%;
@@ -921,20 +911,20 @@
     color: inherit;
     text-decoration: none;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
   }
 
   .jewellery-product-card__details {
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+    display: block;
     min-width: 0;
     overflow: hidden;
     color: #6b7280;
     font-size: 13px;
     font-weight: 700;
     line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .jewellery-product-card__details span {
@@ -986,7 +976,6 @@
     }
 
     .jewellery-products__grid {
-      grid-template-columns: repeat(auto-fill, 174px);
     }
   }
 
@@ -1087,7 +1076,6 @@
     }
 
     .jewellery-products__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px 12px;
       justify-content: stretch;
     }

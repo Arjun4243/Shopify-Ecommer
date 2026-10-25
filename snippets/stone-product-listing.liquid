@@ -158,7 +158,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
         <div class="stone-type-rail" data-type-rail></div>
       {% endif %}
 
-      <div class="stone-listing__grid" data-stone-grid>
+      <div class="stone-listing__grid responsive-product-grid" data-stone-grid>
         {% if source_collection != blank and source_collection.products_count > 0 %}
           {% paginate source_collection.products by products_limit %}
             {% for product in source_collection.products %}
@@ -539,6 +539,8 @@ Renders a filterable gemstone product listing for a product gemstone group.
     initStoneListings(event.target);
   });
 {% endjavascript %}
+
+{% render 'resource-list-styles' %}
 
 {% stylesheet %}
   .stone-listing {
@@ -1012,7 +1014,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
 
   .stone-listing__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 174px);
     gap: 28px 26px;
     justify-content: start;
   }
@@ -1030,12 +1031,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
     margin: 30px 0 0;
     color: #747983;
     font-weight: 700;
-  }
-
-  @media screen and (max-width: 1180px) {
-    .stone-listing__grid {
-      grid-template-columns: repeat(auto-fill, 174px);
-    }
   }
 
   @media screen and (max-width: 900px) {
@@ -1123,7 +1118,6 @@ Renders a filterable gemstone product listing for a product gemstone group.
     }
 
     .stone-listing__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px 14px;
     }
   }

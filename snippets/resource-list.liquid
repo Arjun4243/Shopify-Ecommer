@@ -106,6 +106,7 @@
     {% if settings.carousel_on_mobile and settings.layout_type != 'carousel' %}
       hidden--mobile
     {% endif %}
+    {% if content_type == 'products' and layout_type == 'grid' %}responsive-product-grid{% endif %}
     {{ resource_list_classes }}
   "
   style="{{ resource_list_styles }}"

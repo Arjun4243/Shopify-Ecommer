@@ -1,5 +1,5 @@
 {%- doc -%}
-  Shared resource list grid styles used by resource-list snippets and product recommendations markup.
+  Shared resource list styles and responsive product grids for listings, search, wishlists, and recommendations.
 
   @example
   {% render 'resource-list-styles' %}
@@ -83,5 +83,22 @@
     height: 100%;
     color: var(--color-foreground);
     text-decoration: none;
+  }
+  .responsive-product-grid:not(.product-grid--organic, [product-grid-view='zoom-out'], [product-grid-view='mobile-single'], .stone-listing__grid--list) {
+    grid-template-columns: auto auto auto auto;
+    min-width: 0;
+    justify-content: stretch;
+
+    @media screen and (max-width: 1180px) {
+      grid-template-columns: auto auto auto;
+    }
+
+    @media screen and (max-width: 560px) {
+      grid-template-columns: auto auto;
+    }
+  }
+
+  .responsive-product-grid > * {
+    min-width: 0;
   }
 {% endstylesheet %}

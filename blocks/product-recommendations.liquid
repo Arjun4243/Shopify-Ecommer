@@ -16,7 +16,7 @@
   assign block_settings = block.settings
   case block_settings.layout_type
     when 'grid'
-      assign classes = 'resource-list--grid'
+      assign classes = 'resource-list--grid responsive-product-grid'
     when 'carousel'
       assign classes = 'resource-list__carousel'
   endcase
@@ -171,7 +171,7 @@
         </div>
       {% endif %}
     {%- else -%}
-      <div class="resource-list resource-list--grid">
+      <div class="resource-list resource-list--grid responsive-product-grid">
         {% for i in (1..block_settings.max_products) %}
           <div
             class="resource-list__item product-recommendations__skeleton-item"

@@ -8,7 +8,7 @@
 {% liquid
   case section.settings.layout_type
     when 'grid'
-      assign classes = 'resource-list--grid'
+      assign classes = 'resource-list--grid responsive-product-grid'
     when 'carousel'
       assign classes = 'resource-list__carousel'
   endcase
@@ -177,7 +177,7 @@
       {% endif %}
     {%- else -%}
       <div
-        class="resource-list resource-list--grid"
+        class="resource-list resource-list--grid responsive-product-grid"
       >
         {% for i in (1..section.settings.columns) %}
           <div
