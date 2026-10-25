@@ -10,13 +10,13 @@ Only text presentation was changed. Grids, card widths, images, filter data and 
 |---|---:|---:|
 | Product title | 16px | 700 |
 | Product details | 13px | 500 |
-| Current price | 20px | 700 |
+| Current price | 100% of its card text context | 700; green |
 | Compare price | 14px | 400 |
 | Filter heading | 20px | 700 |
 | Filter group | 16px | 600 |
 | Filter option | 14px | 400 |
 
-Sizes use rem units. Product titles use the available card width, one line and ellipsis. Product and filter text uses normal style and letter spacing. Banners retain their existing hierarchy and sizes.
+Price size uses `100%` so it follows the card's text context. Product titles use the available card width, one line and ellipsis. Product and filter text uses normal style and letter spacing. Banners retain their existing hierarchy and sizes. Wishlist product-card prices remain unchanged.
 
 ## Pages covered
 
@@ -55,7 +55,7 @@ Sizes use rem units. Product titles use the available card width, one line and e
 
 - Live preview inspected 19 page routes at desktop width.
 - Search, Precious, Semi-Precious, Jewellery, Sales, Collection and Cart checked at 375, 560, 900, 1180 and 1440px: 35 cases, matching title/price typography and no horizontal main-content overflow.
-- Deferred product recommendations loaded and verified: 4 cards with Inter, 16px/700 titles and 20px/700 prices.
+- Deferred product recommendations loaded and verified: 4 cards with Inter, 16px/700 titles and 100%/700 green prices.
 - Wishlist: 3 populated cards had identical before/after text styles and dimensions at desktop; wishlist-content source hash unchanged.
 - `git diff --check`: passed (only a Windows line-ending notice).
 - Installed Shopify CLI `theme check --path . --output json`: new stylesheet has no findings; layout has its existing RemoteAsset warning. Full theme still reports 3889 errors and 94 warnings in existing source.
