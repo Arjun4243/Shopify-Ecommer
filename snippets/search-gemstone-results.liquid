@@ -28,7 +28,7 @@
       <summary>{{ 'gemstone_search.filters' | t }}</summary>
       <button class="search-catalog__filter-close" type="button" aria-label="{{ 'actions.close' | t }}" data-search-filter-close>×</button>
       <button class="search-catalog__clear" type="button" on:click="/clearFilters">{{ 'actions.clear_all' | t }}</button>
-      {% assign filter_names = 'availability,type,weight,shape,color' | split: ',' %}
+      {% assign filter_names = 'type,weight,shape,color' | split: ',' %}
       {% for filter_name in filter_names %}
         {% assign filter_label = 'gemstone_search.' | append: filter_name %}
         <details class="search-catalog__facet" open data-facet="{{ filter_name }}">
@@ -65,8 +65,6 @@
               <option value="title-desc">{{ 'gemstone_search.title_descending' | t }}</option>
             </select>
           </label>
-          <button ref="gridButton" type="button" on:click="/showGrid" aria-pressed="true" aria-label="{{ 'gemstone_search.grid_view' | t }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z"/></svg></button>
-          <button ref="listButton" type="button" on:click="/showList" aria-pressed="false" aria-label="{{ 'gemstone_search.list_view' | t }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h2v2H3zm5 0h13v2H8zM3 11h2v2H3zm5 0h13v2H8zM3 17h2v2H3zm5 0h13v2H8z"/></svg></button>
         </div>
       </div>
       {% if paginate.pages > 1 %}<p class="search-catalog__page-note">{{ 'gemstone_search.page_filters' | t }}</p>{% endif %}

@@ -13,14 +13,12 @@ import { Component } from '@theme/component';
  * @property {HTMLInputElement} maxPrice
  * @property {HTMLInputElement} priceRange
  * @property {HTMLElement} priceCaption
- * @property {HTMLButtonElement} gridButton
- * @property {HTMLButtonElement} listButton
  * @extends {Component<SearchRefs>}
  */
 class SearchGemstoneResults extends Component {
-  requiredRefs = ['grid', 'filters', 'tools', 'count', 'empty', 'sort', 'minPrice', 'maxPrice', 'priceRange', 'priceCaption', 'gridButton', 'listButton'];
+  requiredRefs = ['grid', 'filters', 'tools', 'count', 'empty', 'sort', 'minPrice', 'maxPrice', 'priceRange', 'priceCaption'];
   #controller;
-  #groups = ['availability', 'type', 'weight', 'shape', 'color'];
+  #groups = ['type', 'weight', 'shape', 'color'];
   #bounds = [0, 0];
   #options = [];
 
@@ -183,15 +181,6 @@ class SearchGemstoneResults extends Component {
     this.apply();
   }
 
-  showGrid() { this.#setView('grid'); }
-  showList() { this.#setView('list'); }
-
-  /** @param {'grid'|'list'} view */
-  #setView(view) {
-    this.refs.grid.dataset.view = view;
-    this.refs.gridButton.setAttribute('aria-pressed', String(view === 'grid'));
-    this.refs.listButton.setAttribute('aria-pressed', String(view === 'list'));
-  }
 }
 
 if (!customElements.get('search-gemstone-results-component')) {
