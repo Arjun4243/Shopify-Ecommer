@@ -87,14 +87,38 @@ class SearchGemstoneResults extends Component {
     this.refs.filters.hidden = cards.length === 0;
     this.refs.tools.hidden = cards.length === 0;
     const narrow = window.matchMedia('(max-width: 900px)');
-    this.refs.filters.open = !narrow.matches;
+    const filterToggle = this.querySelector('[data-search-filter-toggle]');
+    const filterCloseButtons = this.querySelectorAll('[data-search-filter-close]');
+
+    const closeFilterDrawer = () => {
+      this.classList.remove('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'false');
+      document.documentElement.classList.remove('search-filter-drawer-open');
+    };
+
+    const openFilterDrawer = () => {
+      if (!narrow.matches) return;
+      this.classList.add('is-filter-drawer-open');
+      filterToggle?.setAttribute('aria-expanded', 'true');
+      document.documentElement.classList.add('search-filter-drawer-open');
+    };
+
+    filterToggle?.addEventListener('click', openFilterDrawer, { signal: this.#controller.signal });
+    filterCloseButtons.forEach((button) => button.addEventListener('click', closeFilterDrawer, { signal: this.#controller.signal }));
+    this.refs.filters.open = true;
+    this.refs.filters.addEventListener('toggle', () => {
+      if (!this.refs.filters.open) this.refs.filters.open = true;
+    }, { signal: this.#controller.signal });
     for (const facet of this.querySelectorAll('.search-catalog__facet')) {
       facet.open = true;
       facet.addEventListener('toggle', () => {
         if (!facet.open) facet.open = true;
       }, { signal: this.#controller.signal });
     }
-    narrow.addEventListener('change', (event) => { this.refs.filters.open = !event.matches; }, { signal: this.#controller.signal });
+    narrow.addEventListener('change', () => {
+      this.refs.filters.open = true;
+      closeFilterDrawer();
+    }, { signal: this.#controller.signal });
     this.apply();
   }
 
