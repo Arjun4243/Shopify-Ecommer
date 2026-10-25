@@ -120,7 +120,8 @@ class SearchGemstoneResults extends Component {
     visible.sort((a, b) => {
       if (order === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
       if (order === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
-      if (order === 'title') return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+      if (order === 'title-asc') return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+      if (order === 'title-desc') return (b.dataset.title ?? '').localeCompare(a.dataset.title ?? '');
       return Number(a.dataset.index) - Number(b.dataset.index);
     });
     for (const card of cards) card.hidden = true;
@@ -148,7 +149,7 @@ class SearchGemstoneResults extends Component {
     for (const option of this.#options) option.input.checked = false;
     this.refs.minPrice.value = String(this.#bounds[0]);
     this.refs.maxPrice.value = String(this.#bounds[1]);
-    this.refs.sort.value = 'relevance';
+    this.refs.sort.value = 'price-asc';
     this.apply();
   }
 

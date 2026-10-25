@@ -54,10 +54,10 @@
         <div class="search-catalog__tools" ref="tools" hidden>
           <label>{{ 'gemstone_search.sort' | t }}
             <select ref="sort" on:change="/apply">
-              <option value="relevance">{{ 'gemstone_search.relevance' | t }}</option>
               <option value="price-asc">{{ 'gemstone_search.price_ascending' | t }}</option>
               <option value="price-desc">{{ 'gemstone_search.price_descending' | t }}</option>
-              <option value="title">{{ 'gemstone_search.title_ascending' | t }}</option>
+              <option value="title-asc">{{ 'gemstone_search.title_ascending' | t }}</option>
+              <option value="title-desc">{{ 'gemstone_search.title_descending' | t }}</option>
             </select>
           </label>
           <button ref="gridButton" type="button" on:click="/showGrid" aria-pressed="true" aria-label="{{ 'gemstone_search.grid_view' | t }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z"/></svg></button>

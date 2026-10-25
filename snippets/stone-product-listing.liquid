@@ -140,10 +140,10 @@ Renders a filterable gemstone product listing for a product gemstone group.
           <label class="stone-listing__sort">
             <span>Sort by:</span>
             <select data-stone-sort>
-              <option value="featured">Featured</option>
               <option value="price-asc">Price: low to high</option>
               <option value="price-desc">Price: high to low</option>
               <option value="title-asc">Name: A to Z</option>
+              <option value="title-desc">Name: Z to A</option>
             </select>
           </label>
           {% if show_view_controls %}
@@ -416,6 +416,7 @@ Renders a filterable gemstone product listing for a product gemstone group.
         if (state.sort === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
         if (state.sort === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
         if (state.sort === 'title-asc') return a.dataset.title.localeCompare(b.dataset.title);
+        if (state.sort === 'title-desc') return b.dataset.title.localeCompare(a.dataset.title);
         return Number(a.dataset.index) - Number(b.dataset.index);
       });
 
@@ -478,9 +479,9 @@ Renders a filterable gemstone product listing for a product gemstone group.
         state.shapes.clear();
         state.colors.clear();
         state.carats.clear();
-        state.sort = 'featured';
+        state.sort = 'price-asc';
         searchInputs.forEach((input) => { input.value = ''; });
-        sort.value = 'featured';
+        sort.value = 'price-asc';
         if (priceMaxRange) priceMaxRange.value = maxPrice;
         syncPriceRangeUi(maxPrice);
         listing.querySelectorAll('[data-filter-check]').forEach((checkbox) => { checkbox.checked = false; });

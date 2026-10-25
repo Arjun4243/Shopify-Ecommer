@@ -151,6 +151,7 @@
               <option value="price-asc">Price: low to high</option>
               <option value="price-desc">Price: high to low</option>
               <option value="title-asc">Name: A to Z</option>
+              <option value="title-desc">Name: Z to A</option>
             </select>
           </label>
         </div>
@@ -379,6 +380,7 @@
           if (state.sort === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
           if (state.sort === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
           if (state.sort === 'title-asc') return a.dataset.title.localeCompare(b.dataset.title);
+          if (state.sort === 'title-desc') return b.dataset.title.localeCompare(a.dataset.title);
           return Number(b.dataset.discount) - Number(a.dataset.discount);
         });
 

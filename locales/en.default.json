@@ -28,6 +28,7 @@
     "price_ascending": "Price: low to high",
     "price_descending": "Price: high to low",
     "title_ascending": "Name: A to Z",
+    "title_descending": "Name: Z to A",
     "grid_view": "Grid view",
     "list_view": "List view",
     "in_stock": "In stock",
