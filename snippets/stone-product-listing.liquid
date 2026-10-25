@@ -256,6 +256,13 @@ Renders a filterable gemstone product listing for a product gemstone group.
     const mobileMedia = window.matchMedia('(max-width: 900px)');
     let filterToggleReturn = null;
 
+    listing.querySelectorAll('.stone-filter').forEach((filter) => {
+      filter.open = true;
+      filter.addEventListener('toggle', () => {
+        if (!filter.open) filter.open = true;
+      });
+    });
+
     const state = {
       search: '',
       types: new Set(),

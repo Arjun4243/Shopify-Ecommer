@@ -252,6 +252,9 @@
       // where the browser may restore a previously collapsed details state.
       page.querySelectorAll('.sales-filter').forEach((filter) => {
         filter.open = true;
+        filter.addEventListener('toggle', () => {
+          if (!filter.open) filter.open = true;
+        });
       });
 
       const state = {

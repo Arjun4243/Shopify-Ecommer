@@ -88,6 +88,12 @@ class SearchGemstoneResults extends Component {
     this.refs.tools.hidden = cards.length === 0;
     const narrow = window.matchMedia('(max-width: 900px)');
     this.refs.filters.open = !narrow.matches;
+    for (const facet of this.querySelectorAll('.search-catalog__facet')) {
+      facet.open = true;
+      facet.addEventListener('toggle', () => {
+        if (!facet.open) facet.open = true;
+      }, { signal: this.#controller.signal });
+    }
     narrow.addEventListener('change', (event) => { this.refs.filters.open = !event.matches; }, { signal: this.#controller.signal });
     this.apply();
   }
