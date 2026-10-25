@@ -1,0 +1,136 @@
+{% doc %}
+  Renders search product cards with filters derived from the current search result page.
+  @param {object} section - Owning search results section.
+  @example
+  {% render 'search-gemstone-results', section: section %}
+{% enddoc %}
+{% liquid
+  assign quick_add_enabled = false
+  if settings.quick_add or settings.mobile_quick_add
+    assign quick_add_enabled = true
+  endif
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+<script src="{{ 'search-gemstone-results.js' | asset_url }}" type="module"></script>
+{% render 'resource-list-styles' %}
+{% paginate search.results by 250 %}
+  {% assign products = search.results | where: 'object_type', 'product' %}
+  <search-gemstone-results-component
+    class="search-catalog{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    style="--search-accent: {{ section.settings.accent_color }}; --search-padding-start: {{ section.settings.padding-block-start }}px; --search-padding-end: {{ section.settings.padding-block-end }}px;"
+    data-count-template="{{ 'gemstone_search.count' | t: count: '[count]' | escape }}"
+    data-currency="{{ cart.currency.iso_code }}"
+    data-weight-unit="{{ 'gemstone_search.carat_unit' | t }}"
+  >
+    <details class="search-catalog__filters" ref="filters" open hidden>
+      <summary>{{ 'gemstone_search.filters' | t }}</summary>
+      <button class="search-catalog__clear" type="button" on:click="/clearFilters">{{ 'actions.clear_all' | t }}</button>
+      {% assign filter_names = 'availability,type,weight,shape,color' | split: ',' %}
+      {% for filter_name in filter_names %}
+        {% assign filter_label = 'gemstone_search.' | append: filter_name %}
+        <details class="search-catalog__facet" open data-facet="{{ filter_name }}">
+          <summary>{{ filter_label | t }}</summary>
+          <div class="search-catalog__options" data-options="{{ filter_name }}"></div>
+        </details>
+        {% if forloop.first %}
+      <details class="search-catalog__facet" open>
+        <summary>{{ 'gemstone_search.price' | t }}</summary>
+        <div class="search-catalog__price-inputs">
+          <label>{{ 'gemstone_search.min_price' | t }}<input ref="minPrice" type="number" min="0" step="0.01" on:input="/apply"></label>
+          <label>{{ 'gemstone_search.max_price' | t }}<input ref="maxPrice" type="number" min="0" step="0.01" on:input="/apply"></label>
+        </div>
+        <label class="search-catalog__range-label">{{ 'gemstone_search.max_price' | t }}<input ref="priceRange" type="range" step="0.01" on:input="/handlePriceRange"></label>
+        <p class="search-catalog__price-caption" ref="priceCaption"></p>
+      </details>
+        {% endif %}
+      {% endfor %}
+
+    </details>
+    <div class="search-catalog__main">
+      <div class="search-catalog__toolbar">
+        <p ref="count" role="status" aria-live="polite" aria-atomic="true">{{ 'gemstone_search.count' | t: count: products.size }}</p>
+        <div class="search-catalog__tools" ref="tools" hidden>
+          <label>{{ 'gemstone_search.sort' | t }}
+            <select ref="sort" on:change="/apply">
+              <option value="relevance">{{ 'gemstone_search.relevance' | t }}</option>
+              <option value="price-asc">{{ 'gemstone_search.price_ascending' | t }}</option>
+              <option value="price-desc">{{ 'gemstone_search.price_descending' | t }}</option>
+              <option value="title">{{ 'gemstone_search.title_ascending' | t }}</option>
+            </select>
+          </label>
+          <button ref="gridButton" type="button" on:click="/showGrid" aria-pressed="true" aria-label="{{ 'gemstone_search.grid_view' | t }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z"/></svg></button>
+          <button ref="listButton" type="button" on:click="/showList" aria-pressed="false" aria-label="{{ 'gemstone_search.list_view' | t }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h2v2H3zm5 0h13v2H8zM3 11h2v2H3zm5 0h13v2H8zM3 17h2v2H3zm5 0h13v2H8z"/></svg></button>
+        </div>
+      </div>
+      {% if paginate.pages > 1 %}<p class="search-catalog__page-note">{{ 'gemstone_search.page_filters' | t }}</p>{% endif %}
+      <ul class="search-catalog__grid responsive-product-grid" ref="grid" role="list">
+        {% for product in products %}
+          {% liquid
+            assign gemstone_type = product.metafields.custom.gemstone_type.value | default: product.type
+            assign shape = product.metafields.custom.shape.value
+            assign color = product.metafields.custom.color.value
+            assign weight = product.metafields.custom.actual_carat_weight.value
+          %}
+          <li ref="cards[]" class="search-catalog__item"
+            data-title="{{ product.title | escape }}" data-index="{{ forloop.index0 }}"
+            data-price="{{ product.selected_or_first_available_variant.price }}"
+            data-type="{{ gemstone_type | escape }}" data-shape="{{ shape | escape }}"
+            data-color="{{ color | escape }}" data-weight="{{ weight | escape }}"
+            data-availability="{% if product.available %}{{ 'gemstone_search.in_stock' | t | escape }}{% else %}{{ 'gemstone_search.out_of_stock' | t | escape }}{% endif %}"
+          >
+            {% render 'stone-product-card', product: product, card_class: 'search-catalog__card', section_id: section.id, quick_add_enabled: quick_add_enabled %}
+          </li>
+        {% endfor %}
+      </ul>
+      <p class="search-catalog__empty" ref="empty" {% if products.size > 0 %}hidden{% endif %}>{{ 'gemstone_search.empty' | t }}</p>
+      {% render 'pagination-controls', paginate: paginate %}
+    </div>
+  </search-gemstone-results-component>
+{% endpaginate %}
+{% stylesheet %}
+  .search-catalog { display: grid; grid-template-columns: clamp(230px, 21vw, 300px) minmax(0, 1fr); align-items: start; gap: clamp(20px, 2.2vw, 36px); width: min(calc(100% - 2 * clamp(18px, 4vw, 64px)), 1480px); margin-inline: auto; padding-block: max(24px, var(--search-padding-start)) max(32px, var(--search-padding-end)); color: var(--color-foreground); }
+  .search-catalog:not(:has(.search-catalog__filters:not([hidden]))) { grid-template-columns: minmax(0, 1fr); }
+  .search-catalog [hidden] { display: none; }
+  .search-catalog__filters { position: sticky; inset-block-start: 20px; max-block-size: calc(100dvh - 40px); overflow-y: auto; padding: 20px; border: 1px solid rgb(var(--color-border-rgb) / var(--opacity-15)); border-radius: 12px; background: var(--color-background); }
+  .search-catalog__filters > summary { font-family: var(--font-heading--family); font-size: 22px; font-weight: 700; cursor: pointer; }
+  .search-catalog__clear { display: block; margin-block: 12px; margin-inline-start: auto; border: 0; background: transparent; color: var(--search-accent); cursor: pointer; font: inherit; text-decoration: underline; }
+  .search-catalog__facet { border-block-start: 1px solid rgb(var(--color-border-rgb) / var(--opacity-15)); padding-block: 18px; }
+  .search-catalog__facet > summary { font-family: var(--font-heading--family); font-size: 18px; font-weight: 700; cursor: pointer; }
+  .search-catalog__options { display: grid; gap: 8px; max-block-size: 13rem; overflow-y: auto; margin-block-start: 14px; }
+  .search-catalog__option { display: flex; align-items: start; gap: 10px; font-size: 14px; overflow-wrap: anywhere; cursor: pointer; }
+  .search-catalog__option input { flex: 0 0 auto; inline-size: 17px; block-size: 17px; margin: 2px 0; accent-color: var(--search-accent); }
+  .search-catalog__price-inputs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-block-start: 14px; }
+  .search-catalog__price-inputs label { font-size: 12px; min-width: 0; }
+  .search-catalog__price-inputs input { display: block; width: 100%; min-width: 0; margin-block-start: 6px; padding: 8px; border: 1px solid var(--color-input-border); border-radius: 6px; background: var(--color-input-background); color: var(--color-input-text); }
+  .search-catalog__range-label { display: block; font-size: 12px; margin-block-start: 16px; }
+  .search-catalog__range-label input { display: block; width: 100%; margin-block-start: 8px; accent-color: var(--search-accent); }
+  .search-catalog__price-caption, .search-catalog__page-note { font-size: 12px; color: var(--color-foreground-muted); }
+  .search-catalog__main { min-width: 0; }
+  .search-catalog__toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-block-end: 20px; }
+  .search-catalog__toolbar p { margin: 0; }
+  .search-catalog__tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .search-catalog__tools label { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .search-catalog__tools select, .search-catalog__tools button { min-height: 40px; border: 1px solid rgb(var(--color-border-rgb) / var(--opacity-15)); border-radius: 8px; background: var(--color-background); color: inherit; padding: 8px; font: inherit; }
+  .search-catalog__tools button { display: grid; place-items: center; width: 40px; cursor: pointer; }
+  .search-catalog__tools button[aria-pressed='true'] { outline: 2px solid var(--search-accent); outline-offset: -2px; }
+  .search-catalog__tools svg { width: 20px; height: 20px; fill: currentColor; }
+  .search-catalog__grid { display: grid; gap: 24px 20px; margin: 0; padding: 0; list-style: none; }
+  .search-catalog__item { min-width: 0; padding: 0 0 12px; overflow: hidden; border-radius: 10px; background: var(--color-background); box-shadow: 0 5px 18px rgb(var(--color-foreground-rgb) / 5%); }
+  .search-catalog__card .stone-product-card__content { gap: 8px; }
+  .search-catalog__card .stone-product-card__media { border-radius: 10px; }
+  .search-catalog__card .stone-product-card__image, .search-catalog__card .stone-product-card__placeholder { aspect-ratio: 1.2; }
+  .search-catalog__card :is(.stone-product-card__title, .stone-product-card__details, .stone-product-card__price) { margin-inline: 10px; }
+  .search-catalog__card .stone-product-card__title { font-family: var(--font-heading--family); font-size: 18px; font-weight: 700; color: inherit; }
+  .search-catalog__card .stone-product-card__price { font-size: 20px; font-family: var(--font-heading--family); }
+  .search-catalog__card .stone-product-card__price-current { color: var(--search-accent); }
+  .search-catalog__card .stone-product-card__price-compare { font-size: 14px; }
+  .search-catalog .search-catalog__grid[data-view='list'] { grid-template-columns: auto; }
+  .search-catalog__grid[data-view='list'] .stone-product-card__content { grid-template-columns: 30% minmax(0, 1fr); grid-template-rows: auto auto 1fr; align-items: start; }
+  .search-catalog__grid[data-view='list'] .stone-product-card__media { grid-column: 1; grid-row: 1 / span 3; }
+  .search-catalog__grid[data-view='list'] :is(.stone-product-card__title, .stone-product-card__details, .stone-product-card__price) { grid-column: 2; }
+  @media (max-width: 900px) { .search-catalog { grid-template-columns: minmax(0, 1fr); } .search-catalog__filters { position: static; max-block-size: none; } .search-catalog__toolbar { margin-block-end: 16px; } }
+  @media (max-width: 560px) { .search-catalog__grid { gap: 18px 12px; } .search-catalog__card .stone-product-card__title { font-size: 16px; } .search-catalog__card .stone-product-card__price { font-size: 18px; } }
+  @media (prefers-reduced-motion: reduce) { .search-catalog__card .stone-product-card__image { transition: none; transform: none; } }
+{% endstylesheet %}

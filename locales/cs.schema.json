@@ -8,6 +8,10 @@
  * ------------------------------------------------------------
  */
 {
+  "gemstone_search": {
+    "banner_image": "Search banner image",
+    "accent_color": "Search accent color"
+  },
   "names": {
     "404": "404",
     "colors": "Paleta barev",

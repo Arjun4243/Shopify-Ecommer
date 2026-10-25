@@ -1,47 +1,63 @@
-
-
-{% liquid
-  if section.settings.background_color != blank
-    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
-  endif
-%}
-
-<div
-  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
-></div>
-<div class="section section--page-width{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}">
-  <div
-    class="spacing-style search-page__header"
-    style="
-      --horizontal-alignment: {{ section.settings.alignment }};
-      {% render 'spacing-style', settings: section.settings %}
-    "
-  >
-    {% assign heading_text = 'content.search' | t %}
-
-    {% if search.performed %}
-      {% assign heading_text = 'content.search_results' | t %}
+{% comment %}
+  Search header contract. Renders the query, result summary, and existing search form over configurable banner media.
+  @example
+  Rendered by the search template's search section.
+{% endcomment %}
+{% unless search.terms == 'wishlist' %}
+  {% if section.settings.background_color != blank %}
+    {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+  {% endif %}
+  <section class="gem-search-hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}" style="--search-accent: {{ section.settings.accent_color }}; --search-hero-padding: {{ section.settings.padding-block-start }}px;">
+    {% if section.settings.banner_image != blank %}
+      {{ section.settings.banner_image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1600, 2400', sizes: '100vw', loading: 'eager', class: 'gem-search-hero__image', alt: '' }}
+    {% else %}
+      <img class="gem-search-hero__image" src="{{ 'First-banner.webp' | asset_url }}" width="2048" height="768" alt="" fetchpriority="high">
     {% endif %}
-
-    {% if search.terms == 'wishlist' %}
-      {% assign heading_text = 'products.gemstone.wishlist' | t %}
-    {% endif %}
-
-    {% capture heading_text %}
-      <h3>{{ heading_text }}</h3>
-    {% endcapture %}
-
-    {% content_for 'block', id: 'heading', type: '_heading', text: heading_text %}
-    {% unless search.terms == 'wishlist' %}
-      {% content_for 'block', id: 'search', type: '_search-input' %}
-    {% endunless %}
-  </div>
-</div>
+    <div class="gem-search-hero__inner">
+      <div class="gem-search-hero__copy">
+        <nav aria-label="{{ 'gemstone_search.breadcrumb' | t }}"><a href="{{ routes.root_url }}">{{ 'gemstone_search.home' | t }}</a><span aria-hidden="true">›</span><span>{{ 'content.search' | t }}</span></nav>
+        <h1>{{ 'gemstone_search.heading' | t }} {% if search.terms != blank %}<span>“{{ search.terms | escape }}”</span>{% endif %}</h1>
+        <p>{{ 'gemstone_search.summary' | t: count: search.results_count, terms: search.terms | escape }}</p>
+      </div>
+      <div class="gem-search-hero__form">
+        {% content_for 'block', id: 'search', type: '_search-input' %}
+      </div>
+    </div>
+  </section>
+{% endunless %}
+{% stylesheet %}
+  .gem-search-hero { position: relative; isolation: isolate; background: var(--color-background); color: var(--color-foreground); }
+  .gem-search-hero__image { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 58%; }
+  .gem-search-hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--color-background) 0%, rgb(var(--color-background-rgb) / 94%) 32%, rgb(var(--color-background-rgb) / 62%) 65%, transparent); }
+  .gem-search-hero__inner { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: clamp(20px, 4vw, 64px); width: min(calc(100% - 2 * clamp(18px, 4vw, 64px)), 1480px); margin-inline: auto; padding-block: max(28px, var(--search-hero-padding)) 32px; }
+  .gem-search-hero__copy { min-width: 0; }
+  .gem-search-hero nav { display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; margin-block-end: 12px; }
+  .gem-search-hero nav a { color: inherit; text-decoration: none; }
+  .gem-search-hero h1 { margin: 0 0 10px; font-family: var(--font-heading--family); font-size: clamp(28px, 3vw, 44px); line-height: 1.1; overflow-wrap: anywhere; }
+  .gem-search-hero h1 span { color: var(--search-accent); }
+  .gem-search-hero p { margin: 0; }
+  .gem-search-hero__form { min-width: 0; }
+  .gem-search-hero__form search-page-input-component { max-width: 100%; margin: 0; border-radius: 14px; }
+  .gem-search-hero__form .search-page-input { border-radius: 14px; min-height: 54px; }
+  .gem-search-hero__form .search-results__no-results { display: none; }
+  @media (max-width: 749px) { .gem-search-hero__inner { grid-template-columns: auto; gap: 20px; } .gem-search-hero__image { object-position: 75% center; } .gem-search-hero::before { background: rgb(var(--color-background-rgb) / 88%); } }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:names.search",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:gemstone_search.banner_image"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "t:gemstone_search.accent_color",
+      "default": "#a90017"
+    },
     {
       "type": "select",
       "id": "alignment",

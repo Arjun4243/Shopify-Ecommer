@@ -8,6 +8,34 @@
  * ------------------------------------------------------------
  */
 {
+  "gemstone_search": {
+    "breadcrumb": "Breadcrumb",
+    "home": "Home",
+    "heading": "Search results for",
+    "summary": "Showing {{ count }} results related to “{{ terms }}”",
+    "count": "{{ count }} products found",
+    "filters": "Filter results",
+    "availability": "Availability",
+    "type": "Gemstone type",
+    "weight": "Carat weight",
+    "shape": "Shape",
+    "color": "Color",
+    "price": "Price range",
+    "min_price": "Minimum price",
+    "max_price": "Maximum price",
+    "sort": "Sort by:",
+    "relevance": "Relevance",
+    "price_ascending": "Price: low to high",
+    "price_descending": "Price: high to low",
+    "title_ascending": "Name: A to Z",
+    "grid_view": "Grid view",
+    "list_view": "List view",
+    "in_stock": "In stock",
+    "out_of_stock": "Out of stock",
+    "carat_unit": "ct",
+    "empty": "No products match your search and filters.",
+    "page_filters": "Filters apply to products on this page. Use pagination to browse more search results."
+  },
   "blocks": {
     "load_video": "Indlæs video: {{ description }}",
     "sold_out": "Udsolgt",
