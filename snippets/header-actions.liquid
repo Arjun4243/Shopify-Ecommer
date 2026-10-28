@@ -103,6 +103,18 @@
   </a>
 
   {% if shop.customer_accounts_enabled %}
+    {% if settings.account_sheet_jewel_style %}
+      {% liquid
+        assign account_sheet_scope = 'account-sheet-' | append: section.id | append: block.id
+      %}
+      {% render 'contrast-override',
+        background_color: settings.account_sheet_background,
+        text_color: settings.account_sheet_text,
+        border_color: settings.account_sheet_border,
+        section_id: account_sheet_scope,
+        preset: 'ui'
+      %}
+    {% endif %}
     {% liquid
       assign account_actions_style = ''
       if display_style == 'text' and section
@@ -126,9 +138,10 @@
     >
       <shopify-account
         menu="{{ customer_account_menu }}"
-        {% if account_actions_style != blank %}
-          style="{{ account_actions_style }}"
+        {% if settings.account_sheet_jewel_style %}
+          class="account-sheet--jewel color-custom-{{ account_sheet_scope }}{% if settings.account_sheet_serif_heading %} account-sheet--serif{% endif %}"
         {% endif %}
+        style="{{ account_actions_style }}{% if settings.account_sheet_jewel_style %} --account-sheet-button-background: {{ settings.account_sheet_button_background }}; --account-sheet-button-text: {{ settings.account_sheet_button_text }};{% endif %}"
       >
         {% if customer %}
           <div class="account-button__fallback"></div>
@@ -162,6 +175,7 @@
       aria-label="{{ 'accessibility.cart' | t }}"
       aria-describedby="cart-bubble-text"
       data-testid="cart-drawer-trigger"
+      data-header-cart-trigger
     >
       {{ cart_icon }}
     </button>
@@ -169,6 +183,7 @@
     <a
       href="{{ routes.cart_url }}"
       class="header-actions__action action__cart{% if display_style == 'text' %} header-actions__text-style{% endif %}"
+      data-header-cart-trigger
       aria-label="{{ 'accessibility.cart' | t }}"
       aria-describedby="cart-bubble-text"
     >
@@ -267,7 +282,7 @@
     --shopify-account-color-text: var(--color-foreground);
     --shopify-account-color-accent: var(--color-primary-button-background);
     --shopify-account-color-accent-text: var(--color-primary-button-text);
-    --shopify-account-dialog-position-top: var(--account-offset-top);
+    --shopify-account-dialog-position-top: calc(var(--account-offset-top, 60px) + var(--gap-xs));
 
     &:not(:defined) {
       min-width: 44px;
@@ -277,6 +292,76 @@
       align-items: center;
       /* Match the line height of the other buttons */
       line-height: normal;
+    }
+  }
+
+  shopify-account::part(dialog) {
+    inset-block-start: var(--shopify-account-dialog-position-top);
+    inset-block-end: auto;
+    margin-block: 0;
+  }
+
+  .account-sheet--jewel {
+    --shopify-account-radius-base: 16px;
+    --shopify-account-radius-dialog: 28px;
+    --shopify-account-radius-button: 999px;
+    --shopify-account-radius-button-small: 999px;
+    --shopify-account-radius-input: 12px;
+    --shopify-account-color-background: var(--color-background);
+    --shopify-account-color-text: var(--color-foreground);
+    --shopify-account-color-border: var(--color-border);
+    --shopify-account-color-accent: var(--account-sheet-button-background);
+    --shopify-account-color-accent-text: var(--account-sheet-button-text);
+    --shopify-account-color-card-background: var(--account-sheet-button-background);
+    --shopify-account-color-card-text: var(--account-sheet-button-text);
+    --shopify-account-color-control-background: var(--color-background);
+    --shopify-account-color-control-text: var(--color-foreground);
+    --shopify-account-color-shadow: rgb(var(--color-border-rgb) / var(--opacity-30));
+    --shopify-account-signed-in-avatar-color-background: var(--account-sheet-button-background);
+    --shopify-account-signed-in-avatar-color-text: var(--account-sheet-button-text);
+    background: transparent;
+  }
+
+  .account-sheet--serif {
+    --shopify-account-font-heading: Georgia, 'Times New Roman', serif;
+    --shopify-account-font-heading-weight: 600;
+  }
+
+  .account-sheet--jewel::part(dialog) {
+    box-sizing: border-box;
+    max-inline-size: calc(100vw - 24px);
+    max-block-size: calc(100dvh - var(--account-offset-top, 80px) - 24px);
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--shopify-account-radius-dialog);
+    background:
+      radial-gradient(ellipse at 100% 0%, rgb(var(--color-border-rgb) / var(--opacity-10)), transparent 58%),
+      var(--color-background);
+    box-shadow:
+      inset 0 0 0 3px var(--color-background),
+      inset 0 0 0 4px rgb(var(--color-border-rgb) / var(--opacity-40)),
+      0 12px 36px rgb(var(--color-border-rgb) / var(--opacity-20));
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Override the platform's mobile bottom sheet and its slide-in transform. */
+    shopify-account::part(dialog) {
+      position: fixed !important;
+      inset: auto !important;
+      inset-block-start: calc(var(--account-trigger-bottom, var(--header-height, 60px)) + var(--gap-xs, 8px)) !important;
+      inset-inline-end: 12px !important;
+      margin: 0 !important;
+      width: min(360px, calc(100vw - 24px));
+      min-height: 0 !important;
+      max-height: calc(100dvh - var(--account-trigger-bottom, var(--header-height, 60px)) - var(--gap-xs, 8px) - 12px);
+      overflow-y: auto;
+      transform: none !important;
+      translate: none !important;
+      animation: none !important;
+    }
+
+    .account-sheet--jewel {
+      --shopify-account-radius-dialog: 22px;
     }
   }
 

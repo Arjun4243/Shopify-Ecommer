@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Müşteri hesabı kartı",
+    "enable": "Fildişi ve altın hesap kartını kullan",
+    "button_background": "Düğme arka planı",
+    "button_text": "Düğme metni",
+    "serif_heading": "Klasik serif başlıkları kullan"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Giriş stili",
     "selected_button_style": "Seçili düğme stili",
     "open_by_default": "Varsayılan olarak açık",
-    "title_preset": "Başlık ön ayarı"
+    "title_preset": "Başlık ön ayarı",
+    "tablet_aspect_ratio": "Tablet en boy oranı"
   },
   "options": {
     "apple": "Apple",

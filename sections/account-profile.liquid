@@ -1,0 +1,225 @@
+{% comment %}
+  Section contract.
+  Displays the signed-in customer's profile in the storefront theme.
+  Shopify's hosted profile page owns authenticated edits.
+  @example
+  Assign page.account-profile to a page, or preview it with ?view=account-profile.
+{% endcomment %}
+{% liquid
+  assign profile_scope = 'profile-' | append: section.id
+  assign profile_background = settings.account_sheet_background | default: '#fcf8ef'
+  assign profile_text = settings.account_sheet_text | default: '#062f25'
+  assign profile_border = settings.account_sheet_border | default: '#bf9453'
+  assign profile_button = settings.account_sheet_button_background | default: '#063d2e'
+  assign profile_button_text = settings.account_sheet_button_text | default: '#fff9ee'
+  assign profile_url = routes.account_profile_url | default: routes.account_url
+%}
+{% render 'contrast-override',
+  background_color: profile_background,
+  text_color: profile_text,
+  border_color: profile_border,
+  section_id: profile_scope,
+  preset: 'ui'
+%}
+
+<section
+  class="account-profile color-custom-{{ profile_scope }}"
+  aria-labelledby="AccountProfileHeading-{{ section.id }}"
+  style="--account-profile-button: {{ profile_button }}; --account-profile-button-text: {{ profile_button_text }};"
+>
+  <aside class="account-profile__sidebar">
+    <a class="account-profile__brand" href="{{ routes.root_url }}" aria-label="{{ 'accessibility.home_logo_alt' | t: store_name: shop.name | escape }}">
+      {% if settings.logo != blank %}
+        {{ settings.logo | image_url: width: 440 | image_tag: widths: '160, 220, 330, 440', sizes: '180px', loading: 'eager', alt: shop.name }}
+      {% else %}
+        <span>{{ shop.name | escape }}</span>
+      {% endif %}
+    </a>
+    {% if section.settings.tagline != blank %}
+      <p class="account-profile__tagline">{{ section.settings.tagline | escape }}</p>
+    {% endif %}
+    <span class="account-profile__ornament" aria-hidden="true"></span>
+    <nav class="account-profile__navigation" aria-label="{{ 'content.account_title' | t | escape }}">
+      <a href="{{ routes.account_url }}">
+        <span class="account-profile__icon">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+        {{ 'content.account_orders' | t }}
+        <span class="account-profile__chevron" aria-hidden="true">&rsaquo;</span>
+      </a>
+      <a href="#AccountProfileHeading-{{ section.id }}" aria-current="page">
+        <span class="account-profile__icon">{{ 'icon-account.svg' | inline_asset_content }}</span>
+        {{ 'content.account_profile' | t }}
+        <span class="account-profile__chevron" aria-hidden="true">&rsaquo;</span>
+      </a>
+    </nav>
+    {% if section.settings.sidebar_image != blank %}
+      <div class="account-profile__art" aria-hidden="true">
+        {{ section.settings.sidebar_image | image_url: width: 1000 | image_tag: widths: '320, 480, 750, 1000', sizes: '(min-width: 801px) 26vw, 1px', loading: 'lazy', alt: '' }}
+      </div>
+    {% endif %}
+    {% if shop.privacy_policy != blank %}
+      <a class="account-profile__privacy" href="{{ shop.privacy_policy.url }}">{{ shop.privacy_policy.title | escape }}</a>
+    {% endif %}
+  </aside>
+
+  <div class="account-profile__main">
+    <header class="account-profile__header">
+      <div>
+        <p class="account-profile__eyebrow">{{ 'content.account_title' | t }}</p>
+        <h1 id="AccountProfileHeading-{{ section.id }}">{{ 'content.account_profile' | t }}</h1>
+        <p class="account-profile__description">{{ 'customer_profile.description' | t }}</p>
+      </div>
+      <span class="account-profile__avatar" aria-hidden="true">
+        {% if customer %}
+          {{ customer.first_name | default: customer.email | slice: 0 | upcase | escape }}
+        {% else %}
+          {{ 'icon-account.svg' | inline_asset_content }}
+        {% endif %}
+      </span>
+    </header>
+
+    {% if customer %}
+      <section class="account-profile__card" aria-labelledby="AccountDetailsHeading-{{ section.id }}">
+        <div class="account-profile__card-heading">
+          <h2 id="AccountDetailsHeading-{{ section.id }}">{{ 'customer_profile.personal_details' | t }}</h2>
+          <a class="account-profile__button" href="{{ profile_url | escape }}">{{ 'customer_profile.edit_profile' | t }} <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <dl class="account-profile__details">
+          <div>
+            <dt>{{ 'blocks.contact_form.name' | t }}</dt>
+            <dd>{{ customer.name | default: customer.email | escape }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'blocks.contact_form.email' | t }}</dt>
+            <dd>{{ customer.email | escape }}</dd>
+          </div>
+          {% if customer.phone != blank %}
+            <div>
+              <dt>{{ 'blocks.contact_form.phone' | t }}</dt>
+              <dd>{{ customer.phone | escape }}</dd>
+            </div>
+          {% endif %}
+        </dl>
+      </section>
+
+      <section class="account-profile__card" aria-labelledby="AccountAddressHeading-{{ section.id }}">
+        <div class="account-profile__card-heading">
+          <h2 id="AccountAddressHeading-{{ section.id }}">{{ 'customer_profile.addresses' | t }}</h2>
+          <a class="account-profile__button" href="{{ routes.account_addresses_url | escape }}">{{ 'customer_profile.manage_addresses' | t }} <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        {% if customer.default_address != blank %}
+          <div class="account-profile__address">{{ customer.default_address | format_address }}</div>
+        {% else %}
+          <p class="account-profile__muted">{{ 'customer_profile.no_address' | t }}</p>
+        {% endif %}
+      </section>
+      <a class="account-profile__logout" href="{{ routes.account_logout_url }}">{{ 'actions.log_out' | t }}</a>
+    {% else %}
+      <div class="account-profile__card account-profile__sign-in">
+        <span class="account-profile__sign-in-icon" aria-hidden="true">{{ 'icon-account.svg' | inline_asset_content }}</span>
+        <h2>{{ 'customer_profile.sign_in_heading' | t }}</h2>
+        <p class="account-profile__muted">{{ 'customer_profile.sign_in_message' | t }}</p>
+        {% if shop.customer_accounts_enabled %}
+          <a class="account-profile__button" href="{{ routes.storefront_login_url | escape }}">{{ 'actions.log_in' | t }} <span aria-hidden="true">&rarr;</span></a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .account-profile {
+    display: grid;
+    grid-template-columns: minmax(220px, 25%) minmax(0, 1fr);
+    min-block-size: 740px;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight);
+    line-height: 1.6;
+  }
+  .account-profile :is(h1, h2, p) { margin: 0; }
+  .account-profile :is(a, dd, h1, h2) { overflow-wrap: anywhere; }
+  .account-profile :is(a, button):focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 4px;
+  }
+  .account-profile__sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-inline-size: 0;
+    overflow: hidden;
+    border-inline-end: 1px solid rgb(var(--color-border-rgb) / var(--opacity-40));
+    padding: 44px 20px 24px;
+    background: radial-gradient(ellipse at 0% 100%, rgb(var(--color-border-rgb) / var(--opacity-20)), transparent 65%);
+    isolation: isolate;
+  }
+  .account-profile__brand { max-inline-size: 180px; color: inherit; font-size: 1.75rem; font-weight: var(--font-heading--weight); text-decoration: none; }
+  .account-profile__brand img { inline-size: 100%; block-size: auto; }
+  .account-profile__tagline { padding-block-start: 16px; text-align: center; font-size: 0.65rem; letter-spacing: 0.17em; text-transform: uppercase; }
+  .account-profile__ornament { inline-size: 80px; block-size: 1px; margin-block: 22px 32px; background: var(--color-border); }
+  .account-profile__navigation { display: grid; gap: 10px; inline-size: 100%; }
+  .account-profile__navigation a { display: flex; align-items: center; gap: 16px; min-block-size: 62px; padding: 12px 20px; border: 1px solid transparent; border-radius: 10px; color: inherit; text-decoration: none; }
+  .account-profile__navigation a[aria-current='page'] { border-color: var(--color-border); color: var(--account-profile-button-text); background: var(--account-profile-button); }
+  .account-profile__navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .account-profile__icon { flex: 0 0 26px; }
+  .account-profile__icon svg { inline-size: 26px; block-size: 26px; }
+  .account-profile__chevron { margin-inline-start: auto; font-size: 1.5rem; }
+  .account-profile__art { position: absolute; z-index: -1; inset-inline: 0; inset-block-end: 0; block-size: 55%; mask-image: linear-gradient(transparent, #000 45%); opacity: 0.8; }
+  .account-profile__art img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .account-profile__privacy { margin-block-start: auto; padding-block-start: 260px; color: inherit; font-size: 0.75rem; text-underline-offset: 3px; }
+  .account-profile__main { min-inline-size: 0; padding: clamp(28px, 5vw, 80px); background: radial-gradient(ellipse at 100% 0%, rgb(var(--color-border-rgb) / var(--opacity-10)), transparent 45%); }
+  .account-profile__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-block-end: 36px; }
+  .account-profile__header > div { min-inline-size: 0; }
+  .account-profile__eyebrow { color: var(--color-foreground-muted); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+  .account-profile__eyebrow::after { content: ''; display: block; inline-size: 36px; block-size: 2px; margin-block: 14px 16px; background: var(--color-border); }
+  .account-profile h1 { font-family: var(--font-heading--family); font-weight: var(--font-heading--weight); font-size: clamp(2rem, 3.4vw, 3.5rem); line-height: 1.15; }
+  .account-profile__description { padding-block-start: 12px; color: var(--color-foreground-muted); font-size: 0.95rem; }
+  .account-profile__avatar { display: grid; flex: 0 0 48px; place-items: center; inline-size: 48px; block-size: 48px; border: 1px solid var(--color-border); border-radius: 50%; font-size: 1.15rem; }
+  .account-profile__avatar svg { inline-size: 24px; block-size: 24px; }
+  .account-profile__card { margin-block-end: 24px; padding: clamp(22px, 3vw, 36px); border: 1px solid rgb(var(--color-border-rgb) / var(--opacity-40)); border-radius: 22px; background: color-mix(in srgb, var(--color-background) 55%, white); box-shadow: 0 10px 30px rgb(var(--color-border-rgb) / var(--opacity-10)); }
+  .account-profile__card-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-block-end: 24px; border-block-end: 1px solid rgb(var(--color-border-rgb) / var(--opacity-20)); }
+  .account-profile h2 { font-family: var(--font-heading--family); font-weight: var(--font-heading--weight); font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.4; }
+  .account-profile__button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-block-size: 44px; max-inline-size: 100%; padding: 10px 24px; border: 1px solid var(--color-border); border-radius: 999px; color: var(--account-profile-button-text); background: var(--account-profile-button); font-family: inherit; font-size: 0.8rem; line-height: 1.5; text-align: center; text-decoration: none; }
+  .account-profile__button:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .account-profile__details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; margin-block: 24px 0; }
+  .account-profile__details dt { margin-block-end: 4px; color: var(--color-foreground-muted); font-size: 0.75rem; }
+  .account-profile__details dd { margin: 0; font-size: 0.95rem; }
+  .account-profile__address, .account-profile__muted { padding-block-start: 22px; font-size: 0.9rem; }
+  .account-profile__muted { color: var(--color-foreground-muted); }
+  .account-profile__logout { display: inline-block; padding-block: 10px; color: inherit; font-size: 0.8rem; text-underline-offset: 4px; }
+  .account-profile__sign-in { display: grid; justify-items: center; padding-block: 64px; text-align: center; }
+  .account-profile__sign-in-icon { display: grid; place-items: center; inline-size: 64px; block-size: 64px; margin-block-end: 20px; border: 1px solid var(--color-border); border-radius: 50%; }
+  .account-profile__sign-in-icon svg { inline-size: 32px; block-size: 32px; }
+  .account-profile__sign-in .account-profile__button { margin-block-start: 24px; }
+  .account-profile__chevron:dir(rtl) { transform: scaleX(-1); }
+  @media (max-width: 800px) {
+    .account-profile { grid-template-columns: 1fr; min-block-size: 0; }
+    .account-profile__sidebar { border-inline-end: 0; border-block-end: 1px solid var(--color-border); padding: 24px 20px; }
+    .account-profile__brand { max-inline-size: 140px; }
+    .account-profile__ornament { margin-block: 16px; }
+    .account-profile__navigation { grid-template-columns: repeat(2, minmax(0, 1fr)); max-inline-size: 480px; }
+    .account-profile__navigation a { min-block-size: 48px; gap: 10px; padding: 10px 14px; font-size: 0.85rem; }
+    .account-profile__art, .account-profile__privacy { display: none; }
+    .account-profile__main { padding: 32px 20px; }
+  }
+  @media (max-width: 480px) {
+    .account-profile__details { grid-template-columns: 1fr; gap: 20px; }
+    .account-profile__card-heading { align-items: flex-start; flex-direction: column; }
+    .account-profile__button { gap: 16px; }
+    .account-profile__card { border-radius: 16px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:content.customer_account",
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "text", "id": "tagline", "label": "t:settings.text", "default": "Fine jewellery & gemstones" },
+    { "type": "image_picker", "id": "sidebar_image", "label": "t:settings.image" }
+  ],
+  "presets": [{ "name": "t:content.customer_account" }]
+}
+{% endschema %}

@@ -23,6 +23,12 @@
     }
   }
 
+  @media screen and (min-width: 768px) and (max-width: 1199px) {
+    .product-recommendations .responsive-product-grid:not(.product-grid--organic, [product-grid-view='zoom-out'], [product-grid-view='mobile-single'], .stone-listing__grid--list) {
+      grid-template-columns: var(--resource-list-columns);
+    }
+  }
+
   product-recommendations:has([data-has-recommendations='false']) {
     display: none;
   }

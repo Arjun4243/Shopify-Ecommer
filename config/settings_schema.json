@@ -1754,6 +1754,98 @@
     ]
   },
   {
+    "name": "t:account_sheet.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "account_sheet_jewel_style",
+        "label": "t:account_sheet.enable",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "account_sheet_background",
+        "label": "t:settings.background_color",
+        "default": "#fcf8ef",
+        "visible_if": "{{ settings.account_sheet_jewel_style }}"
+      },
+      {
+        "type": "color",
+        "id": "account_sheet_text",
+        "label": "t:settings.text_color",
+        "default": "#062f25",
+        "visible_if": "{{ settings.account_sheet_jewel_style }}"
+      },
+      {
+        "type": "color",
+        "id": "account_sheet_border",
+        "label": "t:settings.border_color",
+        "default": "#bf9453",
+        "visible_if": "{{ settings.account_sheet_jewel_style }}"
+      },
+      {
+        "type": "color",
+        "id": "account_sheet_button_background",
+        "label": "t:account_sheet.button_background",
+        "default": "#063d2e",
+        "visible_if": "{{ settings.account_sheet_jewel_style }}"
+      },
+      {
+        "type": "color",
+        "id": "account_sheet_button_text",
+        "label": "t:account_sheet.button_text",
+        "default": "#fff9ee",
+        "visible_if": "{{ settings.account_sheet_jewel_style }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "account_sheet_serif_heading",
+        "label": "t:account_sheet.serif_heading",
+        "default": true,
+        "visible_if": "{{ settings.account_sheet_jewel_style }}"
+      }
+    ]
+  },
+  {
+    "name": "t:mobile_search_dock.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "mobile_search_dock_enabled",
+        "label": "t:mobile_search_dock.enable",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "mobile_search_dock_background",
+        "label": "t:settings.background_color",
+        "default": "#ffffff",
+        "visible_if": "{{ settings.mobile_search_dock_enabled }}"
+      },
+      {
+        "type": "color",
+        "id": "mobile_search_dock_border",
+        "label": "t:settings.border_color",
+        "default": "#bf9453",
+        "visible_if": "{{ settings.mobile_search_dock_enabled }}"
+      },
+      {
+        "type": "color",
+        "id": "mobile_search_dock_button_background",
+        "label": "t:mobile_search_dock.button_background",
+        "default": "#063d2e",
+        "visible_if": "{{ settings.mobile_search_dock_enabled }}"
+      },
+      {
+        "type": "color",
+        "id": "mobile_search_dock_button_text",
+        "label": "t:mobile_search_dock.button_text",
+        "default": "#ffffff",
+        "visible_if": "{{ settings.mobile_search_dock_enabled }}"
+      }
+    ]
+  },
+  {
     "name": "t:names.popovers_and_modals",
     "settings": [
       {

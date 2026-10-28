@@ -219,6 +219,19 @@
       "default": "adapt"
     },
     {
+      "type": "select",
+      "id": "tablet_aspect_ratio",
+      "label": "t:settings.tablet_aspect_ratio",
+      "options": [
+        { "value": "inherit", "label": "t:options.auto" },
+        { "value": "5/4", "label": "t:options.landscape" },
+        { "value": "1", "label": "t:options.square" },
+        { "value": "1/1.25", "label": "t:options.portrait" }
+      ],
+      "default": "inherit",
+      "visible_if": "{{ block.settings.media_presentation == 'carousel' }}"
+    },
+    {
       "type": "checkbox",
       "id": "constrain_to_viewport",
       "label": "t:settings.limit_media_to_screen_height",

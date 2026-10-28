@@ -4,7 +4,7 @@ import { Component } from '@theme/component';
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 5;
-const DEFAULT_ZOOM = 1.5;
+const DOUBLE_TAP_ZOOM = 1.5;
 const DOUBLE_TAP_DELAY = 300;
 const DOUBLE_TAP_DISTANCE = 50;
 const DRAG_THRESHOLD = 10;
@@ -19,11 +19,11 @@ export class DragZoomWrapper extends Component {
   requiredRefs = ['image'];
   #controller = new AbortController();
   /** @type {number} */
-  #scale = DEFAULT_ZOOM;
+  #scale = MIN_ZOOM;
   /** @type {number} */
   #initialDistance = 0;
   /** @type {number} */
-  #startScale = DEFAULT_ZOOM;
+  #startScale = MIN_ZOOM;
   /** @type {Point} */
   #translate = { x: 0, y: 0 };
   /** @type {Point} */
@@ -209,7 +209,7 @@ export class DragZoomWrapper extends Component {
 
       if (Math.abs(this.#scale - MIN_ZOOM) < tolerance) {
         // Currently at 1x, go to 1.5x
-        targetZoom = DEFAULT_ZOOM;
+        targetZoom = DOUBLE_TAP_ZOOM;
       } else {
         // Currently at 1.5x or any other level, go to 1x
         targetZoom = MIN_ZOOM;
@@ -446,13 +446,13 @@ export class DragZoomWrapper extends Component {
   };
 
   /**
-   * Reset zoom to default state (1.5x scale, centered position)
+   * Reset zoom to the fitted state (1x scale, centered position)
    * Called when zoom is exited/closed
    */
   #resetZoom = () => {
     // Reset scale and translation to defaults
-    this.#scale = DEFAULT_ZOOM;
-    this.#startScale = DEFAULT_ZOOM;
+    this.#scale = MIN_ZOOM;
+    this.#startScale = MIN_ZOOM;
     this.#translate.x = 0;
     this.#translate.y = 0;
 
@@ -463,9 +463,10 @@ export class DragZoomWrapper extends Component {
     this.#lastTapTime = 0;
     this.#lastTapPosition = null;
     this.#hasDraggedBeyondThreshold = false;
+    this.#hasManualZoom = false;
 
     // Update CSS properties to reflect reset state
-    this.style.setProperty('--drag-zoom-scale', DEFAULT_ZOOM.toString());
+    this.style.setProperty('--drag-zoom-scale', MIN_ZOOM.toString());
     this.style.setProperty('--drag-zoom-translate-x', '0px');
     this.style.setProperty('--drag-zoom-translate-y', '0px');
   };

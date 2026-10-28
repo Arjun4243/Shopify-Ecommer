@@ -8,8 +8,8 @@ class GemstoneArticleFeed extends HTMLElement {
       [cards[index], cards[swapIndex]] = [cards[swapIndex], cards[index]];
     }
 
-    const parsedCount = Number.parseInt(this.dataset.visibleCount || '3', 10);
-    const requestedCount = Number.isNaN(parsedCount) ? 3 : parsedCount;
+    const parsedCount = Number.parseInt(this.dataset.visibleCount || '4', 10);
+    const requestedCount = Number.isNaN(parsedCount) ? 4 : parsedCount;
     const visibleCount = Math.max(1, Math.min(requestedCount, cards.length));
 
     cards.forEach((card, index) => {

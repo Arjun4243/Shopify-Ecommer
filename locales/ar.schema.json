@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "بطاقة حساب العميل",
+    "enable": "استخدام بطاقة الحساب العاجية والذهبية",
+    "button_background": "خلفية الزر",
+    "button_text": "نص الزر",
+    "serif_heading": "استخدام عناوين بخط كلاسيكي"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -1099,7 +1106,8 @@
     "top_row_background": "خلفية الصف العلوي",
     "top_row_text": "نص الصف العلوي",
     "bottom_row_background": "خلفية الصف السفلي",
-    "bottom_row_text": "نص الصف السفلي"
+    "bottom_row_text": "نص الصف السفلي",
+    "tablet_aspect_ratio": "نسبة أبعاد الصورة على الجهاز اللوحي"
   },
   "text_defaults": {
     "accordion_heading": "عنوان القائمة المنسدلة",

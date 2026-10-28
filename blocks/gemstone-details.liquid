@@ -1,3 +1,10 @@
+{% doc %}
+  Renders product gemstone specifications, with a swatch derived from the color text.
+  Unrecognized color names use the merchant's swatch fallback setting.
+  @example
+  {% content_for 'block', type: 'gemstone-details', id: 'gemstone-details' %}
+{% enddoc %}
+
 {%- liquid
   assign product_resource = closest.product | default: product
   assign gemstone_group = product_resource.metafields.custom.gemstone_group.value
@@ -150,10 +157,25 @@
         {%- endif -%}
 
         {%- if color != blank -%}
+          {%- liquid
+            assign swatch_color = block.settings.swatch_color
+            assign color_name = color | strip | downcase | remove: ' ' | remove: '-' | remove: '_'
+            case color_name
+              when 'colorless', 'colourless', 'clear'
+                assign color_name = 'white'
+              when 'multicolor', 'multicolour', 'multicolored', 'multicoloured', 'rainbow'
+                assign swatch_color = 'conic-gradient(red, orange, yellow, green, blue, violet, red)'
+            endcase
+            assign resolved_color = color_name | color_to_hex
+            assign color_prefix = resolved_color | slice: 0
+            if color_prefix == '#' and resolved_color.size == 7
+              assign swatch_color = resolved_color
+            endif
+          -%}
           <div class="gemstone-details__select-card">
-            <span class="gemstone-details__swatch" style="--gemstone-swatch: {{ block.settings.swatch_color }}"></span>
+            <span class="gemstone-details__swatch" style="--gemstone-swatch: {{ swatch_color | escape }}" aria-hidden="true"></span>
             <span class="gemstone-details__select-label">{{ 'products.gemstone.color' | t }}</span>
-            <span class="gemstone-details__select-value">{{ color }}</span>
+            <span class="gemstone-details__select-value">{{ color | escape }}</span>
           </div>
         {%- endif -%}
 

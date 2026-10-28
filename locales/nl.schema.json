@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Klantaccountkaart",
+    "enable": "Ivoorkleurige en gouden accountkaart gebruiken",
+    "button_background": "Knopachtergrond",
+    "button_text": "Knoptekst",
+    "serif_heading": "Klassieke schreefkoppen gebruiken"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Invoerstijl",
     "selected_button_style": "Geselecteerde knopstijl",
     "open_by_default": "Standaard geopend",
-    "title_preset": "Titelvoorinstelling"
+    "title_preset": "Titelvoorinstelling",
+    "tablet_aspect_ratio": "Beeldverhouding op tablet"
   },
   "options": {
     "apple": "Apple",

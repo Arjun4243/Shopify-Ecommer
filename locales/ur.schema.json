@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "کسٹمر اکاؤنٹ کارڈ",
+    "enable": "ہاتھی دانت اور سنہری رنگ کا اکاؤنٹ کارڈ استعمال کریں",
+    "button_background": "بٹن کا پس منظر",
+    "button_text": "بٹن کا متن",
+    "serif_heading": "کلاسیکی سیرف عنوانات استعمال کریں"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -1099,7 +1106,8 @@
     "top_row_background": "اوپری قطار کا پس منظر",
     "top_row_text": "اوپری قطار کا متن",
     "bottom_row_background": "نچلی قطار کا پس منظر",
-    "bottom_row_text": "نچلی قطار کا متن"
+    "bottom_row_text": "نچلی قطار کا متن",
+    "tablet_aspect_ratio": "ٹیبلٹ پر تصویر کا تناسب"
   },
   "text_defaults": {
     "accordion_heading": "ایکارڈین کی سرخی",

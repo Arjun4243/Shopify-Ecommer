@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Asiakastilin kortti",
+    "enable": "Käytä norsunluunväristä ja kultaista tilikorttia",
+    "button_background": "Painikkeen tausta",
+    "button_text": "Painikkeen teksti",
+    "serif_heading": "Käytä klassisia päätteellisiä otsikoita"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Syöttökentän tyyli",
     "selected_button_style": "Valitun painikkeen tyyli",
     "open_by_default": "Avoinna oletuksena",
-    "title_preset": "Otsikon esiasetus"
+    "title_preset": "Otsikon esiasetus",
+    "tablet_aspect_ratio": "Tabletin kuvasuhde"
   },
   "options": {
     "apple": "Omena",

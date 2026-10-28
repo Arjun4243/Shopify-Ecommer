@@ -1,7 +1,13 @@
+{% comment %}
+  Section contract.
+  Renders the editorial homepage with a marquee of collections in the Country group.
+  @example
+  Set custom.collection_group to Country and use a flag as the collection image.
+{% endcomment %}
 {% liquid
   assign origin_group = 'country'
   assign certification_group = section.settings.certification_group | handleize
-  assign article_limit = section.settings.article_count | default: 3
+  assign article_limit = section.settings.article_count | default: 4
   assign page_blog = section.settings.blog
   assign newsletter_form_id = 'GemEditorialNewsletterForm-' | append: section.id
 %}
@@ -25,15 +31,15 @@
       <h1 id="GemEditorialHero-{{ section.id }}">{{ section.settings.hero_heading | escape }}</h1>
       <p class="gem-editorial__hero-copy">{{ section.settings.hero_description | escape }}</p>
     </div>
-    <nav class="gem-editorial__origins" aria-label="{{ 'sections.gemstone_editorial_home.origins_label' | t }}">
-      {% assign origin_count = 0 %}
+    {% assign origin_count = 0 %}
+    {% capture origin_cards %}
       {% for origin_collection in collections %}
         {% assign origin_value = origin_collection.metafields.custom.collection_group.value
           | default: origin_collection.metafields.custom.collection_group
         %}
         {% assign origin_value_handle = origin_value | handleize %}
-        {% if origin_value_handle == origin_group and origin_count < 5 %}
-          <a class="gem-editorial__origin" href="{{ origin_collection.url }}">
+        {% if origin_value_handle == origin_group %}
+          <a class="gem-editorial__origin" href="{{ origin_collection.url | escape }}">
             {% if origin_collection.image != blank %}
               {{
                 origin_collection.image
@@ -46,7 +52,22 @@
           {% assign origin_count = origin_count | plus: 1 %}
         {% endif %}
       {% endfor %}
-    </nav>
+    {% endcapture %}
+    {% if origin_count > 0 %}
+      <nav
+        class="gem-editorial__origins"
+        aria-label="{{ 'sections.gemstone_editorial_home.origins_label' | t | escape }}"
+      >
+        <div class="gem-editorial__origins-track{% if origin_count > 1 %} gem-editorial__origins-track--animated{% endif %}">
+          <div class="gem-editorial__origins-group">{{ origin_cards }}</div>
+          {% if origin_count > 1 %}
+            <div class="gem-editorial__origins-group" aria-hidden="true">
+              {{ origin_cards | replace: '<a ', '<a tabindex="-1" ' }}
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    {% endif %}
   </section>
 
   {% if page_blog != blank and page_blog.articles_count > 0 %}
@@ -87,7 +108,7 @@
                   | image_url: width: 760
                   | image_tag:
                     widths: '320, 480, 640, 760',
-                    sizes: '(min-width: 1000px) 31vw, (min-width: 650px) 45vw, 100vw',
+                    sizes: '(min-width: 1101px) 22vw, (min-width: 561px) 44vw, 35vw',
                     loading: 'lazy',
                     alt: article.image.alt
                   | default: article.title
@@ -352,17 +373,54 @@
     color: #fff;
   }
   .gem-editorial__origins {
+    --gem-editorial-origins-shift: -50%;
     position: absolute;
-    right: var(--gem-editorial-gutter);
-    bottom: clamp(18px, 2.5vw, 32px);
+    inset-inline-end: var(--gem-editorial-gutter);
+    inset-block-end: clamp(18px, 2.5vw, 32px);
+    inline-size: 48%;
+    min-inline-size: 0;
+    overflow: hidden;
+    container-type: inline-size;
+  }
+  .gem-editorial__origins-track {
     display: flex;
-    max-width: 48%;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    inline-size: max-content;
+  }
+  .gem-editorial__origins-track--animated {
+    animation: gem-editorial-origins-marquee var(--gem-editorial-origins-duration, 35s) linear infinite;
+  }
+  .gem-editorial__origins-group {
+    display: flex;
+    flex: 0 0 auto;
+    min-inline-size: 100cqi;
+    align-items: center;
     gap: 0.5rem;
+    padding-block: 6px;
+    padding-inline: 6px 0.5rem;
+  }
+  .gem-editorial__origins:hover .gem-editorial__origins-track {
+    animation-play-state: paused;
+  }
+  .gem-editorial__origins:has(:focus-visible) {
+    overflow-x: auto;
+  }
+  .gem-editorial__origins:has(:focus-visible) .gem-editorial__origins-track {
+    animation: none;
+  }
+  .gem-editorial__origins:has(:focus-visible) .gem-editorial__origins-group[aria-hidden='true'] {
+    display: none;
+  }
+  .gem-editorial__origins:dir(rtl) {
+    --gem-editorial-origins-shift: 50%;
+  }
+  @keyframes gem-editorial-origins-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(var(--gem-editorial-origins-shift)); }
   }
   .gem-editorial__origin {
     display: inline-flex;
+    flex: 0 0 auto;
+    min-block-size: 44px;
     align-items: center;
     gap: 0.45rem;
     border: 1px solid rgb(255 255 255 / 35%);
@@ -373,6 +431,7 @@
     font-size: 0.68rem;
     line-height: 1;
     text-decoration: none;
+    white-space: nowrap;
     backdrop-filter: blur(6px);
   }
   .gem-editorial__origin img {
@@ -423,7 +482,7 @@
   }
   .gem-editorial__article-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(12px, 1.4vw, 20px);
     max-width: 1400px;
     margin-inline: auto;
@@ -438,6 +497,9 @@
     border-radius: 9px;
     background: #fff;
     box-shadow: 0 8px 24px rgb(40 35 25 / 6%);
+  }
+  .gem-editorial__article-card[hidden] {
+    display: none;
   }
   .gem-editorial__article-image {
     display: block;
@@ -480,6 +542,7 @@
     font-family: var(--font-heading--family, Georgia, serif);
     font-size: clamp(0.95rem, 1.2vw, 1.15rem);
     line-height: 1.3;
+    overflow-wrap: anywhere;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }
@@ -681,6 +744,11 @@
     outline: 2px solid var(--gem-editorial-gold);
     outline-offset: 3px;
   }
+  @media (max-width: 1100px) {
+    .gem-editorial__article-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
   @media (max-width: 800px) {
     .gem-editorial__hero {
       min-height: 320px;
@@ -690,23 +758,9 @@
       background: linear-gradient(90deg, rgb(2 35 27 / 93%), rgb(2 35 27 / 30%));
     }
     .gem-editorial__origins {
-      right: var(--gem-editorial-gutter);
-      bottom: 14px;
-      left: var(--gem-editorial-gutter);
-      max-width: none;
-      justify-content: flex-start;
-    }
-    .gem-editorial__article-card {
-      grid-template-columns: minmax(140px, 0.38fr) minmax(0, 0.62fr);
-      grid-template-rows: 1fr;
-    }
-    .gem-editorial__article-image {
-      height: 100%;
-      min-height: 140px;
-      aspect-ratio: auto;
-    }
-    .gem-editorial__article-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      inset-inline: var(--gem-editorial-gutter);
+      inset-block-end: 14px;
+      inline-size: auto;
     }
     .gem-editorial__certifications {
       grid-template-columns: 1fr;
@@ -738,7 +792,7 @@
     }
     .gem-editorial__origin {
       gap: 0.3rem;
-      padding-right: 0.5rem;
+      padding-inline-end: 0.5rem;
       font-size: 0.58rem;
     }
     .gem-editorial__origin img {
@@ -760,9 +814,12 @@
     }
     .gem-editorial__article-card {
       grid-template-columns: minmax(105px, 0.38fr) minmax(0, 0.62fr);
+      grid-template-rows: 1fr;
     }
     .gem-editorial__article-image {
+      height: 100%;
       min-height: 120px;
+      aspect-ratio: auto;
     }
     .gem-editorial__article-body {
       min-width: 0;
@@ -773,16 +830,6 @@
     }
     .gem-editorial__article-card h3 {
       font-size: clamp(0.82rem, 3.8vw, 0.98rem);
-    }
-    .gem-editorial__article-card h3 {
-      display: block;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .gem-editorial__article-excerpt {
-      display: block;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
     .gem-editorial__article-meta {
       margin-top: 0 !important;
@@ -837,6 +884,15 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .gem-editorial__origins {
+      overflow-x: auto;
+    }
+    .gem-editorial__origins-track {
+      animation: none;
+    }
+    .gem-editorial__origins-group[aria-hidden='true'] {
+      display: none;
+    }
     .gem-editorial__button {
       transition: none;
     }
@@ -887,7 +943,7 @@
       "min": 2,
       "max": 6,
       "step": 1,
-      "default": 3
+      "default": 4
     },
     {
       "type": "text",

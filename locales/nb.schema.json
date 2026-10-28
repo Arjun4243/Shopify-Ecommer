@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Kundekontokort",
+    "enable": "Bruk elfenbensfarget og gyllent kontokort",
+    "button_background": "Knappbakgrunn",
+    "button_text": "Knapptekst",
+    "serif_heading": "Bruk klassiske serifoverskrifter"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Inndatastil",
     "selected_button_style": "Valgt knappestil",
     "open_by_default": "Åpen som standard",
-    "title_preset": "Forhåndsinnstilling for tittel"
+    "title_preset": "Forhåndsinnstilling for tittel",
+    "tablet_aspect_ratio": "Sideforhold på nettbrett"
   },
   "options": {
     "apple": "Eple",

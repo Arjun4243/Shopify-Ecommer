@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "お客様アカウントカード",
+    "enable": "アイボリーとゴールドのアカウントカードを使用",
+    "button_background": "ボタンの背景",
+    "button_text": "ボタンのテキスト",
+    "serif_heading": "クラシックなセリフ体の見出しを使用"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "入力のスタイル",
     "selected_button_style": "選択されたボタンのスタイル",
     "open_by_default": "デフォルトで開く",
-    "title_preset": "タイトルプリセット"
+    "title_preset": "タイトルプリセット",
+    "tablet_aspect_ratio": "タブレットのアスペクト比"
   },
   "options": {
     "apple": "Apple",

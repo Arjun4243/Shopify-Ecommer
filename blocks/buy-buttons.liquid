@@ -307,10 +307,22 @@
 
       {%- if block_settings.show_policy_badges -%}
         <div class="gemstone-purchase-tools__policies" aria-label="{{ 'products.gemstone.policy_badges' | t }}">
-          <span>{{ 'products.gemstone.return_policy' | t }}</span>
-          <span>{{ 'products.gemstone.secure_payment' | t }}</span>
-          <span>{{ 'products.gemstone.worldwide_delivery' | t }}</span>
-          <span>{{ 'products.gemstone.genuine_gemstones' | t }}</span>
+          <span>
+            <svg class="gemstone-purchase-tools__policy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 7 9-5 9 5v10l-9 5-9-5V7Zm0 0 9 5 9-5M12 12v10M7.5 4.5l9 5v5"/></svg>
+            {{ 'products.gemstone.return_policy' | t }}
+          </span>
+          <span>
+            <svg class="gemstone-purchase-tools__policy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 3 6v6c0 5 5 8 9 10 4-2 9-5 9-10V6l-9-4Z"/><path d="m7 12 3 3 7-7"/></svg>
+            {{ 'products.gemstone.secure_payment' | t }}
+          </span>
+          <span>
+            <svg class="gemstone-purchase-tools__policy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 17H1V4h13v13H8m6-10h4l5 5v5h-3m-6 0h1M18 7v6h5"/><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            {{ 'products.gemstone.worldwide_delivery' | t }}
+          </span>
+          <span>
+            <svg class="gemstone-purchase-tools__policy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2 8 5-6h10l5 6-10 14L2 8Zm0 0h20M7 2l-2 6 7 14 7-14-2-6M7 2l5 6 5-6"/></svg>
+            {{ 'products.gemstone.genuine_gemstones' | t }}
+          </span>
         </div>
       {%- endif -%}
     </div>
@@ -657,9 +669,51 @@
     flex: 0 0 auto;
   }
 
+  .gemstone-purchase-tools__policy-icon {
+    display: none;
+  }
+
   @media screen and (max-width: 749px) {
     .gemstone-purchase-tools__policies {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 1199px) {
+    .product-details .gemstone-purchase-tools__policies span {
+      flex-direction: column;
+      justify-content: flex-start;
+      min-width: 0;
+      padding-inline: 2px;
+      border: 0;
+      background: transparent;
+      color: var(--color-foreground);
+      font-size: 0.72rem;
+      font-weight: var(--font-body--weight);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .product-details .gemstone-purchase-tools__policies span::before {
+      display: none;
+    }
+
+    .product-details .gemstone-purchase-tools__policy-icon {
+      display: block;
+      width: 44px;
+      height: 44px;
+      margin-block-end: 4px;
+      padding: 10px;
+      border-radius: 50%;
+      background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+      fill: none;
+      stroke: #c98209;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .product-details .gemstone-purchase-tools__whatsapp {
+      min-height: 44px;
     }
   }
 {% endstylesheet %}

@@ -588,6 +588,92 @@
       block-size: 54px !important;
     }
   }
+  @media screen and (min-width: 768px) and (max-width: 1199px) {
+    .raza-footer__main {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.55fr) minmax(0, 1.3fr);
+      gap: clamp(16px, 2.5vw, 28px);
+      font-size: 0.75rem;
+    }
+
+    .raza-footer__main > *,
+    .raza-footer__menu {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .raza-footer h2 {
+      font-size: 1rem;
+    }
+
+    .raza-footer__menus {
+      gap: 20px;
+    }
+
+    .raza-footer__contacts {
+      gap: 8px;
+      margin-block-start: 14px;
+    }
+
+    .raza-footer__contact {
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    .raza-footer__contact-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .raza-footer__socials {
+      gap: 6px;
+    }
+
+    .raza-footer__social {
+      width: 32px;
+      height: 32px;
+    }
+
+    .raza-footer__form {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .raza-footer__form button {
+      min-width: 0 !important;
+      width: auto !important;
+      inline-size: auto !important;
+      padding-inline: 12px;
+      font-size: 0.7rem;
+    }
+
+    .raza-footer__form input {
+      padding-inline: 12px;
+    }
+
+    .raza-footer__features {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .raza-footer__feature {
+      padding-inline: 5px;
+      font-size: 0.65rem;
+    }
+
+    .raza-footer__bottom {
+      grid-template-columns: auto minmax(0, 1fr);
+      justify-items: stretch;
+      text-align: start;
+      font-size: 0.7rem;
+    }
+
+    .raza-footer__copyright {
+      text-align: end;
+    }
+
+    .raza-footer__payments {
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

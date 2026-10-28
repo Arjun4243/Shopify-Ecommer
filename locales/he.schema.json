@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "כרטיס חשבון לקוח",
+    "enable": "שימוש בכרטיס חשבון בגווני שנהב וזהב",
+    "button_background": "רקע הכפתור",
+    "button_text": "טקסט הכפתור",
+    "serif_heading": "שימוש בכותרות בגופן סריף קלאסי"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -1099,7 +1106,8 @@
     "top_row_background": "רקע לשורה העליונה",
     "top_row_text": "טקסט לשורה העליונה",
     "bottom_row_background": "רקע לשורה התחתונה",
-    "bottom_row_text": "טקסט לשורה התחתונה"
+    "bottom_row_text": "טקסט לשורה התחתונה",
+    "tablet_aspect_ratio": "יחס גובה-רוחב בטאבלט"
   },
   "text_defaults": {
     "accordion_heading": "כותרת אקורדיון",

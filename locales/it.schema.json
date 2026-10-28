@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Scheda account cliente",
+    "enable": "Usa una scheda account avorio e oro",
+    "button_background": "Sfondo del pulsante",
+    "button_text": "Testo del pulsante",
+    "serif_heading": "Usa titoli con grazie classiche"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Stile input",
     "selected_button_style": "Stile pulsante selezionato",
     "open_by_default": "Aperto per impostazione predefinita",
-    "title_preset": "Preimpostazione titolo"
+    "title_preset": "Preimpostazione titolo",
+    "tablet_aspect_ratio": "Proporzioni su tablet"
   },
   "options": {
     "apple": "Mela",

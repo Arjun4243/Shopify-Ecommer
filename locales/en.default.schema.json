@@ -8,6 +8,19 @@
  * ------------------------------------------------------------
  */
 {
+  "mobile_search_dock": {
+    "name": "Mobile action bar",
+    "enable": "Show fixed mobile action bar",
+    "button_background": "Action button background",
+    "button_text": "Action icon color"
+  },
+  "account_sheet": {
+    "name": "Customer account card",
+    "enable": "Use ivory and gold account card",
+    "button_background": "Button background",
+    "button_text": "Button text",
+    "serif_heading": "Use classic serif headings"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -750,6 +763,7 @@
     "add_discount_code": "Allow discounts in cart",
     "add_to_cart_animation": "Add to cart",
     "always_stack_buttons": "Always stack buttons",
+    "tablet_aspect_ratio": "Tablet aspect ratio",
     "aspect_ratio": "Aspect ratio",
     "custom_mobile_media": "Show different media on mobile",
     "stack_media_on_mobile": "Stack media",

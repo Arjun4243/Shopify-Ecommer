@@ -71,8 +71,9 @@
           <div class="gemstone-collection-slider__group">
             {{ collection_cards }}
           </div>
-          <div class="gemstone-collection-slider__group" aria-hidden="true" inert>
-            {{ collection_cards }}
+          {% comment %}Repeated cards stay clickable while only the original links enter the tab order.{% endcomment %}
+          <div class="gemstone-collection-slider__group" aria-hidden="true">
+            {{ collection_cards | replace: '<a ', '<a tabindex="-1" ' }}
           </div>
         </div>
       </div>

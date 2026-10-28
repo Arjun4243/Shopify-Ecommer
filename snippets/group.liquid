@@ -73,7 +73,7 @@
       layout-panel-flex--{{ settings.content_direction | default: 'column' }}
       {% if settings.vertical_on_mobile %} mobile-column{% endif %}
     "
-    style="{% render 'layout-panel-style', settings: settings %}"
+    style="{% render 'layout-panel-style', settings: settings %} "
   >
     {{- children -}}
   </div>

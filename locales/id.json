@@ -8,6 +8,16 @@
  * ------------------------------------------------------------
  */
 {
+  "customer_profile": {
+    "description": "Your personal details and saved addresses, all in one place.",
+    "personal_details": "Personal details",
+    "edit_profile": "Edit profile",
+    "addresses": "Addresses",
+    "manage_addresses": "Manage addresses",
+    "no_address": "You have not added an address yet.",
+    "sign_in_heading": "Welcome to your account",
+    "sign_in_message": "Sign in to view your personal details and saved addresses."
+  },
   "gemstone_search": {
     "breadcrumb": "Breadcrumb",
     "home": "Home",

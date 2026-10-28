@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Carte du compte client",
+    "enable": "Utiliser une carte de compte ivoire et dorée",
+    "button_background": "Arrière-plan du bouton",
+    "button_text": "Texte du bouton",
+    "serif_heading": "Utiliser des titres avec empattements classiques"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Style de champ de saisie",
     "selected_button_style": "Style de bouton sélectionné",
     "open_by_default": "Ouvert par défaut",
-    "title_preset": "Préréglage du titre"
+    "title_preset": "Préréglage du titre",
+    "tablet_aspect_ratio": "Format d’image sur tablette"
   },
   "options": {
     "apple": "Pomme",

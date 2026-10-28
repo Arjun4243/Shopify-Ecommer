@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Kundenkontokarte",
+    "enable": "Elfenbeinfarbene und goldene Kontokarte verwenden",
+    "button_background": "Schaltflächenhintergrund",
+    "button_text": "Schaltflächentext",
+    "serif_heading": "Klassische Serifenschrift für Überschriften verwenden"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Eingabestil",
     "selected_button_style": "Ausgewählter Button-Stil",
     "open_by_default": "Standardmäßig geöffnet",
-    "title_preset": "Titelvoreinstellung"
+    "title_preset": "Titelvoreinstellung",
+    "tablet_aspect_ratio": "Seitenverhältnis auf Tablets"
   },
   "options": {
     "apple": "Apfel",

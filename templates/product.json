@@ -46,6 +46,7 @@
             "thumbnail_width": 64,
             "thumbnail_radius": 8,
             "aspect_ratio": "2/1",
+            "tablet_aspect_ratio": "5/4",
             "constrain_to_viewport": false,
             "media_fit": "cover",
             "media_radius": 8,
@@ -118,6 +119,7 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -166,7 +168,7 @@
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
-                    "text_color": "",
+                    "text_color": "#15803d",
                     "padding-block-start": 4,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
@@ -218,9 +220,12 @@
             "gemstone_details_RazaGems": {
               "type": "gemstone-details",
               "settings": {
+                "show_product_status": true,
                 "show_quick_specs": true,
                 "show_viewing_count": true,
                 "active_viewers": 20,
+                "viewer_min": 12,
+                "viewer_max": 28,
                 "show_highlights": false,
                 "show_detail_accordions": false,
                 "swatch_color": "#e73168",
@@ -465,10 +470,56 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "17931696970e70c437": {
+      "type": "_blocks",
+      "blocks": {
+        "judge_me_reviews_review_widget_7azaGY": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_7azaGY"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
     "main",
-    "product_recommendations_qggXJq"
+    "product_recommendations_qggXJq",
+    "17931696970e70c437"
   ]
 }

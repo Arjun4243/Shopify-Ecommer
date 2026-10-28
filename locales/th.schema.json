@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "การ์ดบัญชีลูกค้า",
+    "enable": "ใช้การ์ดบัญชีสีงาช้างและสีทอง",
+    "button_background": "พื้นหลังปุ่ม",
+    "button_text": "ข้อความปุ่ม",
+    "serif_heading": "ใช้หัวเรื่องแบบเซอริฟคลาสสิก"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "สไตล์อินพุต",
     "selected_button_style": "สไตล์ปุ่มที่เลือก",
     "open_by_default": "เปิดตามค่าเริ่มต้น",
-    "title_preset": "พรีเซ็ตชื่อ"
+    "title_preset": "พรีเซ็ตชื่อ",
+    "tablet_aspect_ratio": "อัตราส่วนภาพบนแท็บเล็ต"
   },
   "options": {
     "apple": "Apple",

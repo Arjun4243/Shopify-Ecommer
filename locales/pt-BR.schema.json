@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Cartão da conta do cliente",
+    "enable": "Usar cartão de conta marfim e dourado",
+    "button_background": "Fundo do botão",
+    "button_text": "Texto do botão",
+    "serif_heading": "Usar títulos com serifas clássicas"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Estilo do campo",
     "selected_button_style": "Estilo do botão selecionado",
     "open_by_default": "Aberto por padrão",
-    "title_preset": "Predefinição de título"
+    "title_preset": "Predefinição de título",
+    "tablet_aspect_ratio": "Proporção da imagem no tablet"
   },
   "options": {
     "apple": "Apple",

@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "account_sheet": {
+    "name": "Karta konta klienta",
+    "enable": "Użyj karty konta w kolorze kości słoniowej i złota",
+    "button_background": "Tło przycisku",
+    "button_text": "Tekst przycisku",
+    "serif_heading": "Użyj klasycznych nagłówków szeryfowych"
+  },
   "gemstone_search": {
     "banner_image": "Search banner image",
     "accent_color": "Search accent color"
@@ -588,7 +595,8 @@
     "input_style": "Styl pola wprowadzania",
     "selected_button_style": "Styl wybranego przycisku",
     "open_by_default": "Domyślnie otwarte",
-    "title_preset": "Gotowe ustawienie tytułu"
+    "title_preset": "Gotowe ustawienie tytułu",
+    "tablet_aspect_ratio": "Proporcje obrazu na tablecie"
   },
   "options": {
     "apple": "Apple",

@@ -20,15 +20,10 @@
   assign certificate_number = product_resource.metafields.custom.certificate_number.value
   assign certificate_file = product_resource.metafields.custom.certificate_file.value
   assign price_per_carat = product_resource.metafields.custom.price_per_carat.value
-  assign selected_variant = product_resource.selected_or_first_available_variant
   assign product_description = product_resource.description
 
-  if price_per_carat == blank
-    assign price_per_carat = selected_variant.sku
-  endif
-
   assign has_panel_details = false
-  if product_description != blank or gemstone_type != blank or gemstone_group != blank or actual_carat_weight != blank or dimensions != blank or shape != blank or gemstone_cut != blank or color != blank or country_of_origin != blank or treatment != blank or certification_status != blank
+  if product_description != blank or gemstone_type != blank or gemstone_group != blank or actual_carat_weight != blank or dimensions != blank or shape != blank or gemstone_cut != blank or color != blank or country_of_origin != blank or treatment != blank or certification_status != blank or price_per_carat != blank
     assign has_panel_details = true
   endif
 
@@ -127,26 +122,6 @@
             </dl>
           </article>
 
-          <div class="gemstone-spec-panel__stack">
-            <article class="gemstone-spec-panel__card gemstone-spec-panel__card--highlights">
-              <h2 class="gemstone-spec-panel__heading">
-                <span class="gemstone-spec-panel__gem" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <path d="M12 2 22 8l-10 14L2 8 12 2Zm0 2.4L5.8 8 12 16.7 18.2 8 12 4.4Zm-4.1 4L12 6l4.1 2.4L12 10.6 7.9 8.4Z" fill="currentColor"/>
-                  </svg>
-                </span>
-                {{ 'products.gemstone.highlights' | t }}
-              </h2>
-              <ul class="gemstone-spec-panel__list">
-                <li>{{ 'products.gemstone.highlight_rare' | t }}</li>
-                <li>{{ 'products.gemstone.highlight_natural' | t }}</li>
-                <li>{{ 'products.gemstone.highlight_transparency' | t }}</li>
-                <li>{{ 'products.gemstone.highlight_collection' | t }}</li>
-                <li>{{ 'products.gemstone.highlight_quality' | t }}</li>
-              </ul>
-            </article>
-
-          </div>
         </div>
       </div>
 
@@ -163,8 +138,8 @@
             {%- if treatment != blank -%}
               <div><dt>{{ 'products.gemstone.treatment' | t }}</dt><dd>{{ treatment }}</dd></div>
             {%- endif -%}
-            {%- if selected_variant.sku != blank -%}
-              <div><dt>{{ 'products.gemstone.price_per_carat' | t }}</dt><dd>{{ selected_variant.sku }}</dd></div>
+            {%- if price_per_carat != blank -%}
+              <div><dt>{{ 'products.gemstone.price_per_carat' | t }}</dt><dd>{{ price_per_carat | escape }}</dd></div>
             {%- endif -%}
           </dl>
         </article>
@@ -284,12 +259,7 @@
 
   .gemstone-spec-panel__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
-    gap: 12px;
-  }
-
-  .gemstone-spec-panel__stack {
-    display: grid;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
@@ -458,6 +428,32 @@
 
   .gemstone-spec-panel__list--spacious {
     gap: 10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1199px) {
+    .gemstone-spec-panel {
+      margin-block-start: var(--margin-lg);
+    }
+
+    .gemstone-spec-panel__tabs {
+      grid-template-columns: repeat(6, max-content);
+      scroll-padding-inline: 14px;
+    }
+
+    .gemstone-spec-panel__table div,
+    .gemstone-spec-panel__price-row div {
+      grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
+    }
+
+    .gemstone-spec-panel__table,
+    .gemstone-spec-panel__price-row {
+      margin-inline: 12px;
+    }
+
+    .gemstone-spec-panel__tab:focus-visible {
+      outline: var(--focus-outline-width) solid currentColor;
+      outline-offset: calc(-1 * var(--focus-outline-offset));
+    }
   }
 
   @media screen and (max-width: 989px) {
