@@ -95,6 +95,7 @@
     "grid": "Grid",
     "grid_layout": "Grid layout",
     "heading": "Heading",
+    "reviews": "Reviews",
     "heading_size": "Heading size",
     "utilities": "Utilities",
     "home_page": "Home page",
@@ -1068,6 +1069,8 @@
     // Font weight option (400 weight, not bold or light)
     "regular": "Regular",
     "review_count": "Review count",
+    "show_reviews_tab": "Show Reviews tab",
+    "reviews_tab_label": "Reviews tab label",
     "right": "Right",
     "right_padding": "Right padding",
     "row": "Row",

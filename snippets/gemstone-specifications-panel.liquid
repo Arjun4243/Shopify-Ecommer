@@ -1,6 +1,9 @@
 {% doc %}
   Renders the gemstone specifications panel beneath the product media gallery.
   @param {product} product_resource - Product object used for gemstone details.
+  @param {string} [reviews_content] - Rendered Judge.me review widget markup.
+  @param {boolean} [show_reviews_tab] - Whether the Reviews tab is enabled.
+  @param {string} [reviews_tab_label] - Merchant-configured Reviews tab label.
   @example
   {% render 'gemstone-specifications-panel', product_resource: product %}
 {% enddoc %}
@@ -21,9 +24,17 @@
   assign certificate_file = product_resource.metafields.custom.certificate_file.value
   assign price_per_carat = product_resource.metafields.custom.price_per_carat.value
   assign product_description = product_resource.description
+  assign review_rating = product_resource.metafields.reviews.rating.value.rating | default: 0
+  assign review_count = product_resource.metafields.reviews.rating_count.value | default: 0
+  assign review_rating_percent = review_rating | times: 20
+  assign reviews_tab_label = reviews_tab_label | default: 'Reviews'
 
   assign has_panel_details = false
   if product_description != blank or gemstone_type != blank or gemstone_group != blank or actual_carat_weight != blank or dimensions != blank or shape != blank or gemstone_cut != blank or color != blank or country_of_origin != blank or treatment != blank or certification_status != blank or price_per_carat != blank
+    assign has_panel_details = true
+  endif
+
+  if reviews_content != blank
     assign has_panel_details = true
   endif
 
@@ -60,9 +71,11 @@
       <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabCertification" aria-controls="GemstonePanelCertification" aria-selected="false" data-gemstone-tab="certification">
         {{ 'products.gemstone.certification' | t }}
       </button>
-      <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabReviews" aria-controls="GemstonePanelReviews" aria-selected="false" data-gemstone-tab="reviews">
-        {{ 'products.gemstone.reviews_tab' | t }}
-      </button>
+      {% if show_reviews_tab %}
+        <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabReviews" aria-controls="GemstonePanelReviews" aria-selected="false" data-gemstone-tab="reviews">
+          {{ reviews_tab_label | escape }} ({{ review_count }})
+        </button>
+      {% endif %}
       <button type="button" class="gemstone-spec-panel__tab" role="tab" id="GemstoneTabShipping" aria-controls="GemstonePanelShipping" aria-selected="false" data-gemstone-tab="shipping">
         {{ 'products.gemstone.shipping_returns_tab' | t }}
       </button>
@@ -172,12 +185,28 @@
         </article>
       </div>
 
-      <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelReviews" aria-labelledby="GemstoneTabReviews" data-gemstone-panel="reviews" hidden>
-        <article class="gemstone-spec-panel__card gemstone-spec-panel__card--copy">
-          <h2 class="gemstone-spec-panel__heading">{{ 'products.gemstone.reviews_tab' | t }}</h2>
-          <p class="gemstone-spec-panel__note gemstone-spec-panel__note--standalone">{{ 'products.gemstone.reviews_note' | t }}</p>
-        </article>
-      </div>
+      {% if show_reviews_tab %}
+        <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelReviews" aria-labelledby="GemstoneTabReviews" data-gemstone-panel="reviews" hidden>
+          <div class="gemstone-spec-panel__reviews">
+            {{ reviews_content }}
+            {% if review_count > 0 %}
+              <div class="gemstone-spec-panel__review-summary">
+                <p class="gemstone-spec-panel__review-count">
+                  <strong>{{ review_rating | round: 1 }}</strong>
+                  {{ review_count }} {{ 'products.gemstone.reviews_tab' | t | downcase }}
+                </p>
+                <div class="gemstone-spec-panel__review-stars" aria-hidden="true">
+                  <span class="gemstone-spec-panel__review-stars-base">★★★★★</span>
+                  <span class="gemstone-spec-panel__review-stars-fill" style="--gemstone-review-rating: {{ review_rating_percent }}%;">★★★★★</span>
+                </div>
+              </div>
+            {% endif %}
+            <button type="button" class="gemstone-spec-panel__write-review" data-gemstone-write-review>
+              {{ 'products.gemstone.write_review' | t }}
+            </button>
+          </div>
+        </div>
+      {% endif %}
 
       <div class="gemstone-spec-panel__panel" role="tabpanel" id="GemstonePanelShipping" aria-labelledby="GemstoneTabShipping" data-gemstone-panel="shipping" hidden>
         <article class="gemstone-spec-panel__card gemstone-spec-panel__card--copy">
@@ -255,6 +284,146 @@
 
   .gemstone-spec-panel__panel[hidden] {
     display: none;
+  }
+
+  .gemstone-spec-panel__reviews {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    min-width: 0;
+  }
+
+  .gemstone-spec-panel__reviews .jm-review-widget {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  /* Use the compact product-tab rating display and retain Judge.me's review form trigger. */
+  .gemstone-spec-panel__reviews .jm-review-item,
+  .gemstone-spec-panel__reviews .jdgm-rev,
+  .gemstone-spec-panel__reviews .jm-sort-filter,
+  .gemstone-spec-panel__reviews .jm-custom-answer-filter,
+  .gemstone-spec-panel__reviews .jdgm-sort-dropdown,
+  .gemstone-spec-panel__reviews .jm-review-widget [class*='sort'],
+  .gemstone-spec-panel__reviews .jm-review-widget [class*='filter'],
+  .gemstone-spec-panel__reviews .jdgm-rev-widg__sort-wrapper,
+  .gemstone-spec-panel__reviews .jdgm-rev-widg__filter-wrapper {
+    display: none !important;
+  }
+
+  .gemstone-spec-panel__reviews .jm-review-widget,
+  .gemstone-spec-panel__reviews .jm-review-widget--minimal-header,
+  .gemstone-spec-panel__reviews .jm-review-widget-minimal-header,
+  .gemstone-spec-panel__reviews .jm-review-widget-header,
+  .gemstone-spec-panel__reviews .jm-review-widget-minimal-header__main-content,
+  .gemstone-spec-panel__reviews .jm-review-widget-header__main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .gemstone-spec-panel__reviews .jm-review-widget-minimal-header,
+  .gemstone-spec-panel__reviews .jm-review-widget-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    visibility: hidden;
+  }
+
+  .gemstone-spec-panel__reviews .jm-review-widget-minimal-header__title,
+  .gemstone-spec-panel__reviews .jm-review-widget-header__title,
+  .gemstone-spec-panel__reviews .jm-review-widget-minimal-header__main-content > :not([data-testid='write-review-button']):not(:has([data-testid='write-review-button'])),
+  .gemstone-spec-panel__reviews .jm-review-widget-header__main-content > :not([data-testid='write-review-button']):not(:has([data-testid='write-review-button'])) {
+    display: none !important;
+  }
+
+  .gemstone-spec-panel__reviews .jm-action-buttons,
+  .gemstone-spec-panel__reviews .jm-action-buttons__button,
+  .gemstone-spec-panel__reviews [data-testid='write-review-button'] {
+    display: inline-flex !important;
+    visibility: visible !important;
+  }
+
+  .gemstone-spec-panel__reviews .jm-action-buttons__button,
+  .gemstone-spec-panel__reviews [data-testid='write-review-button'] {
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(2.5rem, 4vw, 3rem) !important;
+    padding-inline: clamp(1.25rem, 3vw, 2.5rem) !important;
+  }
+
+  .gemstone-spec-panel__reviews [data-testid='write-review-button'] {
+    display: none !important;
+  }
+
+  .gemstone-spec-panel__write-review {
+    grid-column: 2;
+    grid-row: 1;
+    z-index: 1;
+    min-height: clamp(2.5rem, 4vw, 3rem);
+    padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+    border: 0;
+    border-radius: 8px;
+    background: #168d7c;
+    color: #ffffff;
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+
+  .gemstone-spec-panel__write-review:hover {
+    background: #0d796a;
+  }
+
+  .gemstone-spec-panel__write-review:focus-visible {
+    outline: var(--focus-outline-width) solid currentColor;
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .gemstone-spec-panel__review-stars {
+    position: relative;
+    display: inline-block;
+    color: #d4d8df;
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    line-height: 1;
+    letter-spacing: 0.1em;
+  }
+
+  .gemstone-spec-panel__review-stars-base,
+  .gemstone-spec-panel__review-stars-fill {
+    display: block;
+  }
+
+  .gemstone-spec-panel__review-stars-fill {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: var(--gemstone-review-rating);
+    overflow: hidden;
+    color: #d99816;
+    white-space: nowrap;
+  }
+
+  .gemstone-spec-panel__review-summary {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .gemstone-spec-panel__review-count {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 0;
+    color: #07245b;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  }
+
+  .gemstone-spec-panel__review-count strong {
+    font-size: clamp(1rem, 2vw, 1.25rem);
   }
 
   .gemstone-spec-panel__grid {
@@ -488,6 +657,29 @@
     .gemstone-spec-panel__price-row div {
       grid-template-columns: minmax(108px, 0.44fr) minmax(0, 1fr);
     }
+
+    .gemstone-spec-panel__reviews {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .gemstone-spec-panel__reviews .jm-review-widget,
+    .gemstone-spec-panel__write-review {
+      grid-column: 1;
+      justify-self: stretch;
+    }
+
+    .gemstone-spec-panel__reviews .jm-review-widget {
+      grid-row: 3;
+    }
+
+    .gemstone-spec-panel__write-review {
+      grid-row: 2;
+    }
+
+    .gemstone-spec-panel__write-review {
+      width: 100%;
+    }
   }
 {% endstylesheet %}
 
@@ -509,6 +701,20 @@
 
       tabs.forEach((tab) => {
         tab.addEventListener('click', () => activateTab(tab.dataset.gemstoneTab));
+      });
+
+      tabset.querySelectorAll('[data-gemstone-write-review]').forEach((button) => {
+        if (button.dataset.reviewHandlerAttached === 'true') return;
+
+        button.dataset.reviewHandlerAttached = 'true';
+        button.addEventListener('click', () => {
+          const reviews = button.closest('.gemstone-spec-panel__reviews');
+          const judgeMeButton = reviews?.querySelector(
+            "[data-testid='write-review-button'], .jm-action-buttons__button"
+          );
+
+          judgeMeButton?.click();
+        });
       });
     });
   };

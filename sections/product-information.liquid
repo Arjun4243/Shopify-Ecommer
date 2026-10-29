@@ -20,6 +20,16 @@
   %}
 {% endcapture %}
 
+{% if section.settings.show_reviews_tab %}
+  {% capture reviews_content %}
+    {% content_for 'block',
+      type: 'group',
+      id: 'product-reviews',
+      closest.product: closest.product
+    %}
+  {% endcapture %}
+{% endif %}
+
 {% capture additional_blocks %}
   {% content_for 'blocks' %}
 {% endcapture %}
@@ -195,7 +205,10 @@
   settings: section.settings,
   media_gallery: media_gallery,
   product_details: product_details,
-  additional_blocks: additional_blocks
+  additional_blocks: additional_blocks,
+  reviews_content: reviews_content,
+  show_reviews_tab: section.settings.show_reviews_tab,
+  reviews_tab_label: section.settings.reviews_tab_label
 %}
 
 {% stylesheet %}
@@ -508,6 +521,23 @@
       "id": "enable_sticky_add_to_cart",
       "label": "t:settings.enable_sticky_add_to_cart",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:content.reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews_tab",
+      "label": "t:settings.show_reviews_tab",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reviews_tab_label",
+      "label": "t:settings.reviews_tab_label",
+      "default": "Reviews",
+      "visible_if": "{{ section.settings.show_reviews_tab }}"
     },
     {
       "type": "color",

@@ -17,6 +17,15 @@
   background_color: section.settings.background_color
 %}
 
+{% stylesheet %}
+  .section--full-width .section-content-wrapper > .shopify-app-block:has(> .career-job-list),
+  .section--full-width .shopify-app-block > .career-job-list {
+    min-inline-size: 0;
+    inline-size: 100%;
+    max-inline-size: none;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.section",
