@@ -287,6 +287,7 @@
   }
 
   .gemstone-spec-panel__reviews {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: start;
@@ -294,6 +295,10 @@
   }
 
   .gemstone-spec-panel__reviews .jm-review-widget {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
     grid-column: 2;
     grid-row: 1;
   }
